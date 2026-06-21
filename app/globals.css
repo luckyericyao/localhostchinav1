@@ -336,6 +336,10 @@ h3 {
   max-width: 1180px;
 }
 
+.arrangement-grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .arrangement-card,
 .principle-card {
   border: 1px solid var(--border);
@@ -373,6 +377,11 @@ h3 {
 
 .section--dark .principle-card p {
   color: rgba(255, 253, 248, 0.74);
+}
+
+.principle-card h3 {
+  font-size: 1.55rem;
+  margin-bottom: 22px;
 }
 
 .arrangement-cue {
@@ -566,6 +575,12 @@ h3 {
   max-width: 1292px;
 }
 
+.split-panel-section {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .quiet-panel {
   border-top: 1px solid var(--border);
   padding: 34px 0 0;
@@ -676,6 +691,10 @@ h3 {
     url("/images/localhost-hero.png") center/cover;
 }
 
+.page-hero--china h1 {
+  font-size: 4.2rem;
+}
+
 .support-hero {
   background:
     linear-gradient(135deg, rgba(246, 241, 232, 0.98), rgba(235, 230, 220, 0.9)),
@@ -723,6 +742,48 @@ h3 {
 
 .support-detail-card--dark p {
   color: rgba(255, 253, 248, 0.74);
+}
+
+.rhythm-list {
+  counter-reset: rhythm;
+  display: grid;
+  gap: 0;
+  list-style: none;
+  margin: 0 auto;
+  max-width: 980px;
+  padding: 0;
+}
+
+.rhythm-list li {
+  border-top: 1px solid var(--border);
+  color: var(--warm-gray);
+  counter-increment: rhythm;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 48px 1fr;
+  min-height: 84px;
+  padding: 22px 0;
+}
+
+.rhythm-list li::before {
+  color: var(--wine);
+  content: counter(rhythm, decimal-leading-zero);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.section--dark .rhythm-list li,
+.rhythm-list--dark li,
+.reference-matrix--dark li {
+  border-color: var(--light-border);
+  color: rgba(255, 253, 248, 0.74);
+}
+
+.fine-copy {
+  border-top: 1px solid var(--border);
+  font-size: 0.95rem !important;
+  margin-top: 24px;
+  padding-top: 18px;
 }
 
 .china-feature {
@@ -964,6 +1025,7 @@ a:focus-visible {
   .route-entry,
   .page-hero,
   .destination-hero,
+  .split-panel-section,
   .flagship-destination {
     grid-template-columns: 1fr;
   }
@@ -1039,6 +1101,7 @@ a:focus-visible {
   .split-layout,
   .final-section,
   .china-feature,
+  .split-panel-section,
   .route-entry {
     gap: 34px;
   }
@@ -1049,6 +1112,7 @@ a:focus-visible {
   .support-card-grid,
   .field-pair,
   .traveler-host-section,
+  .split-panel-section,
   .reference-matrix {
     grid-template-columns: 1fr;
   }
@@ -1085,6 +1149,10 @@ a:focus-visible {
 
   .route-entry-copy h3 {
     font-size: 2.15rem;
+  }
+
+  .rhythm-list li {
+    grid-template-columns: 1fr;
   }
 
   .flagship-copy {
@@ -1157,5 +1225,22 @@ a:focus-visible {
   .support-hero,
   .support-detail-page .intro-section {
     overflow-x: hidden;
+  }
+
+  .route-hero,
+  .route-hero .destination-copy {
+    overflow-x: hidden;
+  }
+
+  .route-hero .destination-copy,
+  .route-hero .destination-copy h1,
+  .route-hero .destination-copy p,
+  .route-hero .inline-actions {
+    max-width: 340px;
+    min-width: 0;
+  }
+
+  .route-hero .destination-copy h1 {
+    font-size: 2.35rem;
   }
 }

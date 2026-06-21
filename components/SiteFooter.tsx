@@ -9,11 +9,13 @@ export function SiteFooter() {
       </div>
       <nav aria-label="Footer navigation">
         <Link href="/china">China</Link>
+        <Link href="/travelers">Travelers</Link>
+        <Link href="/hosts">Hosts</Link>
+        <Link href="/host-credits">Host Credits</Link>
+        <Link href="/inquiry">Inquiry</Link>
         <Link href="/china/shanxi">Shanxi</Link>
         <Link href="/china/shaolin">Shaolin</Link>
         <Link href="/china/huizhou">Huizhou</Link>
-        <Link href="/#travelers">Travelers</Link>
-        <Link href="/#hosts">Hosts</Link>
       </nav>
     </footer>
   );

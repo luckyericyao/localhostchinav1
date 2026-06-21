@@ -12,13 +12,13 @@ export function SiteHeader({ tone = "solid" }: SiteHeaderProps) {
       </Link>
       <nav className="main-nav" aria-label="Primary navigation">
         <Link href="/china">China</Link>
-        <Link href="/#journeys">Journeys</Link>
-        <Link href="/#travelers">For Travelers</Link>
-        <Link href="/#hosts">For Hosts</Link>
-        <Link href="/#host-credits">Host Credits</Link>
+        <Link href="/travelers">For Travelers</Link>
+        <Link href="/hosts">For Hosts</Link>
+        <Link href="/host-credits">Host Credits</Link>
+        <Link href="/inquiry">Inquiry</Link>
       </nav>
-      <Link className="nav-cta" href="/china">
-        Explore China
+      <Link className="nav-cta" href="/inquiry">
+        Start a Private Route
       </Link>
     </header>
   );

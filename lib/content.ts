@@ -139,6 +139,183 @@ export const huizhouPrinciples = [
   "A private route that lets the landscape feel almost painted."
 ];
 
+export const chinaRoutePages = {
+  shanxi: {
+    eyebrow: "Flagship China Route",
+    title: "Shanxi — Ancient China, without the tourist filter.",
+    thesis: "Ancient China, without the tourist filter.",
+    image: "/images/shanxi-flagship.png",
+    alt: "Ancient northern Chinese architecture and mountain temple roads representing Shanxi.",
+    body:
+      "Shanxi opens a northern China of old stone, Buddhist caves, timber halls, merchant courtyards, noodles, Fenjiu, mountain roads, and history that rewards patient local context.",
+    opens: [
+      {
+        title: "Buddhist depth",
+        copy:
+          "Yungang Grottoes, Wutai Mountain, temple roads, and the long memory of northern Chinese Buddhism."
+      },
+      {
+        title: "Timber and stone",
+        copy:
+          "Hanging Temple, Yingxian Wooden Pagoda, old halls, courtyards, and architecture that carries time visibly."
+      },
+      {
+        title: "Jin merchant culture",
+        copy:
+          "Pingyao, Wang Family Courtyard, old finance, family compounds, and the disciplined taste of inland trade."
+      },
+      {
+        title: "Food as context",
+        copy:
+          "Noodles, vinegar, Fenjiu, local tables, and the everyday rhythm that makes the route feel grounded."
+      }
+    ],
+    rhythm: [
+      "Day 1: Arrival, local orientation, first meal, city rhythm.",
+      "Day 2: Core cultural site with careful local context.",
+      "Day 3: Private architecture, village, temple, or food route.",
+      "Day 4: Slow return, reflection, and optional extension."
+    ],
+    hostHelps: [
+      "Cultural context",
+      "Route timing",
+      "Food ordering",
+      "Translation and local communication",
+      "Avoiding superficial tourist traps",
+      "Understanding why the sites matter"
+    ],
+    bestFor: [
+      "Travelers drawn to ancient China",
+      "Architecture and Buddhist culture",
+      "Writers, founders, academics, and thoughtful families",
+      "People comfortable with road time and regional depth"
+    ],
+    notFor: [
+      "Travelers seeking only fast photo stops",
+      "People who want a standardized group route",
+      "Visitors who do not want old places explained slowly"
+    ],
+    final:
+      "A Shanxi route is strongest when it has patience: old roads, old structures, local meals, and a host who can help the past feel legible."
+  },
+  shaolin: {
+    eyebrow: "Dengfeng / Songshan",
+    title: "Shaolin — Practice before performance.",
+    thesis: "Practice before performance.",
+    image: "/images/shaolin-dengfeng.png",
+    alt: "A quiet Shaolin temple courtyard near misted mountains at dawn.",
+    body:
+      "Shaolin is not a spectacle route. The deeper chapter is Chan Buddhism, martial discipline, mountain paths, morning courtyards, breath, silence, and the body as a cultural language.",
+    opens: [
+      {
+        title: "Chan atmosphere",
+        copy:
+          "Temple spaces, incense, bells, timber halls, and the spiritual grammar around Shaolin."
+      },
+      {
+        title: "Songshan mountain rhythm",
+        copy:
+          "Stone paths, slopes, early air, and mountain movement held at a quieter pace."
+      },
+      {
+        title: "Martial discipline",
+        copy:
+          "Practice understood as training, repetition, culture, and attention rather than performance."
+      },
+      {
+        title: "Local interpretation",
+        copy:
+          "A host helps separate living tradition from staged tourism and surface-level kung fu imagery."
+      }
+    ],
+    rhythm: [
+      "Day 1: Arrival in Dengfeng, local orientation, quiet meal.",
+      "Day 2: Shaolin and surrounding temple atmosphere with context.",
+      "Day 3: Songshan paths, practice culture, and slower observation.",
+      "Day 4: Morning reflection, optional extension, return."
+    ],
+    hostHelps: [
+      "Temple context",
+      "Local pacing",
+      "Training culture interpretation",
+      "Food and transport rhythm",
+      "Translation and etiquette",
+      "Avoiding performance-heavy tourist energy"
+    ],
+    bestFor: [
+      "Travelers interested in spiritual culture",
+      "Martial artists who care about context",
+      "People drawn to discipline, silence, and mountain air",
+      "Families or groups who want depth without spectacle"
+    ],
+    notFor: [
+      "People looking for a kung fu show route",
+      "Travelers who want constant entertainment",
+      "Visitors who want the temple reduced to a photo stop"
+    ],
+    final:
+      "A Shaolin route should feel grounded: mountain air, practice, restraint, and a host who knows when to explain and when to let the place stay quiet."
+  },
+  huizhou: {
+    eyebrow: "Huizhou / Huangshan",
+    title: "Huizhou — Ink, mountain, courtyard, tea.",
+    thesis: "Ink, mountain, courtyard, tea.",
+    image: "/images/huizhou-huangshan.png",
+    alt: "A misty Huizhou village with white walls, black tiles, stone lanes, and mountain peaks.",
+    body:
+      "Huizhou opens a quieter southern China of white walls, black tiles, ancestral halls, mountain mist, tea, old merchant culture, and landscapes that can feel almost painted.",
+    opens: [
+      {
+        title: "Village texture",
+        copy:
+          "Stone lanes, streamside houses, courtyards, old thresholds, and the feeling of places held by time."
+      },
+      {
+        title: "Ancestral culture",
+        copy:
+          "Halls, family memory, merchant histories, and the social architecture behind the white walls."
+      },
+      {
+        title: "Tea and mountain light",
+        copy:
+          "Tea tables, weather, mist, Huangshan atmosphere, and slow attention to regional beauty."
+      },
+      {
+        title: "Literati mood",
+        copy:
+          "Ink, paper, scholar taste, restraint, and the inward elegance of southern built culture."
+      }
+    ],
+    rhythm: [
+      "Day 1: Arrival, village orientation, tea, and first local meal.",
+      "Day 2: Stone lanes, ancestral halls, and architecture with context.",
+      "Day 3: Huangshan light, mountain rhythm, or a slower village route.",
+      "Day 4: Courtyard morning, reflection, and optional extension."
+    ],
+    hostHelps: [
+      "Village context",
+      "Tea and food choices",
+      "Route timing around weather and light",
+      "Local etiquette",
+      "Translation and conversation",
+      "Avoiding loud scenic tourism"
+    ],
+    bestFor: [
+      "Travelers drawn to poetic China",
+      "Architects, designers, writers, and cultural travelers",
+      "People who want slow villages and mountain atmosphere",
+      "Diaspora travelers returning with questions"
+    ],
+    notFor: [
+      "Visitors who want only a scenic checklist",
+      "Travelers who dislike slower rural rhythms",
+      "People looking for a loud tourism route"
+    ],
+    final:
+      "A Huizhou route is strongest when it stays intimate: a lane, a cup of tea, a hall, a mountain cloud, and someone who can explain the quiet."
+  }
+} as const;
+
 export const chinaSupportPages = {
   "local-hosts": {
     eyebrow: "Local Support",
@@ -200,7 +377,7 @@ export const chinaSupportPages = {
       body:
         "The right host can turn a day from movement into understanding: a road, a meal, a small habit, a better choice, and the context that makes it meaningful.",
       primaryLabel: "Plan a Private China Journey",
-      primaryHref: "/china#inquiry",
+      primaryHref: "/inquiry",
       secondaryLabel: "Back to China",
       secondaryHref: "/china"
     }
@@ -266,7 +443,7 @@ export const chinaSupportPages = {
       body:
         "Shanxi, Shaolin, Huizhou, and Shanghai are starting points. The real route is shaped by the traveler’s curiosity and the local rhythm of the place.",
       primaryLabel: "Request a Private Route",
-      primaryHref: "/china#inquiry",
+      primaryHref: "/inquiry",
       secondaryLabel: "Explore Signature China Journeys",
       secondaryHref: "/china#journeys"
     }
@@ -333,7 +510,7 @@ export const chinaSupportPages = {
       body:
         "The traveler may be able to visit alone, but the right local support can change the confidence, depth, and texture of the entire journey.",
       primaryLabel: "Plan a Private China Journey",
-      primaryHref: "/china#inquiry",
+      primaryHref: "/inquiry",
       secondaryLabel: "Back to China",
       secondaryHref: "/china"
     }
@@ -380,7 +557,7 @@ export const chinaSupportPages = {
             "It avoids shopping stops, staged local culture, and performative authenticity."
         },
         {
-          title: "Not influencer hidden gems",
+          title: "Not novelty hunting",
           copy:
             "The point is not novelty. The point is context, timing, taste, and trust."
         },
@@ -397,7 +574,7 @@ export const chinaSupportPages = {
       body:
         "Real access is the difference between seeing a place and understanding the texture of how people live there.",
       primaryLabel: "Request a Private Route",
-      primaryHref: "/china#inquiry",
+      primaryHref: "/inquiry",
       secondaryLabel: "Explore China Journeys",
       secondaryHref: "/china#journeys"
     }
