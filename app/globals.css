@@ -1040,3 +1040,30 @@ a:focus-visible {
     justify-content: flex-start;
   }
 }
+
+@media (max-width: 520px) {
+  .site-header .nav-cta {
+    display: none;
+  }
+
+  .hero-content {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 390px;
+    width: 100%;
+  }
+
+  .hero h1 {
+    font-size: 2.85rem;
+    max-width: 340px;
+  }
+
+  .hero-body,
+  .positioning-line {
+    max-width: 340px;
+  }
+
+  .hero-actions {
+    max-width: 340px;
+  }
+}
