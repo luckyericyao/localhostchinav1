@@ -9,6 +9,8 @@ Localhost Global is positioned as a quiet luxury local-host travel network for t
 - `/` - premium homepage
 - `/china` - Localhost China market page
 - `/china/shanxi` - flagship Shanxi destination page
+- `/china/shaolin` - Shaolin / Dengfeng cultural route
+- `/china/huizhou` - Huizhou / Huangshan cultural route
 
 ## Development
 

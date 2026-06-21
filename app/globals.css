@@ -204,7 +204,8 @@ h3 {
 .button:hover,
 .nav-cta:hover,
 .text-link:hover,
-.journey-card:hover {
+.journey-card:hover,
+.visual-journey-card:hover {
   transform: translateY(-1px);
 }
 
@@ -307,6 +308,10 @@ h3 {
   margin-top: 12px;
   padding-bottom: 4px;
   transition: transform 160ms ease;
+}
+
+.text-link--light {
+  color: #e4c7b8;
 }
 
 .arrangement-grid,
@@ -435,6 +440,88 @@ h3 {
   line-height: 1.12;
 }
 
+.visual-journey-card {
+  border: 1px solid var(--light-border);
+  border-radius: 8px;
+  display: grid;
+  grid-template-rows: 210px 1fr;
+  overflow: hidden;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.visual-journey-card:hover {
+  border-color: rgba(255, 253, 248, 0.58);
+}
+
+.visual-journey-media {
+  display: block;
+  min-height: 210px;
+  position: relative;
+}
+
+.visual-journey-media img {
+  object-fit: cover;
+}
+
+.visual-journey-copy {
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
+  padding: 28px;
+}
+
+.visual-journey-copy span {
+  color: #e4c7b8;
+  font-size: 0.88rem;
+  margin-bottom: 22px;
+}
+
+.visual-journey-copy strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.65rem;
+  font-weight: 400;
+  line-height: 1.12;
+  margin-bottom: 22px;
+}
+
+.visual-journey-copy small {
+  color: rgba(255, 253, 248, 0.68);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin-top: auto;
+}
+
+.future-journeys {
+  border-top: 1px solid var(--light-border);
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  margin: 38px auto 0;
+  max-width: 1180px;
+  padding-top: 22px;
+}
+
+.future-journeys span {
+  color: #e4c7b8;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.future-journeys div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: flex-end;
+}
+
+.future-journeys a {
+  color: rgba(255, 253, 248, 0.66);
+  font-size: 0.95rem;
+}
+
 .traveler-host-section {
   display: grid;
   gap: 28px;
@@ -545,6 +632,7 @@ h3 {
 
 .china-feature {
   align-items: center;
+  margin-top: 48px;
 }
 
 .china-feature-copy p {
@@ -563,6 +651,47 @@ h3 {
 
 .journey-grid--light {
   margin-top: 48px;
+}
+
+.china-route-list {
+  display: grid;
+  gap: 18px;
+  margin: 40px auto 0;
+  max-width: 1180px;
+}
+
+.route-entry {
+  border-top: 1px solid var(--light-border);
+  display: grid;
+  gap: 34px;
+  grid-template-columns: minmax(280px, 0.82fr) minmax(300px, 1.18fr);
+  padding-top: 34px;
+}
+
+.route-entry-media {
+  border-radius: 8px;
+  min-height: 260px;
+  overflow: hidden;
+  position: relative;
+}
+
+.route-entry-media img {
+  object-fit: cover;
+}
+
+.route-entry-copy {
+  align-self: center;
+}
+
+.route-entry-copy h3 {
+  font-size: 2.6rem;
+  margin-bottom: 20px;
+}
+
+.route-entry-copy p:not(.eyebrow) {
+  color: rgba(255, 253, 248, 0.72);
+  margin-bottom: 0;
+  max-width: 680px;
 }
 
 .destination-hero {
@@ -650,6 +779,7 @@ a:focus-visible {
   .split-layout,
   .final-section,
   .china-feature,
+  .route-entry,
   .page-hero,
   .destination-hero,
   .flagship-destination {
@@ -664,6 +794,7 @@ a:focus-visible {
 
   .flagship-media,
   .china-feature-media,
+  .route-entry-media,
   .destination-media {
     min-height: 430px;
   }
@@ -723,7 +854,8 @@ a:focus-visible {
   .intro-section,
   .split-layout,
   .final-section,
-  .china-feature {
+  .china-feature,
+  .route-entry {
     gap: 34px;
   }
 
@@ -737,8 +869,26 @@ a:focus-visible {
 
   .arrangement-card,
   .principle-card,
-  .journey-card {
+  .journey-card,
+  .visual-journey-copy {
     min-height: 0;
+  }
+
+  .visual-journey-card {
+    grid-template-rows: 230px 1fr;
+  }
+
+  .future-journeys {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .future-journeys div {
+    justify-content: flex-start;
+  }
+
+  .route-entry-copy h3 {
+    font-size: 2.15rem;
   }
 
   .flagship-copy {
@@ -751,6 +901,7 @@ a:focus-visible {
 
   .flagship-media,
   .china-feature-media,
+  .route-entry-media,
   .destination-media {
     min-height: 330px;
   }

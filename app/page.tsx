@@ -2,7 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { arrangements, chinaJourneys, shanxiReferences } from "@/lib/content";
+import {
+  arrangements,
+  chinaJourneys,
+  futureChinaJourneys,
+  shanxiReferences
+} from "@/lib/content";
 
 export default function Home() {
   return (
@@ -144,14 +149,35 @@ export default function Home() {
               .filter((journey) => !journey.featured)
               .map((journey) => (
                 <Link
-                  className="journey-card"
+                  className="visual-journey-card"
                   href={journey.href}
                   key={journey.place}
                 >
-                  <span>{journey.place}</span>
-                  <strong>{journey.line}</strong>
+                  <span className="visual-journey-media">
+                    <Image
+                      src={journey.image}
+                      alt={journey.alt}
+                      fill
+                      sizes="(min-width: 900px) 30vw, 100vw"
+                    />
+                  </span>
+                  <span className="visual-journey-copy">
+                    <span>{journey.place}</span>
+                    <strong>{journey.line}</strong>
+                    <small>{journey.summary}</small>
+                  </span>
                 </Link>
               ))}
+          </div>
+          <div className="future-journeys" aria-label="Future China journeys">
+            <span>Future China Journeys</span>
+            <div>
+              {futureChinaJourneys.map((journey) => (
+                <Link href={journey.href} key={journey.place}>
+                  {journey.place} — {journey.line}
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
 

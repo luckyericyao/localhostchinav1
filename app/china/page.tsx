@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { arrangements, chinaJourneys } from "@/lib/content";
+import { arrangements, chinaJourneys, futureChinaJourneys } from "@/lib/content";
 
 export default function ChinaPage() {
   return (
@@ -55,6 +55,10 @@ export default function ChinaPage() {
         </section>
 
         <section className="section section--dark">
+          <div className="section-heading">
+            <p className="eyebrow">Signature China Journeys</p>
+            <h2>Private cultural routes with local context.</h2>
+          </div>
           <div className="china-feature">
             <div className="china-feature-copy">
               <p className="eyebrow">Flagship Journey</p>
@@ -78,20 +82,53 @@ export default function ChinaPage() {
               />
             </div>
           </div>
-          <div className="journey-grid journey-grid--light">
+          <div className="china-route-list">
             {chinaJourneys
-              .filter((journey) => !journey.featured)
+              .filter(
+                (journey) =>
+                  journey.place === "Shaolin" || journey.place === "Huizhou"
+              )
               .map((journey) => (
+                <article className="route-entry" key={journey.place}>
+                  <div className="route-entry-media">
+                    <Image
+                      src={journey.image}
+                      alt={journey.alt}
+                      fill
+                      sizes="(min-width: 900px) 34vw, 100vw"
+                    />
+                  </div>
+                  <div className="route-entry-copy">
+                    <p className="eyebrow">{journey.place}</p>
+                    <h3>{journey.line}</h3>
+                    <p>{journey.summary}</p>
+                    <Link className="text-link text-link--light" href={journey.href}>
+                      Explore {journey.place}
+                    </Link>
+                  </div>
+                </article>
+              ))}
+          </div>
+          <div className="future-journeys future-journeys--dark">
+            <span>Also in the China chapter</span>
+            <div>
+              {chinaJourneys
+                .filter((journey) => journey.place === "Shanghai")
+                .map((journey) => (
+                  <Link href={journey.href} id="shanghai" key={journey.place}>
+                    {journey.place} — {journey.line}
+                  </Link>
+                ))}
+              {futureChinaJourneys.map((journey) => (
                 <Link
-                  className="journey-card"
                   href={journey.href}
                   id={journey.place.toLowerCase()}
                   key={journey.place}
                 >
-                  <span>{journey.place}</span>
-                  <strong>{journey.line}</strong>
+                  {journey.place} — {journey.line}
                 </Link>
               ))}
+            </div>
           </div>
         </section>
 
