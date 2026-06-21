@@ -16,8 +16,8 @@ export default function Home() {
       <main>
         <section className="hero">
           <Image
-            src="/images/localhost-hero.png"
-            alt="A quiet China street at dusk with a trusted local host in conversation with a traveler."
+            src="/images/temple-of-heaven-hero.png"
+            alt="Temple of Heaven architecture under spacious morning sky in Beijing."
             fill
             priority
             className="hero-image"

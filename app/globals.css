@@ -110,8 +110,8 @@ img {
 
 .hero-shade {
   background:
-    linear-gradient(90deg, rgba(14, 17, 16, 0.82), rgba(14, 17, 16, 0.44) 46%, rgba(14, 17, 16, 0.2)),
-    linear-gradient(0deg, rgba(14, 17, 16, 0.52), rgba(14, 17, 16, 0.04) 46%);
+    linear-gradient(90deg, rgba(14, 17, 16, 0.68), rgba(14, 17, 16, 0.36) 46%, rgba(14, 17, 16, 0.16)),
+    linear-gradient(0deg, rgba(14, 17, 16, 0.34), rgba(14, 17, 16, 0.04) 46%);
   inset: 0;
   position: absolute;
 }
