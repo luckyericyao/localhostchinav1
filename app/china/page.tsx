@@ -53,15 +53,20 @@ export default function ChinaPage() {
           </div>
           <div className="arrangement-grid">
             {arrangements.map((item) => (
-              <article className="arrangement-card" key={item.title}>
+              <Link
+                className="arrangement-card arrangement-card--link"
+                href={item.href}
+                key={item.title}
+              >
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>
-              </article>
+                <span className="arrangement-cue">Learn more</span>
+              </Link>
             ))}
           </div>
         </section>
 
-        <section className="section section--dark">
+        <section className="section section--dark" id="journeys">
           <div className="section-heading">
             <p className="eyebrow">Signature China Journeys</p>
             <h2>Private cultural routes with local context.</h2>

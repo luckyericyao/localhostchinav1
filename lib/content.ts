@@ -1,21 +1,25 @@
 export const arrangements = [
   {
     title: "Local Hosts",
+    href: "/china/local-hosts",
     copy:
       "Not scripted guides. Thoughtful locals with taste, patience, cultural awareness, and real knowledge of their city."
   },
   {
     title: "Private Routes",
+    href: "/china/private-routes",
     copy:
       "Routes shaped around your interests, pace, budget, and curiosity — not a fixed tourist template."
   },
   {
     title: "Seamless Logistics",
+    href: "/china/seamless-logistics",
     copy:
       "Private cars, drivers, restaurants, translation support, local apps, payments, transport, and practical help."
   },
   {
     title: "Real Access",
+    href: "/china/real-access",
     copy:
       "Restaurants, neighborhoods, conversations, daily rhythms, and places that rarely appear on standard travel lists."
   }
@@ -134,3 +138,270 @@ export const huizhouPrinciples = [
   "Mist, water, white walls, black tiles, and mountain light held together.",
   "A private route that lets the landscape feel almost painted."
 ];
+
+export const chinaSupportPages = {
+  "local-hosts": {
+    eyebrow: "Local Support",
+    title: "Local Hosts",
+    subheadline: "A person who helps you enter a place, not just move through it.",
+    body:
+      "Localhost hosts are thoughtful locals with taste, patience, cultural awareness, and real knowledge of their city. They help travelers understand the streets, food, rhythms, etiquette, local habits, and quiet details that make China feel legible.",
+    intro: {
+      eyebrow: "Not Scripted Guides",
+      title: "Standard guides explain landmarks. Local hosts explain context.",
+      lead:
+        "A Localhost host is not someone reading from a standard route.",
+      body:
+        "They help travelers understand why a place matters, how people live there, what to notice, what to avoid, and how to move with confidence."
+    },
+    listSection: {
+      eyebrow: "What A Host Can Help With",
+      title: "The human layer of local support.",
+      items: [
+        "Cultural context",
+        "Local food and restaurant choices",
+        "Neighborhood rhythm",
+        "Translation support",
+        "Practical local habits",
+        "Payment, app, and transport help",
+        "Social etiquette",
+        "Real-time adjustment during the day"
+      ]
+    },
+    principleSection: {
+      eyebrow: "The Host Standard",
+      title: "Trusted, calm, and locally grounded.",
+      cards: [
+        {
+          title: "Trusted and discreet",
+          copy:
+            "A host should make the traveler feel welcomed without turning the day into performance."
+        },
+        {
+          title: "Culturally aware",
+          copy:
+            "They can read the place, the traveler, and the moment with care."
+        },
+        {
+          title: "Patient and calm",
+          copy:
+            "Good local support lowers friction without rushing the rhythm of the day."
+        },
+        {
+          title: "Tastefully local",
+          copy:
+            "The standard is real knowledge, quiet judgment, and a grounded sense of place."
+        }
+      ]
+    },
+    final: {
+      eyebrow: "Localhost China",
+      title: "A local way to understand China.",
+      body:
+        "The right host can turn a day from movement into understanding: a road, a meal, a small habit, a better choice, and the context that makes it meaningful.",
+      primaryLabel: "Plan a Private China Journey",
+      primaryHref: "/china#inquiry",
+      secondaryLabel: "Back to China",
+      secondaryHref: "/china"
+    }
+  },
+  "private-routes": {
+    eyebrow: "Private Routes",
+    title: "Routes shaped around curiosity, not checklists.",
+    subheadline: "A private China journey should move at the traveler’s pace.",
+    body:
+      "Localhost routes are shaped around the traveler’s interests, rhythm, time, budget, and curiosity. The goal is not to collect attractions, but to build a way into China that feels coherent, human, and locally grounded.",
+    intro: {
+      eyebrow: "Not A Fixed Itinerary",
+      title: "A route can slow down, sharpen, or shift with the day.",
+      lead:
+        "Private routes work best when they can respond to the traveler and the place.",
+      body:
+        "A route can slow down for food, weather, conversation, fatigue, or unexpected curiosity. It can also become sharper and more efficient for business travelers, families, alumni groups, founders, or cultural travelers with limited time."
+    },
+    cardSection: {
+      eyebrow: "Route Styles",
+      title: "Four ways into China.",
+      cards: [
+        {
+          title: "Ancient China",
+          copy:
+            "Temples, old towns, courtyards, caves, timber architecture, and northern civilization."
+        },
+        {
+          title: "Modern China",
+          copy:
+            "Street-level Shanghai, design, food, neighborhoods, business culture, and daily life."
+        },
+        {
+          title: "Spiritual China",
+          copy:
+            "Shaolin, Songshan, Buddhist mountains, temples, silence, discipline, and morning practice."
+        },
+        {
+          title: "Poetic China",
+          copy:
+            "Huizhou villages, Huangshan light, tea, ancestral halls, mist, and literati aesthetics."
+        }
+      ]
+    },
+    listSection: {
+      eyebrow: "How Routes Are Shaped",
+      title: "Built around the traveler, then grounded locally.",
+      items: [
+        "Traveler background",
+        "Travel dates",
+        "Pace and comfort level",
+        "Cultural interests",
+        "Food preferences",
+        "Mobility and logistics needs",
+        "Language needs",
+        "Desired level of privacy",
+        "Business, family, solo, or group context"
+      ]
+    },
+    final: {
+      eyebrow: "Signature China Journeys",
+      title: "Start with the route that feels alive.",
+      body:
+        "Shanxi, Shaolin, Huizhou, and Shanghai are starting points. The real route is shaped by the traveler’s curiosity and the local rhythm of the place.",
+      primaryLabel: "Request a Private Route",
+      primaryHref: "/china#inquiry",
+      secondaryLabel: "Explore Signature China Journeys",
+      secondaryHref: "/china#journeys"
+    }
+  },
+  "seamless-logistics": {
+    eyebrow: "Seamless Logistics",
+    title: "We handle the local complexity.",
+    subheadline: "China is easy to visit. It is harder to navigate well.",
+    body:
+      "Payments, transport, restaurant decisions, language, local apps, timing, traffic, and city rhythm can shape the entire journey. Localhost helps travelers move through China with less friction and more confidence.",
+    intro: {
+      eyebrow: "The Invisible Work",
+      title: "The best journey often feels effortless because the details are already held.",
+      lead:
+        "Good support is practical, quiet, and usually invisible when it is working.",
+      body:
+        "Behind a calm day are choices about timing, traffic, restaurants, translation, local apps, payments, station entrances, and the small adjustments that make travel feel less brittle."
+    },
+    listSection: {
+      eyebrow: "What Logistics May Include",
+      title: "Practical support for moving through China well.",
+      items: [
+        "Private cars and drivers",
+        "Airport and station coordination",
+        "Restaurant selection and booking support",
+        "Translation and local communication",
+        "Payment and app support",
+        "Local transport guidance",
+        "Route timing",
+        "Weather and crowd adjustment",
+        "Day-of coordination",
+        "Practical help for first-time China travelers"
+      ]
+    },
+    principleSection: {
+      eyebrow: "Why It Matters In China",
+      title: "Local fluency changes the quality of the day.",
+      cards: [
+        {
+          title: "Less friction",
+          copy:
+            "Travelers can focus on the place instead of constantly solving local mechanics."
+        },
+        {
+          title: "More confidence",
+          copy:
+            "Support around payments, language, timing, and movement makes the day feel steadier."
+        },
+        {
+          title: "Better rhythm",
+          copy:
+            "A local layer helps the route respond to traffic, weather, energy, and the city itself."
+        },
+        {
+          title: "Deeper attention",
+          copy:
+            "When logistics are handled, there is more room for context, food, conversation, and understanding."
+        }
+      ]
+    },
+    final: {
+      eyebrow: "Localhost China",
+      title: "Move with more confidence.",
+      body:
+        "The traveler may be able to visit alone, but the right local support can change the confidence, depth, and texture of the entire journey.",
+      primaryLabel: "Plan a Private China Journey",
+      primaryHref: "/china#inquiry",
+      secondaryLabel: "Back to China",
+      secondaryHref: "/china"
+    }
+  },
+  "real-access": {
+    eyebrow: "Real Access",
+    title: "The parts of China that rarely fit a checklist.",
+    subheadline: "Real access is not about exclusivity. It is about context.",
+    body:
+      "Localhost helps travelers enter the quieter layers of China: neighborhood rhythms, family-run restaurants, local conversations, daily habits, regional food, old streets, private routes, and the human details that make a place feel real.",
+    intro: {
+      eyebrow: "Beyond Attractions",
+      title: "The deeper journey often happens between the famous places.",
+      lead:
+        "Attractions can be meaningful, but they are only one layer.",
+      body:
+        "The deeper journey often happens on the road, at the table, in a lane, through a host’s explanation, or in a small local decision that changes the day."
+    },
+    listSection: {
+      eyebrow: "What Real Access Can Look Like",
+      title: "Ordinary details, understood with care.",
+      items: [
+        "A meal chosen by someone who understands local taste",
+        "A neighborhood walked at the right hour",
+        "A route adjusted because the host knows the road",
+        "A temple, village, or courtyard explained with context",
+        "Local etiquette that makes the traveler feel more confident",
+        "A conversation that turns a place from scenery into memory",
+        "A slower moment that a standard route would skip"
+      ]
+    },
+    principleSection: {
+      eyebrow: "What Real Access Is Not",
+      title: "No gimmicks, no staged authenticity.",
+      cards: [
+        {
+          title: "Not fake VIP treatment",
+          copy:
+            "Real access is not paid theater or a borrowed sense of importance."
+        },
+        {
+          title: "Not tourist traps",
+          copy:
+            "It avoids shopping stops, staged local culture, and performative authenticity."
+        },
+        {
+          title: "Not influencer hidden gems",
+          copy:
+            "The point is not novelty. The point is context, timing, taste, and trust."
+        },
+        {
+          title: "Not spectacle",
+          copy:
+            "The most meaningful layer can be quiet: a table, a lane, a habit, or an explanation."
+        }
+      ]
+    },
+    final: {
+      eyebrow: "Localhost China",
+      title: "Enter the quieter layers.",
+      body:
+        "Real access is the difference between seeing a place and understanding the texture of how people live there.",
+      primaryLabel: "Request a Private Route",
+      primaryHref: "/china#inquiry",
+      secondaryLabel: "Explore China Journeys",
+      secondaryHref: "/china#journeys"
+    }
+  }
+} as const;
+
+export type ChinaSupportSlug = keyof typeof chinaSupportPages;
