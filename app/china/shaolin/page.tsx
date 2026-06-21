@@ -91,9 +91,14 @@ export default function ShaolinPage() {
               courtyards, mountain roads, and a host who helps separate living
               culture from performance.
             </p>
-            <Link className="text-link" href="/#travelers">
-              For travelers
-            </Link>
+            <div className="inline-actions">
+              <Link className="button button--dark" href="/china#inquiry">
+                Request a Private Route
+              </Link>
+              <Link className="text-link" href="/#travelers">
+                For travelers
+              </Link>
+            </div>
           </div>
         </section>
       </main>

@@ -7,7 +7,7 @@ export const arrangements = [
   {
     title: "Private Routes",
     copy:
-      "Routes shaped around your interests, pace, budget, and curiosity - not a fixed tourist template."
+      "Routes shaped around your interests, pace, budget, and curiosity — not a fixed tourist template."
   },
   {
     title: "Seamless Logistics",
@@ -29,7 +29,7 @@ export const chinaJourneys = [
     image: "/images/shanxi-flagship.png",
     alt: "Ancient northern Chinese architecture and mountain temple roads representing Shanxi.",
     summary:
-      "Ancient temples, caves, wooden pagodas, merchant courtyards, noodles, Fenjiu, Buddhist mountains, and northern Chinese civilization - best understood with someone who knows the roads and the context.",
+      "Ancient temples, caves, wooden pagodas, merchant courtyards, noodles, Fenjiu, Buddhist mountains, and northern Chinese civilization — best understood with someone who knows the roads and the context.",
     featured: true
   },
   {

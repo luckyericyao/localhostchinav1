@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { InquirySection } from "@/components/InquirySection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { arrangements, chinaJourneys, futureChinaJourneys } from "@/lib/content";
@@ -14,11 +15,17 @@ export default function ChinaPage() {
             <p className="eyebrow">Localhost China</p>
             <h1>Starting with China.</h1>
           </div>
-          <p>
-            China is easy to visit. It is harder to understand. Localhost helps
-            thoughtful travelers enter real China through trusted local hosts,
-            private routes, cultural decoding, and seamless local support.
-          </p>
+          <div className="page-hero-copy">
+            <p>
+              China is easy to visit. It is harder to understand. Localhost
+              helps thoughtful travelers enter real China through trusted local
+              hosts, private routes, cultural decoding, and seamless local
+              support.
+            </p>
+            <Link className="button button--dark" href="/china#inquiry">
+              Request a Private Route
+            </Link>
+          </div>
         </section>
 
         <section className="section intro-section">
@@ -62,11 +69,11 @@ export default function ChinaPage() {
           <div className="china-feature">
             <div className="china-feature-copy">
               <p className="eyebrow">Flagship Journey</p>
-              <h2>Shanxi - Ancient China, without the tourist filter.</h2>
+              <h2>Shanxi — Ancient China, without the tourist filter.</h2>
               <p>
                 Ancient temples, caves, wooden pagodas, merchant courtyards,
                 noodles, Fenjiu, Buddhist mountains, and northern Chinese
-                civilization - best understood with someone who knows the roads
+                civilization — best understood with someone who knows the roads
                 and the context.
               </p>
               <Link className="button button--light" href="/china/shanxi">
@@ -102,7 +109,10 @@ export default function ChinaPage() {
                     <p className="eyebrow">{journey.place}</p>
                     <h3>{journey.line}</h3>
                     <p>{journey.summary}</p>
-                    <Link className="text-link text-link--light" href={journey.href}>
+                    <Link
+                      className="text-link text-link--light"
+                      href={journey.href}
+                    >
                       Explore {journey.place}
                     </Link>
                   </div>
@@ -132,6 +142,8 @@ export default function ChinaPage() {
           </div>
         </section>
 
+        <InquirySection />
+
         <section className="section final-section">
           <div className="section-heading">
             <p className="eyebrow">Travel Back Home</p>
@@ -143,9 +155,14 @@ export default function ChinaPage() {
               context, patience, and local trust. The long-term vision is a
               global network where hospitality can move from home to home.
             </p>
-            <Link className="text-link" href="/#host-credits">
-              Learn about Host Credits
-            </Link>
+            <div className="inline-actions">
+              <Link className="button button--dark" href="/china#inquiry">
+                Request a Private Route
+              </Link>
+              <Link className="text-link" href="/#host-credits">
+                Learn about Host Credits
+              </Link>
+            </div>
           </div>
         </section>
       </main>

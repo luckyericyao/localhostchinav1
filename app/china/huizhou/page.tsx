@@ -91,9 +91,14 @@ export default function HuizhouPage() {
               tea-table pauses, Huangshan light, and a host who understands how
               old places keep their rhythm.
             </p>
-            <Link className="text-link" href="/#travelers">
-              For travelers
-            </Link>
+            <div className="inline-actions">
+              <Link className="button button--dark" href="/china#inquiry">
+                Request a Private Route
+              </Link>
+              <Link className="text-link" href="/#travelers">
+                For travelers
+              </Link>
+            </div>
           </div>
         </section>
       </main>

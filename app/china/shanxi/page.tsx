@@ -16,7 +16,7 @@ export default function ShanxiPage() {
             <p>
               Ancient temples, caves, wooden pagodas, merchant courtyards,
               noodles, Fenjiu, Buddhist mountains, and northern Chinese
-              civilization - best understood with someone who knows the roads
+              civilization — best understood with someone who knows the roads
               and the context.
             </p>
             <Link className="button button--dark" href="/china">
@@ -91,9 +91,14 @@ export default function ShanxiPage() {
               moving through northern China with someone who can translate more
               than language.
             </p>
-            <Link className="text-link" href="/#travelers">
-              For travelers
-            </Link>
+            <div className="inline-actions">
+              <Link className="button button--dark" href="/china#inquiry">
+                Request a Private Route
+              </Link>
+              <Link className="text-link" href="/#travelers">
+                For travelers
+              </Link>
+            </div>
           </div>
         </section>
       </main>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { InquirySection } from "@/components/InquirySection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import {
@@ -30,10 +31,13 @@ export default function Home() {
             <p className="hero-subhead">Every place is someone&apos;s home.</p>
             <p className="hero-body">
               Localhost connects thoughtful travelers with trusted local hosts,
-              private routes, and seamless local support - starting with China.
+              private routes, and seamless local support — starting with China.
             </p>
             <div className="hero-actions" aria-label="Primary actions">
-              <Link className="button button--light" href="/china">
+              <Link className="button button--light" href="/#inquiry">
+                Request a Private Route
+              </Link>
+              <Link className="button button--ghost" href="/china">
                 Explore China
               </Link>
               <Link className="button button--ghost" href="/#hosts">
@@ -131,7 +135,7 @@ export default function Home() {
               <p>
                 Ancient temples, caves, wooden pagodas, merchant courtyards,
                 noodles, Fenjiu, Buddhist mountains, and northern Chinese
-                civilization - best understood with someone who knows the roads
+                civilization — best understood with someone who knows the roads
                 and the context.
               </p>
               <ul className="reference-list" aria-label="Shanxi references">
@@ -229,6 +233,8 @@ export default function Home() {
           </div>
         </section>
 
+        <InquirySection />
+
         <section className="section final-section">
           <div className="section-heading">
             <p className="eyebrow">Our First Home Is China</p>
@@ -237,10 +243,18 @@ export default function Home() {
           <div className="editorial-copy">
             <p>
               Localhost Global starts with China because China is one of the
-              most fascinating places in the world - and one of the hardest to
+              most fascinating places in the world — and one of the hardest to
               truly understand without local context.
             </p>
             <p>This is the first chapter of a global local-host network.</p>
+            <div className="inline-actions">
+              <Link className="button button--dark" href="/#inquiry">
+                Request a Private Route
+              </Link>
+              <Link className="text-link" href="/china">
+                Enter the China chapter
+              </Link>
+            </div>
           </div>
         </section>
       </main>

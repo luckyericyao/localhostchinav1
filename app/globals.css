@@ -248,6 +248,10 @@ h3 {
   color: var(--warm-white);
 }
 
+.section--inquiry {
+  background: var(--ivory);
+}
+
 .intro-section,
 .split-layout,
 .final-section,
@@ -312,6 +316,14 @@ h3 {
 
 .text-link--light {
   color: #e4c7b8;
+}
+
+.inline-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 28px;
 }
 
 .arrangement-grid,
@@ -624,6 +636,16 @@ h3 {
   max-width: 680px;
 }
 
+.page-hero-copy {
+  max-width: 680px;
+}
+
+.page-hero-copy p {
+  color: var(--warm-gray);
+  font-size: 1.18rem;
+  margin-bottom: 26px;
+}
+
 .page-hero--china {
   background:
     linear-gradient(90deg, rgba(246, 241, 232, 0.96), rgba(246, 241, 232, 0.78)),
@@ -736,6 +758,92 @@ h3 {
   padding: 20px 18px 18px 0;
 }
 
+.inquiry-shell {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  gap: 56px;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(320px, 1.1fr);
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: 44px;
+}
+
+.inquiry-copy h2 {
+  margin-bottom: 24px;
+}
+
+.inquiry-copy p:not(.eyebrow) {
+  color: var(--warm-gray);
+  font-size: 1.12rem;
+  max-width: 540px;
+}
+
+.inquiry-form {
+  display: grid;
+  gap: 18px;
+}
+
+.field-pair {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.inquiry-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.inquiry-form label span {
+  color: var(--deep-brown);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.inquiry-form input,
+.inquiry-form select,
+.inquiry-form textarea {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  color: var(--charcoal);
+  font: inherit;
+  min-height: 48px;
+  padding: 12px 14px;
+  width: 100%;
+}
+
+.inquiry-form textarea {
+  min-height: 142px;
+  resize: vertical;
+}
+
+.inquiry-form input:focus,
+.inquiry-form select:focus,
+.inquiry-form textarea:focus {
+  border-color: var(--wine);
+  outline: 2px solid rgba(110, 52, 48, 0.16);
+}
+
+.inquiry-actions {
+  align-items: center;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 18px;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 22px;
+}
+
+.inquiry-actions p {
+  color: var(--warm-gray);
+  font-size: 0.92rem;
+  margin-bottom: 0;
+  max-width: 280px;
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;
@@ -779,6 +887,7 @@ a:focus-visible {
   .split-layout,
   .final-section,
   .china-feature,
+  .inquiry-shell,
   .route-entry,
   .page-hero,
   .destination-hero,
@@ -788,7 +897,8 @@ a:focus-visible {
 
   .arrangement-grid,
   .journey-grid,
-  .principle-grid {
+  .principle-grid,
+  .field-pair {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -862,6 +972,7 @@ a:focus-visible {
   .arrangement-grid,
   .journey-grid,
   .principle-grid,
+  .field-pair,
   .traveler-host-section,
   .reference-matrix {
     grid-template-columns: 1fr;
@@ -885,6 +996,15 @@ a:focus-visible {
 
   .future-journeys div {
     justify-content: flex-start;
+  }
+
+  .inquiry-shell {
+    padding: 28px;
+  }
+
+  .inquiry-actions {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .route-entry-copy h3 {
