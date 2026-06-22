@@ -7,6 +7,9 @@ Localhost Global is positioned as a quiet luxury local-host travel network for t
 ## Pages
 
 - `/` — premium homepage
+- `/about` — Localhost philosophy and global network thesis
+- `/how-it-works` — inquiry, review, route shaping, and host matching flow
+- `/trust` — host screening, boundaries, privacy, and quality control
 - `/china` — Localhost China market page
 - `/journeys` — China journey index and future chapter overview
 - `/travelers` — traveler product page

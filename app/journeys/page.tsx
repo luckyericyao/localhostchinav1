@@ -8,8 +8,59 @@ import { chinaJourneys, futureChinaJourneys } from "@/lib/content";
 export const metadata: Metadata = {
   title: "China Journeys — Localhost Global",
   description:
-    "Current and future Localhost China chapters presented as cultural entry points, not fixed tour products."
+    "A Localhost China cultural atlas: Shanxi, Shaolin, Huizhou, and future chapters held as cultural entry points."
 };
+
+const atlasEntries = [
+  {
+    mode: "Ancient China",
+    place: "Shanxi",
+    href: "/china/shanxi",
+    status: "Active Chapter",
+    copy:
+      "Wood temples, Buddhist mountains, merchant courtyards, noodles, vinegar, Fenjiu, and northern historical weight."
+  },
+  {
+    mode: "Discipline & Practice",
+    place: "Shaolin",
+    href: "/china/shaolin",
+    status: "Active Chapter",
+    copy:
+      "Chan atmosphere, martial discipline, monastery rhythm, mountain paths, and restraint before spectacle."
+  },
+  {
+    mode: "Ink Landscape & Merchant Culture",
+    place: "Huizhou",
+    href: "/china/huizhou",
+    status: "Active Chapter",
+    copy:
+      "White walls, black tiles, ancestral halls, tea, mist, merchant memory, and inward southern beauty."
+  },
+  {
+    mode: "Modern Urban China",
+    place: "Shanghai",
+    href: "/china",
+    status: "Future Chapter",
+    copy:
+      "Neighborhood design, food, street rhythm, contemporary ambition, and modern China below the skyline."
+  },
+  {
+    mode: "Imperial Memory & Capital Rhythm",
+    place: "Beijing",
+    href: "/china",
+    status: "Future Chapter",
+    copy:
+      "Power, history, courtyards, state memory, everyday life, and the habits of the capital."
+  },
+  {
+    mode: "Food, Tea & Soft Time",
+    place: "Chengdu",
+    href: "/china",
+    status: "Future Chapter",
+    copy:
+      "Tea houses, Sichuan food culture, conversation, slower intelligence, and the art of staying awhile."
+  }
+];
 
 export default function JourneysPage() {
   const activeJourneys = chinaJourneys.filter((journey) =>
@@ -28,7 +79,7 @@ export default function JourneysPage() {
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">Journeys</p>
-            <h1>China chapters as cultural entry points.</h1>
+            <h1>A cultural atlas for the China you want to enter.</h1>
           </div>
           <div className="page-hero-copy">
             <p>
@@ -39,6 +90,23 @@ export default function JourneysPage() {
             <Link className="button button--dark" href="/inquiry">
               Request a Private Route
             </Link>
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Choose By Cultural Threshold</p>
+            <h2>Choose by the China you want to enter.</h2>
+          </div>
+          <div className="atlas-grid">
+            {atlasEntries.map((entry) => (
+              <Link className="atlas-card" href={entry.href} key={entry.mode}>
+                <span className="status-pill">{entry.status}</span>
+                <strong>{entry.mode}</strong>
+                <span>{entry.place}</span>
+                <p>{entry.copy}</p>
+              </Link>
+            ))}
           </div>
         </section>
 

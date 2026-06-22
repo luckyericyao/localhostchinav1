@@ -24,7 +24,7 @@ const whyChina = [
       "A good route knows when to move, when to slow down, what to avoid, and where the day should breathe."
   },
   {
-    title: "Regional depth over generic China",
+    title: "Regional depth over one-size China",
     copy:
       "Shanxi, Shaolin, Huizhou, and Shanghai each ask for a different language of attention."
   },

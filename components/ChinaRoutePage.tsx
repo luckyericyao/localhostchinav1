@@ -8,6 +8,11 @@ type RouteBlock = {
   copy: string;
 };
 
+type SnapshotItem = {
+  label: string;
+  value: string;
+};
+
 export type ChinaRoutePageContent = {
   eyebrow: string;
   title: string;
@@ -19,6 +24,12 @@ export type ChinaRoutePageContent = {
   rhythm: readonly string[];
   hostHelps: readonly string[];
   handles: readonly string[];
+  snapshot: readonly SnapshotItem[];
+  hostChanges: readonly string[];
+  variants: readonly RouteBlock[];
+  practicalNotes: readonly string[];
+  chooseAnother: readonly string[];
+  ctaLabel: string;
   bestFor: readonly string[];
   notFor: readonly string[];
   final: string;
@@ -40,7 +51,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
             <p>{route.body}</p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">
-                Request a Private Route
+                {route.ctaLabel}
               </Link>
               <Link className="text-link" href="/china">
                 Back to China
@@ -56,6 +67,21 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               sizes="(min-width: 900px) 46vw, 100vw"
             />
           </div>
+        </section>
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Route Snapshot</p>
+            <h2>The route shape before the details.</h2>
+          </div>
+          <dl className="snapshot-grid">
+            {route.snapshot.map((item) => (
+              <div className="snapshot-item" key={item.label}>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
 
         <section className="section intro-section">
@@ -82,6 +108,36 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
           <div className="support-card-grid">
             {route.opens.map((item) => (
               <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">What A Host Changes Here</p>
+            <h2>Local judgment changes what the traveler can read.</h2>
+          </div>
+          <ul className="reference-matrix">
+            {route.hostChanges.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="section section--dark">
+          <div className="section-heading">
+            <p className="eyebrow">Route Variants</p>
+            <h2>Different thresholds into the same chapter.</h2>
+          </div>
+          <div className="support-card-grid support-card-grid--three">
+            {route.variants.map((item) => (
+              <article
+                className="support-detail-card support-detail-card--dark"
+                key={item.title}
+              >
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>
               </article>
@@ -125,6 +181,18 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
           </ul>
         </section>
 
+        <section className="section">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Practical Notes</p>
+            <h2>Comfort, timing, movement, and advance planning.</h2>
+          </div>
+          <ul className="reference-matrix">
+            {route.practicalNotes.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+
         <section className="section split-panel-section">
           <div className="quiet-panel">
             <p className="eyebrow">Best For</p>
@@ -142,6 +210,14 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               ))}
             </ul>
           </div>
+          <div className="quiet-panel">
+            <p className="eyebrow">Choose Another Route If</p>
+            <ul className="clean-list">
+              {route.chooseAnother.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </section>
 
         <section className="section final-section">
@@ -153,7 +229,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
             <p>{route.final}</p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">
-                Request a Private Route
+                {route.ctaLabel}
               </Link>
               <Link className="text-link" href="/travelers">
                 For travelers

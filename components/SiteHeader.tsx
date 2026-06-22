@@ -16,6 +16,8 @@ export function SiteHeader({ tone = "solid" }: SiteHeaderProps) {
         <Link href="/travelers">Travelers</Link>
         <Link href="/hosts">Hosts</Link>
         <Link href="/host-credits">Host Credits</Link>
+        <Link href="/about">About</Link>
+        <Link href="/trust">Trust</Link>
         <Link href="/inquiry">Inquiry</Link>
       </nav>
       <Link className="nav-cta" href="/inquiry">

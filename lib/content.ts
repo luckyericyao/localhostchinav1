@@ -196,6 +196,48 @@ export const chinaRoutePages = {
       "Site context without a group-tour script",
       "Optional extensions when the route needs more time"
     ],
+    snapshot: [
+      { label: "Ideal Length", value: "4 to 6 days" },
+      { label: "Entry City", value: "Taiyuan or Datong" },
+      { label: "Best For", value: "Ancient sites, Buddhist depth, road-based culture" },
+      { label: "Pace", value: "Measured, road-aware, history-heavy" },
+      { label: "Comfort Level", value: "High-comfort with some older-site texture" },
+      { label: "Host Role", value: "Cultural interpreter and route steadying presence" }
+    ],
+    hostChanges: [
+      "Helps decide which old sites deserve time and which can be skipped.",
+      "Explains the difference between Buddhist cave art, timber architecture, merchant culture, and everyday northern life.",
+      "Keeps road days grounded with food, rest, timing, and local communication."
+    ],
+    variants: [
+      {
+        title: "Buddhist North",
+        copy:
+          "Datong, Yungang, temple roads, and Wutai atmosphere for travelers drawn to spiritual and architectural depth."
+      },
+      {
+        title: "Merchant Courtyards",
+        copy:
+          "Pingyao, family compounds, old finance, vinegar, noodles, and the disciplined taste of inland trade."
+      },
+      {
+        title: "Architecture Intensive",
+        copy:
+          "Timber halls, pagodas, old city walls, and road time arranged for people who want structure and material history."
+      }
+    ],
+    practicalNotes: [
+      "Some days involve meaningful road time between sites.",
+      "Winter can feel stark and powerful; spring and autumn are easier for pacing.",
+      "Popular sites need timing around crowds and local traffic.",
+      "Older structures, steps, and uneven surfaces can affect walking intensity.",
+      "Better hotel comfort may sit away from the quietest historical texture."
+    ],
+    chooseAnother: [
+      "Choose Shaolin if you want practice, monastery atmosphere, and mountain discipline.",
+      "Choose Huizhou if you want villages, tea, mist, and softer southern architecture."
+    ],
+    ctaLabel: "Shape a Shanxi Route",
     bestFor: [
       "Travelers drawn to ancient China",
       "Architecture and Buddhist culture",
@@ -262,6 +304,48 @@ export const chinaRoutePages = {
       "Interpretation of practice culture with restraint",
       "Optional quiet extensions for more time in the mountains"
     ],
+    snapshot: [
+      { label: "Ideal Length", value: "3 to 5 days" },
+      { label: "Entry City", value: "Zhengzhou or Luoyang" },
+      { label: "Best For", value: "Chan heritage, martial discipline, mountain stillness" },
+      { label: "Pace", value: "Slow mornings, selective movement, low spectacle" },
+      { label: "Comfort Level", value: "Comfortable base with temple and mountain textures" },
+      { label: "Host Role", value: "Context keeper and practice-culture interpreter" }
+    ],
+    hostChanges: [
+      "Separates living practice culture from staged martial tourism.",
+      "Helps read temple etiquette, Chan language, practice rhythm, and mountain pacing.",
+      "Shapes the day around quiet observation rather than constant performance."
+    ],
+    variants: [
+      {
+        title: "Temple And Mountain",
+        copy:
+          "Shaolin atmosphere, Songshan paths, slower temple time, and local interpretation around Dengfeng."
+      },
+      {
+        title: "Practice Culture",
+        copy:
+          "A route for martial artists or serious students who want discipline, lineage, repetition, and restraint."
+      },
+      {
+        title: "Henan Context",
+        copy:
+          "Shaolin with Luoyang or nearby historical layers for travelers who want a broader central-China frame."
+      }
+    ],
+    practicalNotes: [
+      "The area can become crowded around holidays and school travel periods.",
+      "Mountain paths and temple grounds may involve stairs, stone surfaces, and weather exposure.",
+      "Some practice access requires careful expectation-setting and advance planning.",
+      "A quiet route should avoid overfilling the day with staged shows.",
+      "Early mornings often carry the best atmosphere."
+    ],
+    chooseAnother: [
+      "Choose Shanxi if you want heavier ancient architecture and road-based historical depth.",
+      "Choose Huizhou if you want village quiet, ink landscape, tea, and southern built culture."
+    ],
+    ctaLabel: "Enter Shaolin with Context",
     bestFor: [
       "Travelers interested in spiritual culture",
       "Martial artists who care about context",
@@ -328,6 +412,48 @@ export const chinaRoutePages = {
       "Context that keeps Huangshan from becoming only a scenic checklist",
       "Optional extensions for tea, architecture, or quieter lanes"
     ],
+    snapshot: [
+      { label: "Ideal Length", value: "4 to 6 days" },
+      { label: "Entry City", value: "Huangshan, Hangzhou, or Shanghai extension" },
+      { label: "Best For", value: "Villages, tea, ancestral halls, ink landscape" },
+      { label: "Pace", value: "Slow, atmospheric, weather-aware" },
+      { label: "Comfort Level", value: "Refined stays where available, rural texture nearby" },
+      { label: "Host Role", value: "Village reader, tea companion, architecture interpreter" }
+    ],
+    hostChanges: [
+      "Turns white walls and black tiles into social history rather than scenery.",
+      "Reads ancestral halls, clan memory, merchant culture, and the logic of village lanes.",
+      "Adjusts the route around mist, light, tea, crowds, and the slower tempo of the region."
+    ],
+    variants: [
+      {
+        title: "Village And Hall",
+        copy:
+          "Old lanes, ancestral halls, courtyards, streams, and southern architecture held at an intimate pace."
+      },
+      {
+        title: "Tea And Mountain Light",
+        copy:
+          "Tea tables, rural meals, weather, and Huangshan atmosphere without reducing the route to a viewpoint."
+      },
+      {
+        title: "Design And Literati Mood",
+        copy:
+          "For architects, writers, and design-minded travelers drawn to restraint, proportion, ink, and stone."
+      }
+    ],
+    practicalNotes: [
+      "Weather shapes the route; mist can be part of the beauty, not a flaw.",
+      "Some village lanes are narrow, uneven, or best entered slowly.",
+      "Huangshan-related days require crowd timing and physical expectation-setting.",
+      "Tea, halls, and quieter interiors may require advance coordination.",
+      "The strongest route leaves space between villages rather than stacking stops."
+    ],
+    chooseAnother: [
+      "Choose Shanxi if you want northern weight, Buddhist sites, and older road architecture.",
+      "Choose Shaolin if you want discipline, temple atmosphere, and mountain practice culture."
+    ],
+    ctaLabel: "Begin a Huizhou Chapter",
     bestFor: [
       "Travelers drawn to poetic China",
       "Architects, designers, writers, and cultural travelers",
