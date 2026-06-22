@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 const afterSubmit = [
   "We review intent",
   "We suggest the right chapter or route",
+  "We check host fit and local feasibility",
   "We shape a private route direction",
-  "We confirm feasibility",
   "Only then does it become a route"
 ];
 

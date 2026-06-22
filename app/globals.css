@@ -388,6 +388,33 @@ h3 {
   margin-bottom: 28px;
 }
 
+.atlas-meta {
+  border-top: 1px solid var(--border);
+  display: grid;
+  gap: 10px;
+  margin: 0 0 24px;
+  padding-top: 18px;
+}
+
+.atlas-meta div {
+  display: grid;
+  gap: 4px;
+  grid-template-columns: 78px 1fr;
+}
+
+.atlas-meta dt {
+  color: var(--deep-brown);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.atlas-meta dd {
+  color: var(--warm-gray);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
 .atlas-card p {
   color: var(--warm-gray);
   margin: auto 0 0;
@@ -1190,6 +1217,28 @@ a {
 a:focus-visible {
   outline: 2px solid var(--wine);
   outline-offset: 4px;
+}
+
+@media (max-width: 1240px) {
+  .site-header {
+    gap: 18px;
+    grid-template-columns: 1fr auto;
+    padding: 22px 28px;
+  }
+
+  .main-nav {
+    display: flex;
+    gap: 18px;
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .main-nav::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media (max-width: 1080px) {

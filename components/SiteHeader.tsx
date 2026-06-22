@@ -17,6 +17,7 @@ export function SiteHeader({ tone = "solid" }: SiteHeaderProps) {
         <Link href="/hosts">Hosts</Link>
         <Link href="/host-credits">Host Credits</Link>
         <Link href="/about">About</Link>
+        <Link href="/how-it-works">How It Works</Link>
         <Link href="/trust">Trust</Link>
         <Link href="/inquiry">Inquiry</Link>
       </nav>

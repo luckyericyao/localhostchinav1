@@ -64,6 +64,14 @@ const rewards = [
   "Represent your home with dignity rather than performance"
 ];
 
+const goodHostSignals = [
+  "They know when to explain and when to leave space.",
+  "They can read visitor comfort without flattening the place.",
+  "They make practical decisions calmly.",
+  "They protect local dignity even when a traveler is curious.",
+  "They understand that hospitality is selective, not performative."
+];
+
 export default function HostsPage() {
   return (
     <>
@@ -142,6 +150,18 @@ export default function HostsPage() {
               ))}
             </ul>
           </div>
+        </section>
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">What Makes A Good Host</p>
+            <h2>The best hosts hold a threshold, not a stage.</h2>
+          </div>
+          <ul className="reference-matrix">
+            {goodHostSignals.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </section>
 
         <section className="section final-section">

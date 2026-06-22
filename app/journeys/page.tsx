@@ -17,6 +17,9 @@ const atlasEntries = [
     place: "Shanxi",
     href: "/china/shanxi",
     status: "Active Chapter",
+    mood: "Heavy, ancient, road-based",
+    pace: "Measured and history-rich",
+    hostType: "Cultural Host / Route Host",
     copy:
       "Wood temples, Buddhist mountains, merchant courtyards, noodles, vinegar, Fenjiu, and northern historical weight."
   },
@@ -25,6 +28,9 @@ const atlasEntries = [
     place: "Shaolin",
     href: "/china/shaolin",
     status: "Active Chapter",
+    mood: "Restrained, disciplined, mountain stillness",
+    pace: "Slow mornings and selective movement",
+    hostType: "Specialist Host / Cultural Host",
     copy:
       "Chan atmosphere, martial discipline, monastery rhythm, mountain paths, and restraint before spectacle."
   },
@@ -33,6 +39,9 @@ const atlasEntries = [
     place: "Huizhou",
     href: "/china/huizhou",
     status: "Active Chapter",
+    mood: "Poetic, quiet, inward",
+    pace: "Slow, weather-aware, intimate",
+    hostType: "Cultural Host / Specialist Host",
     copy:
       "White walls, black tiles, ancestral halls, tea, mist, merchant memory, and inward southern beauty."
   },
@@ -41,6 +50,9 @@ const atlasEntries = [
     place: "Shanghai",
     href: "/china",
     status: "Future Chapter",
+    mood: "Contemporary, street-level, layered",
+    pace: "Flexible urban rhythm",
+    hostType: "Route Host / Chapter Lead",
     copy:
       "Neighborhood design, food, street rhythm, contemporary ambition, and modern China below the skyline."
   },
@@ -49,6 +61,9 @@ const atlasEntries = [
     place: "Beijing",
     href: "/china",
     status: "Future Chapter",
+    mood: "Historical, political, everyday",
+    pace: "Dense but deliberate",
+    hostType: "Cultural Host / Specialist Host",
     copy:
       "Power, history, courtyards, state memory, everyday life, and the habits of the capital."
   },
@@ -57,6 +72,9 @@ const atlasEntries = [
     place: "Chengdu",
     href: "/china",
     status: "Future Chapter",
+    mood: "Soft, social, sensory",
+    pace: "Slow and table-centered",
+    hostType: "Cultural Host / Route Host",
     copy:
       "Tea houses, Sichuan food culture, conversation, slower intelligence, and the art of staying awhile."
   }
@@ -104,6 +122,20 @@ export default function JourneysPage() {
                 <span className="status-pill">{entry.status}</span>
                 <strong>{entry.mode}</strong>
                 <span>{entry.place}</span>
+                <dl className="atlas-meta">
+                  <div>
+                    <dt>Mood</dt>
+                    <dd>{entry.mood}</dd>
+                  </div>
+                  <div>
+                    <dt>Pace</dt>
+                    <dd>{entry.pace}</dd>
+                  </div>
+                  <div>
+                    <dt>Best With</dt>
+                    <dd>{entry.hostType}</dd>
+                  </div>
+                </dl>
                 <p>{entry.copy}</p>
               </Link>
             ))}

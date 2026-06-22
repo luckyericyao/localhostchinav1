@@ -6,17 +6,19 @@ import { SiteHeader } from "@/components/SiteHeader";
 export const metadata: Metadata = {
   title: "How It Works — Localhost Global",
   description:
-    "The Localhost operating flow: inquiry, intent review, route direction, host matching, support planning, chapter experience, and future relationship."
+    "The Localhost operating flow: inquiry, intent review, route direction, host fit, feasibility, proposal, local support, feedback, and future relationship."
 };
 
 const operatingFlow = [
   "Private inquiry",
   "Intent review",
   "Route direction",
-  "Host matching",
-  "Practical support planning",
-  "Local chapter experience",
-  "Feedback and future relationship"
+  "Host fit check",
+  "Practical feasibility review",
+  "Route proposal",
+  "Local support",
+  "Post-route feedback",
+  "Future relationship / Host Credits"
 ];
 
 const reviewFactors = [
@@ -60,7 +62,7 @@ export default function HowItWorksPage() {
         <section className="section section--dark">
           <div className="section-heading">
             <p className="eyebrow">Operating Flow</p>
-            <h2>Seven steps, held by local judgment.</h2>
+            <h2>Nine steps, held by local judgment.</h2>
           </div>
           <ol className="rhythm-list rhythm-list--dark">
             {operatingFlow.map((item) => (

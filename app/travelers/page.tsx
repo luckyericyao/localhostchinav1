@@ -86,6 +86,13 @@ const rightFit = [
   "You want practical confidence without turning the trip into a performance."
 ];
 
+const notRightFit = [
+  "You want instant booking without review.",
+  "You want the lowest possible price before the route is understood.",
+  "You want a host to act as a servant, entertainer, or 24/7 assistant.",
+  "You only want fast photo stops with no local interpretation."
+];
+
 export default function TravelersPage() {
   return (
     <>
@@ -165,17 +172,21 @@ export default function TravelersPage() {
           </div>
         </section>
 
-        <section className="section split-layout">
-          <div className="section-heading">
+        <section className="section split-panel-section">
+          <div className="quiet-panel">
             <p className="eyebrow">Right Fit</p>
-            <h2>Localhost is for travelers who want the place to stay real.</h2>
-          </div>
-          <div className="editorial-copy">
-            <p className="lead">
-              The route should answer a human question, not just fill a calendar.
-            </p>
+            <h2>When Localhost makes sense.</h2>
             <ul className="clean-list">
               {rightFit.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="quiet-panel">
+            <p className="eyebrow">Not Right If</p>
+            <h2>Some travelers need a different model.</h2>
+            <ul className="clean-list">
+              {notRightFit.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>

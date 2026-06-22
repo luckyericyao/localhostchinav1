@@ -24,6 +24,14 @@ const earnedBy = [
   "Contributing specialist knowledge that improves a chapter"
 ];
 
+const remembered = [
+  "Time given with care",
+  "Local judgment shared with travelers",
+  "Routes improved through feedback",
+  "Trusted introductions to hosts or partners",
+  "Chapter work that helps Localhost protect quality"
+];
+
 const mayBeUsed = [
   "Future hosted access in another Localhost chapter",
   "Route advisory or practical support where available",
@@ -36,6 +44,7 @@ const cannotDo = [
   "They are not a public token.",
   "They are not cash equivalent by default.",
   "They are not a guaranteed travel voucher.",
+  "They are not publicly tradable.",
   "They are not a public loyalty marketplace.",
   "They do not override host availability, safety, or local fit."
 ];
@@ -82,6 +91,18 @@ export default function HostCreditsPage() {
           </div>
           <ul className="reference-matrix">
             {whatTheyAre.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="section">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">What They Remember</p>
+            <h2>Contribution should not disappear after the route ends.</h2>
+          </div>
+          <ul className="reference-matrix">
+            {remembered.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>

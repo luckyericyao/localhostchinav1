@@ -211,19 +211,19 @@ export const chinaRoutePages = {
     ],
     variants: [
       {
-        title: "Buddhist North",
+        title: "Ancient Architecture Route",
+        copy:
+          "Timber halls, pagodas, old city walls, and road time arranged for people who want structure and material history."
+      },
+      {
+        title: "Buddhist Northern China Route",
         copy:
           "Datong, Yungang, temple roads, and Wutai atmosphere for travelers drawn to spiritual and architectural depth."
       },
       {
-        title: "Merchant Courtyards",
+        title: "Jin Merchant Route",
         copy:
           "Pingyao, family compounds, old finance, vinegar, noodles, and the disciplined taste of inland trade."
-      },
-      {
-        title: "Architecture Intensive",
-        copy:
-          "Timber halls, pagodas, old city walls, and road time arranged for people who want structure and material history."
       }
     ],
     practicalNotes: [
@@ -231,6 +231,8 @@ export const chinaRoutePages = {
       "Winter can feel stark and powerful; spring and autumn are easier for pacing.",
       "Popular sites need timing around crowds and local traffic.",
       "Older structures, steps, and uneven surfaces can affect walking intensity.",
+      "A private car is usually the calmest way to hold the route together.",
+      "Local road conditions, opening hours, and weather may change the day.",
       "Better hotel comfort may sit away from the quietest historical texture."
     ],
     chooseAnother: [
@@ -319,26 +321,28 @@ export const chinaRoutePages = {
     ],
     variants: [
       {
-        title: "Temple And Mountain",
+        title: "Temple & Mountain Route",
         copy:
           "Shaolin atmosphere, Songshan paths, slower temple time, and local interpretation around Dengfeng."
       },
       {
-        title: "Practice Culture",
+        title: "Practice Culture Route",
         copy:
           "A route for martial artists or serious students who want discipline, lineage, repetition, and restraint."
       },
       {
-        title: "Henan Context",
+        title: "Family-Friendly Cultural Route",
         copy:
-          "Shaolin with Luoyang or nearby historical layers for travelers who want a broader central-China frame."
+          "A quieter way for families to understand temple atmosphere, movement, mountain paths, and practice culture without spectacle."
       }
     ],
     practicalNotes: [
       "The area can become crowded around holidays and school travel periods.",
       "Mountain paths and temple grounds may involve stairs, stone surfaces, and weather exposure.",
       "Some practice access requires careful expectation-setting and advance planning.",
+      "A private car is useful for Dengfeng, Songshan, and any Luoyang extension.",
       "A quiet route should avoid overfilling the day with staged shows.",
+      "Weather, training schedules, and crowd control may change what is possible locally.",
       "Early mornings often carry the best atmosphere."
     ],
     chooseAnother: [
@@ -427,17 +431,17 @@ export const chinaRoutePages = {
     ],
     variants: [
       {
-        title: "Village And Hall",
+        title: "Village & Architecture Route",
         copy:
           "Old lanes, ancestral halls, courtyards, streams, and southern architecture held at an intimate pace."
       },
       {
-        title: "Tea And Mountain Light",
+        title: "Tea & Mountain Route",
         copy:
           "Tea tables, rural meals, weather, and Huangshan atmosphere without reducing the route to a viewpoint."
       },
       {
-        title: "Design And Literati Mood",
+        title: "Literati South Route",
         copy:
           "For architects, writers, and design-minded travelers drawn to restraint, proportion, ink, and stone."
       }
@@ -447,6 +451,8 @@ export const chinaRoutePages = {
       "Some village lanes are narrow, uneven, or best entered slowly.",
       "Huangshan-related days require crowd timing and physical expectation-setting.",
       "Tea, halls, and quieter interiors may require advance coordination.",
+      "A private car helps connect villages, tea areas, and mountain access without rushing.",
+      "Rain, mist, local repairs, and village access can change the day.",
       "The strongest route leaves space between villages rather than stacking stops."
     ],
     chooseAnother: [

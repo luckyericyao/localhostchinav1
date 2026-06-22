@@ -13,7 +13,7 @@ const trustPillars = [
   {
     title: "Host screening",
     copy:
-      "Hosts are reviewed for judgment, communication, local fluency, reliability, and the ability to represent home with care."
+      "Hosts are reviewed for judgment, reliability, cultural fluency, communication quality, and the ability to represent home with care."
   },
   {
     title: "No random matching",
@@ -23,7 +23,7 @@ const trustPillars = [
   {
     title: "Traveler respect and host boundaries",
     copy:
-      "The traveler is welcomed. The host is respected. The relationship only works when dignity goes both ways."
+      "Travelers must respect local people, time, culture, and boundaries. The relationship only works when dignity goes both ways."
   },
   {
     title: "Privacy and discretion",
@@ -44,10 +44,13 @@ const trustPillars = [
 
 const boundaries = [
   "Hosts are not servants.",
+  "Hosts are not entertainers.",
+  "Hosts are not drivers by default.",
   "Hosts are not emergency responders.",
   "Hosts are not forced to be available 24/7.",
   "Localhost does not encourage lowest-price bidding.",
   "Trust comes before scale.",
+  "Localhost may decline or redirect inquiries that are not a fit.",
   "A public guide marketplace is not the model."
 ];
 
@@ -67,9 +70,14 @@ export default function TrustPage() {
               boundaries, and quality control. The point is not maximum scale.
               The point is trust that can hold.
             </p>
-            <Link className="button button--dark" href="/hosts">
-              For Hosts
-            </Link>
+            <div className="inline-actions">
+              <Link className="button button--dark" href="/inquiry">
+                Request a Private Route
+              </Link>
+              <Link className="text-link" href="/hosts">
+                Apply to Become a Host
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -130,10 +138,10 @@ export default function TrustPage() {
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">
-                Begin an Inquiry
+                Request a Private Route
               </Link>
-              <Link className="text-link" href="/how-it-works">
-                See the operating flow
+              <Link className="text-link" href="/hosts">
+                Apply to Become a Host
               </Link>
             </div>
           </div>

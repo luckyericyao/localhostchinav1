@@ -22,6 +22,7 @@ type InquiryState = {
   knowledgeAreas: string;
   availabilityStyle: string;
   hostMotivation: string;
+  hostedBefore: string;
   organization: string;
   partnershipType: string;
   partnerRegion: string;
@@ -48,6 +49,7 @@ const initialState: InquiryState = {
   knowledgeAreas: "",
   availabilityStyle: "",
   hostMotivation: "",
+  hostedBefore: "",
   organization: "",
   partnershipType: "",
   partnerRegion: "",
@@ -113,6 +115,13 @@ const availabilityOptions = [
   "Specialist-only hosting",
   "Chapter-building role",
   "Not sure yet"
+];
+
+const hostedBeforeOptions = [
+  "Yes, often",
+  "Yes, occasionally",
+  "Not formally, but I host personally",
+  "Not yet"
 ];
 
 const partnershipOptions = [
@@ -455,6 +464,22 @@ export function InquiryForm() {
           </div>
 
           <label>
+            <span>Have you hosted international visitors before?</span>
+            <select
+              name="hostedBefore"
+              onChange={(event) => updateField("hostedBefore", event.target.value)}
+              value={values.hostedBefore}
+            >
+              <option value="">Select one if helpful</option>
+              {hostedBeforeOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label>
             <span>Why do you want to host?</span>
             <textarea
               aria-invalid={Boolean(errors.hostMotivation)}
@@ -510,7 +535,7 @@ export function InquiryForm() {
           </div>
 
           <label>
-            <span>Region</span>
+            <span>City / region</span>
             <input
               aria-invalid={Boolean(errors.partnerRegion)}
               name="partnerRegion"
@@ -551,7 +576,8 @@ export function InquiryForm() {
           <strong>Inquiry prepared.</strong>
           <p>
             Your details are ready for review: {preparedSummary}. This build
-            validates and prepares the inquiry, but does not send it yet.
+            validates and prepares the inquiry. Backend submission is not yet
+            connected.
           </p>
         </div>
       ) : null}
