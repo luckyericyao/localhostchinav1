@@ -8,6 +8,7 @@ Localhost Global is positioned as a quiet luxury local-host travel network for t
 
 - `/` — premium homepage
 - `/china` — Localhost China market page
+- `/journeys` — China journey index and future chapter overview
 - `/travelers` — traveler product page
 - `/hosts` — host recruitment page
 - `/host-credits` — reciprocal host credit explanation

@@ -18,6 +18,7 @@ export type ChinaRoutePageContent = {
   opens: readonly RouteBlock[];
   rhythm: readonly string[];
   hostHelps: readonly string[];
+  handles: readonly string[];
   bestFor: readonly string[];
   notFor: readonly string[];
   final: string;
@@ -39,7 +40,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
             <p>{route.body}</p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">
-                Start a private route
+                Request a Private Route
               </Link>
               <Link className="text-link" href="/china">
                 Back to China
@@ -59,7 +60,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
 
         <section className="section intro-section">
           <div className="section-heading">
-            <p className="eyebrow">Route Thesis</p>
+            <p className="eyebrow">Why This Place Matters</p>
             <h2>{route.thesis}</h2>
           </div>
           <div className="editorial-copy">
@@ -102,11 +103,23 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
 
         <section className="section section--dark">
           <div className="section-heading">
-            <p className="eyebrow">What The Host Helps With</p>
+            <p className="eyebrow">What A Local Host Decodes</p>
             <h2>Context, timing, food, language, and local rhythm.</h2>
           </div>
           <ul className="reference-matrix reference-matrix--dark">
             {route.hostHelps.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">What Localhost Handles</p>
+            <h2>Quiet support around the route.</h2>
+          </div>
+          <ul className="reference-matrix">
+            {route.handles.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
@@ -140,7 +153,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
             <p>{route.final}</p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">
-                Start a private route
+                Request a Private Route
               </Link>
               <Link className="text-link" href="/travelers">
                 For travelers

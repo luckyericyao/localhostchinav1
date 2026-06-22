@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+
+export const metadata: Metadata = {
+  title: "Hosts — Localhost Global",
+  description:
+    "A way for thoughtful locals to represent home with dignity, local judgment, cultural context, and trust."
+};
 
 const whoCanHost = [
   "People with deep local knowledge",
@@ -47,7 +54,7 @@ export default function HostsPage() {
               of a place with dignity, context, and trust.
             </p>
             <Link className="button button--dark" href="/inquiry">
-              Apply to become a local host
+              Apply to Become a Host
             </Link>
           </div>
         </section>
@@ -107,7 +114,7 @@ export default function HostsPage() {
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">
-                Apply to become a local host
+                Apply to Become a Host
               </Link>
               <Link className="text-link" href="/host-credits">
                 Learn about Host Credits

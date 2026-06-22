@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+
+export const metadata: Metadata = {
+  title: "Travelers — Localhost Global",
+  description:
+    "Private routes for travelers who want cultural context, trusted local hosts, and practical confidence rather than a sightseeing checklist."
+};
 
 const handled = [
   "Private route shaping",
@@ -50,7 +57,7 @@ export default function TravelersPage() {
               trusted local people, private rhythm, and cultural context.
             </p>
             <Link className="button button--dark" href="/inquiry">
-              Start a private route
+              Request a Private Route
             </Link>
           </div>
         </section>
@@ -111,7 +118,7 @@ export default function TravelersPage() {
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">
-                Start a private route
+                Request a Private Route
               </Link>
               <Link className="text-link" href="/china">
                 Explore China chapters

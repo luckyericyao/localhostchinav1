@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { InquirySection } from "@/components/InquirySection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { chinaJourneys } from "@/lib/content";
+
+export const metadata: Metadata = {
+  title: "Localhost Global — Travel Back Home.",
+  description:
+    "A quiet local-host network for thoughtful travelers, trusted hosts, private routes, and cultural context, starting with China."
+};
 
 const localhostCards = [
   {
@@ -76,10 +84,10 @@ export default function Home() {
             </p>
             <div className="hero-actions" aria-label="Primary actions">
               <Link className="button button--light" href="/inquiry">
-                Start a private route
+                Request a Private Route
               </Link>
               <Link className="button button--ghost" href="/hosts">
-                Become a local host
+                Become a Host
               </Link>
               <Link className="button button--ghost" href="/china">
                 Explore China chapters
@@ -214,7 +222,7 @@ export default function Home() {
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">
-                Begin a private inquiry
+                Request a Private Route
               </Link>
               <Link className="text-link" href="/china">
                 Explore China chapters
@@ -222,6 +230,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <InquirySection id="private-route-inquiry" compact />
       </main>
       <SiteFooter />
     </>

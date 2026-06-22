@@ -1,8 +1,16 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { InquirySection } from "@/components/InquirySection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { arrangements, chinaJourneys } from "@/lib/content";
+
+export const metadata: Metadata = {
+  title: "Localhost China — A Local Way In",
+  description:
+    "China as the first Localhost chapter: private routes, trusted hosts, cultural decoding, and practical confidence for thoughtful travelers."
+};
 
 const whyChina = [
   {
@@ -62,7 +70,7 @@ export default function ChinaPage() {
               local-host network built around context.
             </p>
             <Link className="button button--dark" href="/inquiry">
-              Start a private route
+              Request a Private Route
             </Link>
           </div>
         </section>
@@ -165,7 +173,7 @@ export default function ChinaPage() {
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">
-                Begin a private inquiry
+                Request a Private Route
               </Link>
               <Link className="text-link" href="/travelers">
                 For travelers
@@ -173,6 +181,8 @@ export default function ChinaPage() {
             </div>
           </div>
         </section>
+
+        <InquirySection id="china-private-route-inquiry" compact />
       </main>
       <SiteFooter />
     </>

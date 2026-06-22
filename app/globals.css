@@ -567,6 +567,34 @@ h3 {
   font-size: 0.95rem;
 }
 
+.journey-status-card {
+  background: rgba(255, 253, 248, 0.42);
+}
+
+.journey-status-card h3 {
+  margin-bottom: 18px;
+}
+
+.journey-status-line {
+  color: var(--charcoal) !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.28rem;
+  line-height: 1.2;
+  margin-bottom: 18px !important;
+}
+
+.status-pill {
+  border: 1px solid rgba(110, 52, 48, 0.28);
+  color: var(--wine);
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-bottom: 28px;
+  padding: 6px 9px;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
 .traveler-host-section {
   display: grid;
   gap: 28px;
@@ -625,13 +653,17 @@ h3 {
 }
 
 .site-footer {
-  align-items: end;
+  align-items: start;
   background: var(--charcoal);
   color: var(--warm-white);
-  display: flex;
+  display: grid;
   gap: 32px;
-  justify-content: space-between;
+  grid-template-columns: minmax(240px, 1fr) minmax(280px, auto) minmax(220px, 0.7fr);
   padding: 48px 56px;
+}
+
+.footer-brand {
+  max-width: 460px;
 }
 
 .footer-title {
@@ -640,8 +672,12 @@ h3 {
   margin-bottom: 6px;
 }
 
-.site-footer p:last-child {
+.site-footer p {
   color: rgba(255, 253, 248, 0.62);
+}
+
+.footer-note {
+  color: #e4c7b8 !important;
   margin-bottom: 0;
 }
 
@@ -650,6 +686,18 @@ h3 {
   flex-wrap: wrap;
   gap: 18px;
   justify-content: flex-end;
+}
+
+.footer-actions {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-self: end;
+}
+
+.footer-actions .button,
+.footer-actions .text-link {
+  margin-top: 0;
 }
 
 .page-hero {
@@ -961,6 +1009,18 @@ h3 {
   outline: 2px solid rgba(110, 52, 48, 0.16);
 }
 
+.inquiry-form input[aria-invalid="true"],
+.inquiry-form select[aria-invalid="true"],
+.inquiry-form textarea[aria-invalid="true"] {
+  border-color: var(--wine);
+}
+
+.field-error {
+  color: var(--wine);
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
 .inquiry-actions {
   align-items: center;
   border-top: 1px solid var(--border);
@@ -976,6 +1036,25 @@ h3 {
   font-size: 0.92rem;
   margin-bottom: 0;
   max-width: 280px;
+}
+
+.form-status {
+  border-top: 1px solid var(--border);
+  color: var(--warm-gray);
+  padding-top: 18px;
+}
+
+.form-status strong {
+  color: var(--charcoal);
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.22rem;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.form-status p {
+  margin-bottom: 0;
 }
 
 button,
@@ -996,6 +1075,16 @@ a:focus-visible {
   }
 
   .main-nav {
+    display: flex;
+    gap: 18px;
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .main-nav::-webkit-scrollbar {
     display: none;
   }
 
@@ -1175,13 +1264,16 @@ a:focus-visible {
   }
 
   .site-footer {
-    align-items: flex-start;
-    flex-direction: column;
+    grid-template-columns: 1fr;
     padding: 40px 20px;
   }
 
   .site-footer nav {
     justify-content: flex-start;
+  }
+
+  .footer-actions {
+    justify-self: start;
   }
 }
 

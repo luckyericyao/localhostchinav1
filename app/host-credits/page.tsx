@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+
+export const metadata: Metadata = {
+  title: "Host Credits — Localhost Global",
+  description:
+    "A private trust mechanism for reciprocal hosted travel: host at home, then travel back home somewhere else."
+};
 
 const creditIdeas = [
   "A credit system for trusted hosts and members",
@@ -116,7 +123,7 @@ export default function HostCreditsPage() {
                 Become a host
               </Link>
               <Link className="text-link" href="/inquiry">
-                Start as a traveler
+                Request a Private Route
               </Link>
             </div>
           </div>

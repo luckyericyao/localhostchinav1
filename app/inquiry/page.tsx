@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { InquirySection } from "@/components/InquirySection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+
+export const metadata: Metadata = {
+  title: "Private Route Inquiry — Localhost Global",
+  description:
+    "A calm private intake for travelers, hosts, and partners interested in Localhost China routes and local-host support."
+};
 
 export default function InquiryPage() {
   return (
@@ -11,7 +18,7 @@ export default function InquiryPage() {
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">Private Inquiry</p>
-            <h1>Begin with the China you want to enter.</h1>
+            <h1>Begin with the China you want to understand.</h1>
           </div>
           <div className="page-hero-copy">
             <p>

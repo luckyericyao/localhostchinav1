@@ -69,12 +69,16 @@ export const futureChinaJourneys = [
   {
     place: "Beijing",
     line: "Power, history, and local life.",
-    href: "/china#beijing"
+    href: "/china#beijing",
+    summary:
+      "A future chapter for imperial memory, everyday neighborhoods, food, power, and the local rhythm behind the capital."
   },
   {
     place: "Chengdu",
     line: "Food, tea, and the art of slowing down.",
-    href: "/china#chengdu"
+    href: "/china#chengdu",
+    summary:
+      "A future chapter for tea houses, Sichuan food culture, conversation, and the softer intelligence of a city that knows how to pause."
   }
 ];
 
@@ -184,6 +188,14 @@ export const chinaRoutePages = {
       "Avoiding superficial tourist traps",
       "Understanding why the sites matter"
     ],
+    handles: [
+      "Private route shaping",
+      "Trusted local host matching",
+      "Transport rhythm and road timing",
+      "Food, payment, and communication support",
+      "Site context without a group-tour script",
+      "Optional extensions when the route needs more time"
+    ],
     bestFor: [
       "Travelers drawn to ancient China",
       "Architecture and Buddhist culture",
@@ -200,7 +212,7 @@ export const chinaRoutePages = {
   },
   shaolin: {
     eyebrow: "Dengfeng / Songshan",
-    title: "Shaolin — Practice before performance.",
+    title: "Shaolin — Zen practice, martial discipline, and mountain stillness.",
     thesis: "Practice before performance.",
     image: "/images/shaolin-dengfeng.png",
     alt: "A quiet Shaolin temple courtyard near misted mountains at dawn.",
@@ -242,6 +254,14 @@ export const chinaRoutePages = {
       "Translation and etiquette",
       "Avoiding performance-heavy tourist energy"
     ],
+    handles: [
+      "Private route shaping around Dengfeng and Songshan",
+      "Trusted host support for temple and mountain context",
+      "Timing that avoids loud performance energy where possible",
+      "Transport, food, payment, and practical local support",
+      "Interpretation of practice culture with restraint",
+      "Optional quiet extensions for more time in the mountains"
+    ],
     bestFor: [
       "Travelers interested in spiritual culture",
       "Martial artists who care about context",
@@ -258,7 +278,7 @@ export const chinaRoutePages = {
   },
   huizhou: {
     eyebrow: "Huizhou / Huangshan",
-    title: "Huizhou — Ink, mountain, courtyard, tea.",
+    title: "Huizhou — Hidden villages, ink landscapes, and the road to Huangshan.",
     thesis: "Ink, mountain, courtyard, tea.",
     image: "/images/huizhou-huangshan.png",
     alt: "A misty Huizhou village with white walls, black tiles, stone lanes, and mountain peaks.",
@@ -299,6 +319,14 @@ export const chinaRoutePages = {
       "Local etiquette",
       "Translation and conversation",
       "Avoiding loud scenic tourism"
+    ],
+    handles: [
+      "Private route shaping through villages, halls, tea, and mountain light",
+      "Trusted local interpretation of clan halls and merchant culture",
+      "Timing around weather, mist, crowds, and slower village rhythm",
+      "Transport, meals, payments, and practical communication",
+      "Context that keeps Huangshan from becoming only a scenic checklist",
+      "Optional extensions for tea, architecture, or quieter lanes"
     ],
     bestFor: [
       "Travelers drawn to poetic China",
@@ -376,7 +404,7 @@ export const chinaSupportPages = {
       title: "A local way to understand China.",
       body:
         "The right host can turn a day from movement into understanding: a road, a meal, a small habit, a better choice, and the context that makes it meaningful.",
-      primaryLabel: "Plan a Private China Journey",
+      primaryLabel: "Request a Private Route",
       primaryHref: "/inquiry",
       secondaryLabel: "Back to China",
       secondaryHref: "/china"
@@ -509,7 +537,7 @@ export const chinaSupportPages = {
       title: "Move with more confidence.",
       body:
         "The traveler may be able to visit alone, but the right local support can change the confidence, depth, and texture of the entire journey.",
-      primaryLabel: "Plan a Private China Journey",
+      primaryLabel: "Request a Private Route",
       primaryHref: "/inquiry",
       secondaryLabel: "Back to China",
       secondaryHref: "/china"
@@ -547,7 +575,7 @@ export const chinaSupportPages = {
       title: "No gimmicks, no staged authenticity.",
       cards: [
         {
-          title: "Not fake VIP treatment",
+          title: "Not staged VIP treatment",
           copy:
             "Real access is not paid theater or a borrowed sense of importance."
         },
