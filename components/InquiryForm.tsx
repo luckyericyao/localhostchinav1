@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import { contactEmail, openInquiryMailto } from "@/lib/inquiryMail";
 
 type InquiryRole = "Traveler" | "Host" | "Partner";
 
@@ -157,6 +158,13 @@ export function InquiryForm() {
     [values]
   );
 
+  const message =
+    values.role === "Traveler"
+      ? values.curiosity
+      : values.role === "Host"
+        ? values.hostMotivation
+        : values.buildIntent;
+
   function updateField(field: keyof InquiryState, value: string) {
     setValues((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [field]: undefined }));
@@ -217,7 +225,36 @@ export function InquiryForm() {
     event.preventDefault();
     const nextErrors = validate();
     setErrors(nextErrors);
-    setPrepared(Object.keys(nextErrors).length === 0);
+    const isValid = Object.keys(nextErrors).length === 0;
+    setPrepared(isValid);
+
+    if (!isValid) return;
+
+    openInquiryMailto({
+      role: values.role,
+      name: values.name,
+      email: values.email,
+      message,
+      source: "Sitewide inquiry form",
+      fields: [
+        { label: "Origin / base", value: values.origin },
+        { label: "Timing", value: values.timing },
+        { label: "Route", value: values.route },
+        { label: "Group size", value: values.travelers },
+        { label: "Trip length", value: values.tripLength },
+        { label: "Travel style", value: values.travelStyle },
+        { label: "Support needed", value: values.supportNeeded },
+        { label: "Budget comfort", value: values.budget },
+        { label: "Host region", value: values.hostRegion },
+        { label: "Host languages", value: values.languages },
+        { label: "Host knowledge areas", value: values.knowledgeAreas },
+        { label: "Host availability", value: values.availabilityStyle },
+        { label: "Hosted before", value: values.hostedBefore },
+        { label: "Organization", value: values.organization },
+        { label: "Partnership type", value: values.partnershipType },
+        { label: "Partner region", value: values.partnerRegion }
+      ]
+    });
   }
 
   return (
@@ -566,18 +603,21 @@ export function InquiryForm() {
 
       <div className="inquiry-actions">
         <button className="button button--dark" type="submit">
-          Prepare Localhost Inquiry
+          Request Private Route Review
         </button>
-        <p>No message is sent until a secure submission channel is connected.</p>
+        <p>Every inquiry is manually reviewed before any route is confirmed.</p>
       </div>
 
       {prepared ? (
         <div className="form-status form-status--success" role="status">
-          <strong>Inquiry prepared.</strong>
+          <strong>
+            Inquiry prepared. Send it by email so we can review fit, route
+            direction, and host availability.
+          </strong>
           <p>
-            Your details are ready for review: {preparedSummary}. This build
-            validates and prepares the inquiry. Backend submission is not yet
-            connected.
+            {preparedSummary ? `${preparedSummary}. ` : null}
+            If your email client does not open, please contact us directly at{" "}
+            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
           </p>
         </div>
       ) : null}

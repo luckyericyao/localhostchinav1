@@ -80,6 +80,27 @@ const atlasEntries = [
   }
 ];
 
+const routeSelector = [
+  {
+    title: "Shanxi",
+    href: "/china/shanxi",
+    copy:
+      "Choose this if you want ancient weight: Buddhist caves, timber halls, merchant courtyards, noodles, Fenjiu, and northern road history."
+  },
+  {
+    title: "Shaolin",
+    href: "/china/shaolin",
+    copy:
+      "Choose this if you want discipline: Chan atmosphere, martial practice, temple rhythm, mountain stillness, and restraint before spectacle."
+  },
+  {
+    title: "Huizhou",
+    href: "/china/huizhou",
+    copy:
+      "Choose this if you want poetic southern China: villages, tea, ancestral halls, mist, white walls, black tiles, and ink landscape."
+  }
+];
+
 export default function JourneysPage() {
   const activeJourneys = chinaJourneys.filter((journey) =>
     ["Shanxi", "Shaolin", "Huizhou"].includes(journey.place)
@@ -108,6 +129,26 @@ export default function JourneysPage() {
             <Link className="button button--dark" href="/inquiry">
               Request a Private Route
             </Link>
+          </div>
+        </section>
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Route Selector</p>
+            <h2>Which China should you enter first?</h2>
+          </div>
+          <div className="arrangement-grid arrangement-grid--three">
+            {routeSelector.map((route) => (
+              <Link
+                className="arrangement-card arrangement-card--link route-selector-card"
+                href={route.href}
+                key={route.title}
+              >
+                <h3>{route.title}</h3>
+                <p>{route.copy}</p>
+                <span className="arrangement-cue">View route</span>
+              </Link>
+            ))}
           </div>
         </section>
 
@@ -165,6 +206,10 @@ export default function JourneysPage() {
                 <span className="visual-journey-copy">
                   <span>{journey.place}</span>
                   <strong>{journey.line}</strong>
+                  <dl className="journey-best-for">
+                    <dt>Best for</dt>
+                    <dd>{journey.bestFor}</dd>
+                  </dl>
                   <small>{journey.summary}</small>
                 </span>
               </Link>

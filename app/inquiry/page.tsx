@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { InquirySection } from "@/components/InquirySection";
+import { DetailedInquiryForm } from "@/components/DetailedInquiryForm";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 
 export const metadata: Metadata = {
-  title: "Private Route Inquiry — Localhost Global",
+  title: "Private Route Preference Intake — Localhost Global",
   description:
-    "A calm private intake for travelers, hosts, and partners interested in Localhost China routes and local-host support."
+    "A detailed private China route intake for food rhythm, comfort, curiosity, host fit, and quiet practical support."
 };
 
 const afterSubmit = [
-  "We review intent",
-  "We suggest the right chapter or route",
-  "We check host fit and local feasibility",
-  "We shape a private route direction",
-  "Only then does it become a route"
+  "We read for intent, not just dates.",
+  "We identify the right route direction.",
+  "We check whether a local host fit is realistic.",
+  "We shape the food, pace, comfort, and support level.",
+  "We clarify what is feasible before anything becomes a route.",
+  "If the request is not a fit, we may redirect or decline it."
 ];
 
 export default function InquiryPage() {
@@ -26,31 +27,59 @@ export default function InquiryPage() {
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">Private Inquiry</p>
-            <h1>Begin with the China you want to understand.</h1>
+            <h1>Tell us how you want to enter China.</h1>
           </div>
           <div className="page-hero-copy">
             <p>
-              A private route starts with curiosity, timing, context, and the
-              right local support. This is a quiet intake, not a booking engine.
+              Food, rhythm, comfort, privacy, curiosity, small pleasures, and
+              host fit help us shape a private route.
             </p>
-            <Link className="text-link" href="/china">
-              Explore China first
-            </Link>
+            <p className="support-subhead">
+              This is not a booking engine.
+            </p>
           </div>
         </section>
 
-        <InquirySection id="private-route" compact />
+        <section className="section section--inquiry" id="private-route">
+          <div className="inquiry-shell inquiry-shell--wide">
+            <div className="inquiry-copy">
+              <p className="eyebrow">Private Route Preference System</p>
+              <h2>A route shaped around taste, rhythm, and host fit.</h2>
+              <p>
+                The more specific you are, the better Localhost can understand
+                route fit, food rhythm, comfort direction, practical support,
+                and the kind of local person you would trust.
+              </p>
+              <p className="fine-copy">
+                Traveler intake is prioritized here. Host and partner paths
+                remain available for people building the network.
+              </p>
+              <p className="fine-copy">
+                Pricing depends on route depth, host involvement, logistics,
+                city coverage, and support level. Localhost does not quote
+                before the route scope is understood.
+              </p>
+            </div>
+            <DetailedInquiryForm />
+          </div>
+        </section>
 
         <section className="section section--dark">
           <div className="section-heading">
-            <p className="eyebrow">After You Submit</p>
-            <h2>Review comes before confirmation.</h2>
+            <p className="eyebrow">After Preparation</p>
+            <h2>What happens after this intake is prepared?</h2>
           </div>
           <ol className="rhythm-list rhythm-list--dark">
             {afterSubmit.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ol>
+          <div className="editorial-copy after-submit-note">
+            <p>
+              Localhost is not an instant booking engine. A private route begins
+              only when intent, timing, host fit, and local feasibility align.
+            </p>
+          </div>
         </section>
 
         <section className="section final-section">

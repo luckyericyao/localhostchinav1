@@ -54,7 +54,7 @@ export default function HowItWorksPage() {
               and host fit make sense together.
             </p>
             <Link className="button button--dark" href="/inquiry">
-              Begin an Inquiry
+              Begin a Private Route Review
             </Link>
           </div>
         </section>

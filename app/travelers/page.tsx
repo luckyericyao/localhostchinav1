@@ -145,6 +145,24 @@ export default function TravelersPage() {
           </div>
         </section>
 
+        <section className="section executive-traveler-section">
+          <div className="section-heading">
+            <p className="eyebrow">Executive Travelers</p>
+            <h2>For founders, investors, and executives</h2>
+          </div>
+          <div className="editorial-copy">
+            <p>
+              Some travelers do not need more luxury. They need judgment: where
+              to go, what to notice, how to read a city, when to slow down, and
+              how to move through China without flattening it into meetings,
+              hotels, and skyline photos.
+            </p>
+            <Link className="button button--dark" href="/inquiry">
+              Request a private route review
+            </Link>
+          </div>
+        </section>
+
         <section className="section section--dark">
           <div className="section-heading">
             <p className="eyebrow">Local Judgment</p>
@@ -170,6 +188,11 @@ export default function TravelersPage() {
               </article>
             ))}
           </div>
+          <p className="scope-note">
+            Pricing depends on route depth, host involvement, logistics, city
+            coverage, and support level. Localhost does not quote before the
+            route scope is understood.
+          </p>
         </section>
 
         <section className="section split-panel-section">

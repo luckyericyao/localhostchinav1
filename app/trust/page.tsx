@@ -42,6 +42,24 @@ const trustPillars = [
   }
 ];
 
+const operatingTrust = [
+  {
+    title: "Host verification",
+    copy:
+      "Hosts are selected and reviewed for identity, reliability, judgment, communication, and their ability to represent a local world with care."
+  },
+  {
+    title: "Traveler safety and local support",
+    copy:
+      "Localhost provides route-level coordination, local judgment, practical support, and adjustment around timing, transport, meals, language, and local conditions."
+  },
+  {
+    title: "Clear scope and boundaries",
+    copy:
+      "Localhost is not emergency response, not 24/7 personal staff, and not a public guide marketplace. The route is held by agreed scope, host fit, and mutual respect."
+  }
+];
+
 const boundaries = [
   "Hosts are not servants.",
   "Hosts are not entertainers.",
@@ -88,6 +106,21 @@ export default function TrustPage() {
           </div>
           <div className="support-card-grid support-card-grid--three">
             {trustPillars.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Operating Trust</p>
+            <h2>Support with boundaries, not open-ended service.</h2>
+          </div>
+          <div className="support-card-grid support-card-grid--three">
+            {operatingTrust.map((item) => (
               <article className="support-detail-card" key={item.title}>
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>

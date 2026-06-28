@@ -34,6 +34,8 @@ export const chinaJourneys = [
     alt: "Ancient northern Chinese architecture and mountain temple roads representing Shanxi.",
     summary:
       "Ancient temples, caves, wooden pagodas, merchant courtyards, noodles, Fenjiu, Buddhist mountains, and northern Chinese civilization — best understood with someone who knows the roads and the context.",
+    bestFor:
+      "Ancient architecture, Buddhist depth, road-based northern history",
     featured: true
   },
   {
@@ -43,7 +45,8 @@ export const chinaJourneys = [
     image: "/images/shaolin-dengfeng.png",
     alt: "A quiet Shaolin temple courtyard near misted mountains at dawn.",
     summary:
-      "A private cultural route around Dengfeng and Songshan, centered on temple atmosphere, Chan heritage, martial practice, mountain roads, discipline, and stillness."
+      "A private cultural route around Dengfeng and Songshan, centered on temple atmosphere, Chan heritage, martial practice, mountain roads, discipline, and stillness.",
+    bestFor: "Chan atmosphere, martial discipline, mountain stillness"
   },
   {
     place: "Huizhou",
@@ -52,7 +55,8 @@ export const chinaJourneys = [
     image: "/images/huizhou-huangshan.png",
     alt: "A misty Huizhou village with white walls, black tiles, stone lanes, and mountain peaks.",
     summary:
-      "A private route through old villages, ancestral halls, tea culture, stone lanes, mountain mist, and the quiet beauty of southern Chinese built culture."
+      "A private route through old villages, ancestral halls, tea culture, stone lanes, mountain mist, and the quiet beauty of southern Chinese built culture.",
+    bestFor: "Villages, tea, ancestral halls, ink landscape"
   },
   {
     place: "Shanghai",
@@ -61,7 +65,8 @@ export const chinaJourneys = [
     image: "/images/localhost-hero.png",
     alt: "A quiet China street at dusk with warm local light and conversation.",
     summary:
-      "Modern China seen through neighborhoods, food, street rhythms, design, and local interpretation rather than a skyline checklist."
+      "Modern China seen through neighborhoods, food, street rhythms, design, and local interpretation rather than a skyline checklist.",
+    bestFor: "Street rhythm, design, food, modern local context"
   }
 ];
 
@@ -204,6 +209,28 @@ export const chinaRoutePages = {
       { label: "Comfort Level", value: "High-comfort with some older-site texture" },
       { label: "Host Role", value: "Cultural interpreter and route steadying presence" }
     ],
+    sampleDay: [
+      {
+        title: "Morning",
+        copy:
+          "A private car leaves after breakfast, timed around road conditions and site traffic. The host frames the day before arrival: Buddhist caves, timber halls, or merchant memory, so the first stop has context before it has scale."
+      },
+      {
+        title: "Noon",
+        copy:
+          "Lunch stays regional and grounded: noodles, vinegar, a careful local table, or a quiet private room if the group needs pause. The host handles ordering, pace, and what the food reveals about northern China."
+      },
+      {
+        title: "Afternoon",
+        copy:
+          "The route slows at one major site instead of stacking three. Transport waits nearby, the host explains what to notice, and timing flexes for weather, steps, photography, fatigue, or a small detour."
+      },
+      {
+        title: "Evening",
+        copy:
+          "The day settles with a simple meal, Fenjiu context if appropriate, and a review of what mattered. Logistics for the next road day are adjusted quietly before the traveler needs to ask."
+      }
+    ],
     hostChanges: [
       "Helps decide which old sites deserve time and which can be skipped.",
       "Explains the difference between Buddhist cave art, timber architecture, merchant culture, and everyday northern life.",
@@ -314,6 +341,28 @@ export const chinaRoutePages = {
       { label: "Comfort Level", value: "Comfortable base with temple and mountain textures" },
       { label: "Host Role", value: "Context keeper and practice-culture interpreter" }
     ],
+    sampleDay: [
+      {
+        title: "Morning",
+        copy:
+          "The host starts early if the air is quiet, with a private car into Dengfeng or Songshan before the loudest movement of the day. Temple etiquette, Chan language, and practice culture are introduced before entering the grounds."
+      },
+      {
+        title: "Noon",
+        copy:
+          "Lunch is kept simple and restorative: local dishes, vegetarian Buddhist food where suitable, or a calm table away from performance energy. The host reads fatigue, appetite, and crowd rhythm."
+      },
+      {
+        title: "Afternoon",
+        copy:
+          "A mountain path, courtyard, or practice observation replaces a checklist of shows. The host helps distinguish discipline and repetition from spectacle, with transport positioned so the day can shorten or deepen."
+      },
+      {
+        title: "Evening",
+        copy:
+          "The day closes quietly: tea, a local meal, or a short walk rather than forced entertainment. The host adjusts the next morning around weather, access, body energy, and the traveler’s seriousness."
+      }
+    ],
     hostChanges: [
       "Separates living practice culture from staged martial tourism.",
       "Helps read temple etiquette, Chan language, practice rhythm, and mountain pacing.",
@@ -423,6 +472,28 @@ export const chinaRoutePages = {
       { label: "Pace", value: "Slow, atmospheric, weather-aware" },
       { label: "Comfort Level", value: "Refined stays where available, rural texture nearby" },
       { label: "Host Role", value: "Village reader, tea companion, architecture interpreter" }
+    ],
+    sampleDay: [
+      {
+        title: "Morning",
+        copy:
+          "The day begins with mist, tea, and a slow entry into a village lane before crowds or heat settle in. The host explains white walls, black tiles, clan memory, and why the lane turns the way it does."
+      },
+      {
+        title: "Noon",
+        copy:
+          "Lunch is chosen for regional taste and comfort: vegetables, river fish if suitable, local staples, or a quieter table when the group needs privacy. Payment, ordering, and pacing stay in the background."
+      },
+      {
+        title: "Afternoon",
+        copy:
+          "Ancestral halls, a courtyard interior, tea, or a weather-aware Huangshan approach replaces loud scenic rushing. A private car links villages so the traveler can read the region rather than chase stops."
+      },
+      {
+        title: "Evening",
+        copy:
+          "The route softens into a streamside walk, tea, or a restrained dinner. The host uses the evening to adjust tomorrow around mist, mountain access, village repairs, and the traveler’s appetite for quiet."
+      }
     ],
     hostChanges: [
       "Turns white walls and black tiles into social history rather than scenery.",

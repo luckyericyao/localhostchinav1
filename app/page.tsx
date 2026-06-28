@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { InquirySection } from "@/components/InquirySection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { chinaJourneys } from "@/lib/content";
@@ -30,11 +29,48 @@ const localhostCards = [
   }
 ];
 
+const privateRouteIncludes = [
+  {
+    title: "Private route design",
+    copy: "A route shaped around timing, pace, comfort, curiosity, and the China you want to read."
+  },
+  {
+    title: "Trusted local host matching",
+    copy: "A host is selected for judgment, local fluency, communication, and fit."
+  },
+  {
+    title: "Transport, meals, payments, and translation support",
+    copy: "The practical layer is held quietly so the day can stay coherent."
+  },
+  {
+    title: "Cultural context before and during the journey",
+    copy: "Preparation and interpretation help turn movement into understanding."
+  }
+];
+
 const howItWorks = [
   "Tell us what kind of China you want to enter.",
   "We shape a private route with local context.",
   "A trusted local host helps you enter the place properly.",
   "Logistics, translation, payments, timing, and cultural context are supported."
+];
+
+const trustPreview = [
+  {
+    title: "Selected hosts, not open listings",
+    copy:
+      "Hosts are reviewed for judgment, reliability, communication, and cultural fluency."
+  },
+  {
+    title: "Reviewed intent before matching",
+    copy:
+      "A route is shaped only after timing, comfort, curiosity, and host fit are understood."
+  },
+  {
+    title: "Clear boundaries on both sides",
+    copy:
+      "Hosts are not servants, entertainers, or 24/7 staff. Travelers are expected to respect local dignity."
+  }
 ];
 
 const networkLinks = [
@@ -49,9 +85,9 @@ const networkLinks = [
     href: "/hosts"
   },
   {
-    title: "Host Credits",
-    copy: "Host at home. Travel back home somewhere else.",
-    href: "/host-credits"
+    title: "Trust Model",
+    copy: "Clear boundaries for travelers, hosts, dignity, and review before matching.",
+    href: "/trust"
   }
 ];
 
@@ -86,11 +122,8 @@ export default function Home() {
               <Link className="button button--light" href="/inquiry">
                 Request a Private Route
               </Link>
-              <Link className="button button--ghost" href="/hosts">
-                Become a Host
-              </Link>
-              <Link className="button button--ghost" href="/china">
-                Explore China chapters
+              <Link className="button button--ghost" href="/journeys">
+                Explore China Routes
               </Link>
             </div>
             <p className="positioning-line">
@@ -113,6 +146,45 @@ export default function Home() {
               travelers who want to enter a place through trusted people, not
               consume it through standard tourism.
             </p>
+          </div>
+        </section>
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Private Route Scope</p>
+            <h2>What a Private Route Includes</h2>
+          </div>
+          <div className="support-card-grid">
+            {privateRouteIncludes.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Trust Model</p>
+            <h2>Trust before scale.</h2>
+            <p>
+              A local-host network only works when both travelers and hosts are
+              protected.
+            </p>
+          </div>
+          <div className="support-card-grid support-card-grid--three">
+            {trustPreview.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
+          <div className="section-action">
+            <Link className="text-link" href="/trust">
+              Read the trust model
+            </Link>
           </div>
         </section>
 
@@ -171,6 +243,10 @@ export default function Home() {
                 <span className="visual-journey-copy">
                   <span>{journey.place}</span>
                   <strong>{journey.line}</strong>
+                  <dl className="journey-best-for">
+                    <dt>Best for</dt>
+                    <dd>{journey.bestFor}</dd>
+                  </dl>
                   <small>{journey.summary}</small>
                 </span>
               </Link>
@@ -225,13 +301,30 @@ export default function Home() {
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/china">
-                Explore China chapters
+                Explore China Routes
               </Link>
             </div>
           </div>
         </section>
 
-        <InquirySection id="private-route-inquiry" compact />
+        <section className="section section--inquiry inquiry-preview-section">
+          <div className="inquiry-preview">
+            <div className="section-heading">
+              <p className="eyebrow">Private Route Review</p>
+              <h2>Begin with the China you want to understand.</h2>
+            </div>
+            <div className="editorial-copy">
+              <p>
+                Every private route begins with a quiet review of intent,
+                timing, comfort, curiosity, and host fit. This is not instant
+                booking.
+              </p>
+              <Link className="button button--dark" href="/inquiry">
+                Request Private Route Review
+              </Link>
+            </div>
+          </div>
+        </section>
       </main>
       <SiteFooter />
     </>

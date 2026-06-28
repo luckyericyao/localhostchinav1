@@ -25,6 +25,7 @@ export type ChinaRoutePageContent = {
   hostHelps: readonly string[];
   handles: readonly string[];
   snapshot: readonly SnapshotItem[];
+  sampleDay: readonly RouteBlock[];
   hostChanges: readonly string[];
   variants: readonly RouteBlock[];
   practicalNotes: readonly string[];
@@ -82,6 +83,25 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               </div>
             ))}
           </dl>
+        </section>
+
+        <section className="section">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Example Rhythm</p>
+            <h2>A Day Might Feel Like This</h2>
+            <p>
+              One possible rhythm, adjusted by the host around timing, weather,
+              appetite, local conditions, and how the day is actually moving.
+            </p>
+          </div>
+          <div className="support-card-grid">
+            {route.sampleDay.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="section intro-section">

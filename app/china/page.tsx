@@ -129,6 +129,10 @@ export default function ChinaPage() {
                 <div className="route-entry-copy">
                   <p className="eyebrow">{journey.place}</p>
                   <h3>{journey.line}</h3>
+                  <dl className="route-best-for">
+                    <dt>Best for</dt>
+                    <dd>{journey.bestFor}</dd>
+                  </dl>
                   <p>{journey.summary}</p>
                   <Link
                     className="text-link text-link--light"
