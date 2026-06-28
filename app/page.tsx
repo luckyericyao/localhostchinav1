@@ -32,19 +32,23 @@ const localhostCards = [
 const privateRouteIncludes = [
   {
     title: "Private route design",
-    copy: "A route shaped around timing, pace, comfort, curiosity, and the China you want to read."
+    copy:
+      "A route shaped around timing, interests, comfort level, local rhythm, and the China the traveler wants to understand."
   },
   {
     title: "Trusted local host matching",
-    copy: "A host is selected for judgment, local fluency, communication, and fit."
+    copy:
+      "A selected local host or chapter contact matched for judgment, cultural fluency, reliability, and route fit."
   },
   {
-    title: "Transport, meals, payments, and translation support",
-    copy: "The practical layer is held quietly so the day can stay coherent."
+    title: "Practical support",
+    copy:
+      "Transport rhythm, meals, payments, translation, communication, and small local decisions handled with quiet care."
   },
   {
-    title: "Cultural context before and during the journey",
-    copy: "Preparation and interpretation help turn movement into understanding."
+    title: "Cultural context",
+    copy:
+      "Before and during the route, Localhost helps the traveler understand what they are seeing, eating, entering, and missing."
   }
 ];
 

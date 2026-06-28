@@ -46,17 +46,17 @@ const operatingTrust = [
   {
     title: "Host verification",
     copy:
-      "Hosts are selected and reviewed for identity, reliability, judgment, communication, and their ability to represent a local world with care."
+      "Hosts are reviewed for judgment, reliability, communication quality, cultural fluency, and the ability to represent a place with care."
   },
   {
     title: "Traveler safety and local support",
     copy:
-      "Localhost provides route-level coordination, local judgment, practical support, and adjustment around timing, transport, meals, language, and local conditions."
+      "Localhost supports route-level coordination, local judgment, timing, communication, transport rhythm, and practical decisions. It is not emergency response or 24/7 personal staffing."
   },
   {
     title: "Clear scope and boundaries",
     copy:
-      "Localhost is not emergency response, not 24/7 personal staff, and not a public guide marketplace. The route is held by agreed scope, host fit, and mutual respect."
+      "Every route should clarify what is included, what is not included, how host time works, and where Localhost may redirect or decline an inquiry that is not a fit."
   }
 ];
 
@@ -116,8 +116,8 @@ export default function TrustPage() {
 
         <section className="section">
           <div className="section-heading section-heading--center">
-            <p className="eyebrow">Operating Trust</p>
-            <h2>Support with boundaries, not open-ended service.</h2>
+            <p className="eyebrow">Commercial Trust</p>
+            <h2>How Trust Works in Practice</h2>
           </div>
           <div className="support-card-grid support-card-grid--three">
             {operatingTrust.map((item) => (

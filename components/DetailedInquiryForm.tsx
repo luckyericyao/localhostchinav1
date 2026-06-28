@@ -1296,7 +1296,7 @@ export function DetailedInquiryForm() {
 
       <div className="inquiry-actions inquiry-actions--sticky">
         <button className="button button--dark" type="submit">
-          Request Private Route Review
+          Prepare Email Inquiry
         </button>
         <p>Every inquiry is manually reviewed before any route is confirmed.</p>
       </div>
@@ -1304,8 +1304,8 @@ export function DetailedInquiryForm() {
       {prepared ? (
         <div className="form-status form-status--success" role="status">
           <strong>
-            Inquiry prepared. Send it by email so we can review fit, route
-            direction, and host availability.
+            Inquiry prepared. Send it by email so we can review route fit,
+            timing, and host availability.
           </strong>
           <p>
             {preparedSummary ? `${preparedSummary}. ` : null}
