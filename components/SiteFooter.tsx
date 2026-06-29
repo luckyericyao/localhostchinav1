@@ -7,7 +7,8 @@ export function SiteFooter() {
         <p className="footer-title">Localhost Global — Travel Back Home.</p>
         <p>
           Every place is someone&apos;s home. Localhost is a private local-host
-          network for cultural context, trusted hospitality, and quiet support.
+          network for cultural context, trusted hospitality, and practical
+          steadiness.
         </p>
         <p>
           Not a travel agency. Not a tour marketplace. Not instant booking. A
@@ -29,9 +30,6 @@ export function SiteFooter() {
       <div className="footer-actions" aria-label="Footer actions">
         <Link className="button button--light" href="/inquiry">
           Request a Private Route
-        </Link>
-        <Link className="text-link text-link--light" href="/hosts">
-          Become a Host
         </Link>
       </div>
     </footer>

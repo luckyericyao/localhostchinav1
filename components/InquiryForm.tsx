@@ -61,7 +61,7 @@ const roleCards: Array<{ role: InquiryRole; title: string; copy: string }> = [
   {
     role: "Traveler",
     title: "I am a Traveler",
-    copy: "I want a private route, host fit, and quiet support in China."
+    copy: "I want a private route, host fit, and practical steadiness in China."
   },
   {
     role: "Host",
@@ -106,7 +106,7 @@ const supportOptions = [
   "Hosted private route",
   "Fully held China chapter",
   "Payment / apps / language support",
-  "Food and local rhythm",
+  "Food, movement, and local interpretation",
   "Not sure yet"
 ];
 

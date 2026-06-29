@@ -33,7 +33,7 @@ const privateRouteIncludes = [
   {
     title: "Private route design",
     copy:
-      "A route shaped around timing, interests, comfort level, local rhythm, and the China the traveler wants to understand."
+      "A route shaped around timing, interests, comfort level, cultural reading, and the China the traveler wants to understand."
   },
   {
     title: "Trusted local host matching",
@@ -43,12 +43,36 @@ const privateRouteIncludes = [
   {
     title: "Practical support",
     copy:
-      "Transport rhythm, meals, payments, translation, communication, and small local decisions handled with quiet care."
+      "Transport rhythm, meals, payments, translation, communication, and small local decisions handled in the background."
   },
   {
     title: "Cultural context",
     copy:
       "Before and during the route, Localhost helps the traveler understand what they are seeing, eating, entering, and missing."
+  }
+];
+
+const featuredRoutePreview = [
+  {
+    place: "Shanxi",
+    line: "Ancient architecture, Buddhist depth, road-based northern history.",
+    length: "4–6 days",
+    entry: "Taiyuan or Datong",
+    href: "/china/shanxi"
+  },
+  {
+    place: "Shaolin",
+    line: "Chan atmosphere, martial discipline, mountain stillness.",
+    length: "3–5 days",
+    entry: "Zhengzhou or Luoyang",
+    href: "/china/shaolin"
+  },
+  {
+    place: "Huizhou",
+    line: "Villages, tea, ancestral halls, Huangshan atmosphere.",
+    length: "4–6 days",
+    entry: "Huangshan, Hangzhou, or Shanghai extension",
+    href: "/china/huizhou"
   }
 ];
 
@@ -133,6 +157,29 @@ export default function Home() {
             <p className="positioning-line">
               A private local-host network, starting with China.
             </p>
+          </div>
+        </section>
+
+        <section className="section section--stone featured-route-preview-section">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Featured China Routes</p>
+            <h2>Three clear ways into cultural China.</h2>
+          </div>
+          <div className="arrangement-grid arrangement-grid--three">
+            {featuredRoutePreview.map((route) => (
+              <Link
+                className="arrangement-card arrangement-card--link featured-route-card"
+                href={route.href}
+                key={route.place}
+              >
+                <h3>{route.place}</h3>
+                <p>{route.line}</p>
+                <p className="featured-route-meta">
+                  Ideal length: {route.length}. Entry: {route.entry}.
+                </p>
+                <span className="arrangement-cue">View Route</span>
+              </Link>
+            ))}
           </div>
         </section>
 
@@ -226,7 +273,7 @@ export default function Home() {
 
         <section className="section section--dark" id="journeys">
           <div className="section-heading">
-            <p className="eyebrow">Featured China Chapters</p>
+            <p className="eyebrow">Featured China Routes</p>
             <h2>Three private routes into cultural China.</h2>
           </div>
           <div className="journey-grid">

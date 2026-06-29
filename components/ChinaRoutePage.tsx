@@ -113,8 +113,8 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               This is a private cultural route, not a rigid itinerary.
             </p>
             <p>
-              The shape depends on timing, appetite, weather, local rhythm, and
-              the questions the traveler brings.
+              The shape depends on timing, appetite, weather, local
+              interpretation, and the questions the traveler brings.
             </p>
           </div>
         </section>
@@ -179,7 +179,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
         <section className="section section--dark">
           <div className="section-heading">
             <p className="eyebrow">What A Local Host Decodes</p>
-            <h2>Context, timing, food, language, and local rhythm.</h2>
+            <h2>Context, timing, food, language, and cultural reading.</h2>
           </div>
           <ul className="reference-matrix reference-matrix--dark">
             {route.hostHelps.map((item) => (
@@ -191,7 +191,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">What Localhost Handles</p>
-            <h2>Quiet support around the route.</h2>
+            <h2>Practical steadiness around the route.</h2>
           </div>
           <ul className="reference-matrix">
             {route.handles.map((item) => (
@@ -242,7 +242,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
         <section className="section final-section">
           <div className="section-heading">
             <p className="eyebrow">Private Route Inquiry</p>
-            <h2>Enter the chapter with a local rhythm.</h2>
+            <h2>Enter the chapter with context and judgment.</h2>
           </div>
           <div className="editorial-copy">
             <p>{route.final}</p>

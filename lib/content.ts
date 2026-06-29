@@ -76,7 +76,7 @@ export const futureChinaJourneys = [
     line: "Power, history, and local life.",
     href: "/china#beijing",
     summary:
-      "A future chapter for imperial memory, everyday neighborhoods, food, power, and the local rhythm behind the capital."
+      "A future chapter for imperial memory, everyday neighborhoods, food, power, and the cultural reading behind the capital."
   },
   {
     place: "Chengdu",
@@ -669,13 +669,13 @@ export const chinaSupportPages = {
       ]
     },
     final: {
-      eyebrow: "Signature China Journeys",
+      eyebrow: "Signature China Routes",
       title: "Start with the route that feels alive.",
       body:
-        "Shanxi, Shaolin, Huizhou, and Shanghai are starting points. The real route is shaped by the traveler’s curiosity and the local rhythm of the place.",
+        "Shanxi, Shaolin, Huizhou, and Shanghai are starting points. The real route is shaped by the traveler’s curiosity, timing, food, movement, and judgment.",
       primaryLabel: "Request a Private Route",
       primaryHref: "/inquiry",
-      secondaryLabel: "Explore Signature China Journeys",
+      secondaryLabel: "Explore Signature China Routes",
       secondaryHref: "/china#journeys"
     }
   },
@@ -806,7 +806,7 @@ export const chinaSupportPages = {
         "Real access is the difference between seeing a place and understanding the texture of how people live there.",
       primaryLabel: "Request a Private Route",
       primaryHref: "/inquiry",
-      secondaryLabel: "Explore China Journeys",
+      secondaryLabel: "Explore China Routes",
       secondaryHref: "/china#journeys"
     }
   }

@@ -685,6 +685,26 @@ function InquiryBlock({
   );
 }
 
+function InquiryStage({
+  children,
+  copy,
+  title
+}: {
+  children: ReactNode;
+  copy: string;
+  title: string;
+}) {
+  return (
+    <section className="inquiry-stage">
+      <div className="inquiry-stage-heading">
+        <h2>{title}</h2>
+        <p>{copy}</p>
+      </div>
+      <div className="inquiry-stage-body">{children}</div>
+    </section>
+  );
+}
+
 export function DetailedInquiryForm() {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState<InquiryErrors>({});
@@ -881,110 +901,119 @@ export function DetailedInquiryForm() {
 
       {values.role === "Traveler" ? (
         <>
-          <InquiryBlock
-            copy="Start with the practical frame: timing, group shape, and how familiar China already feels."
-            eyebrow="Traveler Basics"
-            title="Who is entering China, and with what context?"
+          <InquiryStage
+            copy="Start with who is traveling, when, and the first China you want to understand."
+            title="Essential Intake"
           >
-            <div className="field-pair">
-              <InputField
-                error={errors.name}
-                label="Name"
-                name="name"
-                onChange={updateField}
-                value={values.name}
-              />
-              <InputField
-                error={errors.email}
-                label="Email"
-                name="email"
-                onChange={updateField}
-                type="email"
-                value={values.email}
-              />
-            </div>
-            <div className="field-pair">
-              <InputField
-                error={errors.origin}
-                label="Where are you from?"
-                name="origin"
-                onChange={updateField}
-                value={values.origin}
-              />
-              <InputField
-                error={errors.timing}
-                label="When are you considering China?"
-                name="timing"
-                onChange={updateField}
-                value={values.timing}
-              />
-            </div>
-            <div className="field-pair">
-              <SelectField
-                error={errors.groupSize}
-                label="Number of travelers"
-                name="groupSize"
-                onChange={updateField}
-                options={groupSizeOptions}
-                placeholder="Select group size"
-                value={values.groupSize}
-              />
-              <SelectField
-                error={errors.tripLength}
-                label="Trip length"
-                name="tripLength"
-                onChange={updateField}
-                options={tripLengthOptions}
-                placeholder="Select trip length"
-                value={values.tripLength}
-              />
-            </div>
-            <div className="field-pair">
-              <SelectField
-                label="Relationship with China"
-                name="relationshipWithChina"
-                onChange={updateField}
-                options={relationshipWithChinaOptions}
-                value={values.relationshipWithChina}
-              />
-              <SelectField
-                label="Traveling with"
-                name="travelingWith"
-                onChange={updateField}
-                options={travelingWithOptions}
-                value={values.travelingWith}
-              />
-            </div>
-          </InquiryBlock>
+            <InquiryBlock
+              copy="Start with the practical frame: timing, group shape, and how familiar China already feels."
+              eyebrow="Traveler Basics"
+              title="Who is entering China, and with what context?"
+            >
+              <div className="field-pair">
+                <InputField
+                  error={errors.name}
+                  label="Name"
+                  name="name"
+                  onChange={updateField}
+                  value={values.name}
+                />
+                <InputField
+                  error={errors.email}
+                  label="Email"
+                  name="email"
+                  onChange={updateField}
+                  type="email"
+                  value={values.email}
+                />
+              </div>
+              <div className="field-pair">
+                <InputField
+                  error={errors.origin}
+                  label="Where are you from?"
+                  name="origin"
+                  onChange={updateField}
+                  value={values.origin}
+                />
+                <InputField
+                  error={errors.timing}
+                  label="When are you considering China?"
+                  name="timing"
+                  onChange={updateField}
+                  value={values.timing}
+                />
+              </div>
+              <div className="field-pair">
+                <SelectField
+                  error={errors.groupSize}
+                  label="Number of travelers"
+                  name="groupSize"
+                  onChange={updateField}
+                  options={groupSizeOptions}
+                  placeholder="Select group size"
+                  value={values.groupSize}
+                />
+                <SelectField
+                  error={errors.tripLength}
+                  label="Trip length"
+                  name="tripLength"
+                  onChange={updateField}
+                  options={tripLengthOptions}
+                  placeholder="Select trip length"
+                  value={values.tripLength}
+                />
+              </div>
+              <div className="field-pair">
+                <SelectField
+                  label="Relationship with China"
+                  name="relationshipWithChina"
+                  onChange={updateField}
+                  options={relationshipWithChinaOptions}
+                  value={values.relationshipWithChina}
+                />
+                <SelectField
+                  label="Traveling with"
+                  name="travelingWith"
+                  onChange={updateField}
+                  options={travelingWithOptions}
+                  value={values.travelingWith}
+                />
+              </div>
+            </InquiryBlock>
 
-          <InquiryBlock
-            copy="Choose the route direction and the kind of China you want a local host to help you read."
-            eyebrow="Route Interest"
-            title="What kind of China do you want?"
-          >
-            <SelectField
-              error={errors.route}
-              label="Route interest"
-              name="route"
-              onChange={updateField}
-              options={routeOptions}
-              placeholder="Select route interest"
-              value={values.route}
-            />
-            <ChoiceGroup
-              name="chinaInterests"
-              onToggle={toggleChoice}
-              options={chinaInterestOptions}
+            <InquiryBlock
+              copy="Choose the route direction and the kind of China you want a local host to help you read."
+              eyebrow="Route Interest"
               title="What kind of China do you want?"
-              values={values.chinaInterests}
-            />
-          </InquiryBlock>
+            >
+              <SelectField
+                error={errors.route}
+                label="Route interest"
+                name="route"
+                onChange={updateField}
+                options={routeOptions}
+                placeholder="Select route interest"
+                value={values.route}
+              />
+              <ChoiceGroup
+                name="chinaInterests"
+                onToggle={toggleChoice}
+                options={chinaInterestOptions}
+                title="What kind of China do you want?"
+                values={values.chinaInterests}
+              />
+            </InquiryBlock>
+          </InquiryStage>
 
-          <InquiryBlock
-            copy="Food is often the most direct way into a place. This helps us understand risk, privacy, appetite, and table rhythm."
-            eyebrow="Food Preferences"
-            title="How do you want to eat?"
+          <InquiryStage
+            copy="Food, day rhythm, comfort, transport, host fit, and support needs help us shape the route without flattening it into a template."
+            title="Taste & Comfort Details"
           >
+            <InquiryBlock
+              copy="Food is often the most direct way into a place. This helps us understand risk, privacy, appetite, and table rhythm."
+              eyebrow="Food Preferences"
+              title="How do you want to eat?"
+            >
             <ChoiceGroup
               error={errors.diningStyles}
               name="diningStyles"
@@ -1074,7 +1103,7 @@ export function DetailedInquiryForm() {
           </InquiryBlock>
 
           <InquiryBlock
-            copy="These details help us understand the quiet infrastructure around the journey: hotels, movement, privacy, and what to avoid."
+            copy="These details help us understand the background infrastructure around the journey: hotels, movement, privacy, and what to avoid."
             eyebrow="Comfort / Rich-Person Logistics"
             title="What needs to feel easy?"
           >
@@ -1162,6 +1191,7 @@ export function DetailedInquiryForm() {
               value={values.finalNotes}
             />
           </InquiryBlock>
+          </InquiryStage>
         </>
       ) : null}
 
@@ -1296,7 +1326,7 @@ export function DetailedInquiryForm() {
 
       <div className="inquiry-actions inquiry-actions--sticky">
         <button className="button button--dark" type="submit">
-          Prepare Email Inquiry
+          Request Private Route Review
         </button>
         <p>Every inquiry is manually reviewed before any route is confirmed.</p>
       </div>

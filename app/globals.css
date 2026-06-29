@@ -498,6 +498,19 @@ h3 {
   margin-bottom: 24px;
 }
 
+.featured-route-card h3 {
+  margin-bottom: 22px;
+}
+
+.featured-route-card p + p {
+  margin-top: 16px;
+}
+
+.featured-route-meta {
+  color: var(--deep-brown) !important;
+  font-size: 0.92rem;
+}
+
 .arrangement-card p,
 .principle-card p {
   color: var(--warm-gray);
@@ -1176,6 +1189,34 @@ h3 {
 
 .detailed-inquiry-form {
   gap: 22px;
+}
+
+.inquiry-stage {
+  display: grid;
+  gap: 18px;
+}
+
+.inquiry-stage-heading {
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  gap: 8px;
+  padding: 8px 0 18px;
+}
+
+.inquiry-stage-heading h2 {
+  font-size: 2.15rem;
+  margin: 0;
+}
+
+.inquiry-stage-heading p {
+  color: var(--warm-gray);
+  margin: 0;
+  max-width: 720px;
+}
+
+.inquiry-stage-body {
+  display: grid;
+  gap: 18px;
 }
 
 .entry-path-grid {

@@ -6,9 +6,9 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { chinaJourneys, futureChinaJourneys } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "China Journeys — Localhost Global",
+  title: "China Routes — Localhost Global",
   description:
-    "A Localhost China cultural atlas: Shanxi, Shaolin, Huizhou, and future chapters held as cultural entry points."
+    "A Localhost China route atlas: Shanxi, Shaolin, Huizhou, and future chapters held as cultural entry points."
 };
 
 const atlasEntries = [
@@ -117,14 +117,14 @@ export default function JourneysPage() {
       <main>
         <section className="page-hero support-hero">
           <div>
-            <p className="eyebrow">Journeys</p>
+            <p className="eyebrow">China Routes</p>
             <h1>A cultural atlas for the China you want to enter.</h1>
           </div>
           <div className="page-hero-copy">
             <p>
-              Localhost routes are shaped around local rhythm, cultural
-              decoding, practical confidence, and the questions travelers bring.
-              They are not fixed tour products.
+              Localhost routes are shaped around timing, food, movement,
+              judgment, cultural decoding, practical confidence, and the
+              questions travelers bring. They are not fixed tour products.
             </p>
             <Link className="button button--dark" href="/inquiry">
               Request a Private Route
