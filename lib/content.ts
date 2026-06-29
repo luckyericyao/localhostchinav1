@@ -30,8 +30,8 @@ export const chinaJourneys = [
     place: "Shanxi",
     line: "Ancient China, without the tourist filter.",
     href: "/china/shanxi",
-    image: "/images/shanxi-flagship.png",
-    alt: "Ancient northern Chinese architecture and mountain temple roads representing Shanxi.",
+    image: "/images/shanxi-ancient-grotto.png",
+    alt: "Weathered Buddhist grotto stone and old timber temple architecture in Shanxi.",
     summary:
       "Ancient temples, caves, wooden pagodas, merchant courtyards, noodles, Fenjiu, Buddhist mountains, and northern Chinese civilization — best understood with someone who knows the roads and the context.",
     bestFor:
@@ -42,8 +42,8 @@ export const chinaJourneys = [
     place: "Shaolin",
     line: "Zen practice, martial discipline, and mountain stillness.",
     href: "/china/shaolin",
-    image: "/images/shaolin-dengfeng.png",
-    alt: "A quiet Shaolin temple courtyard near misted mountains at dawn.",
+    image: "/images/shaolin-songshan-steps.png",
+    alt: "Ancient stone steps beside a quiet Songshan monastery wall in morning haze.",
     summary:
       "A private cultural route around Dengfeng and Songshan, centered on temple atmosphere, Chan heritage, martial practice, mountain roads, discipline, and stillness.",
     bestFor: "Chan atmosphere, martial discipline, mountain stillness"
@@ -52,8 +52,8 @@ export const chinaJourneys = [
     place: "Huizhou",
     line: "Hidden villages, ink landscapes, and the road to Huangshan.",
     href: "/china/huizhou",
-    image: "/images/huizhou-huangshan.png",
-    alt: "A misty Huizhou village with white walls, black tiles, stone lanes, and mountain peaks.",
+    image: "/images/huizhou-rain-courtyard.png",
+    alt: "A rain-washed Huizhou lane with white walls, dark tiled roofs, and mountain mist.",
     summary:
       "A private route through old villages, ancestral halls, tea culture, stone lanes, mountain mist, and the quiet beauty of southern Chinese built culture.",
     bestFor: "Villages, tea, ancestral halls, ink landscape"
@@ -153,8 +153,8 @@ export const chinaRoutePages = {
     eyebrow: "Flagship China Route",
     title: "Shanxi — Ancient China, without the tourist filter.",
     thesis: "Ancient China, without the tourist filter.",
-    image: "/images/shanxi-flagship.png",
-    alt: "Ancient northern Chinese architecture and mountain temple roads representing Shanxi.",
+    image: "/images/shanxi-ancient-grotto.png",
+    alt: "Weathered Buddhist grotto stone and old timber temple architecture in Shanxi.",
     body:
       "Shanxi opens a northern China of old stone, Buddhist caves, timber halls, merchant courtyards, noodles, Fenjiu, mountain roads, and history that rewards patient local context.",
     opens: [
@@ -285,8 +285,8 @@ export const chinaRoutePages = {
     eyebrow: "Dengfeng / Songshan",
     title: "Shaolin — Zen practice, martial discipline, and mountain stillness.",
     thesis: "Practice before performance.",
-    image: "/images/shaolin-dengfeng.png",
-    alt: "A quiet Shaolin temple courtyard near misted mountains at dawn.",
+    image: "/images/shaolin-songshan-steps.png",
+    alt: "Ancient stone steps beside a quiet Songshan monastery wall in morning haze.",
     body:
       "Shaolin is not a spectacle route. The deeper chapter is Chan Buddhism, martial discipline, mountain paths, morning courtyards, breath, silence, and the body as a cultural language.",
     opens: [
@@ -417,8 +417,8 @@ export const chinaRoutePages = {
     eyebrow: "Huizhou / Huangshan",
     title: "Huizhou — Hidden villages, ink landscapes, and the road to Huangshan.",
     thesis: "Ink, mountain, courtyard, tea.",
-    image: "/images/huizhou-huangshan.png",
-    alt: "A misty Huizhou village with white walls, black tiles, stone lanes, and mountain peaks.",
+    image: "/images/huizhou-rain-courtyard.png",
+    alt: "A rain-washed Huizhou lane with white walls, dark tiled roofs, and mountain mist.",
     body:
       "Huizhou opens a quieter southern China of white walls, black tiles, ancestral halls, mountain mist, tea, old merchant culture, and landscapes that can feel almost painted.",
     opens: [

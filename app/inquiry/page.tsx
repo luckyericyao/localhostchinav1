@@ -24,7 +24,7 @@ export default function InquiryPage() {
     <>
       <SiteHeader />
       <main>
-        <section className="page-hero support-hero">
+        <section className="page-hero support-hero page-hero--inquiry">
           <div>
             <p className="eyebrow">Private Inquiry</p>
             <h1>Tell us how you want to enter China.</h1>

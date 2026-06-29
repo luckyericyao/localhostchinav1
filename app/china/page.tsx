@@ -7,9 +7,9 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { arrangements, chinaJourneys } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Localhost China — A Local Way In",
+  title: "Localhost China — Real Ancient China",
   description:
-    "China as the first Localhost chapter: private routes, trusted hosts, cultural decoding, and practical confidence for thoughtful travelers."
+    "China as the first Localhost chapter: private routes into Real Ancient China, trusted hosts, cultural decoding, and practical confidence."
 };
 
 const whyChina = [
@@ -68,6 +68,14 @@ export default function ChinaPage() {
               etiquette, cities, temples, villages, rhythm, and regional
               history. Localhost China is the first chapter of a private
               local-host network built around context.
+            </p>
+            <p className="support-subhead">
+              Not retro. Not staged. Ancient China, still alive.
+            </p>
+            <p>
+              We do not design routes around retro-themed attractions. We look
+              for places where ancient China still has weight, silence,
+              structure, and continuity.
             </p>
             <Link className="button button--dark" href="/inquiry">
               Request a Private Route

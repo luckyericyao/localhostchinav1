@@ -77,7 +77,7 @@ export default function TrustPage() {
     <>
       <SiteHeader />
       <main>
-        <section className="page-hero support-hero">
+        <section className="page-hero support-hero page-hero--trust">
           <div>
             <p className="eyebrow">Trust</p>
             <h1>A local-host network only works if it protects both sides.</h1>

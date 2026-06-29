@@ -50,6 +50,9 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
             <p className="eyebrow">{route.eyebrow}</p>
             <h1>{route.title}</h1>
             <p>{route.body}</p>
+            <p className="route-ancient-note">
+              Not retro. Not staged. Ancient China, still alive.
+            </p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">
                 {route.ctaLabel}

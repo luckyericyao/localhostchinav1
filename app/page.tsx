@@ -147,8 +147,8 @@ export default function Home() {
       <main>
         <section className="hero">
           <Image
-            src="/images/temple-of-heaven-hero.png"
-            alt="Temple of Heaven architecture under spacious morning sky in Beijing."
+            src="/images/real-ancient-china-hero.png"
+            alt="A quiet ancient stone path leading toward a temple gate in misted morning light."
             fill
             priority
             className="hero-image"
@@ -174,6 +174,9 @@ export default function Home() {
             </div>
             <p className="positioning-line">
               A private local-host network, starting with China.
+            </p>
+            <p className="positioning-line">
+              Not retro. Not staged. Ancient China, still alive.
             </p>
           </div>
         </section>
@@ -214,6 +217,24 @@ export default function Home() {
               Localhost Global is a private local-host network for thoughtful
               travelers who want to enter a place through trusted people, not
               consume it through standard tourism.
+            </p>
+          </div>
+        </section>
+
+        <section className="section intro-section real-ancient-section">
+          <div className="section-heading">
+            <p className="eyebrow">Real Ancient China</p>
+            <h2>Older, quieter China still carries weight.</h2>
+          </div>
+          <div className="editorial-copy">
+            <p className="lead">
+              Not retro. Not staged. Ancient China, still alive.
+            </p>
+            <p>
+              Localhost China is not built around retro nostalgia or staged
+              cultural spectacle. We focus on older, quieter China: ancient
+              capitals, ritual landscapes, temples, grottoes, stone roads,
+              walled cities, and the living context behind them.
             </p>
           </div>
         </section>
