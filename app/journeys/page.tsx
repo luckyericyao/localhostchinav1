@@ -6,9 +6,9 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { chinaJourneys, futureChinaJourneys } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "China Routes — Localhost Global",
+  title: "China Journeys — Localhost Global",
   description:
-    "A Localhost China route atlas: Shanxi, Shaolin, Huizhou, and future chapters held as cultural entry points."
+    "A Localhost China journey atlas: Shanxi, Shaolin, Huizhou, and future chapters held as cultural entry points."
 };
 
 const atlasEntries = [
@@ -117,7 +117,7 @@ export default function JourneysPage() {
       <main>
         <section className="page-hero support-hero">
           <div>
-            <p className="eyebrow">China Routes</p>
+            <p className="eyebrow">China Journeys</p>
             <h1>A cultural atlas for the China you want to enter.</h1>
           </div>
           <div className="page-hero-copy">

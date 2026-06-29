@@ -18,14 +18,14 @@ export function SiteFooter() {
       </div>
       <nav aria-label="Footer navigation">
         <Link href="/china">China</Link>
-        <Link href="/journeys">Routes</Link>
-        <Link href="/travelers">For Travelers</Link>
-        <Link href="/hosts">For Hosts</Link>
+        <Link href="/journeys">Journeys</Link>
+        <Link href="/travelers">Travelers</Link>
+        <Link href="/hosts">Hosts</Link>
         <Link href="/trust">Trust</Link>
+        <Link href="/inquiry">Inquiry</Link>
         <Link href="/about">About</Link>
         <Link href="/how-it-works">How It Works</Link>
         <Link href="/host-credits">Host Credits</Link>
-        <Link href="/inquiry">Inquiry</Link>
       </nav>
       <div className="footer-actions" aria-label="Footer actions">
         <Link className="button button--light" href="/inquiry">

@@ -83,6 +83,24 @@ const howItWorks = [
   "Logistics, translation, payments, timing, and cultural context are supported."
 ];
 
+const entryWays = [
+  {
+    title: "Route Advisory",
+    copy:
+      "Direction, timing, cultural context, food, and practical preparation before you move independently."
+  },
+  {
+    title: "Hosted Private Route",
+    copy:
+      "A selected host joins key moments: meals, movement, interpretation, and decisions where local judgment matters."
+  },
+  {
+    title: "Fully Held China Chapter",
+    copy:
+      "Route design, host layer, logistics, timing, translation, payments, and day-to-day support held together."
+  }
+];
+
 const trustPreview = [
   {
     title: "Selected hosts, not open listings",
@@ -151,7 +169,7 @@ export default function Home() {
                 Request a Private Route
               </Link>
               <Link className="button button--ghost" href="/journeys">
-                Explore China Routes
+                Explore China Chapters
               </Link>
             </div>
             <p className="positioning-line">
@@ -319,6 +337,21 @@ export default function Home() {
 
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
+            <p className="eyebrow">Private China Intake</p>
+            <h2>Three ways to enter China</h2>
+          </div>
+          <div className="support-card-grid support-card-grid--three">
+            {entryWays.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
             <p className="eyebrow">Two-Sided Network</p>
             <h2>Travelers, hosts, and reciprocal hospitality.</h2>
           </div>
@@ -352,7 +385,7 @@ export default function Home() {
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/china">
-                Explore China Routes
+                Explore China Chapters
               </Link>
             </div>
           </div>

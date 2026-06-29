@@ -1328,7 +1328,10 @@ export function DetailedInquiryForm() {
         <button className="button button--dark" type="submit">
           Request Private Route Review
         </button>
-        <p>Every inquiry is manually reviewed before any route is confirmed.</p>
+        <p>
+          Submit a private inquiry. We review fit, timing, and local feasibility
+          before any route is confirmed.
+        </p>
       </div>
 
       {prepared ? (
