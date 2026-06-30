@@ -147,8 +147,8 @@ export default function Home() {
       <main>
         <section className="hero">
           <Image
-            src="/images/real-ancient-china-hero.png"
-            alt="A quiet ancient stone path leading toward a temple gate in misted morning light."
+            src="/images/temple-of-heaven-centered-hero.png"
+            alt="The Temple of Heaven Hall of Prayer for Good Harvests centered in quiet morning light."
             fill
             priority
             className="hero-image"
