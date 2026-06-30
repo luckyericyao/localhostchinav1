@@ -1104,7 +1104,7 @@ export function DetailedInquiryForm() {
 
           <InquiryBlock
             copy="These details help us understand the background infrastructure around the journey: hotels, movement, privacy, and what to avoid."
-            eyebrow="Comfort / Rich-Person Logistics"
+            eyebrow="Comfort / Private Logistics"
             title="What needs to feel easy?"
           >
             <SelectField
@@ -1186,7 +1186,7 @@ export function DetailedInquiryForm() {
               label="Anything unusually specific, sensitive, or important that the options did not capture?"
               name="finalNotes"
               onChange={updateField}
-              placeholder="Example: I need clean bathrooms and coffee. I hate crowds. I care more about food than landmarks. I want local alcohol culture but not heavy drinking. I need private rooms for business meals."
+              placeholder="Example: I need clean bathrooms and coffee. I avoid crowds. I care more about food than landmarks. I want local alcohol culture but not heavy drinking. I need private rooms for business meals."
               rows={6}
               value={values.finalNotes}
             />

@@ -1218,6 +1218,14 @@ h3 {
   padding: 44px;
 }
 
+.inquiry-preview--compact {
+  align-items: center;
+}
+
+.inquiry-preview--compact .button {
+  margin-top: 8px;
+}
+
 .quiet-panel {
   border-top: 1px solid var(--border);
   padding: 34px 0 0;

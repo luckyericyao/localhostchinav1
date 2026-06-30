@@ -7,7 +7,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 export const metadata: Metadata = {
   title: "Private Route Preference Intake — Localhost Global",
   description:
-    "A detailed private China route intake for food rhythm, comfort, curiosity, host fit, and quiet practical support."
+    "A detailed private China route intake for food rhythm, comfort, curiosity, host fit, and practical support."
 };
 
 const afterSubmit = [

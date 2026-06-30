@@ -603,7 +603,7 @@ export function InquiryForm() {
 
       <div className="inquiry-actions">
         <button className="button button--dark" type="submit">
-          Prepare Email Inquiry
+          Request Private Route Review
         </button>
         <p>Every inquiry is manually reviewed before any route is confirmed.</p>
       </div>

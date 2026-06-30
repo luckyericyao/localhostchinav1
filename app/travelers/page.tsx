@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 export const metadata: Metadata = {
   title: "Travelers — Localhost Global",
   description:
-    "Private China routes for travelers who want cultural fluency, host fit, and quiet practical support."
+    "Private China routes for travelers who want cultural fluency, host fit, and practical support."
 };
 
 const received = [
@@ -21,9 +21,9 @@ const received = [
       "A person selected for judgment, communication, local fluency, and fit with the chapter."
   },
   {
-    title: "Quiet practical support",
+    title: "Practical steadiness",
     copy:
-      "Help with transport, restaurants, payments, apps, language, timing, and the small decisions that steady the day."
+      "Help with transport, restaurants, payments, apps, language, timing, and the small decisions handled in the background."
   }
 ];
 
@@ -58,7 +58,7 @@ const judgmentAreas = [
   "Language",
   "Transport",
   "Etiquette",
-  "Local rhythm"
+  "Local interpretation"
 ];
 
 const supportLevels = [
@@ -106,8 +106,8 @@ export default function TravelersPage() {
           <div className="page-hero-copy">
             <p>
               Localhost helps travelers enter China through route shaping, host
-              fit, cultural fluency, and practical support that sits quietly in
-              the background.
+              fit, cultural fluency, and practical support handled in the
+              background.
             </p>
             <Link className="button button--dark" href="/inquiry">
               Request a Private Route
@@ -158,7 +158,7 @@ export default function TravelersPage() {
               hotels, and skyline photos.
             </p>
             <Link className="button button--dark" href="/inquiry">
-              Request a private route review
+              Request Private Route Review
             </Link>
           </div>
         </section>
