@@ -1,16 +1,20 @@
 :root {
-  --warm-white: #fffdf8;
-  --ivory: #f6f1e8;
-  --stone: #d8d1c5;
-  --mist: #ebe6dc;
-  --charcoal: #181715;
-  --ink: #0e1110;
-  --warm-gray: #736b62;
-  --deep-brown: #34241c;
-  --olive: #5f6656;
-  --wine: #6e3430;
-  --border: rgba(24, 23, 21, 0.14);
-  --light-border: rgba(255, 253, 248, 0.18);
+  --warm-white: #fbf8f1;
+  --ivory: #f7f2e8;
+  --stone: #d8cbb8;
+  --mist: #eee4d5;
+  --charcoal: #14110c;
+  --ink: #14110c;
+  --warm-gray: #6b6257;
+  --deep-brown: #2b251c;
+  --olive: #68766b;
+  --wine: #9f3a2e;
+  --dark-cinnabar: #7c2a22;
+  --mist-green: #8d9b8f;
+  --mist-dark: #68766b;
+  --mist-soft: #dfe8df;
+  --border: #d8cbb8;
+  --light-border: rgba(251, 248, 241, 0.2);
 }
 
 * {
@@ -23,7 +27,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--warm-white);
+  background: var(--ivory);
   color: var(--charcoal);
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -65,7 +69,7 @@ img {
 }
 
 .site-header--solid {
-  background: rgba(255, 253, 248, 0.94);
+  background: rgba(251, 248, 241, 0.94);
   border-bottom: 1px solid var(--border);
   color: var(--charcoal);
 }
@@ -82,6 +86,32 @@ img {
   gap: 18px;
   justify-content: center;
   white-space: nowrap;
+}
+
+.main-nav a {
+  position: relative;
+}
+
+.main-nav a::after {
+  background: var(--wine);
+  bottom: -8px;
+  content: "";
+  height: 1px;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  transform: scaleX(0.4);
+  transform-origin: left;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+  width: 100%;
+}
+
+.main-nav a:hover::after,
+.main-nav a:focus-visible::after {
+  opacity: 0.72;
+  transform: scaleX(1);
 }
 
 .main-nav a,
@@ -107,15 +137,16 @@ img {
 }
 
 .hero-image {
+  filter: saturate(0.82) contrast(0.9) brightness(0.96);
   object-fit: cover;
   object-position: center center;
 }
 
 .hero-shade {
   background:
-    radial-gradient(circle at 50% 44%, rgba(232, 197, 128, 0.18), rgba(232, 197, 128, 0) 28%),
-    linear-gradient(180deg, rgba(8, 12, 18, 0.86) 0%, rgba(12, 15, 17, 0.34) 34%, rgba(12, 15, 17, 0.12) 58%, rgba(221, 191, 127, 0.24) 84%, rgba(246, 241, 232, 0.34) 100%),
-    linear-gradient(90deg, rgba(10, 12, 14, 0.82), rgba(14, 17, 16, 0.46) 34%, rgba(14, 17, 16, 0.18) 52%, rgba(14, 17, 16, 0.44));
+    radial-gradient(circle at 50% 42%, rgba(251, 248, 241, 0.1), rgba(251, 248, 241, 0) 30%),
+    linear-gradient(180deg, rgba(20, 17, 12, 0.86) 0%, rgba(20, 17, 12, 0.42) 34%, rgba(20, 17, 12, 0.22) 58%, rgba(43, 37, 28, 0.42) 100%),
+    linear-gradient(90deg, rgba(20, 17, 12, 0.84), rgba(20, 17, 12, 0.46) 38%, rgba(20, 17, 12, 0.22) 56%, rgba(20, 17, 12, 0.5));
   inset: 0;
   position: absolute;
 }
@@ -139,7 +170,7 @@ img {
 .section--dark .eyebrow,
 .section--credit .eyebrow,
 .hero .eyebrow {
-  color: #e4c7b8;
+  color: #d8cbb8;
 }
 
 h1,
@@ -180,7 +211,7 @@ h3 {
 }
 
 .hero-body {
-  color: rgba(255, 253, 248, 0.82);
+  color: rgba(251, 248, 241, 0.82);
   font-size: 1.1rem;
   max-width: 600px;
 }
@@ -219,7 +250,7 @@ h3 {
 }
 
 .button--ghost {
-  border: 1px solid rgba(255, 253, 248, 0.56);
+  border: 1px solid rgba(251, 248, 241, 0.56);
   color: var(--warm-white);
 }
 
@@ -228,8 +259,15 @@ h3 {
   color: var(--warm-white);
 }
 
+.button--dark:hover,
+.nav-cta:hover {
+  background: var(--dark-cinnabar);
+  border-color: var(--dark-cinnabar);
+  color: var(--warm-white);
+}
+
 .positioning-line {
-  color: rgba(255, 253, 248, 0.7);
+  color: rgba(251, 248, 241, 0.7);
   font-size: 0.95rem;
   margin-bottom: 0;
 }
@@ -292,173 +330,229 @@ h3 {
 
 .atmosphere-gold {
   background:
-    linear-gradient(180deg, rgba(246, 241, 232, 0.98), rgba(233, 220, 190, 0.86)),
+    linear-gradient(180deg, rgba(247, 242, 232, 0.98), rgba(251, 248, 241, 0.9)),
     var(--ivory);
 }
 
 .atmosphere-gold::before {
   background:
-    radial-gradient(circle at 18% 10%, rgba(214, 176, 102, 0.24), transparent 34%),
-    linear-gradient(135deg, rgba(255, 253, 248, 0.92), rgba(229, 211, 171, 0.26));
+    radial-gradient(circle at 18% 10%, rgba(141, 155, 143, 0.18), transparent 34%),
+    linear-gradient(135deg, rgba(251, 248, 241, 0.92), rgba(238, 228, 213, 0.38));
 }
 
 .atmosphere-gold::after,
 .atmosphere-gold-soft::after {
-  background: radial-gradient(circle, rgba(177, 124, 68, 0.18), rgba(177, 124, 68, 0));
+  background: radial-gradient(circle, rgba(159, 58, 46, 0.1), rgba(159, 58, 46, 0));
 }
 
 .atmosphere-ivory {
   background:
-    linear-gradient(180deg, rgba(255, 253, 248, 0.96), rgba(239, 231, 216, 0.72)),
-    var(--warm-white);
+    linear-gradient(135deg, rgba(20, 17, 12, 0.98), rgba(43, 37, 28, 0.96)),
+    var(--ink);
+  color: var(--warm-white);
 }
 
 .atmosphere-ivory::before {
-  background: radial-gradient(circle at 82% 18%, rgba(95, 102, 86, 0.1), transparent 32%);
+  background:
+    radial-gradient(circle at 82% 18%, rgba(141, 155, 143, 0.14), transparent 32%),
+    radial-gradient(circle at 14% 12%, rgba(159, 58, 46, 0.08), transparent 28%);
 }
 
 .atmosphere-clay,
 .atmosphere-clay-soft {
   background:
-    linear-gradient(135deg, rgba(225, 211, 190, 0.92), rgba(192, 168, 139, 0.56)),
+    linear-gradient(135deg, rgba(247, 242, 232, 0.96), rgba(238, 228, 213, 0.82)),
     var(--mist);
 }
 
 .atmosphere-clay::before,
 .atmosphere-clay-soft::before {
   background:
-    linear-gradient(90deg, rgba(246, 241, 232, 0.9), rgba(246, 241, 232, 0.68), rgba(94, 62, 41, 0.16)),
+    linear-gradient(90deg, rgba(247, 242, 232, 0.92), rgba(247, 242, 232, 0.72), rgba(159, 58, 46, 0.1)),
     url("/images/shanxi-ancient-grotto.png") right center/cover;
-  opacity: 0.38;
+  opacity: 0.3;
 }
 
 .atmosphere-clay::after,
 .atmosphere-clay-soft::after {
-  background: radial-gradient(circle, rgba(119, 75, 43, 0.2), rgba(119, 75, 43, 0));
+  background: radial-gradient(circle, rgba(159, 58, 46, 0.12), rgba(159, 58, 46, 0));
 }
 
 .atmosphere-mist,
 .atmosphere-mist-soft {
   background:
-    linear-gradient(145deg, rgba(224, 228, 218, 0.94), rgba(190, 202, 190, 0.58)),
-    var(--mist);
+    linear-gradient(145deg, rgba(223, 232, 223, 0.96), rgba(141, 155, 143, 0.34)),
+    var(--mist-soft);
 }
 
 .atmosphere-mist::before,
 .atmosphere-mist-soft::before {
   background:
-    linear-gradient(90deg, rgba(246, 241, 232, 0.92), rgba(231, 236, 228, 0.72), rgba(42, 63, 54, 0.18)),
+    linear-gradient(90deg, rgba(251, 248, 241, 0.9), rgba(223, 232, 223, 0.72), rgba(104, 118, 107, 0.18)),
     url("/images/shaolin-songshan-steps.png") right center/cover;
-  opacity: 0.32;
+  opacity: 0.28;
 }
 
 .atmosphere-mist::after,
 .atmosphere-mist-soft::after {
-  background: radial-gradient(circle, rgba(71, 96, 76, 0.2), rgba(71, 96, 76, 0));
+  background: radial-gradient(circle, rgba(104, 118, 107, 0.18), rgba(104, 118, 107, 0));
 }
 
 .atmosphere-ink {
   background:
-    linear-gradient(135deg, rgba(232, 234, 229, 0.94), rgba(184, 198, 193, 0.52)),
+    linear-gradient(135deg, rgba(251, 248, 241, 0.94), rgba(223, 232, 223, 0.62)),
     var(--mist);
 }
 
 .atmosphere-ink::before {
   background:
-    linear-gradient(90deg, rgba(255, 253, 248, 0.9), rgba(236, 240, 236, 0.66), rgba(37, 55, 63, 0.18)),
+    linear-gradient(90deg, rgba(251, 248, 241, 0.9), rgba(223, 232, 223, 0.64), rgba(104, 118, 107, 0.16)),
     url("/images/huizhou-rain-courtyard.png") right center/cover;
-  opacity: 0.34;
+  opacity: 0.3;
 }
 
 .atmosphere-ink::after {
-  background: radial-gradient(circle, rgba(57, 84, 88, 0.18), rgba(57, 84, 88, 0));
+  background: radial-gradient(circle, rgba(104, 118, 107, 0.16), rgba(104, 118, 107, 0));
 }
 
 .atmosphere-routes {
   background:
-    linear-gradient(180deg, rgba(13, 17, 16, 0.98), rgba(28, 30, 27, 0.98)),
+    linear-gradient(180deg, rgba(20, 17, 12, 0.99), rgba(43, 37, 28, 0.98)),
     var(--ink);
   color: var(--warm-white);
 }
 
 .atmosphere-routes::before {
   background:
-    radial-gradient(circle at 18% 20%, rgba(169, 112, 62, 0.24), transparent 34%),
-    radial-gradient(circle at 52% 24%, rgba(73, 104, 83, 0.22), transparent 34%),
-    radial-gradient(circle at 82% 20%, rgba(74, 97, 112, 0.22), transparent 32%);
+    radial-gradient(circle at 18% 20%, rgba(159, 58, 46, 0.14), transparent 34%),
+    radial-gradient(circle at 52% 24%, rgba(141, 155, 143, 0.18), transparent 34%),
+    radial-gradient(circle at 82% 20%, rgba(216, 203, 184, 0.12), transparent 32%);
   opacity: 1;
 }
 
 .atmosphere-dark {
   background:
-    linear-gradient(135deg, rgba(14, 17, 16, 0.98), rgba(43, 31, 28, 0.96)),
+    linear-gradient(135deg, rgba(20, 17, 12, 0.98), rgba(43, 37, 28, 0.96)),
     var(--ink);
   color: var(--warm-white);
 }
 
 .atmosphere-dark::before {
   background:
-    linear-gradient(90deg, rgba(14, 17, 16, 0.94), rgba(14, 17, 16, 0.72), rgba(110, 52, 48, 0.18)),
+    linear-gradient(90deg, rgba(20, 17, 12, 0.94), rgba(20, 17, 12, 0.72), rgba(159, 58, 46, 0.12)),
     url("/images/trust-courtyard-wall.png") right center/cover;
   opacity: 0.28;
 }
 
 .atmosphere-dark::after {
-  background: radial-gradient(circle, rgba(110, 52, 48, 0.22), rgba(110, 52, 48, 0));
+  background: radial-gradient(circle, rgba(159, 58, 46, 0.14), rgba(159, 58, 46, 0));
+}
+
+.atmosphere-gold-soft {
+  background:
+    linear-gradient(135deg, rgba(247, 242, 232, 0.96), rgba(251, 248, 241, 0.82), rgba(223, 232, 223, 0.38)),
+    var(--ivory);
+}
+
+.atmosphere-gold-soft::before {
+  background:
+    radial-gradient(circle at 16% 14%, rgba(141, 155, 143, 0.14), transparent 32%),
+    radial-gradient(circle at 86% 18%, rgba(159, 58, 46, 0.08), transparent 36%);
 }
 
 .atmosphere-dusk,
-.atmosphere-dusk-soft,
-.atmosphere-gold-soft {
+.atmosphere-dusk-soft {
   background:
-    linear-gradient(135deg, rgba(246, 241, 232, 0.96), rgba(219, 194, 164, 0.74), rgba(161, 103, 78, 0.28)),
+    linear-gradient(135deg, rgba(247, 242, 232, 0.96), rgba(238, 228, 213, 0.78), rgba(159, 58, 46, 0.08)),
     var(--ivory);
 }
 
 .atmosphere-dusk::before,
-.atmosphere-dusk-soft::before,
-.atmosphere-gold-soft::before {
+.atmosphere-dusk-soft::before {
   background:
-    radial-gradient(circle at 16% 14%, rgba(229, 193, 126, 0.22), transparent 32%),
-    radial-gradient(circle at 86% 18%, rgba(110, 52, 48, 0.13), transparent 36%);
+    radial-gradient(circle at 16% 14%, rgba(159, 58, 46, 0.1), transparent 32%),
+    radial-gradient(circle at 86% 18%, rgba(104, 118, 107, 0.12), transparent 36%);
 }
 
 .atmosphere-dusk::after,
 .atmosphere-dusk-soft::after {
-  background: radial-gradient(circle, rgba(110, 52, 48, 0.18), rgba(110, 52, 48, 0));
+  background: radial-gradient(circle, rgba(159, 58, 46, 0.1), rgba(159, 58, 46, 0));
 }
 
 .section-atmosphere .arrangement-card,
 .section-atmosphere .support-detail-card,
 .section-atmosphere .rhythm-list li,
 .section-atmosphere .inquiry-preview {
-  backdrop-filter: blur(10px);
-  background: rgba(255, 253, 248, 0.58);
-  box-shadow: 0 24px 80px rgba(24, 23, 21, 0.06);
+  background: rgba(251, 248, 241, 0.76);
+  box-shadow: 0 18px 44px rgba(20, 17, 12, 0.05);
 }
 
 .atmosphere-dark .arrangement-card,
 .atmosphere-dark .support-detail-card,
 .atmosphere-routes .visual-journey-card {
-  background: rgba(255, 253, 248, 0.06);
-  border-color: rgba(255, 253, 248, 0.18);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+  background: rgba(251, 248, 241, 0.055);
+  border-color: rgba(251, 248, 241, 0.2);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.12);
 }
 
 .atmosphere-dark .section-heading p:not(.eyebrow),
 .atmosphere-dark .support-detail-card p,
 .atmosphere-dark .arrangement-card p {
-  color: rgba(255, 253, 248, 0.72);
+  color: rgba(251, 248, 241, 0.72);
+}
+
+.atmosphere-ivory .section-heading p:not(.eyebrow),
+.atmosphere-ivory .editorial-copy,
+.atmosphere-ivory .editorial-copy p {
+  color: rgba(251, 248, 241, 0.72);
+}
+
+.atmosphere-ivory .lead {
+  color: var(--warm-white);
 }
 
 .atmosphere-dark .eyebrow,
+.atmosphere-ivory .eyebrow,
 .atmosphere-routes .eyebrow {
-  color: #e4c7b8;
+  color: var(--mist-soft);
 }
 
 .atmosphere-dark .text-link,
+.atmosphere-ivory .text-link,
 .atmosphere-routes .text-link {
-  color: #e4c7b8;
+  color: #d8cbb8;
+}
+
+.trust-preview-section {
+  background:
+    linear-gradient(135deg, rgba(223, 232, 223, 0.96), rgba(141, 155, 143, 0.42)),
+    var(--mist-soft);
+  color: var(--charcoal);
+}
+
+.trust-preview-section::before {
+  background:
+    linear-gradient(90deg, rgba(251, 248, 241, 0.92), rgba(223, 232, 223, 0.7), rgba(104, 118, 107, 0.16)),
+    url("/images/trust-courtyard-wall.png") right center/cover;
+  opacity: 0.24;
+}
+
+.trust-preview-section::after {
+  background: radial-gradient(circle, rgba(104, 118, 107, 0.16), rgba(104, 118, 107, 0));
+}
+
+.trust-preview-section .eyebrow {
+  color: var(--mist-dark);
+}
+
+.trust-preview-section .section-heading p:not(.eyebrow),
+.trust-preview-section .support-detail-card p {
+  color: var(--warm-gray);
+}
+
+.trust-preview-section .support-detail-card {
+  background: rgba(251, 248, 241, 0.78);
+  border-color: rgba(104, 118, 107, 0.28);
 }
 
 .reveal-image {
@@ -499,6 +593,42 @@ h3 {
   grid-template-columns: minmax(220px, 0.85fr) minmax(300px, 1.15fr);
   margin: 0 auto;
   max-width: 1180px;
+}
+
+.final-section {
+  background: var(--ink);
+  color: var(--warm-white);
+}
+
+.final-section.section-atmosphere::before {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(159, 58, 46, 0.12), transparent 34%),
+    radial-gradient(circle at 86% 20%, rgba(141, 155, 143, 0.1), transparent 36%);
+  opacity: 1;
+}
+
+.final-section.section-atmosphere::after {
+  background: radial-gradient(circle, rgba(159, 58, 46, 0.12), rgba(159, 58, 46, 0));
+}
+
+.final-section .eyebrow,
+.final-section .text-link {
+  color: #d8cbb8;
+}
+
+.final-section .editorial-copy,
+.final-section .editorial-copy p {
+  color: rgba(251, 248, 241, 0.72);
+}
+
+.final-section .button--dark {
+  background: var(--warm-white);
+  color: var(--ink);
+}
+
+.final-section .button--dark:hover {
+  background: var(--wine);
+  color: var(--warm-white);
 }
 
 .section-heading {
@@ -542,7 +672,7 @@ h3 {
 
 .section--dark .editorial-copy,
 .section--credit .editorial-copy {
-  color: rgba(255, 253, 248, 0.72);
+  color: rgba(251, 248, 241, 0.72);
 }
 
 .lead {
@@ -576,7 +706,7 @@ h3 {
 }
 
 .text-link--light {
-  color: #e4c7b8;
+  color: #d8cbb8;
 }
 
 .inline-actions {
@@ -621,7 +751,7 @@ h3 {
 }
 
 .atlas-card {
-  background: rgba(255, 253, 248, 0.44);
+  background: rgba(251, 248, 241, 0.58);
   display: flex;
   flex-direction: column;
   min-height: 290px;
@@ -631,7 +761,7 @@ h3 {
 }
 
 .atlas-card:hover {
-  border-color: rgba(110, 52, 48, 0.36);
+  border-color: rgba(159, 58, 46, 0.34);
   transform: translateY(-1px);
 }
 
@@ -686,7 +816,7 @@ h3 {
 }
 
 .snapshot-item {
-  background: rgba(255, 253, 248, 0.52);
+  background: rgba(251, 248, 241, 0.62);
   min-height: 160px;
 }
 
@@ -724,7 +854,7 @@ h3 {
 }
 
 .arrangement-card--link:hover {
-  border-color: rgba(110, 52, 48, 0.36);
+  border-color: rgba(159, 58, 46, 0.34);
 }
 
 .arrangement-card h3 {
@@ -785,7 +915,7 @@ h3 {
 .route-selector-card::after,
 .atlas-card::after,
 .journey-status-card::after {
-  background: linear-gradient(180deg, rgba(255, 253, 248, 0.9), rgba(255, 253, 248, 0.66));
+  background: linear-gradient(180deg, rgba(251, 248, 241, 0.9), rgba(251, 248, 241, 0.66));
   content: "";
   inset: 0;
   pointer-events: none;
@@ -833,23 +963,23 @@ h3 {
 
 .journeys-atlas-section::before {
   background:
-    linear-gradient(90deg, rgba(255, 253, 248, 0.88), rgba(236, 240, 236, 0.58), rgba(37, 55, 63, 0.14)),
+    linear-gradient(90deg, rgba(251, 248, 241, 0.88), rgba(223, 232, 223, 0.58), rgba(104, 118, 107, 0.14)),
     url("/images/huizhou-rain-courtyard.png") right center/cover;
   opacity: 0.28;
 }
 
 .journeys-future-section::before {
   background:
-    linear-gradient(90deg, rgba(246, 241, 232, 0.92), rgba(231, 236, 228, 0.7), rgba(42, 63, 54, 0.16)),
+    linear-gradient(90deg, rgba(247, 242, 232, 0.92), rgba(223, 232, 223, 0.7), rgba(104, 118, 107, 0.16)),
     url("/images/temple-of-heaven-centered-hero.png") right center/cover;
   opacity: 0.22;
 }
 
 .journeys-final-section::before {
   background:
-    linear-gradient(90deg, rgba(246, 241, 232, 0.94), rgba(232, 211, 186, 0.58), rgba(110, 52, 48, 0.16)),
+    linear-gradient(90deg, rgba(20, 17, 12, 0.92), rgba(43, 37, 28, 0.72), rgba(159, 58, 46, 0.12)),
     url("/images/inquiry-courtyard-threshold.png") right center/cover;
-  opacity: 0.2;
+  opacity: 0.28;
 }
 
 .featured-route-card h3 {
@@ -857,7 +987,7 @@ h3 {
 }
 
 .featured-route-card {
-  background: rgba(255, 253, 248, 0.62);
+  background: rgba(251, 248, 241, 0.74);
   overflow: hidden;
   position: relative;
 }
@@ -872,7 +1002,7 @@ h3 {
 }
 
 .featured-route-card::after {
-  background: linear-gradient(180deg, rgba(255, 253, 248, 0.9), rgba(255, 253, 248, 0.58));
+  background: linear-gradient(180deg, rgba(251, 248, 241, 0.9), rgba(251, 248, 241, 0.6));
   content: "";
   inset: 0;
   position: absolute;
@@ -885,19 +1015,19 @@ h3 {
 
 .featured-route-card--shanxi::before {
   background-image:
-    linear-gradient(135deg, rgba(106, 69, 42, 0.32), rgba(216, 190, 146, 0.12)),
+    linear-gradient(135deg, rgba(43, 37, 28, 0.28), rgba(159, 58, 46, 0.08)),
     url("/images/shanxi-ancient-grotto.png");
 }
 
 .featured-route-card--shaolin::before {
   background-image:
-    linear-gradient(135deg, rgba(42, 72, 57, 0.3), rgba(190, 202, 190, 0.12)),
+    linear-gradient(135deg, rgba(104, 118, 107, 0.28), rgba(223, 232, 223, 0.12)),
     url("/images/shaolin-songshan-steps.png");
 }
 
 .featured-route-card--huizhou::before {
   background-image:
-    linear-gradient(135deg, rgba(45, 67, 76, 0.26), rgba(187, 199, 192, 0.14)),
+    linear-gradient(135deg, rgba(104, 118, 107, 0.24), rgba(223, 232, 223, 0.14)),
     url("/images/huizhou-rain-courtyard.png");
 }
 
@@ -921,7 +1051,7 @@ h3 {
 }
 
 .section--dark .principle-card p {
-  color: rgba(255, 253, 248, 0.74);
+  color: rgba(251, 248, 241, 0.74);
 }
 
 .principle-card h3 {
@@ -975,7 +1105,7 @@ h3 {
 }
 
 .flagship-copy p {
-  color: rgba(255, 253, 248, 0.74);
+  color: rgba(251, 248, 241, 0.74);
 }
 
 .reference-list,
@@ -1014,11 +1144,11 @@ h3 {
 }
 
 .journey-card:hover {
-  border-color: rgba(255, 253, 248, 0.58);
+  border-color: rgba(251, 248, 241, 0.48);
 }
 
 .journey-card span {
-  color: #e4c7b8;
+  color: #d8cbb8;
   font-size: 0.88rem;
   margin-bottom: auto;
 }
@@ -1042,7 +1172,7 @@ h3 {
 }
 
 .visual-journey-card:hover {
-  border-color: rgba(255, 253, 248, 0.58);
+  border-color: rgba(251, 248, 241, 0.48);
 }
 
 .visual-journey-media {
@@ -1054,8 +1184,8 @@ h3 {
 
 .visual-journey-media::after {
   background:
-    linear-gradient(180deg, rgba(13, 17, 16, 0.08), rgba(13, 17, 16, 0.32)),
-    radial-gradient(circle at 50% 18%, rgba(255, 253, 248, 0.16), transparent 42%);
+    linear-gradient(180deg, rgba(20, 17, 12, 0.08), rgba(20, 17, 12, 0.32)),
+    radial-gradient(circle at 50% 18%, rgba(251, 248, 241, 0.12), transparent 42%);
   content: "";
   inset: 0;
   pointer-events: none;
@@ -1085,7 +1215,7 @@ h3 {
 }
 
 .visual-journey-copy span {
-  color: #e4c7b8;
+  color: #d8cbb8;
   font-size: 0.88rem;
   margin-bottom: 22px;
 }
@@ -1108,21 +1238,21 @@ h3 {
 }
 
 .journey-best-for dt {
-  color: #e4c7b8;
+  color: #d8cbb8;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .journey-best-for dd {
-  color: rgba(255, 253, 248, 0.78);
+  color: rgba(251, 248, 241, 0.78);
   font-size: 0.9rem;
   line-height: 1.45;
   margin: 0;
 }
 
 .visual-journey-copy small {
-  color: rgba(255, 253, 248, 0.68);
+  color: rgba(251, 248, 241, 0.68);
   font-size: 0.95rem;
   line-height: 1.55;
   margin-top: auto;
@@ -1139,7 +1269,7 @@ h3 {
 }
 
 .future-journeys span {
-  color: #e4c7b8;
+  color: #d8cbb8;
   font-size: 0.82rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -1153,12 +1283,12 @@ h3 {
 }
 
 .future-journeys a {
-  color: rgba(255, 253, 248, 0.66);
+  color: rgba(251, 248, 241, 0.66);
   font-size: 0.95rem;
 }
 
 .journey-status-card {
-  background: rgba(255, 253, 248, 0.42);
+  background: rgba(251, 248, 241, 0.58);
 }
 
 .journey-status-card h3 {
@@ -1174,7 +1304,7 @@ h3 {
 }
 
 .status-pill {
-  border: 1px solid rgba(110, 52, 48, 0.28);
+  border: 1px solid rgba(159, 58, 46, 0.28);
   color: var(--wine);
   display: inline-block;
   font-size: 0.72rem;
@@ -1257,13 +1387,13 @@ h3 {
 }
 
 .credit-content p {
-  color: rgba(255, 253, 248, 0.74);
+  color: rgba(251, 248, 241, 0.74);
   max-width: 680px;
 }
 
 .fine-print {
   border-top: 1px solid var(--light-border);
-  color: rgba(255, 253, 248, 0.62);
+  color: rgba(251, 248, 241, 0.62);
   font-size: 0.92rem;
   margin-top: 34px;
   padding-top: 20px;
@@ -1290,11 +1420,11 @@ h3 {
 }
 
 .site-footer p {
-  color: rgba(255, 253, 248, 0.62);
+  color: rgba(251, 248, 241, 0.62);
 }
 
 .footer-note {
-  color: #e4c7b8 !important;
+  color: #d8cbb8 !important;
   margin-bottom: 0;
 }
 
@@ -1352,7 +1482,7 @@ h3 {
 
 .page-hero--china {
   background:
-    linear-gradient(90deg, rgba(246, 241, 232, 0.96), rgba(246, 241, 232, 0.78)),
+    linear-gradient(90deg, rgba(247, 242, 232, 0.96), rgba(247, 242, 232, 0.78)),
     url("/images/china-ancient-landscape.png") center/cover;
 }
 
@@ -1362,7 +1492,7 @@ h3 {
 
 .support-hero {
   background:
-    linear-gradient(135deg, rgba(246, 241, 232, 0.98), rgba(235, 230, 220, 0.9)),
+    linear-gradient(135deg, rgba(247, 242, 232, 0.98), rgba(238, 228, 213, 0.9)),
     var(--ivory);
 }
 
@@ -1374,8 +1504,8 @@ h3 {
 
 .journeys-hero::after {
   background:
-    linear-gradient(90deg, rgba(246, 241, 232, 0.96), rgba(246, 241, 232, 0.72), rgba(246, 241, 232, 0.9)),
-    radial-gradient(circle at 70% 18%, rgba(110, 52, 48, 0.12), transparent 34%);
+    linear-gradient(90deg, rgba(247, 242, 232, 0.96), rgba(247, 242, 232, 0.72), rgba(247, 242, 232, 0.9)),
+    radial-gradient(circle at 70% 18%, rgba(159, 58, 46, 0.08), transparent 34%);
   content: "";
   inset: 0;
   pointer-events: none;
@@ -1390,7 +1520,7 @@ h3 {
 
 .journeys-hero-atmosphere {
   background:
-    linear-gradient(90deg, rgba(246, 241, 232, 0.22), rgba(246, 241, 232, 0.02)),
+    linear-gradient(90deg, rgba(247, 242, 232, 0.22), rgba(247, 242, 232, 0.02)),
     url("/images/china-ancient-landscape.png") center/cover;
   inset: 0;
   pointer-events: none;
@@ -1400,13 +1530,13 @@ h3 {
 
 .page-hero--trust {
   background:
-    linear-gradient(90deg, rgba(246, 241, 232, 0.98), rgba(246, 241, 232, 0.82)),
+    linear-gradient(90deg, rgba(247, 242, 232, 0.98), rgba(223, 232, 223, 0.82)),
     url("/images/trust-courtyard-wall.png") center/cover;
 }
 
 .page-hero--inquiry {
   background:
-    linear-gradient(90deg, rgba(246, 241, 232, 0.98), rgba(246, 241, 232, 0.8)),
+    linear-gradient(90deg, rgba(247, 242, 232, 0.98), rgba(247, 242, 232, 0.8)),
     url("/images/inquiry-courtyard-threshold.png") center/cover;
 }
 
@@ -1431,7 +1561,7 @@ h3 {
 }
 
 .support-detail-card {
-  background: rgba(255, 253, 248, 0.48);
+  background: rgba(251, 248, 241, 0.58);
   border: 1px solid var(--border);
   border-radius: 8px;
   min-height: 230px;
@@ -1454,7 +1584,7 @@ h3 {
 }
 
 .support-detail-card--dark p {
-  color: rgba(255, 253, 248, 0.74);
+  color: rgba(251, 248, 241, 0.74);
 }
 
 .rhythm-list {
@@ -1489,7 +1619,7 @@ h3 {
 .rhythm-list--dark li,
 .reference-matrix--dark li {
   border-color: var(--light-border);
-  color: rgba(255, 253, 248, 0.74);
+  color: rgba(251, 248, 241, 0.74);
 }
 
 .fine-copy {
@@ -1505,7 +1635,7 @@ h3 {
 }
 
 .china-feature-copy p {
-  color: rgba(255, 253, 248, 0.74);
+  color: rgba(251, 248, 241, 0.74);
   max-width: 620px;
 }
 
@@ -1567,21 +1697,21 @@ h3 {
 }
 
 .route-best-for dt {
-  color: #e4c7b8;
+  color: #d8cbb8;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .route-best-for dd {
-  color: rgba(255, 253, 248, 0.78);
+  color: rgba(251, 248, 241, 0.78);
   font-size: 0.92rem;
   line-height: 1.45;
   margin: 0;
 }
 
 .route-entry-copy p:not(.eyebrow) {
-  color: rgba(255, 253, 248, 0.72);
+  color: rgba(251, 248, 241, 0.72);
   margin-bottom: 0;
   max-width: 680px;
 }
@@ -1706,7 +1836,7 @@ h3 {
 }
 
 .entry-path-card {
-  background: rgba(255, 253, 248, 0.72);
+  background: rgba(251, 248, 241, 0.72);
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--charcoal);
@@ -1725,12 +1855,12 @@ h3 {
 .entry-path-card:hover,
 .entry-path-card[aria-checked="true"] {
   background: var(--warm-white);
-  border-color: rgba(110, 52, 48, 0.42);
+  border-color: rgba(159, 58, 46, 0.34);
   transform: translateY(-1px);
 }
 
 .entry-path-card--primary {
-  border-color: rgba(110, 52, 48, 0.28);
+  border-color: rgba(159, 58, 46, 0.28);
 }
 
 .entry-path-card strong {
@@ -1753,7 +1883,7 @@ h3 {
 }
 
 .inquiry-form-section {
-  background: rgba(255, 253, 248, 0.46);
+  background: rgba(251, 248, 241, 0.58);
   border: 1px solid var(--border);
   border-radius: 8px;
   display: grid;
@@ -1827,7 +1957,7 @@ h3 {
 .inquiry-form select:focus,
 .inquiry-form textarea:focus {
   border-color: var(--wine);
-  outline: 2px solid rgba(110, 52, 48, 0.16);
+  outline: 2px solid rgba(159, 58, 46, 0.16);
 }
 
 .inquiry-form input[aria-invalid="true"],
@@ -1892,7 +2022,7 @@ h3 {
 }
 
 .choice-group[aria-invalid="true"] .choice-option {
-  border-color: rgba(110, 52, 48, 0.46);
+  border-color: rgba(159, 58, 46, 0.46);
 }
 
 .inquiry-actions {
@@ -1906,7 +2036,7 @@ h3 {
 }
 
 .inquiry-actions--sticky {
-  background: rgba(246, 241, 232, 0.94);
+  background: rgba(247, 242, 232, 0.94);
   bottom: 0;
   position: sticky;
   z-index: 4;
