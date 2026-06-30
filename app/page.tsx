@@ -181,7 +181,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section--stone featured-route-preview-section">
+        <section className="section section-atmosphere atmosphere-gold featured-route-preview-section">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Featured China Routes</p>
             <h2>Three clear ways into cultural China.</h2>
@@ -189,7 +189,7 @@ export default function Home() {
           <div className="arrangement-grid arrangement-grid--three">
             {featuredRoutePreview.map((route) => (
               <Link
-                className="arrangement-card arrangement-card--link featured-route-card"
+                className={`arrangement-card arrangement-card--link featured-route-card featured-route-card--${route.place.toLowerCase()}`}
                 href={route.href}
                 key={route.place}
               >
@@ -204,7 +204,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section intro-section">
+        <section className="section section-atmosphere atmosphere-ivory intro-section">
           <div className="section-heading">
             <p className="eyebrow">What Localhost Is</p>
             <h2>Not a tour group. Not a checklist. A local way in.</h2>
@@ -221,7 +221,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section intro-section real-ancient-section">
+        <section className="section section-atmosphere atmosphere-clay intro-section real-ancient-section">
           <div className="section-heading">
             <p className="eyebrow">Real Ancient China</p>
             <h2>Older, quieter China still carries weight.</h2>
@@ -239,7 +239,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section--stone">
+        <section className="section section-atmosphere atmosphere-mist">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Private Route Scope</p>
             <h2>What a Private Route Includes</h2>
@@ -254,7 +254,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section--stone">
+        <section className="section section-atmosphere atmosphere-dark trust-preview-section">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Trust Model</p>
             <h2>Trust before scale.</h2>
@@ -278,7 +278,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section--stone">
+        <section className="section section-atmosphere atmosphere-clay-soft">
           <div className="arrangement-grid arrangement-grid--three">
             {localhostCards.map((card) => (
               <article className="arrangement-card" key={card.title}>
@@ -289,7 +289,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section split-layout">
+        <section className="section section-atmosphere atmosphere-ink split-layout">
           <div className="section-heading">
             <p className="eyebrow">Why China First</p>
             <h2>China is easy to visit. It is harder to understand.</h2>
@@ -310,7 +310,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section--dark" id="journeys">
+        <section className="section section-atmosphere atmosphere-routes route-scroll-section" id="journeys">
           <div className="section-heading">
             <p className="eyebrow">Featured China Routes</p>
             <h2>Three private routes into cultural China.</h2>
@@ -344,7 +344,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section">
+        <section className="section section-atmosphere atmosphere-gold-soft">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">How It Works</p>
             <h2>A private route begins with a human question.</h2>
@@ -356,7 +356,7 @@ export default function Home() {
           </ol>
         </section>
 
-        <section className="section section--stone">
+        <section className="section section-atmosphere atmosphere-mist-soft">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Private China Intake</p>
             <h2>Three ways to enter China</h2>
@@ -371,7 +371,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section--stone">
+        <section className="section section-atmosphere atmosphere-dark">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Two-Sided Network</p>
             <h2>Travelers, hosts, and reciprocal hospitality.</h2>
@@ -391,7 +391,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section final-section">
+        <section className="section section-atmosphere atmosphere-dusk final-section">
           <div className="section-heading">
             <p className="eyebrow">Travel Back Home</p>
             <h2>Start with China. Build toward the world.</h2>
@@ -412,7 +412,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section--inquiry inquiry-preview-section">
+        <section className="section section-atmosphere atmosphere-dusk-soft section--inquiry inquiry-preview-section">
           <div className="inquiry-preview">
             <div className="section-heading">
               <p className="eyebrow">Private Route Review</p>

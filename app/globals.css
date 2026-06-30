@@ -49,8 +49,7 @@ img {
 .site-header {
   align-items: center;
   display: grid;
-  gap: 32px;
-  grid-template-columns: minmax(150px, auto) minmax(0, 1fr);
+  grid-template-columns: minmax(150px, 0.72fr) minmax(0, auto) minmax(130px, 0.72fr);
   left: 0;
   padding: 24px 56px;
   position: relative;
@@ -81,17 +80,27 @@ img {
   align-items: center;
   display: flex;
   gap: 18px;
-  justify-content: flex-end;
+  justify-content: center;
   white-space: nowrap;
 }
 
-.main-nav a {
+.main-nav a,
+.nav-cta {
   font-size: 0.84rem;
+}
+
+.nav-cta {
+  border: 1px solid currentColor;
+  justify-self: end;
+  min-height: 42px;
+  padding: 10px 18px;
+  white-space: nowrap;
 }
 
 .hero {
   background: var(--ink);
   color: var(--warm-white);
+  isolation: isolate;
   min-height: 86svh;
   overflow: hidden;
   position: relative;
@@ -104,8 +113,9 @@ img {
 
 .hero-shade {
   background:
-    linear-gradient(90deg, rgba(14, 17, 16, 0.68), rgba(14, 17, 16, 0.36) 46%, rgba(14, 17, 16, 0.16)),
-    linear-gradient(0deg, rgba(14, 17, 16, 0.34), rgba(14, 17, 16, 0.04) 46%);
+    radial-gradient(circle at 50% 44%, rgba(232, 197, 128, 0.18), rgba(232, 197, 128, 0) 28%),
+    linear-gradient(180deg, rgba(8, 12, 18, 0.86) 0%, rgba(12, 15, 17, 0.34) 34%, rgba(12, 15, 17, 0.12) 58%, rgba(221, 191, 127, 0.24) 84%, rgba(246, 241, 232, 0.34) 100%),
+    linear-gradient(90deg, rgba(10, 12, 14, 0.82), rgba(14, 17, 16, 0.46) 34%, rgba(14, 17, 16, 0.18) 52%, rgba(14, 17, 16, 0.44));
   inset: 0;
   position: absolute;
 }
@@ -196,6 +206,7 @@ h3 {
 }
 
 .button:hover,
+.nav-cta:hover,
 .text-link:hover,
 .journey-card:hover,
 .visual-journey-card:hover {
@@ -243,6 +254,211 @@ h3 {
 
 .section--inquiry {
   background: var(--ivory);
+}
+
+.section-atmosphere {
+  isolation: isolate;
+  overflow: hidden;
+  position: relative;
+}
+
+.section-atmosphere > * {
+  position: relative;
+  z-index: 1;
+}
+
+.section-atmosphere::before,
+.section-atmosphere::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+}
+
+.section-atmosphere::before {
+  filter: blur(4px);
+  inset: 0;
+  opacity: 0.9;
+}
+
+.section-atmosphere::after {
+  border-radius: 999px;
+  height: 420px;
+  opacity: 0.38;
+  right: -120px;
+  top: 18%;
+  width: min(44vw, 620px);
+}
+
+.atmosphere-gold {
+  background:
+    linear-gradient(180deg, rgba(246, 241, 232, 0.98), rgba(233, 220, 190, 0.86)),
+    var(--ivory);
+}
+
+.atmosphere-gold::before {
+  background:
+    radial-gradient(circle at 18% 10%, rgba(214, 176, 102, 0.24), transparent 34%),
+    linear-gradient(135deg, rgba(255, 253, 248, 0.92), rgba(229, 211, 171, 0.26));
+}
+
+.atmosphere-gold::after,
+.atmosphere-gold-soft::after {
+  background: radial-gradient(circle, rgba(177, 124, 68, 0.18), rgba(177, 124, 68, 0));
+}
+
+.atmosphere-ivory {
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.96), rgba(239, 231, 216, 0.72)),
+    var(--warm-white);
+}
+
+.atmosphere-ivory::before {
+  background: radial-gradient(circle at 82% 18%, rgba(95, 102, 86, 0.1), transparent 32%);
+}
+
+.atmosphere-clay,
+.atmosphere-clay-soft {
+  background:
+    linear-gradient(135deg, rgba(225, 211, 190, 0.92), rgba(192, 168, 139, 0.56)),
+    var(--mist);
+}
+
+.atmosphere-clay::before,
+.atmosphere-clay-soft::before {
+  background:
+    linear-gradient(90deg, rgba(246, 241, 232, 0.9), rgba(246, 241, 232, 0.68), rgba(94, 62, 41, 0.16)),
+    url("/images/shanxi-ancient-grotto.png") right center/cover;
+  opacity: 0.38;
+}
+
+.atmosphere-clay::after,
+.atmosphere-clay-soft::after {
+  background: radial-gradient(circle, rgba(119, 75, 43, 0.2), rgba(119, 75, 43, 0));
+}
+
+.atmosphere-mist,
+.atmosphere-mist-soft {
+  background:
+    linear-gradient(145deg, rgba(224, 228, 218, 0.94), rgba(190, 202, 190, 0.58)),
+    var(--mist);
+}
+
+.atmosphere-mist::before,
+.atmosphere-mist-soft::before {
+  background:
+    linear-gradient(90deg, rgba(246, 241, 232, 0.92), rgba(231, 236, 228, 0.72), rgba(42, 63, 54, 0.18)),
+    url("/images/shaolin-songshan-steps.png") right center/cover;
+  opacity: 0.32;
+}
+
+.atmosphere-mist::after,
+.atmosphere-mist-soft::after {
+  background: radial-gradient(circle, rgba(71, 96, 76, 0.2), rgba(71, 96, 76, 0));
+}
+
+.atmosphere-ink {
+  background:
+    linear-gradient(135deg, rgba(232, 234, 229, 0.94), rgba(184, 198, 193, 0.52)),
+    var(--mist);
+}
+
+.atmosphere-ink::before {
+  background:
+    linear-gradient(90deg, rgba(255, 253, 248, 0.9), rgba(236, 240, 236, 0.66), rgba(37, 55, 63, 0.18)),
+    url("/images/huizhou-rain-courtyard.png") right center/cover;
+  opacity: 0.34;
+}
+
+.atmosphere-ink::after {
+  background: radial-gradient(circle, rgba(57, 84, 88, 0.18), rgba(57, 84, 88, 0));
+}
+
+.atmosphere-routes {
+  background:
+    linear-gradient(180deg, rgba(13, 17, 16, 0.98), rgba(28, 30, 27, 0.98)),
+    var(--ink);
+  color: var(--warm-white);
+}
+
+.atmosphere-routes::before {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(169, 112, 62, 0.24), transparent 34%),
+    radial-gradient(circle at 52% 24%, rgba(73, 104, 83, 0.22), transparent 34%),
+    radial-gradient(circle at 82% 20%, rgba(74, 97, 112, 0.22), transparent 32%);
+  opacity: 1;
+}
+
+.atmosphere-dark {
+  background:
+    linear-gradient(135deg, rgba(14, 17, 16, 0.98), rgba(43, 31, 28, 0.96)),
+    var(--ink);
+  color: var(--warm-white);
+}
+
+.atmosphere-dark::before {
+  background:
+    linear-gradient(90deg, rgba(14, 17, 16, 0.94), rgba(14, 17, 16, 0.72), rgba(110, 52, 48, 0.18)),
+    url("/images/trust-courtyard-wall.png") right center/cover;
+  opacity: 0.28;
+}
+
+.atmosphere-dark::after {
+  background: radial-gradient(circle, rgba(110, 52, 48, 0.22), rgba(110, 52, 48, 0));
+}
+
+.atmosphere-dusk,
+.atmosphere-dusk-soft,
+.atmosphere-gold-soft {
+  background:
+    linear-gradient(135deg, rgba(246, 241, 232, 0.96), rgba(219, 194, 164, 0.74), rgba(161, 103, 78, 0.28)),
+    var(--ivory);
+}
+
+.atmosphere-dusk::before,
+.atmosphere-dusk-soft::before,
+.atmosphere-gold-soft::before {
+  background:
+    radial-gradient(circle at 16% 14%, rgba(229, 193, 126, 0.22), transparent 32%),
+    radial-gradient(circle at 86% 18%, rgba(110, 52, 48, 0.13), transparent 36%);
+}
+
+.atmosphere-dusk::after,
+.atmosphere-dusk-soft::after {
+  background: radial-gradient(circle, rgba(110, 52, 48, 0.18), rgba(110, 52, 48, 0));
+}
+
+.section-atmosphere .arrangement-card,
+.section-atmosphere .support-detail-card,
+.section-atmosphere .rhythm-list li,
+.section-atmosphere .inquiry-preview {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 253, 248, 0.58);
+  box-shadow: 0 24px 80px rgba(24, 23, 21, 0.06);
+}
+
+.atmosphere-dark .arrangement-card,
+.atmosphere-dark .support-detail-card,
+.atmosphere-routes .visual-journey-card {
+  background: rgba(255, 253, 248, 0.06);
+  border-color: rgba(255, 253, 248, 0.18);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+}
+
+.atmosphere-dark .section-heading p:not(.eyebrow),
+.atmosphere-dark .support-detail-card p,
+.atmosphere-dark .arrangement-card p {
+  color: rgba(255, 253, 248, 0.72);
+}
+
+.atmosphere-dark .eyebrow,
+.atmosphere-routes .eyebrow {
+  color: #e4c7b8;
+}
+
+.atmosphere-dark .text-link,
+.atmosphere-routes .text-link {
+  color: #e4c7b8;
 }
 
 .intro-section,
@@ -492,6 +708,51 @@ h3 {
 
 .featured-route-card h3 {
   margin-bottom: 22px;
+}
+
+.featured-route-card {
+  background: rgba(255, 253, 248, 0.62);
+  overflow: hidden;
+  position: relative;
+}
+
+.featured-route-card::before {
+  background-position: center;
+  background-size: cover;
+  content: "";
+  inset: 0;
+  opacity: 0.16;
+  position: absolute;
+}
+
+.featured-route-card::after {
+  background: linear-gradient(180deg, rgba(255, 253, 248, 0.9), rgba(255, 253, 248, 0.58));
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.featured-route-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.featured-route-card--shanxi::before {
+  background-image:
+    linear-gradient(135deg, rgba(106, 69, 42, 0.32), rgba(216, 190, 146, 0.12)),
+    url("/images/shanxi-ancient-grotto.png");
+}
+
+.featured-route-card--shaolin::before {
+  background-image:
+    linear-gradient(135deg, rgba(42, 72, 57, 0.3), rgba(190, 202, 190, 0.12)),
+    url("/images/shaolin-songshan-steps.png");
+}
+
+.featured-route-card--huizhou::before {
+  background-image:
+    linear-gradient(135deg, rgba(45, 67, 76, 0.26), rgba(187, 199, 192, 0.14)),
+    url("/images/huizhou-rain-courtyard.png");
 }
 
 .featured-route-card p + p {
@@ -1489,7 +1750,7 @@ a:focus-visible {
 @media (max-width: 1240px) {
   .site-header {
     gap: 18px;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
     padding: 22px 28px;
   }
 
@@ -1511,7 +1772,7 @@ a:focus-visible {
 @media (max-width: 1080px) {
   .site-header {
     gap: 18px;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr auto;
     padding: 22px 28px;
   }
 
@@ -1591,6 +1852,11 @@ a:focus-visible {
 
   .site-header {
     padding: 18px 20px;
+  }
+
+  .nav-cta {
+    min-height: 38px;
+    padding: 8px 12px;
   }
 
   .hero {
@@ -1729,6 +1995,11 @@ a:focus-visible {
 @media (max-width: 520px) {
   .site-header {
     gap: 14px;
+  }
+
+  .site-header .nav-cta {
+    font-size: 0.76rem;
+    padding: 8px 10px;
   }
 
   .hero-content {
