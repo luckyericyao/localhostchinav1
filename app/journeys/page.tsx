@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { chinaJourneys, futureChinaJourneys } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "China Journeys — Localhost Global",
+  title: "China Routes — Localhost Global",
   description:
     "A Localhost China journey atlas: Shanxi, Shaolin, Huizhou, and future chapters held as cultural entry points."
 };
@@ -115,9 +116,10 @@ export default function JourneysPage() {
     <>
       <SiteHeader />
       <main>
-        <section className="page-hero support-hero">
+        <section className="page-hero support-hero journeys-hero">
+          <RevealOnScroll className="journeys-hero-atmosphere reveal-image--background" />
           <div>
-            <p className="eyebrow">China Journeys</p>
+            <p className="eyebrow">China Routes</p>
             <h1>A cultural atlas for the China you want to enter.</h1>
           </div>
           <div className="page-hero-copy">
@@ -132,109 +134,127 @@ export default function JourneysPage() {
           </div>
         </section>
 
-        <section className="section section--stone">
+        <section className="section section-atmosphere atmosphere-gold-soft journeys-selector-section">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Route Selector</p>
             <h2>Which China should you enter first?</h2>
           </div>
           <div className="arrangement-grid arrangement-grid--three">
             {routeSelector.map((route) => (
-              <Link
-                className="arrangement-card arrangement-card--link route-selector-card"
-                href={route.href}
+              <RevealOnScroll
+                className={`route-selector-reveal route-atmosphere route-atmosphere--${route.title.toLowerCase()}`}
                 key={route.title}
               >
-                <h3>{route.title}</h3>
-                <p>{route.copy}</p>
-                <span className="arrangement-cue">View route</span>
-              </Link>
+                <Link
+                  className="arrangement-card arrangement-card--link route-selector-card"
+                  href={route.href}
+                >
+                  <h3>{route.title}</h3>
+                  <p>{route.copy}</p>
+                  <span className="arrangement-cue">View route</span>
+                </Link>
+              </RevealOnScroll>
             ))}
           </div>
         </section>
 
-        <section className="section">
+        <section className="section section-atmosphere atmosphere-ink journeys-atlas-section">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Choose By Cultural Threshold</p>
             <h2>Choose by the China you want to enter.</h2>
           </div>
           <div className="atlas-grid">
             {atlasEntries.map((entry) => (
-              <Link className="atlas-card" href={entry.href} key={entry.mode}>
-                <span className="status-pill">{entry.status}</span>
-                <strong>{entry.mode}</strong>
-                <span>{entry.place}</span>
-                <dl className="atlas-meta">
-                  <div>
-                    <dt>Mood</dt>
-                    <dd>{entry.mood}</dd>
-                  </div>
-                  <div>
-                    <dt>Pace</dt>
-                    <dd>{entry.pace}</dd>
-                  </div>
-                  <div>
-                    <dt>Best With</dt>
-                    <dd>{entry.hostType}</dd>
-                  </div>
-                </dl>
-                <p>{entry.copy}</p>
-              </Link>
+              <RevealOnScroll
+                className={`atlas-reveal atlas-reveal--${entry.place.toLowerCase()}`}
+                key={entry.mode}
+              >
+                <Link className="atlas-card" href={entry.href}>
+                  <span className="status-pill">{entry.status}</span>
+                  <strong>{entry.mode}</strong>
+                  <span>{entry.place}</span>
+                  <dl className="atlas-meta">
+                    <div>
+                      <dt>Mood</dt>
+                      <dd>{entry.mood}</dd>
+                    </div>
+                    <div>
+                      <dt>Pace</dt>
+                      <dd>{entry.pace}</dd>
+                    </div>
+                    <div>
+                      <dt>Best With</dt>
+                      <dd>{entry.hostType}</dd>
+                    </div>
+                  </dl>
+                  <p>{entry.copy}</p>
+                </Link>
+              </RevealOnScroll>
             ))}
           </div>
         </section>
 
-        <section className="section section--dark">
+        <section className="section section-atmosphere atmosphere-routes journeys-active-section">
           <div className="section-heading">
             <p className="eyebrow">Active China Chapters</p>
             <h2>Private routes with real pages and local context.</h2>
           </div>
           <div className="journey-grid">
             {activeJourneys.map((journey) => (
-              <Link
-                className="visual-journey-card"
-                href={journey.href}
+              <RevealOnScroll
+                className="visual-journey-reveal"
                 key={journey.place}
               >
-                <span className="visual-journey-media">
-                  <Image
-                    src={journey.image}
-                    alt={journey.alt}
-                    fill
-                    sizes="(min-width: 900px) 30vw, 100vw"
-                  />
-                </span>
-                <span className="visual-journey-copy">
-                  <span>{journey.place}</span>
-                  <strong>{journey.line}</strong>
-                  <dl className="journey-best-for">
-                    <dt>Best for</dt>
-                    <dd>{journey.bestFor}</dd>
-                  </dl>
-                  <small>{journey.summary}</small>
-                </span>
-              </Link>
+                <Link
+                  className="visual-journey-card"
+                  href={journey.href}
+                >
+                  <span className="visual-journey-media">
+                    <Image
+                      src={journey.image}
+                      alt={journey.alt}
+                      fill
+                      sizes="(min-width: 900px) 30vw, 100vw"
+                    />
+                  </span>
+                  <span className="visual-journey-copy">
+                    <span>{journey.place}</span>
+                    <strong>{journey.line}</strong>
+                    <dl className="journey-best-for">
+                      <dt>Best for</dt>
+                      <dd>{journey.bestFor}</dd>
+                    </dl>
+                    <small>{journey.summary}</small>
+                  </span>
+                </Link>
+              </RevealOnScroll>
             ))}
           </div>
         </section>
 
-        <section className="section section--stone">
+        <section className="section section-atmosphere atmosphere-mist-soft journeys-future-section">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Future China Chapters</p>
             <h2>Held as future routes until the local chapter is ready.</h2>
           </div>
           <div className="arrangement-grid arrangement-grid--three">
             {futureJourneys.map((journey) => (
-              <article className="arrangement-card journey-status-card" key={journey.place}>
-                <span className="status-pill">Future Chapter</span>
-                <h3>{journey.place}</h3>
-                <p className="journey-status-line">{journey.line}</p>
-                <p>{journey.summary}</p>
-              </article>
+              <RevealOnScroll
+                className={`journey-status-reveal future-atmosphere future-atmosphere--${journey.place.toLowerCase()}`}
+                key={journey.place}
+              >
+                <article className="arrangement-card journey-status-card">
+                  <span className="status-pill">Future Chapter</span>
+                  <h3>{journey.place}</h3>
+                  <p className="journey-status-line">{journey.line}</p>
+                  <p>{journey.summary}</p>
+                </article>
+              </RevealOnScroll>
             ))}
           </div>
         </section>
 
-        <section className="section final-section">
+        <section className="section section-atmosphere atmosphere-dusk final-section journeys-final-section">
           <div className="section-heading">
             <p className="eyebrow">Private Route Inquiry</p>
             <h2>Start with what you want to understand.</h2>

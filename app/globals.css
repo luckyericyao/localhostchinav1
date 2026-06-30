@@ -461,6 +461,35 @@ h3 {
   color: #e4c7b8;
 }
 
+.reveal-image {
+  filter: blur(16px);
+  opacity: 0.22;
+  transform: translateY(20px) scale(1.06);
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: filter, opacity, transform;
+}
+
+.reveal-image.is-visible {
+  filter: blur(0);
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.reveal-image--background {
+  filter: blur(18px);
+  opacity: 0.18;
+  transform: translateY(14px) scale(1.07);
+}
+
+.reveal-image--background.is-visible {
+  filter: blur(6px);
+  opacity: 0.46;
+  transform: translateY(0) scale(1.01);
+}
+
 .intro-section,
 .split-layout,
 .final-section,
@@ -706,6 +735,123 @@ h3 {
   margin-bottom: 24px;
 }
 
+.route-selector-reveal,
+.atlas-reveal,
+.visual-journey-reveal,
+.journey-status-reveal {
+  min-height: 100%;
+}
+
+.route-selector-reveal > *,
+.atlas-reveal > *,
+.visual-journey-reveal > *,
+.journey-status-reveal > * {
+  height: 100%;
+}
+
+.route-selector-card,
+.atlas-card,
+.journey-status-card {
+  isolation: isolate;
+  overflow: hidden;
+  position: relative;
+}
+
+.route-selector-card > *,
+.atlas-card > *,
+.journey-status-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.route-selector-card::before,
+.atlas-card::before,
+.journey-status-card::before {
+  background-position: center;
+  background-size: cover;
+  content: "";
+  filter: blur(2px) saturate(0.78) contrast(0.92);
+  inset: 0;
+  opacity: 0.14;
+  position: absolute;
+  transform: scale(1.08);
+  transition:
+    filter 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+}
+
+.route-selector-card::after,
+.atlas-card::after,
+.journey-status-card::after {
+  background: linear-gradient(180deg, rgba(255, 253, 248, 0.9), rgba(255, 253, 248, 0.66));
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.route-selector-reveal.is-visible .route-selector-card::before,
+.atlas-reveal.is-visible .atlas-card::before,
+.journey-status-reveal.is-visible .journey-status-card::before {
+  filter: blur(0) saturate(0.88) contrast(0.98);
+  opacity: 0.22;
+  transform: scale(1.02);
+}
+
+.route-atmosphere--shanxi .route-selector-card::before,
+.atlas-reveal--shanxi .atlas-card::before {
+  background-image: url("/images/shanxi-ancient-grotto.png");
+}
+
+.route-atmosphere--shaolin .route-selector-card::before,
+.atlas-reveal--shaolin .atlas-card::before {
+  background-image: url("/images/shaolin-songshan-steps.png");
+}
+
+.route-atmosphere--huizhou .route-selector-card::before,
+.atlas-reveal--huizhou .atlas-card::before {
+  background-image: url("/images/huizhou-rain-courtyard.png");
+}
+
+.atlas-reveal--shanghai .atlas-card::before,
+.future-atmosphere--shanghai .journey-status-card::before {
+  background-image: url("/images/localhost-hero.png");
+}
+
+.atlas-reveal--beijing .atlas-card::before,
+.future-atmosphere--beijing .journey-status-card::before {
+  background-image: url("/images/temple-of-heaven-centered-hero.png");
+}
+
+.atlas-reveal--chengdu .atlas-card::before,
+.future-atmosphere--chengdu .journey-status-card::before {
+  background-image: url("/images/inquiry-courtyard-threshold.png");
+}
+
+.journeys-atlas-section::before {
+  background:
+    linear-gradient(90deg, rgba(255, 253, 248, 0.88), rgba(236, 240, 236, 0.58), rgba(37, 55, 63, 0.14)),
+    url("/images/huizhou-rain-courtyard.png") right center/cover;
+  opacity: 0.28;
+}
+
+.journeys-future-section::before {
+  background:
+    linear-gradient(90deg, rgba(246, 241, 232, 0.92), rgba(231, 236, 228, 0.7), rgba(42, 63, 54, 0.16)),
+    url("/images/temple-of-heaven-centered-hero.png") right center/cover;
+  opacity: 0.22;
+}
+
+.journeys-final-section::before {
+  background:
+    linear-gradient(90deg, rgba(246, 241, 232, 0.94), rgba(232, 211, 186, 0.58), rgba(110, 52, 48, 0.16)),
+    url("/images/inquiry-courtyard-threshold.png") right center/cover;
+  opacity: 0.2;
+}
+
 .featured-route-card h3 {
   margin-bottom: 22px;
 }
@@ -902,11 +1048,33 @@ h3 {
 .visual-journey-media {
   display: block;
   min-height: 210px;
+  overflow: hidden;
   position: relative;
 }
 
+.visual-journey-media::after {
+  background:
+    linear-gradient(180deg, rgba(13, 17, 16, 0.08), rgba(13, 17, 16, 0.32)),
+    radial-gradient(circle at 50% 18%, rgba(255, 253, 248, 0.16), transparent 42%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
 .visual-journey-media img {
+  filter: saturate(0.82) contrast(0.94);
   object-fit: cover;
+  transform: scale(1.06);
+  transition:
+    filter 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.visual-journey-reveal.is-visible .visual-journey-media img {
+  filter: saturate(0.92) contrast(1);
+  transform: scale(1);
 }
 
 .visual-journey-copy {
@@ -1188,6 +1356,38 @@ h3 {
   background:
     linear-gradient(135deg, rgba(246, 241, 232, 0.98), rgba(235, 230, 220, 0.9)),
     var(--ivory);
+}
+
+.journeys-hero {
+  isolation: isolate;
+  overflow: hidden;
+  position: relative;
+}
+
+.journeys-hero::after {
+  background:
+    linear-gradient(90deg, rgba(246, 241, 232, 0.96), rgba(246, 241, 232, 0.72), rgba(246, 241, 232, 0.9)),
+    radial-gradient(circle at 70% 18%, rgba(110, 52, 48, 0.12), transparent 34%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.journeys-hero > :not(.journeys-hero-atmosphere) {
+  position: relative;
+  z-index: 2;
+}
+
+.journeys-hero-atmosphere {
+  background:
+    linear-gradient(90deg, rgba(246, 241, 232, 0.22), rgba(246, 241, 232, 0.02)),
+    url("/images/china-ancient-landscape.png") center/cover;
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
 }
 
 .page-hero--trust {
@@ -1745,6 +1945,31 @@ a {
 a:focus-visible {
   outline: 2px solid var(--wine);
   outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-image,
+  .reveal-image.is-visible {
+    filter: blur(0);
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .reveal-image--background,
+  .reveal-image--background.is-visible {
+    filter: blur(6px);
+    opacity: 0.42;
+    transform: none;
+  }
+
+  .route-selector-card::before,
+  .atlas-card::before,
+  .journey-status-card::before,
+  .visual-journey-media img {
+    transition: none;
+    transform: none;
+  }
 }
 
 @media (max-width: 1240px) {
