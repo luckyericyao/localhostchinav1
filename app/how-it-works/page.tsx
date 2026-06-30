@@ -49,9 +49,9 @@ export default function HowItWorksPage() {
           </div>
           <div className="page-hero-copy">
             <p>
-              Localhost is a human operating system, not an instant booking
-              engine. The route becomes real only when intent, timing, comfort,
-              and host fit make sense together.
+              Localhost is a reviewed route process, not an instant booking
+              engine. A route becomes real only when intent, timing, comfort,
+              local feasibility, and host fit make sense together.
             </p>
             <Link className="button button--dark" href="/inquiry">
               Begin a Private Route Review
@@ -121,7 +121,7 @@ export default function HowItWorksPage() {
             <p>
               A clear inquiry gives the team enough to suggest a chapter, test
               feasibility, and decide whether a host-led route is the right
-              threshold.
+              fit.
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">

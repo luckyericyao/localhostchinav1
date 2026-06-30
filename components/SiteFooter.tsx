@@ -4,11 +4,10 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="footer-brand">
-        <p className="footer-title">Localhost Global — Travel Back Home.</p>
+        <p className="footer-title">Localhost Global</p>
         <p>
-          Every place is someone&apos;s home. Localhost is a private local-host
-          network for cultural context, trusted hospitality, and practical
-          steadiness.
+          Private China routes shaped through local judgment, cultural context,
+          trusted hosts, and practical steadiness.
         </p>
         <p>
           Not a travel agency. Not a tour marketplace. Not instant booking. A

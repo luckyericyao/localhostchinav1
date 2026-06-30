@@ -101,7 +101,7 @@ export default function TravelersPage() {
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">For Travelers</p>
-            <h1>Private routes for people who want context, not content.</h1>
+            <h1>Private routes for travelers who want China to make sense.</h1>
           </div>
           <div className="page-hero-copy">
             <p>
@@ -133,7 +133,7 @@ export default function TravelersPage() {
         <section className="section">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Traveler Scenarios</p>
-            <h2>Different travelers need different thresholds.</h2>
+            <h2>Different travelers need different route logic.</h2>
           </div>
           <div className="support-card-grid">
             {scenarios.map((item) => (

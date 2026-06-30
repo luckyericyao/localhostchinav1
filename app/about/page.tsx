@@ -6,14 +6,14 @@ import { SiteHeader } from "@/components/SiteHeader";
 export const metadata: Metadata = {
   title: "About — Localhost Global",
   description:
-    "Why Localhost exists: every place is someone's home, and travel should begin with local context, trust, and hospitality."
+    "Why Localhost exists: private routes, local judgment, trust, and cultural context for China-first travel."
 };
 
 const principles = [
   {
-    title: "Every place is someone's home",
+    title: "Places are lived systems",
     copy:
-      "Localhost begins from a simple premise: a city, village, temple road, market, or neighborhood is not content first. It is home first."
+      "A city, village, temple road, market, or neighborhood is not raw material for content. It has local habits, limits, and social context."
   },
   {
     title: "China first, not China only",
@@ -33,10 +33,10 @@ const principles = [
 ];
 
 const networkIdeas = [
-  "A traveler is hosted with care in one chapter.",
-  "A host contributes judgment, access, and hospitality at home.",
+  "A traveler receives local judgment in one chapter.",
+  "A host contributes judgment, access, and hospitality.",
   "Host Credits remember contribution inside the network.",
-  "Future chapters allow hospitality to move from home to home."
+  "Future chapters allow trusted hospitality to move across the network."
 ];
 
 export default function AboutPage() {
@@ -47,13 +47,13 @@ export default function AboutPage() {
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">About Localhost</p>
-            <h1>Tourism often turns places into content. Localhost starts elsewhere.</h1>
+            <h1>Tourism often turns places into content. Localhost starts with local judgment.</h1>
           </div>
           <div className="page-hero-copy">
             <p>
-              Localhost Global exists because every place is someone&apos;s home.
-              The work is to help travelers cross that threshold with context,
-              judgment, and care.
+              Localhost Global exists to make private travel more legible,
+              respectful, and locally grounded. The work is route design, host
+              fit, and practical context.
             </p>
             <Link className="button button--dark" href="/how-it-works">
               See How It Works
@@ -64,17 +64,16 @@ export default function AboutPage() {
         <section className="section intro-section">
           <div className="section-heading">
             <p className="eyebrow">Core Thesis</p>
-            <h2>A local way in begins with respect.</h2>
+            <h2>A better route starts with local judgment.</h2>
           </div>
           <div className="editorial-copy">
             <p className="lead">
-              The best travel is not extraction. It is entry with permission,
-              fluency, and attention.
+              Good private travel needs fluency, restraint, and attention.
             </p>
             <p>
               Localhost is not built around more stops, faster booking, or public
               guide listings. It is built around host fit, route shaping, and the
-              human intelligence that makes a place legible.
+              local judgment that makes a place legible.
             </p>
           </div>
         </section>
@@ -82,7 +81,7 @@ export default function AboutPage() {
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Why It Exists</p>
-            <h2>Localhost protects the threshold between visitor and home.</h2>
+            <h2>Localhost protects the line between access and performance.</h2>
           </div>
           <div className="support-card-grid">
             {principles.map((item) => (
@@ -109,7 +108,7 @@ export default function AboutPage() {
         <section className="section final-section">
           <div className="section-heading">
             <p className="eyebrow">First Chapter</p>
-            <h2>Start with China. Build toward home everywhere.</h2>
+            <h2>Start with China. Build carefully from there.</h2>
           </div>
           <div className="editorial-copy">
             <p>

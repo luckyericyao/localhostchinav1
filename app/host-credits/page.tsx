@@ -65,7 +65,7 @@ export default function HostCreditsPage() {
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">Host Credits</p>
-            <h1>Host at home. Travel back home somewhere else.</h1>
+            <h1>Contribution should count inside the network.</h1>
           </div>
           <div className="page-hero-copy">
             <p>
@@ -146,8 +146,8 @@ export default function HostCreditsPage() {
           </div>
           <div className="editorial-copy">
             <p className="lead">
-              A person who helps others enter their home with care should be
-              remembered when they travel elsewhere.
+              A host who contributes judgment, time, and local access should
+              not disappear after one route.
             </p>
             <p>
               Host Credits give Localhost a way to recognize contribution
@@ -176,7 +176,7 @@ export default function HostCreditsPage() {
           <div className="editorial-copy">
             <p>
               Host Credits are not a promise of scale. They are the beginning of
-              a more reciprocal way for local hospitality to travel.
+              a more reciprocal way for host contribution to carry forward.
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/hosts">

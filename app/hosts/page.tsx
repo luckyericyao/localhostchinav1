@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 export const metadata: Metadata = {
   title: "Hosts — Localhost Global",
   description:
-    "A selective host path for people who can represent home with dignity, judgment, cultural fluency, and care."
+    "A selective host path for people who can represent a place with judgment, cultural fluency, discretion, and care."
 };
 
 const hostQualities = [
@@ -15,7 +15,7 @@ const hostQualities = [
   "Cultural fluency and clear communication",
   "Reliability with timing and boundaries",
   "Ability to explain without performing",
-  "Respect for the dignity of home"
+  "Respect for local dignity"
 ];
 
 const hostRoles = [
@@ -54,14 +54,14 @@ const boundaries = [
   "Hosts are not emergency responders.",
   "Hosts are not expected to be available all day and night.",
   "Hosts do not compete in lowest-price bidding.",
-  "Hosts may decline routes that do not respect the place or the relationship."
+  "Hosts may decline routes that do not respect the place, the time, or the relationship."
 ];
 
 const rewards = [
   "Earn income for trusted local contribution",
   "Build serious global relationships",
   "Earn Host Credits inside the Localhost network",
-  "Represent your home with dignity rather than performance"
+  "Represent a place with dignity rather than performance"
 ];
 
 const goodHostSignals = [
@@ -80,13 +80,13 @@ export default function HostsPage() {
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">For Hosts</p>
-            <h1>A way to represent your home with dignity, patience, and taste.</h1>
+            <h1>A selective path for hosts with judgment, patience, and taste.</h1>
           </div>
           <div className="page-hero-copy">
             <p>
               Localhost hosts are not scripted guides. They are trusted local
               people who can hold context, make good decisions, and welcome
-              travelers without turning home into a stage.
+              travelers without turning the place into a stage.
             </p>
             <Link className="button button--dark" href="/inquiry">
               Apply to Become a Host
@@ -155,7 +155,7 @@ export default function HostsPage() {
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">What Makes A Good Host</p>
-            <h2>The best hosts hold a threshold, not a stage.</h2>
+            <h2>The best hosts hold context, not a stage.</h2>
           </div>
           <ul className="reference-matrix">
             {goodHostSignals.map((item) => (
@@ -166,13 +166,13 @@ export default function HostsPage() {
 
         <section className="section final-section">
           <div className="section-heading">
-            <p className="eyebrow">Host At Home</p>
-            <h2>Hosting is not performance. It is a form of cultural care.</h2>
+            <p className="eyebrow">Host Network</p>
+            <h2>Hosting is not performance. It is cultural judgment in practice.</h2>
           </div>
           <div className="editorial-copy">
             <p>
-              The strongest hosts do not act like attractions. They help someone
-              enter a place with enough confidence to notice what matters.
+              The strongest hosts do not act like attractions. They help
+              travelers move with enough confidence to notice what matters.
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">

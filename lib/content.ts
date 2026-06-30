@@ -33,7 +33,7 @@ export const chinaJourneys = [
     image: "/images/shanxi-ancient-grotto.png",
     alt: "Weathered Buddhist grotto stone and old timber temple architecture in Shanxi.",
     summary:
-      "Ancient temples, caves, wooden pagodas, merchant courtyards, noodles, Fenjiu, Buddhist mountains, and northern Chinese civilization — best understood with someone who knows the roads and the context.",
+      "Ancient temples, caves, wooden pagodas, merchant courtyards, noodles, Fenjiu, Buddhist mountains, and northern Chinese civilization — best understood with a host who knows the roads and the context.",
     bestFor:
       "Ancient architecture, Buddhist depth, road-based northern history",
     featured: true
@@ -425,7 +425,7 @@ export const chinaRoutePages = {
       {
         title: "Village texture",
         copy:
-          "Stone lanes, streamside houses, courtyards, old thresholds, and the feeling of places held by time."
+          "Stone lanes, streamside houses, courtyards, old doorways, and the feeling of places held by time."
       },
       {
         title: "Ancestral culture",
@@ -543,7 +543,7 @@ export const chinaRoutePages = {
       "People looking for a loud tourism route"
     ],
     final:
-      "A Huizhou route is strongest when it stays intimate: a lane, a cup of tea, a hall, a mountain cloud, and someone who can explain the quiet."
+      "A Huizhou route is strongest when it stays intimate: a lane, a cup of tea, a hall, a mountain cloud, and a host who can explain what the quiet contains."
   }
 } as const;
 
@@ -551,20 +551,20 @@ export const chinaSupportPages = {
   "local-hosts": {
     eyebrow: "Local Support",
     title: "Local Hosts",
-    subheadline: "A person who helps you enter a place, not just move through it.",
+    subheadline: "Local judgment for travelers who want more than movement.",
     body:
       "Localhost hosts are thoughtful locals with taste, patience, cultural awareness, and real knowledge of their city. They help travelers understand the streets, food, rhythms, etiquette, local habits, and quiet details that make China feel legible.",
     intro: {
       eyebrow: "Not Scripted Guides",
       title: "Standard guides explain landmarks. Local hosts explain context.",
       lead:
-        "A Localhost host is not someone reading from a standard route.",
+        "A Localhost host is selected for judgment, communication, and fit.",
       body:
         "They help travelers understand why a place matters, how people live there, what to notice, what to avoid, and how to move with confidence."
     },
     listSection: {
       eyebrow: "What A Host Can Help With",
-      title: "The human layer of local support.",
+      title: "The judgment layer of local support.",
       items: [
         "Cultural context",
         "Local food and restaurant choices",
@@ -618,7 +618,7 @@ export const chinaSupportPages = {
     title: "Routes shaped around curiosity, not checklists.",
     subheadline: "A private China journey should move at the traveler’s pace.",
     body:
-      "Localhost routes are shaped around the traveler’s interests, rhythm, time, budget, and curiosity. The goal is not to collect attractions, but to build a way into China that feels coherent, human, and locally grounded.",
+      "Localhost routes are shaped around the traveler’s interests, rhythm, time, budget, and curiosity. The goal is not to collect attractions, but to build a way into China that feels coherent, practical, and locally grounded.",
     intro: {
       eyebrow: "Not A Fixed Itinerary",
       title: "A route can slow down, sharpen, or shift with the day.",
@@ -751,7 +751,7 @@ export const chinaSupportPages = {
     title: "The parts of China that rarely fit a checklist.",
     subheadline: "Real access is not about exclusivity. It is about context.",
     body:
-      "Localhost helps travelers enter the quieter layers of China: neighborhood rhythms, family-run restaurants, local conversations, daily habits, regional food, old streets, private routes, and the human details that make a place feel real.",
+      "Localhost helps travelers enter the quieter layers of China: neighborhood rhythms, family-run restaurants, local conversations, daily habits, regional food, old streets, private routes, and the local details that make a place legible.",
     intro: {
       eyebrow: "Beyond Attractions",
       title: "The deeper journey often happens between the famous places.",
@@ -764,7 +764,7 @@ export const chinaSupportPages = {
       eyebrow: "What Real Access Can Look Like",
       title: "Ordinary details, understood with care.",
       items: [
-        "A meal chosen by someone who understands local taste",
+        "A meal chosen by a host who understands local taste",
         "A neighborhood walked at the right hour",
         "A route adjusted because the host knows the road",
         "A temple, village, or courtyard explained with context",

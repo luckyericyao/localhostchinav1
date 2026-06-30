@@ -16,7 +16,7 @@ const whyChina = [
   {
     title: "Context over sightseeing",
     copy:
-      "Temples, villages, cities, food, etiquette, and history become clearer when someone can explain what matters."
+      "Temples, villages, cities, food, etiquette, and history become clearer with local interpretation."
   },
   {
     title: "Local rhythm over checklist",
@@ -181,7 +181,7 @@ export default function ChinaPage() {
           <div className="editorial-copy">
             <p>
               The first route should be shaped around your curiosity, time,
-              pace, and the kind of understanding you want to bring home.
+              pace, and the kind of understanding you want to leave with.
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">

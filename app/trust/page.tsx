@@ -13,7 +13,7 @@ const trustPillars = [
   {
     title: "Host screening",
     copy:
-      "Hosts are reviewed for judgment, reliability, cultural fluency, communication quality, and the ability to represent home with care."
+      "Hosts are reviewed for judgment, reliability, cultural fluency, communication quality, and the ability to represent a place with care."
   },
   {
     title: "No random matching",

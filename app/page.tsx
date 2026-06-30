@@ -6,16 +6,16 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { chinaJourneys } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Localhost Global — Travel Back Home.",
+  title: "Localhost Global — Private China Routes",
   description:
-    "A quiet local-host network for thoughtful travelers, trusted hosts, private routes, and cultural context, starting with China."
+    "A private China-first local-host network for trusted route design, cultural fluency, and practical confidence."
 };
 
 const localhostCards = [
   {
     title: "Local access",
     copy:
-      "Trusted people help travelers enter the real texture of a place: streets, food, rhythm, and daily judgment."
+      "Trusted local people help travelers read streets, food, timing, and decisions that are difficult to understand alone."
   },
   {
     title: "Cultural decoding",
@@ -122,17 +122,17 @@ const trustPreview = [
 const networkLinks = [
   {
     title: "For Travelers",
-    copy: "Private routes for people who want context, not content.",
+    copy: "Private routes for travelers who want cultural fluency and practical confidence.",
     href: "/travelers"
   },
   {
     title: "For Hosts",
-    copy: "A way to represent your home with dignity, patience, and taste.",
+    copy: "For people who can host with judgment, discretion, and local taste.",
     href: "/hosts"
   },
   {
     title: "Trust Model",
-    copy: "Clear boundaries for travelers, hosts, dignity, and review before matching.",
+    copy: "Clear boundaries for travelers, hosts, fit, and review before matching.",
     href: "/trust"
   }
 ];
@@ -158,11 +158,11 @@ export default function Home() {
           <SiteHeader tone="transparent" />
           <div className="hero-content">
             <p className="eyebrow">Localhost Global</p>
-            <h1>Travel Back Home.</h1>
-            <p className="hero-subhead">Every place is someone&apos;s home.</p>
+            <h1>Enter China With Local Judgment.</h1>
+            <p className="hero-subhead">Private routes shaped by trusted local hosts.</p>
             <p className="hero-body">
-              Localhost helps thoughtful travelers enter a place through trusted
-              local people, private routes, and cultural context.
+              Localhost helps travelers move through China with trusted hosts,
+              private route design, cultural context, and practical confidence.
             </p>
             <div className="hero-actions" aria-label="Primary actions">
               <Link className="button button--light" href="/inquiry">
@@ -207,16 +207,16 @@ export default function Home() {
         <section className="section section-atmosphere atmosphere-ivory intro-section">
           <div className="section-heading">
             <p className="eyebrow">What Localhost Is</p>
-            <h2>Not a tour group. Not a checklist. A local way in.</h2>
+            <h2>Not a tour group. Not a checklist. A private route with local judgment.</h2>
           </div>
           <div className="editorial-copy">
             <p className="lead">
-              Standard travel shows you places. Localhost helps you enter them.
+              Standard travel shows you places. Localhost makes them legible.
             </p>
             <p>
-              Localhost Global is a private local-host network for thoughtful
-              travelers who want to enter a place through trusted people, not
-              consume it through standard tourism.
+              Localhost Global is a private local-host network for travelers
+              who want context, host fit, and practical confidence instead of
+              standardized tourism.
             </p>
           </div>
         </section>
@@ -347,7 +347,7 @@ export default function Home() {
         <section className="section section-atmosphere atmosphere-gold-soft">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">How It Works</p>
-            <h2>A private route begins with a human question.</h2>
+            <h2>A private route begins with a serious question.</h2>
           </div>
           <ol className="rhythm-list">
             {howItWorks.map((item) => (
@@ -393,13 +393,14 @@ export default function Home() {
 
         <section className="section section-atmosphere atmosphere-dusk final-section">
           <div className="section-heading">
-            <p className="eyebrow">Travel Back Home</p>
-            <h2>Start with China. Build toward the world.</h2>
+            <p className="eyebrow">Localhost China</p>
+            <h2>Start with China. Build carefully from there.</h2>
           </div>
           <div className="editorial-copy">
             <p>
-              Localhost begins with China as the first chapter of a global
-              network where every place is someone&apos;s home.
+              Localhost begins with China as a working chapter: real routes,
+              host judgment, practical support, and cultural fluency before
+              scale.
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href="/inquiry">
@@ -420,9 +421,8 @@ export default function Home() {
             </div>
             <div className="editorial-copy">
               <p>
-                Every private route begins with a quiet review of intent,
-                timing, comfort, curiosity, and host fit. This is not instant
-                booking.
+                Every private route begins with a review of intent, timing,
+                comfort, curiosity, and host fit. This is not instant booking.
               </p>
               <Link className="button button--dark" href="/inquiry">
                 Request Private Route Review

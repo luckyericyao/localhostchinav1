@@ -152,7 +152,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
         <section className="section section--dark">
           <div className="section-heading">
             <p className="eyebrow">Route Variants</p>
-            <h2>Different thresholds into the same chapter.</h2>
+            <h2>Different ways into the same chapter.</h2>
           </div>
           <div className="support-card-grid support-card-grid--three">
             {route.variants.map((item) => (
