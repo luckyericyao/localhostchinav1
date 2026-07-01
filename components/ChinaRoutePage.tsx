@@ -13,6 +13,20 @@ type SnapshotItem = {
   value: string;
 };
 
+type RouteGalleryImage = {
+  alt: string;
+  copy: string;
+  src: string;
+  title: string;
+};
+
+type RouteGallery = {
+  body: string;
+  eyebrow: string;
+  images: readonly RouteGalleryImage[];
+  title: string;
+};
+
 export type ChinaRoutePageContent = {
   eyebrow: string;
   title: string;
@@ -25,6 +39,7 @@ export type ChinaRoutePageContent = {
   hostHelps: readonly string[];
   handles: readonly string[];
   snapshot: readonly SnapshotItem[];
+  gallery?: RouteGallery;
   sampleDay: readonly RouteBlock[];
   hostChanges: readonly string[];
   variants: readonly RouteBlock[];
@@ -107,6 +122,37 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
             ))}
           </dl>
         </section>
+
+        {route.gallery ? (
+          <section className="section section--dark route-gallery-section">
+            <div className="section-heading">
+              <p className="eyebrow">{route.gallery.eyebrow}</p>
+              <h2>{route.gallery.title}</h2>
+              <p>{route.gallery.body}</p>
+            </div>
+            <div className="route-gallery-grid">
+              {route.gallery.images.map((image, index) => (
+                <article
+                  className={`route-gallery-card${index === 0 ? " route-gallery-card--featured" : ""}`}
+                  key={image.src}
+                >
+                  <div className="route-gallery-media">
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      sizes={index === 0 ? "(min-width: 900px) 56vw, 100vw" : "(min-width: 900px) 28vw, 100vw"}
+                    />
+                  </div>
+                  <div className="route-gallery-copy">
+                    <h3>{image.title}</h3>
+                    <p>{image.copy}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="section">
           <div className="section-heading section-heading--center">

@@ -1775,6 +1775,87 @@ h3 {
   min-height: 680px;
 }
 
+.route-gallery-section {
+  overflow: hidden;
+}
+
+.route-gallery-section .section-heading {
+  margin: 0 auto 48px;
+  max-width: 760px;
+  text-align: center;
+}
+
+.route-gallery-section .section-heading p:not(.eyebrow) {
+  color: rgba(251, 248, 241, 0.72);
+  margin: 18px auto 0;
+  max-width: 640px;
+}
+
+.route-gallery-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 auto;
+  max-width: 1180px;
+}
+
+.route-gallery-card {
+  background: rgba(251, 248, 241, 0.06);
+  border: 1px solid rgba(251, 248, 241, 0.18);
+  border-radius: 8px;
+  display: grid;
+  overflow: hidden;
+}
+
+.route-gallery-card--featured {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.route-gallery-media {
+  aspect-ratio: 4 / 3;
+  min-height: 240px;
+  overflow: hidden;
+  position: relative;
+}
+
+.route-gallery-card--featured .route-gallery-media {
+  aspect-ratio: 16 / 10;
+  min-height: 430px;
+}
+
+.route-gallery-media::after {
+  background:
+    linear-gradient(180deg, rgba(20, 17, 12, 0.02), rgba(20, 17, 12, 0.24)),
+    radial-gradient(circle at 50% 15%, rgba(251, 248, 241, 0.12), transparent 42%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.route-gallery-media img {
+  filter: saturate(0.84) contrast(0.95);
+  object-fit: cover;
+}
+
+.route-gallery-copy {
+  padding: 24px;
+}
+
+.route-gallery-copy h3 {
+  color: var(--warm-white);
+  font-size: 1.45rem;
+  margin-bottom: 14px;
+}
+
+.route-gallery-copy p {
+  color: rgba(251, 248, 241, 0.68);
+  font-size: 0.96rem;
+  margin-bottom: 0;
+}
+
 .reference-matrix {
   display: grid;
   gap: 0;
@@ -2482,10 +2563,15 @@ a:focus-visible {
   .journey-grid,
   .principle-grid,
   .support-card-grid,
+  .route-gallery-grid,
   .field-pair,
   .atlas-grid,
   .snapshot-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .route-gallery-card--featured {
+    grid-column: span 2;
   }
 
   .flagship-media,
@@ -2561,6 +2647,7 @@ a:focus-visible {
   .journey-grid,
   .principle-grid,
   .support-card-grid,
+  .route-gallery-grid,
   .field-pair,
   .entry-path-grid,
   .choice-grid,
@@ -2570,6 +2657,17 @@ a:focus-visible {
   .split-panel-section,
   .reference-matrix {
     grid-template-columns: 1fr;
+  }
+
+  .route-gallery-card--featured {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .route-gallery-card--featured .route-gallery-media,
+  .route-gallery-media {
+    aspect-ratio: 4 / 3;
+    min-height: 260px;
   }
 
   .arrangement-card,

@@ -42,8 +42,8 @@ export const chinaJourneys = [
     place: "Shaolin",
     line: "Zen practice, martial discipline, and mountain stillness.",
     href: "/china/shaolin",
-    image: "/images/shaolin-songshan-steps.png",
-    alt: "Ancient stone steps beside a quiet Songshan monastery wall in morning haze.",
+    image: "/images/shaolin-temple-gate.png",
+    alt: "Shaolin Temple courtyard beneath Songshan mountain haze in restrained morning light.",
     summary:
       "A private cultural route around Dengfeng and Songshan, centered on temple atmosphere, Chan heritage, martial practice, mountain roads, discipline, and stillness.",
     bestFor: "Chan atmosphere, martial discipline, mountain stillness"
@@ -285,8 +285,8 @@ export const chinaRoutePages = {
     eyebrow: "Dengfeng / Songshan",
     title: "Shaolin — Zen practice, martial discipline, and mountain stillness.",
     thesis: "Practice before performance.",
-    image: "/images/shaolin-songshan-steps.png",
-    alt: "Ancient stone steps beside a quiet Songshan monastery wall in morning haze.",
+    image: "/images/shaolin-temple-gate.png",
+    alt: "Shaolin Temple courtyard beneath Songshan mountain haze in restrained morning light.",
     body:
       "Shaolin is not a spectacle route. The deeper chapter is Chan Buddhism, martial discipline, mountain paths, morning courtyards, breath, silence, and the body as a cultural language.",
     opens: [
@@ -341,6 +341,42 @@ export const chinaRoutePages = {
       { label: "Comfort Level", value: "Comfortable base with temple and mountain textures" },
       { label: "Host Role", value: "Context keeper and practice-culture interpreter" }
     ],
+    gallery: {
+      eyebrow: "Shaolin Visual Entry",
+      title: "Temple, practice, mountain, memory.",
+      body:
+        "For a first encounter, Shaolin should read clearly: monastery architecture, disciplined movement, Buddhist memory, and the Songshan landscape that holds it together.",
+      images: [
+        {
+          title: "Monastery Atmosphere",
+          copy:
+            "Temple roofs, incense, stone, pine, and mountain haze make the spiritual setting legible before the route begins.",
+          src: "/images/shaolin-dengfeng.png",
+          alt: "Shaolin temple courtyard with mountain haze and quiet morning practice."
+        },
+        {
+          title: "Practice Culture",
+          copy:
+            "Training is presented as rhythm and discipline, not entertainment or kung fu spectacle.",
+          src: "/images/shaolin-practice-courtyard.png",
+          alt: "Restrained Shaolin martial practice in a stone temple courtyard at dawn."
+        },
+        {
+          title: "Pagoda Forest",
+          copy:
+            "Stone pagodas carry Buddhist memory and make the route feel older than a single temple visit.",
+          src: "/images/shaolin-pagoda-forest.png",
+          alt: "Shaolin Pagoda Forest with weathered stone towers and Songshan mountain haze."
+        },
+        {
+          title: "Songshan Stillness",
+          copy:
+            "Stone paths, pine, monastery walls, and mountain air keep the route grounded and quiet.",
+          src: "/images/shaolin-songshan-steps.png",
+          alt: "Ancient stone steps beside a Songshan monastery wall and misted mountain pines."
+        }
+      ]
+    },
     sampleDay: [
       {
         title: "Morning",
