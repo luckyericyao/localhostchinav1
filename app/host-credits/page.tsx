@@ -57,6 +57,9 @@ const chapterLogic = [
   "Global expansion should follow trust, not marketing pressure."
 ];
 
+const hostCreditsInquiryHref =
+  "/inquiry?type=host&sourcePage=%2Fhost-credits&sourceLabel=Host%20Credits%20page";
+
 export default function HostCreditsPage() {
   return (
     <>
@@ -74,8 +77,8 @@ export default function HostCreditsPage() {
               token or travel voucher.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/hosts">
-                Become a Host
+              <Link className="button button--dark" href={hostCreditsInquiryHref}>
+                Apply as a host
               </Link>
               <Link className="text-link" href="/trust">
                 Read the trust model
@@ -179,8 +182,8 @@ export default function HostCreditsPage() {
               a more reciprocal way for host contribution to carry forward.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/hosts">
-                Become a Host
+              <Link className="button button--dark" href={hostCreditsInquiryHref}>
+                Apply as a host
               </Link>
               <Link className="text-link" href="/about">
                 Why Localhost exists

@@ -102,6 +102,9 @@ const routeSelector = [
   }
 ];
 
+const journeysInquiryHref =
+  "/inquiry?type=traveler&sourcePage=%2Fjourneys&sourceLabel=China%20Routes%20page";
+
 export default function JourneysPage() {
   const activeJourneys = chinaJourneys.filter((journey) =>
     ["Shanxi", "Shaolin", "Huizhou"].includes(journey.place)
@@ -128,7 +131,7 @@ export default function JourneysPage() {
               judgment, cultural decoding, practical confidence, and the
               questions travelers bring. They are not fixed tour products.
             </p>
-            <Link className="button button--dark" href="/inquiry">
+            <Link className="button button--dark" href={journeysInquiryHref}>
               Request a Private Route
             </Link>
           </div>
@@ -265,7 +268,7 @@ export default function JourneysPage() {
               kind of local context that would make the place legible.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/inquiry">
+              <Link className="button button--dark" href={journeysInquiryHref}>
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/china">

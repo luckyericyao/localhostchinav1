@@ -48,6 +48,9 @@ const notFor = [
   "People who want standardized tourism"
 ];
 
+const chinaInquiryHref =
+  "/inquiry?type=traveler&route=china-general&sourcePage=%2Fchina&sourceLabel=Localhost%20China%20page";
+
 export default function ChinaPage() {
   const featuredRoutes = chinaJourneys.filter((journey) =>
     ["Shanxi", "Shaolin", "Huizhou"].includes(journey.place)
@@ -77,7 +80,7 @@ export default function ChinaPage() {
               for places where ancient China still has weight, silence,
               structure, and continuity.
             </p>
-            <Link className="button button--dark" href="/inquiry">
+            <Link className="button button--dark" href={chinaInquiryHref}>
               Request a Private Route
             </Link>
           </div>
@@ -184,7 +187,7 @@ export default function ChinaPage() {
               pace, and the kind of understanding you want to leave with.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/inquiry">
+              <Link className="button button--dark" href={chinaInquiryHref}>
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/travelers">
@@ -194,7 +197,13 @@ export default function ChinaPage() {
           </div>
         </section>
 
-        <InquirySection id="china-private-route-inquiry" compact />
+        <InquirySection
+          compact
+          id="china-private-route-inquiry"
+          routeContext="china-general"
+          sourceLabel="Localhost China page"
+          sourcePage="/china"
+        />
       </main>
       <SiteFooter />
     </>

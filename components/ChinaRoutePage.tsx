@@ -40,7 +40,27 @@ type ChinaRoutePageProps = {
   route: ChinaRoutePageContent;
 };
 
+function routeInquiryContext(route: ChinaRoutePageContent) {
+  if (route.title.includes("Shanxi")) {
+    return {
+      href: "/inquiry?type=traveler&route=shanxi&sourcePage=%2Fchina%2Fshanxi&sourceLabel=Shanxi%20route%20page"
+    };
+  }
+
+  if (route.title.includes("Shaolin")) {
+    return {
+      href: "/inquiry?type=traveler&route=shaolin&sourcePage=%2Fchina%2Fshaolin&sourceLabel=Shaolin%20route%20page"
+    };
+  }
+
+  return {
+    href: "/inquiry?type=traveler&route=huizhou&sourcePage=%2Fchina%2Fhuizhou&sourceLabel=Huizhou%20route%20page"
+  };
+}
+
 export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
+  const inquiry = routeInquiryContext(route);
+
   return (
     <>
       <SiteHeader />
@@ -54,7 +74,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               Not retro. Not staged. Ancient China, still alive.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/inquiry">
+              <Link className="button button--dark" href={inquiry.href}>
                 {route.ctaLabel}
               </Link>
               <Link className="text-link" href="/china">
@@ -250,7 +270,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
           <div className="editorial-copy">
             <p>{route.final}</p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/inquiry">
+              <Link className="button button--dark" href={inquiry.href}>
                 {route.ctaLabel}
               </Link>
               <Link className="text-link" href="/travelers">

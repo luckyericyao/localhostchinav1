@@ -93,6 +93,9 @@ const notRightFit = [
   "You only want fast photo stops with no local interpretation."
 ];
 
+const travelersInquiryHref =
+  "/inquiry?type=traveler&sourcePage=%2Ftravelers&sourceLabel=Travelers%20page";
+
 export default function TravelersPage() {
   return (
     <>
@@ -109,7 +112,7 @@ export default function TravelersPage() {
               fit, cultural fluency, and practical support handled in the
               background.
             </p>
-            <Link className="button button--dark" href="/inquiry">
+            <Link className="button button--dark" href={travelersInquiryHref}>
               Request a Private Route
             </Link>
           </div>
@@ -157,7 +160,7 @@ export default function TravelersPage() {
               how to move through China without flattening it into meetings,
               hotels, and skyline photos.
             </p>
-            <Link className="button button--dark" href="/inquiry">
+            <Link className="button button--dark" href={travelersInquiryHref}>
               Request Private Route Review
             </Link>
           </div>
@@ -228,7 +231,7 @@ export default function TravelersPage() {
               and the judgment to know when to slow down.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/inquiry">
+              <Link className="button button--dark" href={travelersInquiryHref}>
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/how-it-works">

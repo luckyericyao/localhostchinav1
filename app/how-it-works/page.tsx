@@ -37,6 +37,9 @@ const boundaries = [
   "Local judgment can change the route before it is confirmed."
 ];
 
+const howItWorksInquiryHref =
+  "/inquiry?type=traveler&sourcePage=%2Fhow-it-works&sourceLabel=How%20It%20Works%20page";
+
 export default function HowItWorksPage() {
   return (
     <>
@@ -53,7 +56,7 @@ export default function HowItWorksPage() {
               engine. A route becomes real only when intent, timing, comfort,
               local feasibility, and host fit make sense together.
             </p>
-            <Link className="button button--dark" href="/inquiry">
+            <Link className="button button--dark" href={howItWorksInquiryHref}>
               Begin a Private Route Review
             </Link>
           </div>
@@ -124,7 +127,7 @@ export default function HowItWorksPage() {
               fit.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/inquiry">
+              <Link className="button button--dark" href={howItWorksInquiryHref}>
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/trust">

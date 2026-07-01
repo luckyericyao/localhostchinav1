@@ -1,14 +1,20 @@
-import Link from "next/link";
-import { InquiryForm } from "@/components/InquiryForm";
+import { LocalhostIntakeForm } from "@/components/LocalhostIntakeForm";
+import type { LocalhostRouteContext } from "@/app/actions/submitLocalhostInquiry";
 
 type InquirySectionProps = {
-  id?: string;
   compact?: boolean;
+  id?: string;
+  routeContext?: LocalhostRouteContext;
+  sourceLabel?: string;
+  sourcePage?: string;
 };
 
 export function InquirySection({
+  compact = false,
   id = "inquiry",
-  compact = false
+  routeContext,
+  sourceLabel,
+  sourcePage = "/china"
 }: InquirySectionProps) {
   if (compact) {
     return (
@@ -20,12 +26,15 @@ export function InquirySection({
           </div>
           <div className="editorial-copy">
             <p>
-              Tell us what kind of China you want to understand. We review fit,
-              timing, and local feasibility before any route is confirmed.
+              Start lightly. A full itinerary is not needed.
             </p>
-            <Link className="button button--dark" href="/inquiry">
-              Request Private Route Review
-            </Link>
+            <LocalhostIntakeForm
+              compact
+              embedded
+              routeContext={routeContext}
+              sourceLabel={sourceLabel}
+              sourcePage={sourcePage}
+            />
           </div>
         </div>
       </section>
@@ -42,15 +51,17 @@ export function InquirySection({
             Tell us what kind of China you want to understand. We will shape the
             route, host, and local support around your curiosity.
           </p>
-          {compact ? null : (
-            <p className="fine-copy">
-              This is a private intake, not an automated booking flow. A route
-              should begin with context.
-            </p>
-          )}
+          <p className="fine-copy">
+            Start lightly. A full itinerary is not needed.
+          </p>
         </div>
 
-        <InquiryForm />
+        <LocalhostIntakeForm
+          embedded
+          routeContext={routeContext}
+          sourceLabel={sourceLabel}
+          sourcePage={sourcePage}
+        />
       </div>
     </section>
   );

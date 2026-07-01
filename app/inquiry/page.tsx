@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DetailedInquiryForm } from "@/components/DetailedInquiryForm";
+import { LocalhostIntakeForm } from "@/components/LocalhostIntakeForm";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import type {
+  LocalhostIntentType,
+  LocalhostRouteContext
+} from "@/app/actions/submitLocalhostInquiry";
 
 export const metadata: Metadata = {
   title: "Private Route Preference Intake — Localhost Global",
@@ -19,7 +23,45 @@ const afterSubmit = [
   "If the request is not a fit, we may redirect or decline it."
 ];
 
-export default function InquiryPage() {
+type InquiryPageProps = {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+};
+
+const intentTypes = ["traveler", "host", "partner"] as const;
+const routeContexts = [
+  "shanxi",
+  "shaolin",
+  "huizhou",
+  "shanghai",
+  "beijing",
+  "chengdu",
+  "china-general"
+] as const;
+
+function firstValue(value?: string | string[]) {
+  if (Array.isArray(value)) return value[0];
+  return value;
+}
+
+function parseIntent(value?: string): LocalhostIntentType | undefined {
+  return intentTypes.includes(value as LocalhostIntentType)
+    ? (value as LocalhostIntentType)
+    : undefined;
+}
+
+function parseRoute(value?: string): LocalhostRouteContext | undefined {
+  return routeContexts.includes(value as LocalhostRouteContext)
+    ? (value as LocalhostRouteContext)
+    : undefined;
+}
+
+export default async function InquiryPage({ searchParams }: InquiryPageProps) {
+  const params = (await searchParams) || {};
+  const intentType = parseIntent(firstValue(params.type)) || "traveler";
+  const routeContext = parseRoute(firstValue(params.route));
+  const sourcePage = firstValue(params.sourcePage) || "/inquiry";
+  const sourceLabel = firstValue(params.sourceLabel) || "Inquiry page";
+
   return (
     <>
       <SiteHeader />
@@ -35,7 +77,7 @@ export default function InquiryPage() {
               host fit help us shape a private route.
             </p>
             <p className="support-subhead">
-              This is not a booking engine.
+              Start lightly. A full itinerary is not needed.
             </p>
           </div>
         </section>
@@ -43,16 +85,15 @@ export default function InquiryPage() {
         <section className="section section--inquiry" id="private-route">
           <div className="inquiry-shell inquiry-shell--wide">
             <div className="inquiry-copy">
-              <p className="eyebrow">Private Route Preference System</p>
-              <h2>A route shaped around taste, rhythm, and host fit.</h2>
+              <p className="eyebrow">Step 1: Start</p>
+              <h2>Begin with email and one sentence.</h2>
               <p>
-                The more specific you are, the better Localhost can understand
-                route fit, food rhythm, comfort direction, practical support,
-                and the kind of local person you would trust.
+                You can submit after the first step. Optional details are there
+                only if they help route fit.
               </p>
               <p className="fine-copy">
-                Traveler intake is prioritized here. Host and partner paths
-                remain available for people building the network.
+                For traveler inquiries, one sentence is enough: what kind of
+                China do you want to understand?
               </p>
               <p className="fine-copy">
                 Pricing depends on route depth, host involvement, logistics,
@@ -60,7 +101,13 @@ export default function InquiryPage() {
                 before the route scope is understood.
               </p>
             </div>
-            <DetailedInquiryForm />
+            <LocalhostIntakeForm
+              contextLocked={Boolean(routeContext)}
+              intentType={intentType}
+              routeContext={routeContext}
+              sourceLabel={sourceLabel}
+              sourcePage={sourcePage}
+            />
           </div>
         </section>
 

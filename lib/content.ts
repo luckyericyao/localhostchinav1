@@ -608,7 +608,8 @@ export const chinaSupportPages = {
       body:
         "The right host can turn a day from movement into understanding: a road, a meal, a small habit, a better choice, and the context that makes it meaningful.",
       primaryLabel: "Request a Private Route",
-      primaryHref: "/inquiry",
+      primaryHref:
+        "/inquiry?type=traveler&route=china-general&sourcePage=%2Fchina%2Flocal-hosts&sourceLabel=Local%20Hosts%20support%20page",
       secondaryLabel: "Back to China",
       secondaryHref: "/china"
     }
@@ -674,7 +675,8 @@ export const chinaSupportPages = {
       body:
         "Shanxi, Shaolin, Huizhou, and Shanghai are starting points. The real route is shaped by the traveler’s curiosity, timing, food, movement, and judgment.",
       primaryLabel: "Request a Private Route",
-      primaryHref: "/inquiry",
+      primaryHref:
+        "/inquiry?type=traveler&route=china-general&sourcePage=%2Fchina%2Fprivate-routes&sourceLabel=Private%20Routes%20support%20page",
       secondaryLabel: "Explore Signature China Routes",
       secondaryHref: "/china#journeys"
     }
@@ -741,7 +743,8 @@ export const chinaSupportPages = {
       body:
         "The traveler may be able to visit alone, but the right local support can change the confidence, depth, and texture of the entire journey.",
       primaryLabel: "Request a Private Route",
-      primaryHref: "/inquiry",
+      primaryHref:
+        "/inquiry?type=traveler&route=china-general&sourcePage=%2Fchina%2Fseamless-logistics&sourceLabel=Seamless%20Logistics%20support%20page",
       secondaryLabel: "Back to China",
       secondaryHref: "/china"
     }
@@ -805,7 +808,8 @@ export const chinaSupportPages = {
       body:
         "Real access is the difference between seeing a place and understanding the texture of how people live there.",
       primaryLabel: "Request a Private Route",
-      primaryHref: "/inquiry",
+      primaryHref:
+        "/inquiry?type=traveler&route=china-general&sourcePage=%2Fchina%2Freal-access&sourceLabel=Real%20Access%20support%20page",
       secondaryLabel: "Explore China Routes",
       secondaryHref: "/china#journeys"
     }

@@ -72,6 +72,11 @@ const boundaries = [
   "A public guide marketplace is not the model."
 ];
 
+const trustTravelerInquiryHref =
+  "/inquiry?type=traveler&sourcePage=%2Ftrust&sourceLabel=Trust%20page";
+const trustPartnerInquiryHref =
+  "/inquiry?type=partner&sourcePage=%2Ftrust&sourceLabel=Trust%20page";
+
 export default function TrustPage() {
   return (
     <>
@@ -89,11 +94,11 @@ export default function TrustPage() {
               The point is trust that can hold.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/inquiry">
+              <Link className="button button--dark" href={trustTravelerInquiryHref}>
                 Request a Private Route
               </Link>
-              <Link className="text-link" href="/hosts">
-                Apply to Become a Host
+              <Link className="text-link" href={trustPartnerInquiryHref}>
+                Start partner conversation
               </Link>
             </div>
           </div>
@@ -170,11 +175,11 @@ export default function TrustPage() {
               understand intent before any host, city, or chapter is confirmed.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/inquiry">
+              <Link className="button button--dark" href={trustTravelerInquiryHref}>
                 Request a Private Route
               </Link>
-              <Link className="text-link" href="/hosts">
-                Apply to Become a Host
+              <Link className="text-link" href={trustPartnerInquiryHref}>
+                Start partner conversation
               </Link>
             </div>
           </div>

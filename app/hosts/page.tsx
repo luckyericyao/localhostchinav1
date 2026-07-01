@@ -72,6 +72,9 @@ const goodHostSignals = [
   "They understand that hospitality is selective, not performative."
 ];
 
+const hostInquiryHref =
+  "/inquiry?type=host&sourcePage=%2Fhosts&sourceLabel=Hosts%20page";
+
 export default function HostsPage() {
   return (
     <>
@@ -88,7 +91,7 @@ export default function HostsPage() {
               people who can hold context, make good decisions, and welcome
               travelers without turning the place into a stage.
             </p>
-            <Link className="button button--dark" href="/inquiry">
+            <Link className="button button--dark" href={hostInquiryHref}>
               Apply to Become a Host
             </Link>
           </div>
@@ -175,7 +178,7 @@ export default function HostsPage() {
               travelers move with enough confidence to notice what matters.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/inquiry">
+              <Link className="button button--dark" href={hostInquiryHref}>
                 Apply to Become a Host
               </Link>
               <Link className="text-link" href="/host-credits">

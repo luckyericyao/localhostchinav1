@@ -27,7 +27,10 @@ export function SiteFooter() {
         <Link href="/host-credits">Host Credits</Link>
       </nav>
       <div className="footer-actions" aria-label="Footer actions">
-        <Link className="button button--light" href="/inquiry">
+        <Link
+          className="button button--light"
+          href="/inquiry?type=traveler&sourcePage=%2F&sourceLabel=Footer"
+        >
           Request a Private Route
         </Link>
       </div>

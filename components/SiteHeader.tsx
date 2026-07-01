@@ -17,7 +17,10 @@ export function SiteHeader({ tone = "solid" }: SiteHeaderProps) {
         <Link href="/hosts">For Hosts</Link>
         <Link href="/trust">Trust</Link>
       </nav>
-      <Link className="nav-cta" href="/inquiry">
+      <Link
+        className="nav-cta"
+        href="/inquiry?type=traveler&sourcePage=%2F&sourceLabel=Header"
+      >
         Request Route
       </Link>
     </header>

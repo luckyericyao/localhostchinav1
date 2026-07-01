@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { LocalhostIntakeForm } from "@/components/LocalhostIntakeForm";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { chinaJourneys } from "@/lib/content";
@@ -137,6 +138,13 @@ const networkLinks = [
   }
 ];
 
+const homeInquiryHref =
+  "/inquiry?type=traveler&sourcePage=%2F&sourceLabel=Homepage";
+const homeHeroInquiryHref =
+  "/inquiry?type=traveler&sourcePage=%2F&sourceLabel=Homepage%20hero";
+const homeFinalInquiryHref =
+  "/inquiry?type=traveler&sourcePage=%2F&sourceLabel=Homepage%20final";
+
 export default function Home() {
   const featuredJourneys = chinaJourneys.filter((journey) =>
     ["Shanxi", "Shaolin", "Huizhou"].includes(journey.place)
@@ -165,7 +173,7 @@ export default function Home() {
               private route design, cultural context, and practical confidence.
             </p>
             <div className="hero-actions" aria-label="Primary actions">
-              <Link className="button button--light" href="/inquiry">
+              <Link className="button button--light" href={homeHeroInquiryHref}>
                 Request a Private Route
               </Link>
               <Link className="button button--ghost" href="/journeys">
@@ -178,6 +186,19 @@ export default function Home() {
             <p className="positioning-line">
               Not retro. Not staged. Ancient China, still alive.
             </p>
+            <div className="hero-intake-panel">
+              <div>
+                <p className="eyebrow">Private Review</p>
+                <h2>Start with a private route question.</h2>
+                <p>Start lightly. A full itinerary is not needed.</p>
+              </div>
+              <LocalhostIntakeForm
+                compact
+                embedded
+                sourceLabel="Homepage hero"
+                sourcePage="/"
+              />
+            </div>
           </div>
         </section>
 
@@ -403,7 +424,7 @@ export default function Home() {
               scale.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href="/inquiry">
+              <Link className="button button--dark" href={homeFinalInquiryHref}>
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/china">
@@ -424,7 +445,7 @@ export default function Home() {
                 Every private route begins with a review of intent, timing,
                 comfort, curiosity, and host fit. This is not instant booking.
               </p>
-              <Link className="button button--dark" href="/inquiry">
+              <Link className="button button--dark" href={homeInquiryHref}>
                 Request Private Route Review
               </Link>
             </div>
