@@ -2195,6 +2195,44 @@ h3 {
   color: var(--charcoal);
 }
 
+.intake-assurance {
+  background: rgba(223, 232, 223, 0.32);
+  border: 1px solid rgba(104, 118, 107, 0.2);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.intake-assurance .eyebrow {
+  color: var(--mist-dark);
+  margin-bottom: 12px;
+}
+
+.intake-assurance ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.intake-assurance li {
+  color: var(--deep-brown);
+  font-size: 0.94rem;
+  line-height: 1.45;
+  padding-left: 18px;
+  position: relative;
+}
+
+.intake-assurance li::before {
+  background: var(--mist-dark);
+  border-radius: 999px;
+  content: "";
+  height: 5px;
+  left: 0;
+  position: absolute;
+  top: 0.72em;
+  width: 5px;
+}
+
 .optional-toggle,
 .text-button {
   background: transparent;
@@ -2547,6 +2585,17 @@ h3 {
 
 .form-status p {
   margin-bottom: 0;
+}
+
+.form-status .text-link {
+  display: inline-block;
+  margin-top: 12px;
+}
+
+.contact-copy {
+  color: var(--mist-dark) !important;
+  font-size: 0.9rem;
+  margin-top: 10px;
 }
 
 .form-status--error {

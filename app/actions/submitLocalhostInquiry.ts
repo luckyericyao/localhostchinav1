@@ -1,6 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
+import { localhostContactEmail } from "@/lib/contact";
 
 export type LocalhostIntentType = "traveler" | "host" | "partner";
 
@@ -29,6 +30,8 @@ export type LocalhostInquiryPayload = {
 };
 
 export type LocalhostInquiryResult = {
+  contactEmail?: string;
+  mailtoHref?: string;
   message: string;
   ok: boolean;
   summary?: {
@@ -50,6 +53,52 @@ function cleanText(value?: string) {
 
 function hasRouteContext(routeContext?: LocalhostRouteContext) {
   return Boolean(routeContext);
+}
+
+function formatLabel(value: string) {
+  return value
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (char) => char.toUpperCase());
+}
+
+function buildInquiryEmail(payload: {
+  createdAt: string;
+  email: string;
+  intentType: LocalhostIntentType;
+  locale: string;
+  optionalDetails: Record<string, string>;
+  routeContext?: LocalhostRouteContext;
+  shortNote: string;
+  sourceLabel: string;
+  sourcePage: string;
+}) {
+  const detailLines = Object.entries(payload.optionalDetails)
+    .filter(([, value]) => cleanText(value))
+    .map(([key, value]) => `${formatLabel(key)}: ${cleanText(value)}`);
+
+  const body = [
+    "Localhost private route review",
+    "",
+    `Role: ${payload.intentType}`,
+    `Traveler email: ${payload.email}`,
+    payload.routeContext ? `Route context: ${payload.routeContext}` : "",
+    payload.shortNote ? `One-sentence intent: ${payload.shortNote}` : "",
+    payload.sourcePage ? `Source page: ${payload.sourcePage}` : "",
+    payload.sourceLabel ? `Source label: ${payload.sourceLabel}` : "",
+    payload.locale ? `Browser language: ${payload.locale}` : "",
+    `Prepared at: ${payload.createdAt}`,
+    "",
+    detailLines.length ? "Optional details:" : "",
+    ...detailLines
+  ].filter(Boolean);
+
+  const subject = `Localhost inquiry — ${payload.intentType}${
+    payload.routeContext ? ` / ${payload.routeContext}` : ""
+  }`;
+
+  return `mailto:${localhostContactEmail}?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body.join("\n"))}`;
 }
 
 export async function submitLocalhostInquiry(
@@ -116,10 +165,15 @@ export async function submitLocalhostInquiry(
 
   console.info("Localhost inquiry received", normalizedPayload);
 
+  const mailtoHref = buildInquiryEmail(normalizedPayload);
+
   return {
-    message: payload.routeContext
-      ? "Received. Your route context has been included automatically."
-      : "Received. Localhost will review your intent, route fit, and timing before suggesting next steps.",
+    contactEmail: localhostContactEmail,
+    mailtoHref,
+    message:
+      payload.intentType === "traveler"
+        ? "Your private route review has been prepared. If your email client does not open, please contact us directly."
+        : "Your private inquiry has been prepared. If your email client does not open, please contact us directly.",
     ok: true,
     summary: {
       email,

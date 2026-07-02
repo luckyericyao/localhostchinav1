@@ -32,6 +32,10 @@ pnpm install
 pnpm dev
 ```
 
+Optional environment variable:
+
+- `LOCALHOST_CONTACT_EMAIL` — email address used for prepared inquiry mailto fallback
+
 ## Validation
 
 ```bash

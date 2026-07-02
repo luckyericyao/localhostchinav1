@@ -17,11 +17,11 @@ export const metadata: Metadata = {
 };
 
 const afterSubmit = [
+  "A prepared email opens with your route review details.",
   "We read for intent, not just dates.",
   "We identify the right route direction.",
   "We check whether a local host fit is realistic.",
-  "We shape the food, pace, comfort, and support level.",
-  "We clarify what is feasible before anything becomes a route.",
+  "We clarify feasibility before anything becomes a route.",
   "If the request is not a fit, we may redirect or decline it."
 ];
 
@@ -92,8 +92,9 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
               <p className="eyebrow">Step 1: Start</p>
               <h2>Begin with email and one sentence.</h2>
               <p>
-                You can submit after the first step. Optional details are there
-                only if they help route fit.
+                Submit the short version first. We prepare a structured email
+                inquiry so a human can review fit, timing, and local
+                feasibility.
               </p>
               <p className="fine-copy">
                 For traveler inquiries, one sentence is enough: what kind of

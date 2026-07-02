@@ -43,8 +43,8 @@ const roleCopy: Record<LocalhostIntentType, { helper: string; label: string }> =
     label: "What place, city, field, or local world could you help someone enter?"
   },
   partner: {
-    helper: "Share the chapter, relationship, or collaboration you want to explore.",
-    label: "What kind of chapter, relationship, or collaboration are you considering?"
+    helper: "Share the route, relationship, or collaboration you want to explore.",
+    label: "What kind of route, relationship, or collaboration are you considering?"
   },
   traveler: {
     helper: "One sentence is enough: what kind of China do you want to understand?",
@@ -83,7 +83,7 @@ const travelerDetails: DetailField[] = [
     options: [
       "Route advisory",
       "Hosted private route",
-      "Fully held China chapter",
+      "Fully held China route",
       "Food, movement, and local interpretation",
       "Apps, payments, and translation support",
       "Not sure yet"
@@ -108,7 +108,7 @@ const hostDetails: DetailField[] = [
   {
     label: "Availability",
     name: "availability",
-    options: ["Occasional hosting", "Weekend or evening hosting", "Specialist-only hosting", "Chapter-building role", "Not sure yet"],
+    options: ["Occasional hosting", "Weekend or evening hosting", "Specialist-only hosting", "Route-building role", "Not sure yet"],
     type: "select"
   },
   { label: "Host style", name: "hostStyle" },
@@ -124,11 +124,11 @@ const partnerDetails: DetailField[] = [
   {
     label: "Partnership type",
     name: "partnershipType",
-    options: ["Local chapter partner", "Hospitality partner", "Cultural institution", "Education / research", "Brand or private client work", "Not sure yet"],
+    options: ["Local route partner", "Hospitality partner", "Cultural institution", "Education / research", "Brand or private client work", "Not sure yet"],
     type: "select"
   },
   { label: "Local network", name: "localNetwork", type: "textarea" },
-  { label: "Route/chapter idea", name: "chapterIdea", type: "textarea" },
+  { label: "Route or collaboration idea", name: "chapterIdea", type: "textarea" },
   { label: "Operational role", name: "operationalRole" },
   { label: "Notes", name: "notes", type: "textarea" }
 ];
@@ -154,7 +154,7 @@ function submitLabel(intentType: LocalhostIntentType, sourcePage?: string) {
   if (intentType === "host") return "Apply as a host";
   if (intentType === "partner") return "Start partner conversation";
   if (sourcePage === "/") return "Begin private review";
-  return "Submit private inquiry";
+  return "Request Private Route Review";
 }
 
 function fullIntakeHref({
@@ -254,6 +254,9 @@ export function LocalhostIntakeForm({
       }
 
       setResult(response);
+      if (response.mailtoHref) {
+        window.location.href = response.mailtoHref;
+      }
     });
   }
 
@@ -317,6 +320,17 @@ export function LocalhostIntakeForm({
             ))}
           </div>
         </fieldset>
+      ) : null}
+
+      {!compact ? (
+        <div className="intake-assurance">
+          <p className="eyebrow">Before You Write</p>
+          <ul>
+            <li>One honest sentence is enough to begin.</li>
+            <li>A human reviews fit, timing, route direction, and local feasibility.</li>
+            <li>This prepares an email inquiry. It is not payment or instant booking.</li>
+          </ul>
+        </div>
       ) : null}
 
       <label>
@@ -440,6 +454,14 @@ export function LocalhostIntakeForm({
             {activeIntent.charAt(0).toUpperCase() + activeIntent.slice(1)} / {email}
             {routeLabel ? ` / ${routeLabel}` : null}
           </p>
+          {result.mailtoHref ? (
+            <a className="text-link" href={result.mailtoHref}>
+              Send prepared email
+            </a>
+          ) : null}
+          {result.contactEmail ? (
+            <p className="contact-copy">Direct contact: {result.contactEmail}</p>
+          ) : null}
           {!detailsOpen ? (
             <button
               className="text-button"
