@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { culturalVisualLayers } from "@/lib/content";
 
 type SupportCard = {
   title: string;
@@ -86,6 +88,8 @@ export function ChinaSupportDetailPage({ page }: ChinaSupportDetailPageProps) {
             <p>{page.intro.body}</p>
           </div>
         </section>
+
+        <CulturalImageLayer {...culturalVisualLayers.china} tone="paper" />
 
         {page.cardSection ? (
           <section className="section section--stone">

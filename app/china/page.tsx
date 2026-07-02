@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { InquirySection } from "@/components/InquirySection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { arrangements, chinaJourneys } from "@/lib/content";
+import { arrangements, chinaJourneys, culturalVisualLayers } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Localhost China — Real Ancient China",
@@ -100,6 +101,8 @@ export default function ChinaPage() {
             ))}
           </div>
         </section>
+
+        <CulturalImageLayer {...culturalVisualLayers.china} tone="paper" />
 
         <section className="section" aria-labelledby="china-arrange">
           <div className="section-heading section-heading--center">

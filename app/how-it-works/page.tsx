@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { culturalVisualLayers } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "How It Works — Localhost Global",
@@ -73,6 +75,8 @@ export default function HowItWorksPage() {
             ))}
           </ol>
         </section>
+
+        <CulturalImageLayer {...culturalVisualLayers.china} tone="paper" />
 
         <section className="section split-layout">
           <div className="section-heading">

@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { chinaJourneys, futureChinaJourneys } from "@/lib/content";
+import {
+  chinaJourneys,
+  culturalVisualLayers,
+  futureChinaJourneys
+} from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "China Routes — Localhost Global",
@@ -160,6 +165,8 @@ export default function JourneysPage() {
             ))}
           </div>
         </section>
+
+        <CulturalImageLayer {...culturalVisualLayers.journeys} tone="paper" />
 
         <section className="section section-atmosphere atmosphere-ink journeys-atlas-section">
           <div className="section-heading section-heading--center">

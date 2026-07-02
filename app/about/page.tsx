@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { culturalVisualLayers } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "About — Localhost Global",
@@ -77,6 +79,8 @@ export default function AboutPage() {
             </p>
           </div>
         </section>
+
+        <CulturalImageLayer {...culturalVisualLayers.home} tone="paper" />
 
         <section className="section section--stone">
           <div className="section-heading section-heading--center">

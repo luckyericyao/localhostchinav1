@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { LocalhostIntakeForm } from "@/components/LocalhostIntakeForm";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -7,6 +8,7 @@ import type {
   LocalhostIntentType,
   LocalhostRouteContext
 } from "@/app/actions/submitLocalhostInquiry";
+import { culturalVisualLayers } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Private Route Preference Intake — Localhost Global",
@@ -81,6 +83,8 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
             </p>
           </div>
         </section>
+
+        <CulturalImageLayer {...culturalVisualLayers.inquiry} tone="paper" />
 
         <section className="section section--inquiry" id="private-route">
           <div className="inquiry-shell inquiry-shell--wide">

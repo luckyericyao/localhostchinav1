@@ -25,6 +25,226 @@ export const arrangements = [
   }
 ];
 
+export const culturalVisualLayers = {
+  home: {
+    eyebrow: "Cultural Texture",
+    title: "China is read through practice, roads, temples, tea, and quiet judgment.",
+    body:
+      "Localhost routes use visible cultural texture as an entry point: movement, old roads, temple thresholds, tea tables, and the slower intelligence of place.",
+    items: [
+      {
+        title: "Martial Discipline",
+        copy:
+          "Practice culture is shown as rhythm, repetition, breath, and restraint before spectacle.",
+        src: "/images/shaolin-practice-courtyard.png",
+        alt: "Restrained Shaolin martial practice in a stone courtyard at dawn."
+      },
+      {
+        title: "Ancient Roads",
+        copy:
+          "Old stone roads, temple gates, and walled thresholds make historical China feel physically present.",
+        src: "/images/cultural-ancient-road.png",
+        alt: "Ancient Chinese stone road leading toward an old temple gate in mountain haze."
+      },
+      {
+        title: "Temple Thresholds",
+        copy:
+          "Wood, stone, incense, and shadow hold the spiritual grammar behind the route.",
+        src: "/images/cultural-temple-threshold.png",
+        alt: "Old Chinese timber temple threshold with incense light and courtyard beyond."
+      },
+      {
+        title: "Tea & Weiqi",
+        copy:
+          "A quiet table can reveal taste, pace, attention, and how local judgment is shared.",
+        src: "/images/cultural-tea-weiqi.png",
+        alt: "Chinese tea and weiqi board on an old courtyard table in soft light."
+      }
+    ]
+  },
+  china: {
+    eyebrow: "How China Becomes Legible",
+    title: "Architecture, movement, table culture, and silence.",
+    body:
+      "The route is not only where you go. It is what someone helps you notice: stone, timber, training, tea, food, weather, timing, and the meaning behind a threshold.",
+    items: [
+      {
+        title: "Old Roads",
+        copy:
+          "Movement matters: the way into a site can carry as much context as the site itself.",
+        src: "/images/cultural-ancient-road.png",
+        alt: "Weathered stone road approaching an old Chinese temple gate."
+      },
+      {
+        title: "Old Temples",
+        copy:
+          "Temple spaces ask for etiquette, patience, and the ability to read atmosphere.",
+        src: "/images/cultural-temple-threshold.png",
+        alt: "Ancient temple interior threshold with incense and courtyard light."
+      },
+      {
+        title: "Practice",
+        copy:
+          "Discipline is cultural language: body, repetition, stillness, and mountain rhythm.",
+        src: "/images/shaolin-practice-courtyard.png",
+        alt: "Shaolin practitioners training quietly in a monastery courtyard."
+      },
+      {
+        title: "Tea & Strategy",
+        copy:
+          "Tea and weiqi hold a quieter social intelligence: patience, reading, and timing.",
+        src: "/images/cultural-tea-weiqi.png",
+        alt: "Tea set and weiqi board in a traditional Chinese courtyard."
+      }
+    ]
+  },
+  journeys: {
+    eyebrow: "Route Language",
+    title: "Each route should have a different visual temperature.",
+    body:
+      "Shanxi carries weight, Shaolin carries discipline, Huizhou carries ink and tea. The page should let those differences be felt before they are explained.",
+    items: [
+      {
+        title: "Road-Based North",
+        copy:
+          "Stone roads and old thresholds make northern historical depth tangible.",
+        src: "/images/cultural-ancient-road.png",
+        alt: "Ancient road and old gate in northern Chinese mountain light."
+      },
+      {
+        title: "Mountain Practice",
+        copy:
+          "Shaolin reads through restraint, early air, monastery walls, and measured movement.",
+        src: "/images/shaolin-practice-courtyard.png",
+        alt: "Quiet Shaolin practice culture in a temple courtyard."
+      },
+      {
+        title: "Ink & Tea",
+        copy:
+          "Huizhou and southern China are often understood through courtyards, tea, water, and pause.",
+        src: "/images/cultural-tea-weiqi.png",
+        alt: "Tea and weiqi in an old courtyard with pale plaster walls."
+      }
+    ]
+  },
+  travelers: {
+    eyebrow: "What Travelers Learn To Read",
+    title: "The real value is often in the details.",
+    body:
+      "A host can help a traveler read small but decisive things: when to slow down, how to enter a temple, what a table is saying, and which old road deserves time.",
+    items: [
+      {
+        title: "How To Enter",
+        copy:
+          "Temple thresholds and local etiquette often matter more than another stop on the map.",
+        src: "/images/cultural-temple-threshold.png",
+        alt: "Old temple threshold with incense and morning courtyard light."
+      },
+      {
+        title: "How To Slow Down",
+        copy:
+          "Tea, weiqi, and quiet conversation make room for cultural reading.",
+        src: "/images/cultural-tea-weiqi.png",
+        alt: "Tea set and weiqi board in a quiet Chinese courtyard."
+      },
+      {
+        title: "How To Move",
+        copy:
+          "Ancient roads and modern logistics both need timing, judgment, and local steadiness.",
+        src: "/images/cultural-ancient-road.png",
+        alt: "Stone road leading toward an old Chinese gate and mountains."
+      }
+    ]
+  },
+  hosts: {
+    eyebrow: "What Hosts Hold",
+    title: "A host represents a local world, not a script.",
+    body:
+      "Good hosts can hold practice, food, architecture, conversation, boundaries, and the dignity of the place without turning culture into performance.",
+    items: [
+      {
+        title: "Practice Without Performance",
+        copy:
+          "Specialist hosts help serious traditions stay grounded and legible.",
+        src: "/images/shaolin-practice-courtyard.png",
+        alt: "Shaolin practitioners in quiet dawn training."
+      },
+      {
+        title: "Context At The Table",
+        copy:
+          "Tea, food, and conversation are part of local intelligence, not filler between sites.",
+        src: "/images/cultural-tea-weiqi.png",
+        alt: "Chinese tea and weiqi table in an old courtyard."
+      },
+      {
+        title: "Boundaries Of Place",
+        copy:
+          "Old temples and courtyards ask for restraint, timing, and respect.",
+        src: "/images/cultural-temple-threshold.png",
+        alt: "Temple threshold with incense smoke and timber columns."
+      }
+    ]
+  },
+  trust: {
+    eyebrow: "Trust Has A Setting",
+    title: "Private access only works when the place is protected.",
+    body:
+      "The visual language should remind travelers that culture is not a commodity: temples, roads, tables, and practice spaces need boundaries before access.",
+    items: [
+      {
+        title: "Protected Thresholds",
+        copy:
+          "Not every place should be entered quickly, loudly, or without context.",
+        src: "/images/cultural-temple-threshold.png",
+        alt: "Quiet old temple threshold with incense and courtyard light."
+      },
+      {
+        title: "Clear Movement",
+        copy:
+          "Good route design knows what to open, what to slow, and what to avoid.",
+        src: "/images/cultural-ancient-road.png",
+        alt: "Ancient stone road approaching an old gate under mountain haze."
+      },
+      {
+        title: "Human Judgment",
+        copy:
+          "Trust is often built at the table: conversation, pace, taste, and discretion.",
+        src: "/images/cultural-tea-weiqi.png",
+        alt: "Tea set and weiqi board on a wooden table in a courtyard."
+      }
+    ]
+  },
+  inquiry: {
+    eyebrow: "Before The Route",
+    title: "Start with the layer you want to understand.",
+    body:
+      "Your first note can be simple: old roads, temple culture, martial discipline, tea, food, family memory, architecture, or the kind of China you keep thinking about.",
+    items: [
+      {
+        title: "Ancient Roads",
+        copy:
+          "For travelers drawn to movement, geography, old gates, and civilizational weight.",
+        src: "/images/cultural-ancient-road.png",
+        alt: "Ancient Chinese stone road leading to a temple gate."
+      },
+      {
+        title: "Tea & Weiqi",
+        copy:
+          "For travelers drawn to taste, pause, strategy, conversation, and inward China.",
+        src: "/images/cultural-tea-weiqi.png",
+        alt: "Tea and weiqi board in an old Chinese courtyard."
+      },
+      {
+        title: "Temple Culture",
+        copy:
+          "For travelers drawn to incense, timber halls, practice, silence, and spiritual context.",
+        src: "/images/cultural-temple-threshold.png",
+        alt: "Old temple threshold with incense vessel and soft courtyard light."
+      }
+    ]
+  }
+} as const;
+
 export const chinaJourneys = [
   {
     place: "Shanxi",
@@ -209,6 +429,42 @@ export const chinaRoutePages = {
       { label: "Comfort Level", value: "High-comfort with some older-site texture" },
       { label: "Host Role", value: "Cultural interpreter and route steadying presence" }
     ],
+    gallery: {
+      eyebrow: "Shanxi Visual Entry",
+      title: "Stone, timber, road, and Buddhist weight.",
+      body:
+        "Shanxi should feel material and old: grotto stone, timber architecture, ancient roads, temple thresholds, and the dry northern earth beneath the route.",
+      images: [
+        {
+          title: "Buddhist Stone",
+          copy:
+            "Grottoes and carved stone carry the scale and silence of northern Buddhist history.",
+          src: "/images/shanxi-ancient-grotto.png",
+          alt: "Weathered Buddhist grotto stone and old temple architecture in Shanxi."
+        },
+        {
+          title: "Ancient Road",
+          copy:
+            "Road time is part of the chapter: old routes, walled thresholds, and patient movement.",
+          src: "/images/cultural-ancient-road.png",
+          alt: "Ancient stone road leading toward an old Chinese gate in mountain haze."
+        },
+        {
+          title: "Temple Threshold",
+          copy:
+            "Wood, incense, and shadow make the spiritual layer easier to feel before it is explained.",
+          src: "/images/cultural-temple-threshold.png",
+          alt: "Old timber temple threshold with incense and courtyard light."
+        },
+        {
+          title: "Northern Architecture",
+          copy:
+            "Timber, courtyards, walls, and old surfaces make time visible.",
+          src: "/images/shanxi-flagship.png",
+          alt: "Ancient Shanxi architecture in quiet editorial light."
+        }
+      ]
+    },
     sampleDay: [
       {
         title: "Morning",
@@ -509,6 +765,42 @@ export const chinaRoutePages = {
       { label: "Comfort Level", value: "Refined stays where available, rural texture nearby" },
       { label: "Host Role", value: "Village reader, tea companion, architecture interpreter" }
     ],
+    gallery: {
+      eyebrow: "Huizhou Visual Entry",
+      title: "White walls, tea, mist, and inward beauty.",
+      body:
+        "Huizhou should feel quieter than scenic tourism: rain-washed lanes, ancestral halls, tea tables, ink-like mountains, and the social memory behind the architecture.",
+      images: [
+        {
+          title: "Village Lanes",
+          copy:
+            "White walls, black tiles, stone lanes, and rain hold the route in a quieter register.",
+          src: "/images/huizhou-rain-courtyard.png",
+          alt: "Rain-washed Huizhou lane with white walls and dark tiled roofs."
+        },
+        {
+          title: "Tea & Weiqi",
+          copy:
+            "Tea and weiqi make the route feel inward: taste, pause, conversation, and reading.",
+          src: "/images/cultural-tea-weiqi.png",
+          alt: "Tea set and weiqi board in an old courtyard."
+        },
+        {
+          title: "Mountain Mist",
+          copy:
+            "Huangshan atmosphere gives the route its ink-landscape horizon.",
+          src: "/images/huizhou-huangshan.png",
+          alt: "Huizhou and Huangshan atmosphere with mist and mountain light."
+        },
+        {
+          title: "Courtyard Culture",
+          copy:
+            "Old thresholds and private rooms help explain family memory, taste, and merchant culture.",
+          src: "/images/cultural-temple-threshold.png",
+          alt: "Old Chinese timber threshold with stone courtyard beyond."
+        }
+      ]
+    },
     sampleDay: [
       {
         title: "Morning",
