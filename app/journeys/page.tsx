@@ -56,11 +56,11 @@ const atlasEntries = [
     place: "Shanghai",
     href: "/china/shanghai",
     status: "Active Chapter",
-    mood: "First-stop confidence, food, night rhythm",
+    mood: "Composed arrival, private table, discreet night",
     pace: "Polished and arrival-aware",
     hostType: "Route Host / Chapter Lead",
     copy:
-      "A Bund walk, discreet dining, a secret night ending, and practical confidence for entering China."
+      "A Bund walk, a private table, a secret night ending, and the confidence to move deeper into China."
   },
   {
     mode: "Imperial Memory & Capital Rhythm",
@@ -109,7 +109,7 @@ const routeSelector = [
     title: "Shanghai",
     href: "/china/shanghai",
     copy:
-      "Choose this if you want your first stop to do more: Bund context, VIP dining, a secret night ending, and confidence before deeper China."
+      "Choose this if your first stop should feel composed: Bund context, a private table, a secret night ending, and confidence before deeper China."
   }
 ];
 

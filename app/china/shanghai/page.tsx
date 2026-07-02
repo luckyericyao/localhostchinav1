@@ -5,7 +5,7 @@ import { chinaRoutePages } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Shanghai — Localhost China",
   description:
-    "A private Shanghai first-stop route shaped around a Bund walk, discreet dining, a secret night ending, and confident entry into China."
+    "A private Shanghai first-stop route shaped around a Bund walk, a private table, a secret night ending, and confident entry into China."
 };
 
 export default function ShanghaiPage() {
