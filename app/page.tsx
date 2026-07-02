@@ -40,7 +40,7 @@ const privateRouteIncludes = [
   {
     title: "Trusted local host matching",
     copy:
-      "A selected local host or chapter contact matched for judgment, cultural fluency, reliability, and route fit."
+      "A selected local host or local contact matched for judgment, cultural fluency, reliability, and route fit."
   },
   {
     title: "Practical support",
@@ -78,6 +78,24 @@ const featuredRoutePreview = [
   }
 ];
 
+const simpleVersion = [
+  {
+    title: "You do not choose from packages.",
+    copy:
+      "You tell us what kind of China you want to understand. We shape the route around timing, comfort, curiosity, and fit."
+  },
+  {
+    title: "You are not matched with a random guide.",
+    copy:
+      "A trusted local host or contact supports the moments where judgment matters: food, movement, etiquette, context, and adjustment."
+  },
+  {
+    title: "You do not solve China alone.",
+    copy:
+      "Payments, transport, translation, restaurants, timing, and local decisions can be handled quietly in the background."
+  }
+];
+
 const howItWorks = [
   "Tell us what kind of China you want to enter.",
   "We shape a private route with local context.",
@@ -97,7 +115,7 @@ const entryWays = [
       "A selected host joins key moments: meals, movement, interpretation, and decisions where local judgment matters."
   },
   {
-    title: "Fully Held China Chapter",
+    title: "Fully Held China Route",
     copy:
       "Route design, host layer, logistics, timing, translation, payments, and day-to-day support held together."
   }
@@ -178,7 +196,7 @@ export default function Home() {
                 Request a Private Route
               </Link>
               <Link className="button button--ghost" href="/journeys">
-                Explore China Chapters
+                Explore China Routes
               </Link>
             </div>
             <p className="positioning-line">
@@ -200,6 +218,25 @@ export default function Home() {
                 sourcePage="/"
               />
             </div>
+          </div>
+        </section>
+
+        <section className="section section-atmosphere atmosphere-ivory">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">The Simple Version</p>
+            <h2>Private China travel, made legible.</h2>
+            <p>
+              Localhost is for travelers who want local judgment, not a public
+              guide marketplace, group tour, or instant booking engine.
+            </p>
+          </div>
+          <div className="support-card-grid support-card-grid--three">
+            {simpleVersion.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
           </div>
         </section>
 
@@ -431,7 +468,7 @@ export default function Home() {
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/china">
-                Explore China Chapters
+                Explore China Routes
               </Link>
             </div>
           </div>

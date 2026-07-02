@@ -36,6 +36,29 @@ const whyChina = [
   }
 ];
 
+const firstTimeChina = [
+  {
+    title: "Start with arrival confidence",
+    copy:
+      "Shanghai can be a composed first stop: landing, payments, food, movement, and a first read of modern China."
+  },
+  {
+    title: "Choose the depth after that",
+    copy:
+      "Go ancient in Shanxi, disciplined in Shaolin, poetic in Huizhou, or stay urban in Shanghai."
+  },
+  {
+    title: "Let the local layer hold the details",
+    copy:
+      "Transport, timing, restaurants, translation, payments, and day-of adjustments can sit behind the experience."
+  },
+  {
+    title: "Travel with context, not scripts",
+    copy:
+      "A route should help you understand what you are seeing, eating, entering, and missing."
+  }
+];
+
 const whoFor = [
   "Thoughtful international travelers",
   "Overseas Chinese and diaspora returning with questions",
@@ -84,6 +107,25 @@ export default function ChinaPage() {
             <Link className="button button--dark" href={chinaInquiryHref}>
               Request a Private Route
             </Link>
+          </div>
+        </section>
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">For International Travelers</p>
+            <h2>If China feels complex, start with a route that holds the basics.</h2>
+            <p>
+              The first layer is practical confidence. The deeper layer is
+              cultural reading.
+            </p>
+          </div>
+          <div className="support-card-grid">
+            {firstTimeChina.map((card) => (
+              <article className="support-detail-card" key={card.title}>
+                <h3>{card.title}</h3>
+                <p>{card.copy}</p>
+              </article>
+            ))}
           </div>
         </section>
 

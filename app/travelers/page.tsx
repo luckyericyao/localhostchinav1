@@ -20,7 +20,7 @@ const received = [
   {
     title: "Trusted local host",
     copy:
-      "A person selected for judgment, communication, local fluency, and fit with the chapter."
+      "A person selected for judgment, communication, local fluency, and fit with the route."
   },
   {
     title: "Practical steadiness",
@@ -75,7 +75,7 @@ const supportLevels = [
       "For travelers who want a selected host present for key moments, meals, movement, and cultural interpretation."
   },
   {
-    title: "Fully Held China Chapter",
+    title: "Fully Held China Route",
     copy:
       "For travelers who want the route, host layer, logistics, timing, and local support held together with greater care."
   }
