@@ -148,7 +148,7 @@ const homeFinalInquiryHref =
 
 export default function Home() {
   const featuredJourneys = chinaJourneys.filter((journey) =>
-    ["Shanxi", "Shaolin", "Huizhou"].includes(journey.place)
+    ["Shanxi", "Shaolin", "Huizhou", "Shanghai"].includes(journey.place)
   );
 
   return (
@@ -337,7 +337,7 @@ export default function Home() {
         <section className="section section-atmosphere atmosphere-routes route-scroll-section" id="journeys">
           <div className="section-heading">
             <p className="eyebrow">Featured China Routes</p>
-            <h2>Three private routes into cultural China.</h2>
+            <h2>Four private routes into cultural China.</h2>
           </div>
           <div className="journey-grid">
             {featuredJourneys.map((journey) => (

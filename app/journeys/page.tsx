@@ -54,13 +54,13 @@ const atlasEntries = [
   {
     mode: "Modern Urban China",
     place: "Shanghai",
-    href: "/china",
-    status: "Future Chapter",
-    mood: "Contemporary, street-level, layered",
-    pace: "Flexible urban rhythm",
+    href: "/china/shanghai",
+    status: "Active Chapter",
+    mood: "First-stop confidence, food, night rhythm",
+    pace: "Polished and arrival-aware",
     hostType: "Route Host / Chapter Lead",
     copy:
-      "Neighborhood design, food, street rhythm, contemporary ambition, and modern China below the skyline."
+      "A Bund walk, discreet dining, a secret night ending, and practical confidence for entering China."
   },
   {
     mode: "Imperial Memory & Capital Rhythm",
@@ -104,6 +104,12 @@ const routeSelector = [
     href: "/china/huizhou",
     copy:
       "Choose this if you want poetic southern China: villages, tea, ancestral halls, mist, white walls, black tiles, and ink landscape."
+  },
+  {
+    title: "Shanghai",
+    href: "/china/shanghai",
+    copy:
+      "Choose this if you want your first stop to do more: Bund context, VIP dining, a secret night ending, and confidence before deeper China."
   }
 ];
 
@@ -112,13 +118,9 @@ const journeysInquiryHref =
 
 export default function JourneysPage() {
   const activeJourneys = chinaJourneys.filter((journey) =>
-    ["Shanxi", "Shaolin", "Huizhou"].includes(journey.place)
+    ["Shanxi", "Shaolin", "Huizhou", "Shanghai"].includes(journey.place)
   );
-  const shanghai = chinaJourneys.find((journey) => journey.place === "Shanghai");
-  const futureJourneys = [
-    ...(shanghai ? [{ ...shanghai, href: "/china" }] : []),
-    ...futureChinaJourneys
-  ];
+  const futureJourneys = futureChinaJourneys;
 
   return (
     <>
@@ -147,7 +149,7 @@ export default function JourneysPage() {
             <p className="eyebrow">Route Selector</p>
             <h2>Which China should you enter first?</h2>
           </div>
-          <div className="arrangement-grid arrangement-grid--three">
+          <div className="arrangement-grid">
             {routeSelector.map((route) => (
               <RevealOnScroll
                 className={`route-selector-reveal route-atmosphere route-atmosphere--${route.title.toLowerCase()}`}

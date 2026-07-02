@@ -280,13 +280,13 @@ export const chinaJourneys = [
   },
   {
     place: "Shanghai",
-    line: "Modern China at street level.",
-    href: "/china#shanghai",
-    image: "/images/localhost-hero.png",
-    alt: "A quiet China street at dusk with warm local light and conversation.",
+    line: "Your first stop, and more.",
+    href: "/china/shanghai",
+    image: "/images/shanghai-bund-walk.png",
+    alt: "A quiet early evening walk along the Bund in Shanghai with historic riverfront architecture.",
     summary:
-      "Modern China seen through neighborhoods, food, street rhythms, design, and local interpretation rather than a skyline checklist.",
-    bestFor: "Street rhythm, design, food, modern local context"
+      "A first Shanghai chapter shaped around arrival confidence, a Bund walk with context, a discreet high-end meal, and a private night ending beyond the skyline checklist.",
+    bestFor: "First China stop, Bund walk, private dining, night rhythm"
   }
 ];
 
@@ -872,6 +872,175 @@ export const chinaRoutePages = {
     ],
     final:
       "A Huizhou route is strongest when it stays intimate: a lane, a cup of tea, a hall, a mountain cloud, and a host who can explain what the quiet contains."
+  },
+  shanghai: {
+    eyebrow: "Shanghai First Stop",
+    title: "Shanghai — Your first stop, and more.",
+    thesis: "Arrival, confidence, appetite, and the city after dark.",
+    image: "/images/shanghai-bund-walk.png",
+    alt: "A quiet early evening walk along the Bund in Shanghai with historic riverfront architecture.",
+    routeNote:
+      "Not a layover. Not a skyline checklist. Your first stop — and more.",
+    body:
+      "Shanghai is often the easiest place to land in China. With the right host, it becomes more than an arrival city: a first walk, a private table, a night ending, and a way to read modern China without flattening it into skyscrapers.",
+    opens: [
+      {
+        title: "Bund Walk",
+        copy:
+          "A calm, context-led walk along the river: treaty-port architecture, skyline pressure, old finance, modern ambition, and the first visual grammar of Shanghai."
+      },
+      {
+        title: "VIP Eat",
+        copy:
+          "A discreet high-quality meal selected for taste, privacy, service rhythm, and the traveler’s comfort rather than obvious status performance."
+      },
+      {
+        title: "Secret Night Ending",
+        copy:
+          "The evening closes somewhere quieter: a lane, terrace, private room, river edge, or local door that makes the city feel held rather than consumed."
+      },
+      {
+        title: "First-Stop Confidence",
+        copy:
+          "Payments, apps, transport, translation, jet lag, food decisions, and local rhythm are steadied before the deeper China route begins."
+      }
+    ],
+    rhythm: [
+      "Day 1: Arrival, airport or station support, first neighborhood orientation, calm dinner.",
+      "Day 2: Bund walk, city context, private meal, and night ending.",
+      "Day 3: Food, design, old lanes, business context, or onward route preparation.",
+      "Day 4: Optional extension or departure toward Shanxi, Huizhou, Shaolin, Beijing, or Hangzhou."
+    ],
+    hostHelps: [
+      "Arrival confidence",
+      "Bund and city context",
+      "Restaurant selection and ordering",
+      "Payments, apps, and transport",
+      "Night rhythm and discretion",
+      "Onward route preparation"
+    ],
+    handles: [
+      "Private Shanghai route shaping for first-time China travelers",
+      "Trusted local host matching for arrival, food, and city context",
+      "Bund walk timing around weather, light, crowds, and traveler energy",
+      "Discreet dining selection, booking support, ordering, and payment flow",
+      "Private night ending shaped around comfort, safety, and taste",
+      "Onward China logistics once the traveler is grounded"
+    ],
+    snapshot: [
+      { label: "Ideal Length", value: "2 to 4 days" },
+      { label: "Entry City", value: "Shanghai Pudong, Hongqiao, or rail arrival" },
+      { label: "Best For", value: "First China stop, food, Bund context, night rhythm" },
+      { label: "Pace", value: "Polished, flexible, arrival-aware" },
+      { label: "Comfort Level", value: "High-comfort urban base with local texture nearby" },
+      { label: "Host Role", value: "Arrival steadying presence and city interpreter" }
+    ],
+    gallery: {
+      eyebrow: "Shanghai Visual Entry",
+      title: "Bund, table, night ending.",
+      body:
+        "Shanghai should feel like a refined first threshold into China: river architecture, private dining, discreet night rhythm, and the practical confidence to continue deeper.",
+      images: [
+        {
+          title: "Bund Walk",
+          copy:
+            "The riverfront becomes an orientation walk: history, skyline, finance, movement, and the city’s public face read with context.",
+          src: "/images/shanghai-bund-walk.png",
+          alt: "Quiet Shanghai Bund riverside walk with historic architecture and muted evening light."
+        },
+        {
+          title: "VIP Eat",
+          copy:
+            "The meal is chosen for taste and discretion, not spectacle: a table where the host can steady pace, ordering, and conversation.",
+          src: "/images/shanghai-vip-eat.png",
+          alt: "Discreet private Shanghai dining room with tea, composed dishes, and warm evening light."
+        },
+        {
+          title: "Secret Night Ending",
+          copy:
+            "The night ends with a smaller door into the city: quiet light, old lane texture, and a sense of access without noise.",
+          src: "/images/shanghai-secret-night.png",
+          alt: "Quiet hidden Shanghai night lane with warm doorway light and distant city glow."
+        }
+      ]
+    },
+    sampleDay: [
+      {
+        title: "Morning",
+        copy:
+          "The host keeps arrival practical: SIM, payments, luggage rhythm, jet lag, coffee or tea, and the first short walk near the hotel. The goal is to make China feel workable before the route becomes ambitious."
+      },
+      {
+        title: "Noon",
+        copy:
+          "Lunch is selected around appetite and comfort, not a checklist. The host handles ordering, translation, payment flow, and what the table says about Shanghai’s taste."
+      },
+      {
+        title: "Afternoon",
+        copy:
+          "A Bund walk is timed around light and crowds. Architecture, concessions, finance, river geography, and modern ambition are explained without turning the walk into a lecture."
+      },
+      {
+        title: "Evening",
+        copy:
+          "Dinner moves into VIP Eat: a private or discreet table, clean service rhythm, and a local host who knows when to translate, when to order, and when to leave space."
+      },
+      {
+        title: "Night",
+        copy:
+          "The day ends with a secret night ending: a lane, terrace, room, or river edge that fits the traveler’s energy and makes Shanghai feel more intimate than its skyline."
+      }
+    ],
+    hostChanges: [
+      "Turns Shanghai from a transit city into a confident first chapter.",
+      "Explains the Bund as history, power, finance, and visual language instead of a skyline stop.",
+      "Shapes food and night rhythm around taste, privacy, safety, and the traveler’s energy."
+    ],
+    variants: [
+      {
+        title: "First China Landing",
+        copy:
+          "A soft but structured arrival: apps, payments, transport, first table, Bund orientation, and onward route confidence."
+      },
+      {
+        title: "Food & Night Route",
+        copy:
+          "A more sensory Shanghai: private meals, local ordering, discreet rooms, lane texture, and a night ending that avoids obvious spectacle."
+      },
+      {
+        title: "Executive Shanghai Route",
+        copy:
+          "For founders, investors, and executives who need to read the city: movement, meals, business rhythm, urban signals, and when to slow down."
+      }
+    ],
+    practicalNotes: [
+      "Shanghai is useful as a first China stop before deeper regional routes.",
+      "The Bund walk is best timed around weather, light, crowds, and jet lag.",
+      "Good dining requires taste-fit, privacy needs, dietary notes, and booking lead time.",
+      "Night endings should be shaped around comfort, safety, and discretion.",
+      "Traffic, rain, event schedules, and restaurant availability can change the sequence.",
+      "This route should not become a bar crawl, skyline checklist, or shopping route by default.",
+      "Shanghai can connect naturally onward to Huizhou, Hangzhou, Beijing, Shanxi, or Shaolin."
+    ],
+    chooseAnother: [
+      "Choose Shanxi if you want ancient northern weight after Shanghai.",
+      "Choose Huizhou if you want tea, villages, mist, and a softer southern extension.",
+      "Choose Shaolin if you want discipline, temple atmosphere, and mountain practice culture."
+    ],
+    ctaLabel: "Shape a Shanghai Route",
+    bestFor: [
+      "First-time China travelers",
+      "Travelers landing in Shanghai before deeper routes",
+      "Food-focused guests who want discretion and taste",
+      "Founders, investors, executives, families, and cultural travelers who need confidence fast"
+    ],
+    notFor: [
+      "Travelers who only want skyline photos",
+      "People looking for nightlife spectacle or a bar crawl",
+      "Visitors who want Shanghai reduced to shopping and obvious luxury"
+    ],
+    final:
+      "A Shanghai route is strongest when it becomes a threshold: a first walk, a private table, a night ending, and enough local confidence to move deeper into China."
   }
 } as const;
 

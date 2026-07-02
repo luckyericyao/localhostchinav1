@@ -34,6 +34,7 @@ export type ChinaRoutePageContent = {
   image: string;
   alt: string;
   body: string;
+  routeNote?: string;
   opens: readonly RouteBlock[];
   rhythm: readonly string[];
   hostHelps: readonly string[];
@@ -68,6 +69,12 @@ function routeInquiryContext(route: ChinaRoutePageContent) {
     };
   }
 
+  if (route.title.includes("Shanghai")) {
+    return {
+      href: "/inquiry?type=traveler&route=shanghai&sourcePage=%2Fchina%2Fshanghai&sourceLabel=Shanghai%20route%20page"
+    };
+  }
+
   return {
     href: "/inquiry?type=traveler&route=huizhou&sourcePage=%2Fchina%2Fhuizhou&sourceLabel=Huizhou%20route%20page"
   };
@@ -86,7 +93,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
             <h1>{route.title}</h1>
             <p>{route.body}</p>
             <p className="route-ancient-note">
-              Not retro. Not staged. Ancient China, still alive.
+              {route.routeNote || "Not retro. Not staged. Ancient China, still alive."}
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href={inquiry.href}>

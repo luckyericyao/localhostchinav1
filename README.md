@@ -23,6 +23,7 @@ Localhost Global is positioned as a quiet luxury local-host travel network for t
 - `/china/shanxi` — flagship Shanxi destination page
 - `/china/shaolin` — Shaolin / Dengfeng cultural route
 - `/china/huizhou` — Huizhou / Huangshan cultural route
+- `/china/shanghai` — Shanghai first-stop route
 
 ## Development
 

@@ -54,7 +54,7 @@ const chinaInquiryHref =
 
 export default function ChinaPage() {
   const featuredRoutes = chinaJourneys.filter((journey) =>
-    ["Shanxi", "Shaolin", "Huizhou"].includes(journey.place)
+    ["Shanxi", "Shaolin", "Huizhou", "Shanghai"].includes(journey.place)
   );
 
   return (
