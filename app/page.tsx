@@ -13,21 +13,26 @@ export const metadata: Metadata = {
     "A private China-first local-host network for trusted route design, cultural fluency, and practical confidence."
 };
 
-const localhostCards = [
+const travelerClarityCards = [
   {
-    title: "Local access",
+    title: "The first hours feel workable",
     copy:
-      "Trusted local people help travelers read streets, food, timing, and decisions that are difficult to understand alone."
+      "Airport or station rhythm, payment setup, ride-hailing, luggage timing, and jet lag are steadied before the route asks more of the traveler."
   },
   {
-    title: "Cultural decoding",
+    title: "Food becomes easier to enter",
     copy:
-      "A host explains context, etiquette, history, and what a traveler would not easily read alone."
+      "A host can choose the right table, handle ordering, explain dishes, protect dietary needs, and keep the meal from feeling like a test."
   },
   {
-    title: "Seamless support",
+    title: "Movement has local judgment",
     copy:
-      "Route timing, translation, payments, transport, restaurants, and small local decisions are held with care."
+      "Traffic, walking distance, rail transfers, temple entries, restaurant timing, and weather are handled with practical steadiness."
+  },
+  {
+    title: "Context is translated, not simplified",
+    copy:
+      "Etiquette, history, local habits, and what to notice are explained in plain English without turning the day into a lecture."
   }
 ];
 
@@ -340,9 +345,18 @@ export default function Home() {
         </section>
 
         <section className="section section-atmosphere atmosphere-clay-soft">
-          <div className="arrangement-grid arrangement-grid--three">
-            {localhostCards.map((card) => (
-              <article className="arrangement-card" key={card.title}>
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Ease For International Visitors</p>
+            <h2>The value is fewer moments of guesswork.</h2>
+            <p>
+              Localhost does not add noise to the trip. It removes the parts
+              where unfamiliar systems, timing, food, and etiquette make China
+              harder to read than it needs to be.
+            </p>
+          </div>
+          <div className="support-card-grid">
+            {travelerClarityCards.map((card) => (
+              <article className="support-detail-card" key={card.title}>
                 <h3>{card.title}</h3>
                 <p>{card.copy}</p>
               </article>
