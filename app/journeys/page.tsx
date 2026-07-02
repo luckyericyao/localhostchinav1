@@ -60,7 +60,7 @@ const atlasEntries = [
     pace: "Polished and arrival-aware",
     hostType: "Route Host / Chapter Lead",
     copy:
-      "A Bund walk, a private table, a secret night ending, and the confidence to move deeper into China."
+      "A Bund walk read with context, a table chosen with judgment, an after-dark ending, and the confidence to move deeper into China."
   },
   {
     mode: "Imperial Memory & Capital Rhythm",
@@ -109,7 +109,7 @@ const routeSelector = [
     title: "Shanghai",
     href: "/china/shanghai",
     copy:
-      "Choose this if your first stop should feel composed: Bund context, a private table, a secret night ending, and confidence before deeper China."
+      "Choose this if your first stop should feel composed: Bund context, private dining, after-dark rhythm, and confidence before deeper China."
   }
 ];
 

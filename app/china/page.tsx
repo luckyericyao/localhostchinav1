@@ -40,7 +40,7 @@ const firstTimeChina = [
   {
     title: "Start with arrival confidence",
     copy:
-      "Shanghai can be a composed first stop: landing, payments, food, movement, and a first read of modern China."
+      "Shanghai can be a composed first threshold: landing, payments, food, movement, and a more intelligent first read of modern China."
   },
   {
     title: "Choose the depth after that",

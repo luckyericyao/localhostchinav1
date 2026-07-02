@@ -280,13 +280,13 @@ export const chinaJourneys = [
   },
   {
     place: "Shanghai",
-    line: "Your first stop, and more.",
+    line: "Your first stop, properly read.",
     href: "/china/shanghai",
     image: "/images/shanghai-bund-walk.png",
     alt: "A quiet early evening walk along the Bund in Shanghai with historic riverfront architecture.",
     summary:
-      "A composed first entry into China: the Bund read slowly, a private table chosen with taste, and a discreet night ending beyond the skyline checklist.",
-    bestFor: "First China stop, Bund context, private dining, discreet night rhythm"
+      "A composed first entry into China: river architecture read with context, a table chosen with judgment, and an after-dark ending beyond the obvious skyline.",
+    bestFor: "First China arrival, Bund context, private dining, after-dark rhythm"
   }
 ];
 
@@ -874,89 +874,89 @@ export const chinaRoutePages = {
       "A Huizhou route is strongest when it stays intimate: a lane, a cup of tea, a hall, a mountain cloud, and a host who can explain what the quiet contains."
   },
   shanghai: {
-    eyebrow: "Shanghai First Stop",
-    title: "Shanghai — Your first stop, and more.",
-    thesis: "A composed arrival into modern China.",
+    eyebrow: "Shanghai First Threshold",
+    title: "Shanghai — Your first stop, properly read.",
+    thesis: "A composed arrival into the language of modern China.",
     image: "/images/shanghai-bund-walk.png",
     alt: "A quiet early evening walk along the Bund in Shanghai with historic riverfront architecture.",
     routeNote:
-      "Not a layover. Not a skyline chase. A first threshold into China.",
+      "Not a layover. Not a skyline chase. A first reading of China.",
     body:
-      "Shanghai is the easiest city to arrive in and one of the easiest to misread. A Localhost route treats it as a threshold: the Bund read slowly, a table chosen with taste, and an evening that ends behind a quieter door.",
+      "Shanghai is often treated as a convenient landing city. We use it as a first reading of modern China: river architecture, money, taste, service rhythm, old lanes, and the small decisions that help an international traveler arrive with confidence rather than noise.",
     opens: [
       {
-        title: "Bund Walk",
+        title: "The Bund, Read Slowly",
         copy:
-          "A river walk paced for context: stone facades, treaty-port memory, old finance, skyline pressure, and the city’s habit of holding old and new in one frame."
+          "A river walk paced for light and context: treaty-port facades, banking houses, colonial tension, Pudong across the water, and the choreography of a city that performs power without explaining itself."
       },
       {
-        title: "Private Table",
+        title: "A Table With Judgment",
         copy:
-          "A discreet dining room or carefully chosen local table where ordering, pacing, privacy, and taste are handled without performance."
+          "A restaurant chosen for discretion, food intelligence, and room tone. The host handles ordering, pace, dietary needs, payment, and the moments when conversation should stay private."
       },
       {
-        title: "Secret Night Ending",
+        title: "A Quiet After-Dark Door",
         copy:
-          "The evening closes away from the obvious: a lane, terrace, private room, river edge, or small door that lets Shanghai feel personal."
+          "After dinner, the city narrows: an old lane, a terrace, a listening room, a river edge, or a small door selected for atmosphere rather than display."
       },
       {
-        title: "Arrival Confidence",
+        title: "Arrival Without Friction",
         copy:
-          "Payments, transport, language, jet lag, and onward timing are held in the background so the traveler can settle quickly."
+          "The first practical layer — apps, payments, transport, jet lag, luggage, language, and onward timing — is made calm enough that the city can be read."
       }
     ],
     rhythm: [
-      "Day 1: Arrival, airport or station support, first orientation, and a calm table.",
-      "Day 2: Bund walk, city reading, private dining, and a discreet night ending.",
-      "Day 3: Food, design, old lanes, business context, or onward route preparation.",
+      "Day 1: Arrival, airport or station support, payment setup, first orientation, and a calm table.",
+      "Day 2: Bund walk, city reading, private dining, and an after-dark ending shaped around comfort.",
+      "Day 3: Food, design, lane texture, business context, or onward route preparation.",
       "Day 4: Optional extension or departure toward Huizhou, Shanxi, Shaolin, Beijing, or Hangzhou."
     ],
     hostHelps: [
-      "Arrival confidence",
-      "Bund and city context",
-      "Restaurant selection and ordering",
-      "Payments, apps, and transport",
-      "Discreet night rhythm",
-      "Onward route preparation"
+      "Arrival and payment setup",
+      "Bund architectural and political context",
+      "Private dining selection and ordering",
+      "Transport, apps, and translation",
+      "Discreet after-dark pacing",
+      "Onward route confidence"
     ],
     handles: [
-      "Private Shanghai route shaping for first-time China travelers",
-      "Trusted local host matching for arrival, food, and city context",
-      "Bund walk timing around weather, light, crowds, and traveler energy",
-      "Private-table selection, booking support, ordering, and payment flow",
-      "Private night ending shaped around comfort, safety, and taste",
+      "Private Shanghai route shaping for international arrivals",
+      "Trusted local host matching for arrival, food, and city reading",
+      "Bund walk timing around weather, light, crowds, jet lag, and traveler energy",
+      "Private-table selection, booking support, ordering, dietary notes, and payment flow",
+      "After-dark ending shaped around comfort, safety, privacy, and taste",
       "Onward China logistics once the traveler is grounded"
     ],
     snapshot: [
       { label: "Ideal Length", value: "2 to 4 days" },
       { label: "Entry City", value: "Shanghai Pudong, Hongqiao, or rail arrival" },
-      { label: "Best For", value: "First China stop, food, Bund context, night rhythm" },
-      { label: "Pace", value: "Polished, flexible, arrival-aware" },
+      { label: "Best For", value: "First China arrival, food, Bund context, after-dark rhythm" },
+      { label: "Pace", value: "Polished, flexible, jet-lag aware" },
       { label: "Comfort Level", value: "High-comfort urban base with local texture nearby" },
-      { label: "Host Role", value: "Arrival steadying presence and city interpreter" }
+      { label: "Host Role", value: "Steady arrival lead and city interpreter" }
     ],
     gallery: {
       eyebrow: "Shanghai Visual Entry",
-      title: "River, table, after-dark door.",
+      title: "River, table, quiet door.",
       body:
-        "Shanghai should not read like a skyline card. It should feel like a refined first threshold: river architecture, a private table, discreet night rhythm, and the confidence to continue deeper.",
+        "Shanghai should not read like a skyline card. It should feel like a controlled first threshold: river architecture, a table with judgment, an after-dark ending, and the confidence to continue deeper.",
       images: [
         {
-          title: "Bund Walk",
+          title: "The Bund, Read Slowly",
           copy:
-            "The riverfront becomes an orientation walk: history, finance, movement, and the city’s public face read with context.",
+            "The riverfront becomes an orientation walk: history, finance, movement, and the city’s public face read without hurry.",
           src: "/images/shanghai-bund-walk.png",
           alt: "Quiet Shanghai Bund riverside walk with historic architecture and muted evening light."
         },
         {
-          title: "Private Table",
+          title: "A Table With Judgment",
           copy:
-            "The meal is chosen for taste and discretion, not spectacle: a table where pace, ordering, and conversation can be held well.",
+            "The meal is chosen for taste and discretion, not spectacle: a table where pace, ordering, and conversation are held well.",
           src: "/images/shanghai-vip-eat.png",
           alt: "Discreet private Shanghai dining room with tea, composed dishes, and warm evening light."
         },
         {
-          title: "Secret Night Ending",
+          title: "A Quiet After-Dark Door",
           copy:
             "The night ends through a smaller door into the city: quiet light, old lane texture, and access without noise.",
           src: "/images/shanghai-secret-night.png",
@@ -968,56 +968,56 @@ export const chinaRoutePages = {
       {
         title: "Morning",
         copy:
-          "The host keeps arrival practical: payment setup, luggage rhythm, jet lag, coffee or tea, and a first short walk near the hotel. The goal is to make China feel workable before the route becomes ambitious."
+          "If the traveler has just landed, the host keeps the morning practical: payment setup, luggage rhythm, jet lag, coffee or tea, and a first short walk near the hotel. China becomes workable before the route becomes ambitious."
       },
       {
         title: "Noon",
         copy:
-          "Lunch is selected around appetite and comfort, not a checklist. The host handles ordering, translation, payment flow, and the small codes of a Shanghai table."
+          "Lunch is selected around appetite, privacy, and comfort. The host handles ordering, translation, payment flow, and the small codes of a Shanghai table without making the meal feel managed."
       },
       {
         title: "Afternoon",
         copy:
-          "The Bund walk is timed around light and crowd rhythm. Architecture, concessions, finance, river geography, and modern ambition are explained without turning the walk into a lecture."
+          "The Bund walk is timed around light, weather, and crowd rhythm. Architecture, concessions, finance, river geography, and modern ambition are explained as the city appears, not as a lecture."
       },
       {
         title: "Evening",
         copy:
-          "Dinner moves to a private table: clean service rhythm, strong local judgment, and a host who knows when to translate, when to order, and when to leave space."
+          "Dinner moves to a private table: clean service rhythm, strong local judgment, and a host who knows when to translate, when to order, and when to leave the room for conversation."
       },
       {
         title: "Night",
         copy:
-          "The day ends with a secret night ending: a lane, terrace, room, or river edge that fits the traveler’s energy and makes Shanghai feel more intimate than its skyline."
+          "The day ends away from the obvious: a lane, terrace, room, or river edge that fits the traveler’s energy and makes Shanghai feel more intimate than its skyline."
       }
     ],
     hostChanges: [
-      "Turns Shanghai from a transit city into a readable first threshold.",
-      "Explains the Bund as history, power, finance, and visual language instead of a skyline stop.",
-      "Shapes food and night rhythm around taste, discretion, safety, and the traveler’s energy."
+      "Makes the first 24 hours legible: payment, movement, food, etiquette, and city signals.",
+      "Explains the Bund as architecture, finance, political memory, and river geography instead of a skyline stop.",
+      "Turns dinner and night from “where should we go” into a sequence shaped by taste, privacy, safety, and energy."
     ],
     variants: [
       {
         title: "Composed Arrival",
         copy:
-          "A soft but structured landing: payments, transport, first table, Bund orientation, and onward route confidence."
+          "A soft but structured landing: payments, transport, first table, Bund orientation, and the confidence to continue."
       },
       {
-        title: "Table & Night Route",
+        title: "Table & After-Dark Route",
         copy:
-          "A more sensory Shanghai: private meals, local ordering, discreet rooms, lane texture, and a night ending that avoids obvious spectacle."
+          "A more sensory Shanghai: private meals, local ordering, discreet rooms, lane texture, and an ending that avoids obvious spectacle."
       },
       {
-        title: "Executive Shanghai Route",
+        title: "Executive City Reading",
         copy:
-          "For founders, investors, and executives who need to read the city: movement, meals, business rhythm, urban signals, and when to slow down."
+          "For founders, investors, and executives who need to read the city through movement, meals, business rhythm, urban signals, and the discipline of slowing down."
       }
     ],
     practicalNotes: [
       "Shanghai is useful as a first China stop before deeper regional routes.",
       "The Bund walk is best timed around weather, light, crowds, and jet lag.",
       "Good dining requires taste-fit, privacy needs, dietary notes, and booking lead time.",
-      "Night endings should be shaped around comfort, safety, and discretion.",
+      "After-dark endings should be shaped around comfort, safety, privacy, and discretion.",
       "Traffic, rain, event schedules, and restaurant availability can change the sequence.",
       "This route should not become a bar crawl, skyline checklist, or shopping route.",
       "Shanghai can connect naturally onward to Huizhou, Hangzhou, Beijing, Shanxi, or Shaolin."
@@ -1029,18 +1029,18 @@ export const chinaRoutePages = {
     ],
     ctaLabel: "Shape a Shanghai Route",
     bestFor: [
-      "First-time China travelers",
-      "Travelers landing in Shanghai before deeper routes",
-      "Food-focused guests who want discretion and taste",
-      "Founders, investors, executives, families, and cultural travelers who need confidence fast"
+      "First-time China travelers who want a polished landing",
+      "Travelers using Shanghai before Huizhou, Shanxi, Shaolin, Beijing, or Hangzhou",
+      "Food-focused guests who value discretion, service rhythm, and taste",
+      "Founders, investors, executives, families, and cultural travelers who need China to feel legible quickly"
     ],
     notFor: [
       "Travelers who only want skyline photos",
-      "People looking for nightlife spectacle or a bar crawl",
-      "Visitors who want Shanghai reduced to shopping and obvious luxury"
+      "People looking for nightlife spectacle, club access, or a bar crawl",
+      "Visitors who want Shanghai reduced to shopping, status venues, and obvious luxury"
     ],
     final:
-      "At its best, Shanghai is not merely a prelude to deeper China. It is the first threshold: river, table, night, and the confidence to go further."
+      "At its best, Shanghai is not a prelude. It is the first threshold: river, table, night, and enough local judgment to make the rest of China feel possible."
   }
 } as const;
 
