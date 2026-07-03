@@ -34,6 +34,24 @@ const principles = [
   }
 ];
 
+const plainVersion = [
+  {
+    title: "What Localhost does",
+    copy:
+      "We shape private routes with local judgment: where to go, how to move, what to eat, what to notice, and when to slow down."
+  },
+  {
+    title: "How it is different",
+    copy:
+      "Localhost is not a tour agency, guide marketplace, booking platform, or instant itinerary tool. Every route is reviewed before it is shaped."
+  },
+  {
+    title: "Why China first",
+    copy:
+      "China rewards fluency around language, payment, food, timing, etiquette, regional depth, and the difference between seeing and understanding."
+  }
+];
+
 const networkIdeas = [
   "A traveler receives local judgment in one chapter.",
   "A host contributes judgment, access, and hospitality.",
@@ -77,6 +95,26 @@ export default function AboutPage() {
               guide listings. It is built around host fit, route shaping, and the
               local judgment that makes a place legible.
             </p>
+          </div>
+        </section>
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Plain Version</p>
+            <h2>The brand in practical terms.</h2>
+            <p>
+              Localhost should feel thoughtful, not mysterious. The model is
+              private route design, trusted host fit, and practical local
+              judgment.
+            </p>
+          </div>
+          <div className="support-card-grid support-card-grid--three">
+            {plainVersion.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
           </div>
         </section>
 
