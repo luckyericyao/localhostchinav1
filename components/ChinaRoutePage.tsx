@@ -130,6 +130,43 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
           </dl>
         </section>
 
+        <section className="section">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Quick Fit Check</p>
+            <h2>Know early if this is your route.</h2>
+            <p>
+              Start here before reading the full chapter. The route can still
+              be shaped, but fit matters before detail.
+            </p>
+          </div>
+          <div className="split-panel-section split-panel-section--three">
+            <div className="quiet-panel">
+              <p className="eyebrow">Best For</p>
+              <ul className="clean-list">
+                {route.bestFor.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="quiet-panel">
+              <p className="eyebrow">Not For</p>
+              <ul className="clean-list">
+                {route.notFor.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="quiet-panel">
+              <p className="eyebrow">Choose Another Route If</p>
+              <ul className="clean-list">
+                {route.chooseAnother.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
         {route.gallery ? (
           <section className="section section--dark route-gallery-section">
             <div className="section-heading">
@@ -286,33 +323,6 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               <li key={item}>{item}</li>
             ))}
           </ul>
-        </section>
-
-        <section className="section split-panel-section">
-          <div className="quiet-panel">
-            <p className="eyebrow">Best For</p>
-            <ul className="clean-list">
-              {route.bestFor.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="quiet-panel">
-            <p className="eyebrow">Not For</p>
-            <ul className="clean-list">
-              {route.notFor.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="quiet-panel">
-            <p className="eyebrow">Choose Another Route If</p>
-            <ul className="clean-list">
-              {route.chooseAnother.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
         </section>
 
         <section className="section final-section">
