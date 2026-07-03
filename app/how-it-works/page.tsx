@@ -23,6 +23,29 @@ const operatingFlow = [
   "Future relationship / Host Credits"
 ];
 
+const simpleFlow = [
+  {
+    title: "1. Send a short inquiry",
+    copy:
+      "A full itinerary is not needed. One honest sentence about the China you want to understand is enough to begin."
+  },
+  {
+    title: "2. We review fit",
+    copy:
+      "A human checks timing, route direction, comfort, host availability, and whether the request can be handled well."
+  },
+  {
+    title: "3. We shape the route",
+    copy:
+      "If there is a fit, Localhost suggests the route logic: place, pace, host layer, support level, and practical next steps."
+  },
+  {
+    title: "4. You confirm before anything is held",
+    copy:
+      "Nothing is treated as booked or confirmed until scope, expectations, and local feasibility are clear on both sides."
+  }
+];
+
 const reviewFactors = [
   "Timing and trip length",
   "Intent and cultural curiosity",
@@ -64,10 +87,30 @@ export default function HowItWorksPage() {
           </div>
         </section>
 
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Plain English</p>
+            <h2>You are not buying a fixed product. You are starting a reviewed route conversation.</h2>
+            <p>
+              The first step is intentionally light. Localhost becomes more
+              detailed only after the route, host fit, and local reality make
+              sense together.
+            </p>
+          </div>
+          <div className="support-card-grid">
+            {simpleFlow.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section className="section section--dark">
           <div className="section-heading">
             <p className="eyebrow">Operating Flow</p>
-            <h2>Nine steps, held by local judgment.</h2>
+            <h2>The fuller operating view, held by local judgment.</h2>
           </div>
           <ol className="rhythm-list rhythm-list--dark">
             {operatingFlow.map((item) => (
