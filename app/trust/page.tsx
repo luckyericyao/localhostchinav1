@@ -44,6 +44,29 @@ const trustPillars = [
   }
 ];
 
+const travelerAssurance = [
+  {
+    title: "A human reviews before matching",
+    copy:
+      "Your inquiry is read for intent, timing, comfort, route direction, and local feasibility before any host is introduced."
+  },
+  {
+    title: "Hosts are not public listings",
+    copy:
+      "You do not browse strangers, trigger bids, or book whoever is available first. Host fit is selected with care."
+  },
+  {
+    title: "Scope is clarified before confirmation",
+    copy:
+      "Host time, support level, transport rhythm, meals, translation, payment help, and boundaries are made clear before the route is held."
+  },
+  {
+    title: "Privacy is part of the service",
+    copy:
+      "Traveler details, host identities, private rooms, business context, family needs, and sensitive notes are handled with discretion."
+  }
+];
+
 const operatingTrust = [
   {
     title: "Host verification",
@@ -103,6 +126,25 @@ export default function TrustPage() {
                 Start partner conversation
               </Link>
             </div>
+          </div>
+        </section>
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">For Travelers</p>
+            <h2>What trust means before you submit an inquiry.</h2>
+            <p>
+              Localhost is designed to reduce uncertainty before a private route
+              is shaped. The review is part of the product.
+            </p>
+          </div>
+          <div className="support-card-grid">
+            {travelerAssurance.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
           </div>
         </section>
 
