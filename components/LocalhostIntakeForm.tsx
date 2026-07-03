@@ -21,9 +21,11 @@ type LocalhostIntakeFormProps = {
 };
 
 type DetailField = {
+  helper?: string;
   label: string;
   name: string;
   options?: string[];
+  placeholder?: string;
   type?: "input" | "select" | "textarea";
 };
 
@@ -53,18 +55,40 @@ const roleCopy: Record<LocalhostIntentType, { helper: string; label: string }> =
 };
 
 const travelerDetails: DetailField[] = [
-  { label: "Name", name: "name" },
-  { label: "Where are you from?", name: "origin" },
-  { label: "Approximate timing", name: "timing" },
-  { label: "Number of travelers", name: "travelers" },
-  { label: "Trip length", name: "tripLength" },
+  { label: "Name", name: "name", placeholder: "Your name" },
   {
+    helper: "City and country are enough.",
+    label: "Where are you from?",
+    name: "origin",
+    placeholder: "London, UK / New York, USA / Singapore"
+  },
+  {
+    helper: "A month, season, or rough window is fine.",
+    label: "When are you considering China?",
+    name: "timing",
+    placeholder: "October 2026, spring, or not sure yet"
+  },
+  {
+    helper: "Include children or private group size if relevant.",
+    label: "Number of travelers",
+    name: "travelers",
+    placeholder: "Solo, 2 adults, family of 4"
+  },
+  {
+    helper: "Total China time or time for this route both work.",
+    label: "Trip length",
+    name: "tripLength",
+    placeholder: "3 to 5 days, one week, or flexible"
+  },
+  {
+    helper: "Choose a route if one already feels right.",
     label: "Route interest",
     name: "routeInterest",
     options: ["Shanxi", "Shaolin", "Huizhou", "Shanghai", "Beijing", "Chengdu", "Not sure yet"],
     type: "select"
   },
   {
+    helper: "This helps us read pace and expectations.",
     label: "Travel style",
     name: "travelStyle",
     options: [
@@ -78,6 +102,7 @@ const travelerDetails: DetailField[] = [
     type: "select"
   },
   {
+    helper: "It is fine to choose not sure yet.",
     label: "Support needed",
     name: "supportNeeded",
     options: [
@@ -90,47 +115,107 @@ const travelerDetails: DetailField[] = [
     ],
     type: "select"
   },
-  { label: "Food preferences", name: "foodPreferences", type: "textarea" },
-  { label: "Comfort level", name: "comfortLevel" },
-  { label: "Hotel direction", name: "hotelDirection" },
-  { label: "Transport preference", name: "transportPreference" },
-  { label: "Host style", name: "hostStyle" },
-  { label: "Language needs", name: "languageNeeds" },
-  { label: "Things to avoid", name: "avoidances", type: "textarea" },
-  { label: "Sensitive or important notes", name: "sensitiveNotes", type: "textarea" }
+  {
+    helper: "Tell us what you love, avoid, or cannot eat.",
+    label: "Food preferences",
+    name: "foodPreferences",
+    placeholder: "No pork, loves noodles, mild spice, vegetarian meals",
+    type: "textarea"
+  },
+  {
+    helper: "A plain phrase is enough.",
+    label: "Comfort level",
+    name: "comfortLevel",
+    placeholder: "High-comfort, flexible, family-friendly, simple but clean"
+  },
+  {
+    helper: "Name a style, standard, or hotel you like.",
+    label: "Hotel direction",
+    name: "hotelDirection",
+    placeholder: "Quiet boutique, high-comfort international hotel, local design hotel"
+  },
+  {
+    helper: "This helps route timing and fatigue.",
+    label: "Transport preference",
+    name: "transportPreference",
+    placeholder: "Private car, rail when sensible, minimal long drives"
+  },
+  {
+    helper: "Describe the kind of person you would trust beside you.",
+    label: "Host style",
+    name: "hostStyle",
+    placeholder: "Quiet interpreter, food person, culture specialist, executive pace"
+  },
+  {
+    helper: "Tell us what support makes China feel easier.",
+    label: "Language needs",
+    name: "languageNeeds",
+    placeholder: "English only, some Mandarin, translation help for meals"
+  },
+  {
+    helper: "Avoid lists are useful; they make the route better.",
+    label: "Things to avoid",
+    name: "avoidances",
+    placeholder: "Crowds, strenuous hikes, nightlife, shopping stops, spicy food",
+    type: "textarea"
+  },
+  {
+    helper: "Share only what affects comfort, safety, privacy, or fit.",
+    label: "Sensitive or important notes",
+    name: "sensitiveNotes",
+    placeholder: "Mobility, medical, privacy, religious, family, or business constraints",
+    type: "textarea"
+  }
 ];
 
 const hostDetails: DetailField[] = [
-  { label: "Name", name: "name" },
-  { label: "City / region", name: "cityRegion" },
-  { label: "Languages", name: "languages" },
-  { label: "Areas of local knowledge", name: "knowledgeAreas", type: "textarea" },
+  { label: "Name", name: "name", placeholder: "Your name" },
+  { label: "City / region", name: "cityRegion", placeholder: "Shanghai, Taiyuan, Dengfeng, Huangshan" },
+  { label: "Languages", name: "languages", placeholder: "Mandarin, English, local dialect, French" },
+  {
+    helper: "Specific local worlds are more useful than broad claims.",
+    label: "Areas of local knowledge",
+    name: "knowledgeAreas",
+    placeholder: "Food, architecture, Buddhist culture, business rhythm, old neighborhoods",
+    type: "textarea"
+  },
   {
     label: "Availability",
     name: "availability",
     options: ["Occasional hosting", "Weekend or evening hosting", "Specialist-only hosting", "Route-building role", "Not sure yet"],
     type: "select"
   },
-  { label: "Host style", name: "hostStyle" },
-  { label: "Relevant background", name: "background", type: "textarea" },
-  { label: "Boundaries / what you do not want to do", name: "boundaries", type: "textarea" },
-  { label: "Why you want to host", name: "motivation", type: "textarea" }
+  { label: "Host style", name: "hostStyle", placeholder: "Quiet, scholarly, practical, food-led, executive-friendly" },
+  {
+    label: "Relevant background",
+    name: "background",
+    placeholder: "Work, study, hosting, research, hospitality, or lived local experience",
+    type: "textarea"
+  },
+  {
+    helper: "Boundaries protect both sides.",
+    label: "Boundaries / what you do not want to do",
+    name: "boundaries",
+    placeholder: "No nightlife, no driving, no 24/7 availability, specialist-only",
+    type: "textarea"
+  },
+  { label: "Why you want to host", name: "motivation", placeholder: "What kind of traveler or place would you like to help interpret?", type: "textarea" }
 ];
 
 const partnerDetails: DetailField[] = [
-  { label: "Name", name: "name" },
-  { label: "Organization", name: "organization" },
-  { label: "City / region", name: "cityRegion" },
+  { label: "Name", name: "name", placeholder: "Your name" },
+  { label: "Organization", name: "organization", placeholder: "Company, studio, institution, or independent" },
+  { label: "City / region", name: "cityRegion", placeholder: "Where the relationship would be based" },
   {
     label: "Partnership type",
     name: "partnershipType",
     options: ["Local route partner", "Hospitality partner", "Cultural institution", "Education / research", "Brand or private client work", "Not sure yet"],
     type: "select"
   },
-  { label: "Local network", name: "localNetwork", type: "textarea" },
-  { label: "Route or collaboration idea", name: "chapterIdea", type: "textarea" },
-  { label: "Operational role", name: "operationalRole" },
-  { label: "Notes", name: "notes", type: "textarea" }
+  { label: "Local network", name: "localNetwork", placeholder: "Hosts, restaurants, transport, cultural spaces, specialists, hotels", type: "textarea" },
+  { label: "Route or collaboration idea", name: "chapterIdea", placeholder: "What kind of local access, route, or client need could you support?", type: "textarea" },
+  { label: "Operational role", name: "operationalRole", placeholder: "Sourcing, hosting, coordination, hospitality, specialist access" },
+  { label: "Notes", name: "notes", placeholder: "Anything we should understand before a conversation", type: "textarea" }
 ];
 
 function detailsForIntent(intentType: LocalhostIntentType) {
@@ -381,7 +466,7 @@ export function LocalhostIntakeForm({
 
       {detailsOpen ? (
         <div className="optional-details">
-          <p>These details help route fit, but they are not required.</p>
+          <p>Fill only what is easy now. The examples are prompts, not requirements.</p>
           <div className="optional-detail-steps">
             {activeIntent === "traveler" ? (
               <>
@@ -530,6 +615,7 @@ function DetailFieldInput({
         <textarea
           name={field.name}
           onChange={(event) => onChange(field.name, event.target.value)}
+          placeholder={field.placeholder}
           rows={3}
           value={value}
         />
@@ -537,10 +623,12 @@ function DetailFieldInput({
         <input
           name={field.name}
           onChange={(event) => onChange(field.name, event.target.value)}
+          placeholder={field.placeholder}
           type="text"
           value={value}
         />
       )}
+      {field.helper ? <small>{field.helper}</small> : null}
     </label>
   );
 }
