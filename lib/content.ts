@@ -1059,6 +1059,27 @@ export const chinaSupportPages = {
       body:
         "They help travelers understand why a place matters, how people live there, what to notice, what to avoid, and how to move with confidence."
     },
+    plainSection: {
+      eyebrow: "Plain Meaning",
+      title: "What a host changes in practice.",
+      cards: [
+        {
+          title: "You have someone to read the room",
+          copy:
+            "A host helps with etiquette, timing, mood, and small social cues that are hard to read as a visitor."
+        },
+        {
+          title: "Meals stop feeling like tests",
+          copy:
+            "Ordering, pacing, dietary needs, payment, and what the food means locally can be handled calmly."
+        },
+        {
+          title: "The day can adjust without panic",
+          copy:
+            "Weather, traffic, fatigue, crowds, or a better local option can change the day without making it feel broken."
+        }
+      ]
+    },
     listSection: {
       eyebrow: "What A Host Can Help With",
       title: "The judgment layer of local support.",
@@ -1124,6 +1145,27 @@ export const chinaSupportPages = {
         "Private routes work best when they can respond to the traveler and the place.",
       body:
         "A route can slow down for food, weather, conversation, fatigue, or unexpected curiosity. It can also become sharper and more efficient for business travelers, families, alumni groups, founders, or cultural travelers with limited time."
+    },
+    plainSection: {
+      eyebrow: "Plain Meaning",
+      title: "What private route design really means.",
+      cards: [
+        {
+          title: "You do not start from a menu",
+          copy:
+            "The route begins with your timing, comfort, curiosity, constraints, and the kind of China you want to understand."
+        },
+        {
+          title: "The plan has room to breathe",
+          copy:
+            "A good route can leave space for food, weather, rest, conversation, and one deeper site instead of five shallow stops."
+        },
+        {
+          title: "Local reality shapes the route",
+          copy:
+            "Opening hours, road time, crowds, host fit, table availability, and weather matter before anything is confirmed."
+        }
+      ]
     },
     cardSection: {
       eyebrow: "Route Styles",
@@ -1192,6 +1234,27 @@ export const chinaSupportPages = {
       body:
         "Behind a calm day are choices about timing, traffic, restaurants, translation, local apps, payments, station entrances, and the small adjustments that make travel feel less brittle."
     },
+    plainSection: {
+      eyebrow: "Plain Meaning",
+      title: "What logistics support can remove.",
+      cards: [
+        {
+          title: "Payment and app friction",
+          copy:
+            "China can be app-heavy. We help think through payment setup, ride-hailing, translation, and the moments where visitors get stuck."
+        },
+        {
+          title: "Transport decisions",
+          copy:
+            "Private car, rail, walking time, station entrances, luggage, and road timing can be arranged around comfort and purpose."
+        },
+        {
+          title: "Day-of adjustments",
+          copy:
+            "Traffic, rain, restaurant changes, energy, and crowd rhythm can be handled without turning the day into problem-solving."
+        }
+      ]
+    },
     listSection: {
       eyebrow: "What Logistics May Include",
       title: "Practical support for moving through China well.",
@@ -1259,6 +1322,27 @@ export const chinaSupportPages = {
         "Attractions can be meaningful, but they are only one layer.",
       body:
         "The deeper journey often happens on the road, at the table, in a lane, through a host’s explanation, or in a small local decision that changes the day."
+    },
+    plainSection: {
+      eyebrow: "Plain Meaning",
+      title: "Real access is ordinary life made legible.",
+      cards: [
+        {
+          title: "A better table, not a staged scene",
+          copy:
+            "A host may choose a simple restaurant, private room, tea table, or family-run place because it fits the traveler and the day."
+        },
+        {
+          title: "A place explained at the right depth",
+          copy:
+            "A lane, temple, market, courtyard, or neighborhood becomes clearer when someone explains what to notice and what not to force."
+        },
+        {
+          title: "No borrowed importance",
+          copy:
+            "Access should not feel like theater. It should feel respectful, contextual, and appropriate to the place."
+        }
+      ]
     },
     listSection: {
       eyebrow: "What Real Access Can Look Like",

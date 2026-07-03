@@ -44,6 +44,7 @@ export type ChinaSupportPageContent = {
   subheadline: string;
   body: string;
   intro: SupportIntro;
+  plainSection?: SupportCardSection;
   listSection: SupportListSection;
   cardSection?: SupportCardSection;
   principleSection?: SupportCardSection;
@@ -88,6 +89,23 @@ export function ChinaSupportDetailPage({ page }: ChinaSupportDetailPageProps) {
             <p>{page.intro.body}</p>
           </div>
         </section>
+
+        {page.plainSection ? (
+          <section className="section section--stone">
+            <div className="section-heading section-heading--center">
+              <p className="eyebrow">{page.plainSection.eyebrow}</p>
+              <h2>{page.plainSection.title}</h2>
+            </div>
+            <div className="support-card-grid support-card-grid--three">
+              {page.plainSection.cards.map((card) => (
+                <article className="support-detail-card" key={card.title}>
+                  <h3>{card.title}</h3>
+                  <p>{card.copy}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <CulturalImageLayer {...culturalVisualLayers.china} tone="paper" />
 
