@@ -75,6 +75,29 @@ const scenarios = [
   }
 ];
 
+const practicalQuestions = [
+  {
+    title: "How will I pay and move?",
+    copy:
+      "We can help think through payment setup, ride-hailing, rail timing, private car needs, luggage rhythm, and when movement should be simplified."
+  },
+  {
+    title: "What should I eat first?",
+    copy:
+      "Food can be shaped around curiosity, comfort, dietary needs, privacy, spice level, regional taste, and the kind of table that fits the day."
+  },
+  {
+    title: "How much language support do I need?",
+    copy:
+      "Some travelers need full translation support; others only need help at meals, stations, hotels, or moments where etiquette matters."
+  },
+  {
+    title: "How do we avoid the wrong pace?",
+    copy:
+      "The route can be adjusted around jet lag, walking tolerance, weather, family needs, business calls, quiet time, and when to stop adding more."
+  }
+];
+
 const judgmentAreas = [
   "Payments",
   "Local apps",
@@ -184,6 +207,25 @@ export default function TravelersPage() {
           </div>
           <div className="support-card-grid">
             {scenarios.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Practical Questions</p>
+            <h2>The small questions are often the real trip.</h2>
+            <p>
+              International travelers rarely need more noise. They need clear
+              judgment around the moments where China can feel hard to read.
+            </p>
+          </div>
+          <div className="support-card-grid">
+            {practicalQuestions.map((item) => (
               <article className="support-detail-card" key={item.title}>
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>
