@@ -25,6 +25,29 @@ const afterSubmit = [
   "If the request is not a fit, we may redirect or decline it."
 ];
 
+const canStayOpen = [
+  {
+    title: "Dates can be approximate",
+    copy:
+      "A month, season, or rough window is enough. Exact flights are not needed for the first review."
+  },
+  {
+    title: "The route can be undecided",
+    copy:
+      "Shanxi, Shaolin, Huizhou, Shanghai, or not sure yet are all acceptable starting points."
+  },
+  {
+    title: "Comfort can be described plainly",
+    copy:
+      "Private car, walking tolerance, hotel style, food comfort, privacy, and day rhythm can be described in ordinary language."
+  },
+  {
+    title: "Constraints matter more than polish",
+    copy:
+      "Dietary needs, mobility, children, business privacy, sensitive context, and things to avoid help us review fit."
+  }
+];
+
 type InquiryPageProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
@@ -85,6 +108,25 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
         </section>
 
         <CulturalImageLayer {...culturalVisualLayers.inquiry} tone="paper" />
+
+        <section className="section section--stone">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">What Can Stay Open</p>
+            <h2>You do not need a finished plan before you write.</h2>
+            <p>
+              The inquiry is not a final itinerary. It helps us understand
+              whether the route can be shaped and held well.
+            </p>
+          </div>
+          <div className="support-card-grid">
+            {canStayOpen.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
+        </section>
 
         <section className="section section--inquiry" id="private-route">
           <div className="inquiry-shell inquiry-shell--wide">
