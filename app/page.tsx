@@ -85,7 +85,7 @@ const featuredRoutePreview = [
 
 const simpleVersion = [
   {
-    title: "You do not choose from packages.",
+    title: "You do not choose from a fixed tour menu.",
     copy:
       "You tell us what kind of China you want to understand. We shape the route around timing, comfort, curiosity, and fit."
   },

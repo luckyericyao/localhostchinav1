@@ -29,6 +29,29 @@ const received = [
   }
 ];
 
+const plainTerms = [
+  {
+    title: "Route",
+    copy:
+      "A privately shaped way through China: where to go, how to move, when to slow down, what to eat, and what to understand."
+  },
+  {
+    title: "Host",
+    copy:
+      "A trusted local person matched for judgment, communication, and fit. A host is not a random guide or personal servant."
+  },
+  {
+    title: "Review",
+    copy:
+      "The human step before confirmation. We look at timing, comfort, intent, feasibility, and host fit before shaping anything."
+  },
+  {
+    title: "Chapter",
+    copy:
+      "A focused local world inside China, such as Shanxi, Shaolin, Huizhou, or Shanghai, each with its own pace and context."
+  }
+];
+
 const scenarios = [
   {
     title: "First-time China traveler",
@@ -117,6 +140,25 @@ export default function TravelersPage() {
             <Link className="button button--dark" href={travelersInquiryHref}>
               Request a Private Route
             </Link>
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">Plain Terms</p>
+            <h2>How to read Localhost language.</h2>
+            <p>
+              A few words repeat across the site. They are meant to make the
+              model clearer, not more mysterious.
+            </p>
+          </div>
+          <div className="support-card-grid">
+            {plainTerms.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
           </div>
         </section>
 
