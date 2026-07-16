@@ -80,6 +80,13 @@ const featuredRoutePreview = [
     length: "4–6 days",
     entry: "Huangshan, Hangzhou, or Shanghai extension",
     href: "/china/huizhou"
+  },
+  {
+    place: "Shanghai",
+    line: "Your first stop, properly read.",
+    length: "2–4 days",
+    entry: "Pudong, Hongqiao, or rail arrival",
+    href: "/china/shanghai"
   }
 ];
 
@@ -248,9 +255,9 @@ export default function Home() {
         <section className="section section-atmosphere atmosphere-gold featured-route-preview-section">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Featured China Routes</p>
-            <h2>Three clear ways into cultural China.</h2>
+            <h2>Four clear ways into China.</h2>
           </div>
-          <div className="arrangement-grid arrangement-grid--three">
+          <div className="arrangement-grid">
             {featuredRoutePreview.map((route) => (
               <Link
                 className={`arrangement-card arrangement-card--link featured-route-card featured-route-card--${route.place.toLowerCase()}`}
