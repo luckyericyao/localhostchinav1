@@ -157,6 +157,9 @@ export default function JourneysPage() {
               >
                 <Link
                   className="arrangement-card arrangement-card--link route-selector-card"
+                  data-track-event="route_view"
+                  data-track-route={route.title}
+                  data-track-source="journeys_selector"
                   href={route.href}
                 >
                   <h3>{route.title}</h3>

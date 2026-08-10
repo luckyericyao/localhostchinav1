@@ -249,7 +249,7 @@ export default function TravelersPage() {
               hotels, and skyline photos.
             </p>
             <Link className="button button--dark" href={travelersInquiryHref}>
-              Request Private Route Review
+              Request a Private Route
             </Link>
           </div>
         </section>

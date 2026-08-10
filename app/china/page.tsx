@@ -97,7 +97,7 @@ export default function ChinaPage() {
               local-host network built around context.
             </p>
             <p className="support-subhead">
-              Not retro. Not staged. Ancient China, still alive.
+              Ancient China, approached through living context.
             </p>
             <p>
               We do not design routes around retro-themed attractions. We look
@@ -192,6 +192,9 @@ export default function ChinaPage() {
                   <p>{journey.summary}</p>
                   <Link
                     className="text-link text-link--light"
+                    data-track-event="route_view"
+                    data-track-route={journey.place}
+                    data-track-source="china_routes"
                     href={journey.href}
                   >
                     Enter {journey.place}

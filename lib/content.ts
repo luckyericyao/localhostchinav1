@@ -422,11 +422,13 @@ export const chinaRoutePages = {
       "Optional extensions when the route needs more time"
     ],
     snapshot: [
-      { label: "Ideal Length", value: "4 to 6 days" },
-      { label: "Entry City", value: "Taiyuan or Datong" },
+      { label: "Ideal Length", value: "4–6 days" },
+      { label: "Entry", value: "Taiyuan or Datong" },
       { label: "Best For", value: "Ancient sites, Buddhist depth, road-based culture" },
       { label: "Pace", value: "Measured, road-aware, history-heavy" },
-      { label: "Comfort Level", value: "High-comfort with some older-site texture" },
+      { label: "Physical Demand", value: "Moderate steps, road time, uneven older sites" },
+      { label: "Comfort", value: "High-comfort with some older-site texture" },
+      { label: "Season", value: "Spring and autumn for easier pacing; winter for stark atmosphere" },
       { label: "Host Role", value: "Cultural interpreter and route steadying presence" }
     ],
     gallery: {
@@ -590,11 +592,13 @@ export const chinaRoutePages = {
       "Optional quiet extensions for more time in the mountains"
     ],
     snapshot: [
-      { label: "Ideal Length", value: "3 to 5 days" },
-      { label: "Entry City", value: "Zhengzhou or Luoyang" },
+      { label: "Ideal Length", value: "3–5 days" },
+      { label: "Entry", value: "Zhengzhou or Luoyang" },
       { label: "Best For", value: "Chan heritage, martial discipline, mountain stillness" },
       { label: "Pace", value: "Slow mornings, selective movement, low spectacle" },
-      { label: "Comfort Level", value: "Comfortable base with temple and mountain textures" },
+      { label: "Physical Demand", value: "Moderate stairs, mountain paths, weather exposure" },
+      { label: "Comfort", value: "Comfortable base with temple and mountain textures" },
+      { label: "Season", value: "Early spring and autumn for clearer mountain rhythm" },
       { label: "Host Role", value: "Context keeper and practice-culture interpreter" }
     ],
     gallery: {
@@ -758,11 +762,13 @@ export const chinaRoutePages = {
       "Optional extensions for tea, architecture, or quieter lanes"
     ],
     snapshot: [
-      { label: "Ideal Length", value: "4 to 6 days" },
-      { label: "Entry City", value: "Huangshan, Hangzhou, or Shanghai extension" },
+      { label: "Ideal Length", value: "4–6 days" },
+      { label: "Entry", value: "Huangshan, Hangzhou, or Shanghai extension" },
       { label: "Best For", value: "Villages, tea, ancestral halls, ink landscape" },
       { label: "Pace", value: "Slow, atmospheric, weather-aware" },
-      { label: "Comfort Level", value: "Refined stays where available, rural texture nearby" },
+      { label: "Physical Demand", value: "Light to moderate walking on stone lanes and mountain paths" },
+      { label: "Comfort", value: "Refined stays where available, rural texture nearby" },
+      { label: "Season", value: "Spring and autumn for village light; mist is welcome year-round" },
       { label: "Host Role", value: "Village reader, tea companion, architecture interpreter" }
     ],
     gallery: {
@@ -928,11 +934,13 @@ export const chinaRoutePages = {
       "Onward China logistics once the traveler is grounded"
     ],
     snapshot: [
-      { label: "Ideal Length", value: "2 to 4 days" },
-      { label: "Entry City", value: "Shanghai Pudong, Hongqiao, or rail arrival" },
+      { label: "Ideal Length", value: "2–4 days" },
+      { label: "Entry", value: "Pudong, Hongqiao, or rail arrival" },
       { label: "Best For", value: "First China arrival, food, Bund context, after-dark rhythm" },
       { label: "Pace", value: "Polished, flexible, jet-lag aware" },
-      { label: "Comfort Level", value: "High-comfort urban base with local texture nearby" },
+      { label: "Physical Demand", value: "Light to moderate city walking, weather and traffic aware" },
+      { label: "Comfort", value: "High-comfort urban base with local texture nearby" },
+      { label: "Season", value: "Autumn and spring for easier walking and river light" },
       { label: "Host Role", value: "Steady arrival lead and city interpreter" }
     ],
     gallery: {

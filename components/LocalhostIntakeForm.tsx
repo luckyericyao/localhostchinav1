@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState, useTransition } from "react";
+import { trackLocalhostEvent } from "@/components/LocalhostAnalytics";
 import {
   submitLocalhostInquiry,
   type LocalhostIntentType,
@@ -235,11 +236,10 @@ function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-function submitLabel(intentType: LocalhostIntentType, sourcePage?: string) {
+function submitLabel(intentType: LocalhostIntentType) {
   if (intentType === "host") return "Apply as a host";
   if (intentType === "partner") return "Start partner conversation";
-  if (sourcePage === "/") return "Begin private review";
-  return "Request Private Route Review";
+  return "Request a Private Route";
 }
 
 function fullIntakeHref({
@@ -340,6 +340,7 @@ export function LocalhostIntakeForm({
 
       setResult(response);
       if (response.mailtoHref) {
+        trackLocalhostEvent("mailto_fallback");
         window.location.href = response.mailtoHref;
       }
     });
@@ -351,6 +352,7 @@ export function LocalhostIntakeForm({
       className={`localhost-intake-form${compact ? " localhost-intake-form--compact" : ""}${
         embedded ? " localhost-intake-form--embedded" : ""
       }`}
+      data-track-event="inquiry_form"
       onSubmit={handleSubmit}
     >
       {routeContext ? (
@@ -458,6 +460,7 @@ export function LocalhostIntakeForm({
       <button
         aria-expanded={detailsOpen}
         className="optional-toggle"
+        data-track-event="optional_details"
         onClick={() => setDetailsOpen((open) => !open)}
         type="button"
       >
@@ -530,7 +533,11 @@ export function LocalhostIntakeForm({
         </div>
       ) : null}
 
-      {error ? <p className="form-status form-status--error">{error}</p> : null}
+      {error ? (
+        <p className="form-status form-status--error" role="alert">
+          {error}
+        </p>
+      ) : null}
 
       {result?.ok ? (
         <div className="form-status form-status--success" role="status">
@@ -540,7 +547,7 @@ export function LocalhostIntakeForm({
             {routeLabel ? ` / ${routeLabel}` : null}
           </p>
           {result.mailtoHref ? (
-            <a className="text-link" href={result.mailtoHref}>
+            <a className="text-link" data-track-event="mailto_fallback" href={result.mailtoHref}>
               Send prepared email
             </a>
           ) : null}
@@ -561,7 +568,7 @@ export function LocalhostIntakeForm({
 
       <div className={`localhost-intake-actions${detailsOpen && !compact ? " localhost-intake-actions--sticky" : ""}`}>
         <button className="button button--dark" disabled={isPending} type="submit">
-          {isPending ? "Sending..." : submitLabel(activeIntent, sourcePage)}
+          {isPending ? "Preparing..." : submitLabel(activeIntent)}
         </button>
         {compact ? (
           <a

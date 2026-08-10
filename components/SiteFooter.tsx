@@ -28,7 +28,9 @@ export function SiteFooter() {
       </nav>
       <div className="footer-actions" aria-label="Footer actions">
         <Link
-          className="button button--light"
+        className="button button--light"
+        data-track-event="request_route"
+        data-track-source="footer"
           href="/inquiry?type=traveler&sourcePage=%2F&sourceLabel=Footer"
         >
           Request a Private Route

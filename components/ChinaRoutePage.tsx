@@ -93,10 +93,17 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
             <h1>{route.title}</h1>
             <p>{route.body}</p>
             <p className="route-ancient-note">
-              {route.routeNote || "Not retro. Not staged. Ancient China, still alive."}
+              {route.routeNote ||
+                "Ancient China, read through place, practice, and local context."}
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href={inquiry.href}>
+              <Link
+                className="button button--dark"
+                data-track-event="request_route"
+                data-track-route={route.title.split(" —")[0]}
+                data-track-source="route_hero"
+                href={inquiry.href}
+              >
                 {route.ctaLabel}
               </Link>
               <Link className="text-link" href="/china">
@@ -333,7 +340,13 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
           <div className="editorial-copy">
             <p>{route.final}</p>
             <div className="inline-actions">
-              <Link className="button button--dark" href={inquiry.href}>
+              <Link
+                className="button button--dark"
+                data-track-event="request_route"
+                data-track-route={route.title.split(" —")[0]}
+                data-track-source="route_final"
+                href={inquiry.href}
+              >
                 {route.ctaLabel}
               </Link>
               <Link className="text-link" href="/travelers">

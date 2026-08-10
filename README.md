@@ -35,6 +35,13 @@ pnpm dev
 Optional environment variable:
 
 - `LOCALHOST_CONTACT_EMAIL` — email address used for prepared inquiry mailto fallback
+- `LOCALHOST_RESPONSE_WINDOW` — response expectation shown in the inquiry and trust flow
+- `RESEND_API_KEY` — server-only key for direct inquiry delivery when configured
+- `RESEND_FROM_EMAIL` — verified server-side sender used with Resend
+
+When Resend is not configured, the inquiry flow prepares a structured `mailto:`
+fallback. Private keys must remain server-only; do not use `NEXT_PUBLIC_` for
+`RESEND_API_KEY`.
 
 ## Validation
 

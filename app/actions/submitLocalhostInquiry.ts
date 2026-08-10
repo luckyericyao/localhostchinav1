@@ -31,6 +31,7 @@ export type LocalhostInquiryPayload = {
 
 export type LocalhostInquiryResult = {
   contactEmail?: string;
+  delivery?: "email" | "mailto";
   mailtoHref?: string;
   message: string;
   ok: boolean;
@@ -61,7 +62,7 @@ function formatLabel(value: string) {
     .replace(/^./, (char) => char.toUpperCase());
 }
 
-function buildInquiryEmail(payload: {
+function buildInquiryEmailContent(payload: {
   createdAt: string;
   email: string;
   intentType: LocalhostIntentType;
@@ -96,9 +97,49 @@ function buildInquiryEmail(payload: {
     payload.routeContext ? ` / ${payload.routeContext}` : ""
   }`;
 
+  return { body: body.join("\n"), subject };
+}
+
+function buildMailtoHref({ body, subject }: { body: string; subject: string }) {
   return `mailto:${localhostContactEmail}?subject=${encodeURIComponent(
     subject
-  )}&body=${encodeURIComponent(body.join("\n"))}`;
+  )}&body=${encodeURIComponent(body)}`;
+}
+
+async function sendInquiryEmail({
+  body,
+  email,
+  subject
+}: {
+  body: string;
+  email: string;
+  subject: string;
+}) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.RESEND_FROM_EMAIL;
+
+  if (!apiKey || !from) return false;
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      body: JSON.stringify({
+        from,
+        reply_to: email,
+        subject,
+        text: body,
+        to: [localhostContactEmail]
+      }),
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      method: "POST"
+    });
+
+    return response.ok;
+  } catch {
+    return false;
+  }
 }
 
 export async function submitLocalhostInquiry(
@@ -163,17 +204,22 @@ export async function submitLocalhostInquiry(
     userAgent
   };
 
-  console.info("Localhost inquiry received", normalizedPayload);
-
-  const mailtoHref = buildInquiryEmail(normalizedPayload);
+  const emailContent = buildInquiryEmailContent(normalizedPayload);
+  const emailSent = await sendInquiryEmail({
+    body: emailContent.body,
+    email,
+    subject: emailContent.subject
+  });
+  const mailtoHref = emailSent ? undefined : buildMailtoHref(emailContent);
 
   return {
     contactEmail: localhostContactEmail,
+    delivery: emailSent ? "email" : "mailto",
     mailtoHref,
     message:
-      payload.intentType === "traveler"
-        ? "Your private route review has been prepared. If your email client does not open, please contact us directly."
-        : "Your private inquiry has been prepared. If your email client does not open, please contact us directly.",
+      emailSent
+        ? "Your private route review has been received. We will review fit, timing, and local feasibility before replying."
+        : "Your private route review has been prepared. If your email client does not open, please contact us directly.",
     ok: true,
     summary: {
       email,

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { localhostResponseWindow } from "@/lib/contact";
 import { culturalVisualLayers } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -85,6 +86,35 @@ const operatingTrust = [
   }
 ];
 
+const trustProcess = [
+  "Read — a human reviews intent, timing, comfort, route direction, and local feasibility.",
+  "Check fit — we consider the right chapter, host capacity, boundaries, and whether the request is realistic.",
+  "Clarify scope — host time, transport, meals, translation, payment help, and support limits are made explicit.",
+  "Confirm or redirect — a route is confirmed only when fit and feasibility align; otherwise we say so plainly."
+];
+
+const trustCommitments = [
+  {
+    title: "Response window",
+    copy: `A complete inquiry is usually answered ${localhostResponseWindow}.`
+  },
+  {
+    title: "Privacy",
+    copy:
+      "Inquiry details are used for route review and only shared with relevant local collaborators when needed for fit."
+  },
+  {
+    title: "Confirmation",
+    copy:
+      "An inquiry creates no payment, reservation, or host obligation. Confirmation comes only after scope is understood."
+  },
+  {
+    title: "Changes and cancellation",
+    copy:
+      "Any route-specific change, cancellation, or supplier term is stated before the route is confirmed."
+  }
+];
+
 const boundaries = [
   "Hosts are not servants.",
   "Hosts are not entertainers.",
@@ -126,6 +156,30 @@ export default function TrustPage() {
                 Start partner conversation
               </Link>
             </div>
+          </div>
+        </section>
+
+        <section className="section section--stone trust-process-section">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">The Review Checkpoints</p>
+            <h2>Trust is a process, not a promise.</h2>
+            <p>
+              The inquiry is deliberately human. These are the points we work
+              through before a private route is held.
+            </p>
+          </div>
+          <ol className="rhythm-list">
+            {trustProcess.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ol>
+          <div className="support-card-grid support-card-grid--four trust-commitments">
+            {trustCommitments.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
           </div>
         </section>
 

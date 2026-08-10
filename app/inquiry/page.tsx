@@ -8,6 +8,7 @@ import type {
   LocalhostIntentType,
   LocalhostRouteContext
 } from "@/app/actions/submitLocalhostInquiry";
+import { localhostResponseWindow } from "@/lib/contact";
 import { culturalVisualLayers } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -107,6 +108,40 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
           </div>
         </section>
 
+        <section className="section section--inquiry" id="private-route">
+          <div className="inquiry-shell inquiry-shell--wide">
+            <div className="inquiry-copy">
+              <p className="eyebrow">Step 1: Start</p>
+              <h2>Begin with email and one sentence.</h2>
+              <p>
+                Submit the short version first. A human reviews fit, timing,
+                route direction, and local feasibility before anything is
+                confirmed.
+              </p>
+              <p className="fine-copy">
+                For traveler inquiries, one sentence is enough: what kind of
+                China do you want to understand?
+              </p>
+              <p className="fine-copy">
+                Response window: {localhostResponseWindow} for a complete
+                inquiry.
+              </p>
+              <p className="fine-copy">
+                Pricing depends on route depth, host involvement, logistics,
+                city coverage, and support level. Localhost does not quote
+                before the route scope is understood.
+              </p>
+            </div>
+            <LocalhostIntakeForm
+              contextLocked={Boolean(routeContext)}
+              intentType={intentType}
+              routeContext={routeContext}
+              sourceLabel={sourceLabel}
+              sourcePage={sourcePage}
+            />
+          </div>
+        </section>
+
         <CulturalImageLayer {...culturalVisualLayers.inquiry} tone="paper" />
 
         <section className="section section--stone">
@@ -125,36 +160,6 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
                 <p>{item.copy}</p>
               </article>
             ))}
-          </div>
-        </section>
-
-        <section className="section section--inquiry" id="private-route">
-          <div className="inquiry-shell inquiry-shell--wide">
-            <div className="inquiry-copy">
-              <p className="eyebrow">Step 1: Start</p>
-              <h2>Begin with email and one sentence.</h2>
-              <p>
-                Submit the short version first. We prepare a structured email
-                inquiry so a human can review fit, timing, and local
-                feasibility.
-              </p>
-              <p className="fine-copy">
-                For traveler inquiries, one sentence is enough: what kind of
-                China do you want to understand?
-              </p>
-              <p className="fine-copy">
-                Pricing depends on route depth, host involvement, logistics,
-                city coverage, and support level. Localhost does not quote
-                before the route scope is understood.
-              </p>
-            </div>
-            <LocalhostIntakeForm
-              contextLocked={Boolean(routeContext)}
-              intentType={intentType}
-              routeContext={routeContext}
-              sourceLabel={sourceLabel}
-              sourcePage={sourcePage}
-            />
           </div>
         </section>
 
