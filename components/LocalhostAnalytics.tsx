@@ -4,11 +4,13 @@ import { useEffect } from "react";
 
 type AnalyticsEvent =
   | "hero_cta"
+  | "inquiry_sent"
   | "inquiry_start"
   | "mailto_fallback"
   | "optional_details"
   | "request_route"
-  | "route_view";
+  | "route_view"
+  | "validation_error";
 
 export function trackLocalhostEvent(event: AnalyticsEvent, element?: HTMLElement) {
   const payload = {
@@ -51,7 +53,7 @@ export function LocalhostAnalytics() {
     function handleFocus(event: FocusEvent) {
       const target = event.target instanceof Element ? event.target : null;
       const form = target?.closest<HTMLFormElement>(
-        'form[data-track-event="inquiry_form"]'
+        'form[data-inquiry-form="true"]'
       );
 
       if (form && form.dataset.inquiryTracked !== "true") {

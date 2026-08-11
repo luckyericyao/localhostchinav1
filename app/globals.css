@@ -466,7 +466,7 @@ a.text-link {
 .atmosphere-clay-soft::before {
   background:
     linear-gradient(90deg, rgba(247, 242, 232, 0.92), rgba(247, 242, 232, 0.72), rgba(159, 58, 46, 0.1)),
-    url("/images/shanxi-ancient-grotto.png") right center/cover;
+    image-set(url("/images/shanxi-ancient-grotto.avif") type("image/avif"), url("/images/shanxi-ancient-grotto.webp") type("image/webp"), url("/images/shanxi-ancient-grotto.png") type("image/png")) right center/cover;
   opacity: 0.3;
 }
 
@@ -486,7 +486,7 @@ a.text-link {
 .atmosphere-mist-soft::before {
   background:
     linear-gradient(90deg, rgba(251, 248, 241, 0.9), rgba(223, 232, 223, 0.72), rgba(104, 118, 107, 0.18)),
-    url("/images/shaolin-songshan-steps.png") right center/cover;
+    image-set(url("/images/shaolin-songshan-steps.avif") type("image/avif"), url("/images/shaolin-songshan-steps.webp") type("image/webp"), url("/images/shaolin-songshan-steps.png") type("image/png")) right center/cover;
   opacity: 0.28;
 }
 
@@ -504,7 +504,7 @@ a.text-link {
 .atmosphere-ink::before {
   background:
     linear-gradient(90deg, rgba(251, 248, 241, 0.9), rgba(223, 232, 223, 0.64), rgba(104, 118, 107, 0.16)),
-    url("/images/huizhou-rain-courtyard.png") right center/cover;
+    image-set(url("/images/huizhou-rain-courtyard.avif") type("image/avif"), url("/images/huizhou-rain-courtyard.webp") type("image/webp"), url("/images/huizhou-rain-courtyard.png") type("image/png")) right center/cover;
   opacity: 0.3;
 }
 
@@ -537,7 +537,7 @@ a.text-link {
 .atmosphere-dark::before {
   background:
     linear-gradient(90deg, rgba(20, 17, 12, 0.94), rgba(20, 17, 12, 0.72), rgba(159, 58, 46, 0.12)),
-    url("/images/trust-courtyard-wall.png") right center/cover;
+    image-set(url("/images/trust-courtyard-wall.avif") type("image/avif"), url("/images/trust-courtyard-wall.webp") type("image/webp"), url("/images/trust-courtyard-wall.png") type("image/png")) right center/cover;
   opacity: 0.28;
 }
 
@@ -630,7 +630,7 @@ a.text-link {
 .trust-preview-section::before {
   background:
     linear-gradient(90deg, rgba(251, 248, 241, 0.92), rgba(223, 232, 223, 0.7), rgba(104, 118, 107, 0.16)),
-    url("/images/trust-courtyard-wall.png") right center/cover;
+    image-set(url("/images/trust-courtyard-wall.avif") type("image/avif"), url("/images/trust-courtyard-wall.webp") type("image/webp"), url("/images/trust-courtyard-wall.png") type("image/png")) right center/cover;
   opacity: 0.24;
 }
 
@@ -692,6 +692,10 @@ a.text-link {
   max-width: 1180px;
 }
 
+.route-read-section .support-card-grid {
+  grid-column: 1 / -1;
+}
+
 .final-section {
   background: var(--ink);
   color: var(--warm-white);
@@ -730,6 +734,26 @@ a.text-link {
 
 .section-heading {
   max-width: 540px;
+}
+
+.route-subsection-heading {
+  border-top: 1px solid var(--border);
+  margin-top: 34px;
+  padding-top: 34px;
+}
+
+.route-subsection-heading h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 3vw, 3.1rem);
+  font-weight: 400;
+  line-height: 1.08;
+  margin: 8px 0 0;
+  max-width: 720px;
+}
+
+.route-subsection-heading--dark {
+  border-color: var(--light-border);
+  margin-top: 42px;
 }
 
 .section-heading--center {
@@ -826,6 +850,141 @@ a.text-link {
 
 .arrangement-grid--three {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.journey-comparison-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 auto;
+  max-width: 1180px;
+}
+
+.journey-comparison-reveal {
+  min-height: 100%;
+}
+
+.journey-comparison-reveal > * {
+  height: 100%;
+}
+
+.journey-comparison-card {
+  background: rgba(251, 248, 241, 0.76);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--charcoal);
+  display: grid;
+  grid-template-rows: 170px 1fr;
+  overflow: hidden;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.journey-comparison-card:hover {
+  border-color: rgba(159, 58, 46, 0.42);
+  box-shadow: 0 8px 24px rgba(43, 37, 28, 0.08);
+  transform: translateY(-2px);
+}
+
+.journey-comparison-media {
+  display: block;
+  min-height: 170px;
+  overflow: hidden;
+  position: relative;
+}
+
+.journey-comparison-media::after {
+  background: linear-gradient(180deg, rgba(20, 17, 12, 0.02), rgba(20, 17, 12, 0.3));
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.journey-comparison-media img {
+  filter: saturate(0.82) contrast(0.94);
+  object-fit: cover;
+  transition:
+    filter 500ms ease,
+    transform 500ms ease;
+}
+
+.journey-comparison-card:hover .journey-comparison-media img {
+  filter: saturate(0.92) contrast(1);
+  transform: scale(1.03);
+}
+
+.journey-comparison-copy {
+  display: flex;
+  flex-direction: column;
+  min-height: 390px;
+  padding: 22px;
+}
+
+.journey-comparison-kicker {
+  color: var(--wine);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.journey-comparison-copy h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.7rem;
+  font-weight: 400;
+  line-height: 1.1;
+  margin: 12px 0 10px;
+}
+
+.journey-comparison-copy > strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.journey-comparison-copy > p {
+  color: var(--warm-gray);
+  font-size: 0.92rem;
+  line-height: 1.5;
+  margin: 16px 0 18px;
+}
+
+.journey-comparison-meta {
+  border-bottom: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  display: grid;
+  gap: 10px;
+  margin: auto 0 16px;
+  padding: 14px 0;
+}
+
+.journey-comparison-meta div {
+  display: grid;
+  gap: 3px;
+}
+
+.journey-comparison-meta dt {
+  color: var(--wine);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.journey-comparison-meta dd {
+  color: var(--charcoal);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.journey-comparison-copy .arrangement-cue {
+  color: var(--wine);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .atlas-grid,
@@ -1030,52 +1189,52 @@ a.text-link {
 
 .route-atmosphere--shanxi .route-selector-card::before,
 .atlas-reveal--shanxi .atlas-card::before {
-  background-image: url("/images/shanxi-ancient-grotto.png");
+  background-image: image-set(url("/images/shanxi-ancient-grotto.avif") type("image/avif"), url("/images/shanxi-ancient-grotto.webp") type("image/webp"), url("/images/shanxi-ancient-grotto.png") type("image/png"));
 }
 
 .route-atmosphere--shaolin .route-selector-card::before,
 .atlas-reveal--shaolin .atlas-card::before {
-  background-image: url("/images/shaolin-songshan-steps.png");
+  background-image: image-set(url("/images/shaolin-songshan-steps.avif") type("image/avif"), url("/images/shaolin-songshan-steps.webp") type("image/webp"), url("/images/shaolin-songshan-steps.png") type("image/png"));
 }
 
 .route-atmosphere--huizhou .route-selector-card::before,
 .atlas-reveal--huizhou .atlas-card::before {
-  background-image: url("/images/huizhou-rain-courtyard.png");
+  background-image: image-set(url("/images/huizhou-rain-courtyard.avif") type("image/avif"), url("/images/huizhou-rain-courtyard.webp") type("image/webp"), url("/images/huizhou-rain-courtyard.png") type("image/png"));
 }
 
 .atlas-reveal--shanghai .atlas-card::before,
 .future-atmosphere--shanghai .journey-status-card::before {
-  background-image: url("/images/localhost-hero.png");
+  background-image: image-set(url("/images/localhost-hero.avif") type("image/avif"), url("/images/localhost-hero.webp") type("image/webp"), url("/images/localhost-hero.png") type("image/png"));
 }
 
 .atlas-reveal--beijing .atlas-card::before,
 .future-atmosphere--beijing .journey-status-card::before {
-  background-image: url("/images/temple-of-heaven-centered-hero.png");
+  background-image: image-set(url("/images/temple-of-heaven-centered-hero.avif") type("image/avif"), url("/images/temple-of-heaven-centered-hero.webp") type("image/webp"), url("/images/temple-of-heaven-centered-hero.png") type("image/png"));
 }
 
 .atlas-reveal--chengdu .atlas-card::before,
 .future-atmosphere--chengdu .journey-status-card::before {
-  background-image: url("/images/inquiry-courtyard-threshold.png");
+  background-image: image-set(url("/images/inquiry-courtyard-threshold.avif") type("image/avif"), url("/images/inquiry-courtyard-threshold.webp") type("image/webp"), url("/images/inquiry-courtyard-threshold.png") type("image/png"));
 }
 
 .journeys-atlas-section::before {
   background:
     linear-gradient(90deg, rgba(251, 248, 241, 0.88), rgba(223, 232, 223, 0.58), rgba(104, 118, 107, 0.14)),
-    url("/images/huizhou-rain-courtyard.png") right center/cover;
+    image-set(url("/images/huizhou-rain-courtyard.avif") type("image/avif"), url("/images/huizhou-rain-courtyard.webp") type("image/webp"), url("/images/huizhou-rain-courtyard.png") type("image/png")) right center/cover;
   opacity: 0.28;
 }
 
 .journeys-future-section::before {
   background:
     linear-gradient(90deg, rgba(247, 242, 232, 0.92), rgba(223, 232, 223, 0.7), rgba(104, 118, 107, 0.16)),
-    url("/images/temple-of-heaven-centered-hero.png") right center/cover;
+    image-set(url("/images/temple-of-heaven-centered-hero.avif") type("image/avif"), url("/images/temple-of-heaven-centered-hero.webp") type("image/webp"), url("/images/temple-of-heaven-centered-hero.png") type("image/png")) right center/cover;
   opacity: 0.22;
 }
 
 .journeys-final-section::before {
   background:
     linear-gradient(90deg, rgba(20, 17, 12, 0.92), rgba(43, 37, 28, 0.72), rgba(159, 58, 46, 0.12)),
-    url("/images/inquiry-courtyard-threshold.png") right center/cover;
+    image-set(url("/images/inquiry-courtyard-threshold.avif") type("image/avif"), url("/images/inquiry-courtyard-threshold.webp") type("image/webp"), url("/images/inquiry-courtyard-threshold.png") type("image/png")) right center/cover;
   opacity: 0.28;
 }
 
@@ -1113,25 +1272,25 @@ a.text-link {
 .featured-route-card--shanxi::before {
   background-image:
     linear-gradient(135deg, rgba(43, 37, 28, 0.28), rgba(159, 58, 46, 0.08)),
-    url("/images/shanxi-ancient-grotto.png");
+    image-set(url("/images/shanxi-ancient-grotto.avif") type("image/avif"), url("/images/shanxi-ancient-grotto.webp") type("image/webp"), url("/images/shanxi-ancient-grotto.png") type("image/png"));
 }
 
 .featured-route-card--shaolin::before {
   background-image:
     linear-gradient(135deg, rgba(104, 118, 107, 0.28), rgba(223, 232, 223, 0.12)),
-    url("/images/shaolin-songshan-steps.png");
+    image-set(url("/images/shaolin-songshan-steps.avif") type("image/avif"), url("/images/shaolin-songshan-steps.webp") type("image/webp"), url("/images/shaolin-songshan-steps.png") type("image/png"));
 }
 
 .featured-route-card--huizhou::before {
   background-image:
     linear-gradient(135deg, rgba(104, 118, 107, 0.24), rgba(223, 232, 223, 0.14)),
-    url("/images/huizhou-rain-courtyard.png");
+    image-set(url("/images/huizhou-rain-courtyard.avif") type("image/avif"), url("/images/huizhou-rain-courtyard.webp") type("image/webp"), url("/images/huizhou-rain-courtyard.png") type("image/png"));
 }
 
 .featured-route-card--shanghai::before {
   background-image:
     linear-gradient(135deg, rgba(43, 37, 28, 0.24), rgba(159, 58, 46, 0.1)),
-    url("/images/shanghai-bund-walk.png");
+    image-set(url("/images/shanghai-bund-walk.avif") type("image/avif"), url("/images/shanghai-bund-walk.webp") type("image/webp"), url("/images/shanghai-bund-walk.png") type("image/png"));
 }
 
 .featured-route-card p + p {
@@ -1590,7 +1749,7 @@ a.text-link {
 .page-hero--china {
   background:
     linear-gradient(90deg, rgba(247, 242, 232, 0.96), rgba(247, 242, 232, 0.78)),
-    url("/images/china-ancient-landscape.png") center/cover;
+    image-set(url("/images/china-ancient-landscape.avif") type("image/avif"), url("/images/china-ancient-landscape.webp") type("image/webp"), url("/images/china-ancient-landscape.png") type("image/png")) center/cover;
 }
 
 .page-hero--china h1 {
@@ -1628,7 +1787,7 @@ a.text-link {
 .journeys-hero-atmosphere {
   background:
     linear-gradient(90deg, rgba(247, 242, 232, 0.22), rgba(247, 242, 232, 0.02)),
-    url("/images/china-ancient-landscape.png") center/cover;
+    image-set(url("/images/china-ancient-landscape.avif") type("image/avif"), url("/images/china-ancient-landscape.webp") type("image/webp"), url("/images/china-ancient-landscape.png") type("image/png")) center/cover;
   inset: 0;
   pointer-events: none;
   position: absolute;
@@ -1638,13 +1797,13 @@ a.text-link {
 .page-hero--trust {
   background:
     linear-gradient(90deg, rgba(247, 242, 232, 0.98), rgba(223, 232, 223, 0.82)),
-    url("/images/trust-courtyard-wall.png") center/cover;
+    image-set(url("/images/trust-courtyard-wall.avif") type("image/avif"), url("/images/trust-courtyard-wall.webp") type("image/webp"), url("/images/trust-courtyard-wall.png") type("image/png")) center/cover;
 }
 
 .page-hero--inquiry {
   background:
     linear-gradient(90deg, rgba(247, 242, 232, 0.98), rgba(247, 242, 232, 0.8)),
-    url("/images/inquiry-courtyard-threshold.png") center/cover;
+    image-set(url("/images/inquiry-courtyard-threshold.avif") type("image/avif"), url("/images/inquiry-courtyard-threshold.webp") type("image/webp"), url("/images/inquiry-courtyard-threshold.png") type("image/png")) center/cover;
 }
 
 .page-hero-copy .support-subhead {
@@ -2102,6 +2261,16 @@ a.text-link {
   color: var(--warm-gray);
   font-size: 1.12rem;
   max-width: 540px;
+}
+
+.review-deliverable-block {
+  border-top: 1px solid var(--border);
+  margin-top: 28px;
+  padding-top: 24px;
+}
+
+.review-deliverable-block .clean-list {
+  margin-top: 14px;
 }
 
 .localhost-intake-form {
@@ -2828,6 +2997,12 @@ a:focus-visible,
   }
 }
 
+@media (max-width: 1020px) {
+  .journey-comparison-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 720px) {
   body {
     font-size: 15px;
@@ -2896,6 +3071,7 @@ a:focus-visible,
 
   .arrangement-grid,
   .journey-grid,
+  .journey-comparison-grid,
   .principle-grid,
   .support-card-grid,
   .cultural-layer-grid,

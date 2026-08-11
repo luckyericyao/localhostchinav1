@@ -1,72 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { localhostResponseWindow } from "@/lib/contact";
-import { culturalVisualLayers } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Trust — Localhost Global",
   description:
     "The Localhost trust model: host screening, no random matching, traveler respect, boundaries, privacy, and quality control."
 };
-
-const trustPillars = [
-  {
-    title: "Host screening",
-    copy:
-      "Hosts are reviewed for judgment, reliability, cultural fluency, communication quality, and the ability to represent a place with care."
-  },
-  {
-    title: "No random matching",
-    copy:
-      "Host fit matters. A route should not be assigned to whoever is free first or willing to bid lowest."
-  },
-  {
-    title: "Traveler respect and host boundaries",
-    copy:
-      "Travelers must respect local people, time, culture, and boundaries. The relationship only works when dignity goes both ways."
-  },
-  {
-    title: "Privacy and discretion",
-    copy:
-      "Private routes may involve families, founders, executives, writers, or returning diaspora. Discretion is part of the work."
-  },
-  {
-    title: "Safety and practical limits",
-    copy:
-      "Hosts support local judgment and route experience. They are not emergency responders or 24/7 personal staff."
-  },
-  {
-    title: "Quality control",
-    copy:
-      "Feedback, host review, chapter standards, and local constraints shape what Localhost offers next."
-  }
-];
-
-const travelerAssurance = [
-  {
-    title: "A human reviews before matching",
-    copy:
-      "Your inquiry is read for intent, timing, comfort, route direction, and local feasibility before any host is introduced."
-  },
-  {
-    title: "Hosts are not public listings",
-    copy:
-      "You do not browse strangers, trigger bids, or book whoever is available first. Host fit is selected with care."
-  },
-  {
-    title: "Scope is clarified before confirmation",
-    copy:
-      "Host time, support level, transport rhythm, meals, translation, payment help, and boundaries are made clear before the route is held."
-  },
-  {
-    title: "Privacy is part of the service",
-    copy:
-      "Traveler details, host identities, private rooms, business context, family needs, and sensitive notes are handled with discretion."
-  }
-];
 
 const operatingTrust = [
   {
@@ -185,44 +127,12 @@ export default function TrustPage() {
 
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
-            <p className="eyebrow">For Travelers</p>
+            <p className="eyebrow">Trust Architecture</p>
             <h2>What trust means before you submit an inquiry.</h2>
             <p>
               Localhost is designed to reduce uncertainty before a private route
-              is shaped. The review is part of the product.
+              is shaped. The review, host fit, and scope are part of the product.
             </p>
-          </div>
-          <div className="support-card-grid">
-            {travelerAssurance.map((item) => (
-              <article className="support-detail-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section section--stone">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Trust Architecture</p>
-            <h2>Operational credibility begins before the route.</h2>
-          </div>
-          <div className="support-card-grid support-card-grid--three">
-            {trustPillars.map((item) => (
-              <article className="support-detail-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <CulturalImageLayer {...culturalVisualLayers.trust} tone="dark" />
-
-        <section className="section">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Commercial Trust</p>
-            <h2>How Trust Works in Practice</h2>
           </div>
           <div className="support-card-grid support-card-grid--three">
             {operatingTrust.map((item) => (
@@ -236,32 +146,18 @@ export default function TrustPage() {
 
         <section className="section section--dark">
           <div className="section-heading">
-            <p className="eyebrow">Boundaries</p>
-            <h2>What Localhost will not become.</h2>
+            <p className="eyebrow">Boundaries and discretion</p>
+            <h2>The host is not a listing. The route is not a commodity.</h2>
+            <p>
+              A public marketplace optimizes for supply. Localhost optimizes for
+              fit, judgment, and a relationship that protects the place.
+            </p>
           </div>
           <ul className="reference-matrix reference-matrix--dark">
             {boundaries.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
-        </section>
-
-        <section className="section intro-section">
-          <div className="section-heading">
-            <p className="eyebrow">Not A Marketplace</p>
-            <h2>The host is not a listing. The route is not a commodity.</h2>
-          </div>
-          <div className="editorial-copy">
-            <p className="lead">
-              A public marketplace optimizes for supply. Localhost optimizes for
-              fit, judgment, and relationship.
-            </p>
-            <p>
-              That means fewer routes, slower matching, clearer expectations,
-              and the willingness to redirect an inquiry when the fit is not
-              right.
-            </p>
-          </div>
         </section>
 
         <section className="section final-section">

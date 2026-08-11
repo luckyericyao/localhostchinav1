@@ -18,12 +18,19 @@ export const metadata: Metadata = {
 };
 
 const afterSubmit = [
-  "A prepared email opens with your route review details.",
-  "We read for intent, not just dates.",
-  "We identify the right route direction.",
-  "We check whether a local host fit is realistic.",
-  "We clarify feasibility before anything becomes a route.",
-  "If the request is not a fit, we may redirect or decline it."
+  "We review intent, timing, route direction, and local feasibility.",
+  "We identify the right route direction or chapter.",
+  "We suggest the right host role and level of involvement.",
+  "We clarify scope, support limits, and what happens next.",
+  "We confirm, redirect, or decline plainly when the fit is not right."
+];
+
+const firstReviewDeliverables = [
+  "A route direction that matches what you want to understand.",
+  "The host role that would be useful, if a host is a fit.",
+  "A clear first scope: timing, movement, support, and practical limits.",
+  "The next decision needed before any route is held.",
+  "Confirmation conditions, or a direct redirect when the fit is not right."
 ];
 
 const canStayOpen = [
@@ -131,6 +138,14 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
                 city coverage, and support level. Localhost does not quote
                 before the route scope is understood.
               </p>
+              <div className="review-deliverable-block">
+                <p className="eyebrow">What the first review gives you</p>
+                <ul className="clean-list">
+                  {firstReviewDeliverables.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
             <LocalhostIntakeForm
               contextLocked={Boolean(routeContext)}

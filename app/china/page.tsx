@@ -13,49 +13,26 @@ export const metadata: Metadata = {
     "China as the first Localhost chapter: private routes into Real Ancient China, trusted hosts, cultural decoding, and practical confidence."
 };
 
-const whyChina = [
+const chinaMethod = [
+  {
+    title: "Arrive with practical confidence",
+    copy:
+      "Shanghai can be a composed first threshold: landing, payments, food, movement, and a more intelligent first read of modern China."
+  },
+  {
+    title: "Choose depth after arrival",
+    copy:
+      "Go ancient in Shanxi, disciplined in Shaolin, poetic in Huizhou, or stay urban in Shanghai."
+  },
   {
     title: "Context over sightseeing",
     copy:
       "Temples, villages, cities, food, etiquette, and history become clearer with local interpretation."
   },
   {
-    title: "Local rhythm over checklist",
+    title: "Local support in the background",
     copy:
-      "A good route knows when to move, when to slow down, what to avoid, and where the day should breathe."
-  },
-  {
-    title: "Regional depth over one-size China",
-    copy:
-      "Shanxi, Shaolin, Huizhou, and Shanghai each ask for a different language of attention."
-  },
-  {
-    title: "Trusted support over confusion",
-    copy:
-      "Payments, apps, transport, restaurants, timing, and translation can be held quietly in the background."
-  }
-];
-
-const firstTimeChina = [
-  {
-    title: "Start with arrival confidence",
-    copy:
-      "Shanghai can be a composed first threshold: landing, payments, food, movement, and a more intelligent first read of modern China."
-  },
-  {
-    title: "Choose the depth after that",
-    copy:
-      "Go ancient in Shanxi, disciplined in Shaolin, poetic in Huizhou, or stay urban in Shanghai."
-  },
-  {
-    title: "Let the local layer hold the details",
-    copy:
-      "Transport, timing, restaurants, translation, payments, and day-of adjustments can sit behind the experience."
-  },
-  {
-    title: "Travel with context, not scripts",
-    copy:
-      "A route should help you understand what you are seeing, eating, entering, and missing."
+      "Transport, timing, restaurants, translation, payments, and day-of adjustments can sit behind the experience while the route keeps what you are seeing, eating, entering, and missing legible."
   }
 ];
 
@@ -112,30 +89,15 @@ export default function ChinaPage() {
 
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
-            <p className="eyebrow">For International Travelers</p>
-            <h2>If China feels complex, start with a route that holds the basics.</h2>
+            <p className="eyebrow">How Localhost Works In China</p>
+            <h2>Practical confidence first. Cultural reading deeper.</h2>
             <p>
-              The first layer is practical confidence. The deeper layer is
-              cultural reading.
+              The route holds the details that make China easier to enter, then
+              makes space for the local meaning behind them.
             </p>
           </div>
           <div className="support-card-grid">
-            {firstTimeChina.map((card) => (
-              <article className="support-detail-card" key={card.title}>
-                <h3>{card.title}</h3>
-                <p>{card.copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section section--stone">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Why Localhost China</p>
-            <h2>Local fluency changes the quality of the journey.</h2>
-          </div>
-          <div className="support-card-grid">
-            {whyChina.map((card) => (
+            {chinaMethod.map((card) => (
               <article className="support-detail-card" key={card.title}>
                 <h3>{card.title}</h3>
                 <p>{card.copy}</p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState, useTransition } from "react";
+import { FormEvent, useMemo, useRef, useState, useTransition } from "react";
 import { trackLocalhostEvent } from "@/components/LocalhostAnalytics";
 import {
   submitLocalhostInquiry,
@@ -239,7 +239,7 @@ function isValidEmail(value: string) {
 function submitLabel(intentType: LocalhostIntentType) {
   if (intentType === "host") return "Apply as a host";
   if (intentType === "partner") return "Start partner conversation";
-  return "Request a Private Route";
+  return "Request Private Route Review";
 }
 
 function fullIntakeHref({
@@ -277,6 +277,7 @@ export function LocalhostIntakeForm({
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [errorField, setErrorField] = useState<"email" | "shortNote" | null>(null);
   const [honeypot, setHoneypot] = useState("");
   const [isPending, startTransition] = useTransition();
   const [optionalDetails, setOptionalDetails] = useState<Record<string, string>>(() =>
@@ -285,6 +286,8 @@ export function LocalhostIntakeForm({
   const [result, setResult] = useState<LocalhostInquiryResult | null>(null);
   const [shortNote, setShortNote] = useState(defaultMessage);
   const [startedAt] = useState(() => Date.now());
+  const emailRef = useRef<HTMLInputElement>(null);
+  const shortNoteRef = useRef<HTMLTextAreaElement>(null);
 
   const fields = useMemo(() => detailsForIntent(activeIntent), [activeIntent]);
   const routeLabel = routeContext ? routeLabels[routeContext] : "";
@@ -302,18 +305,38 @@ export function LocalhostIntakeForm({
     );
   }
 
+  function showValidationError(
+    message: string,
+    field: "email" | "shortNote" | null,
+    form: HTMLFormElement
+  ) {
+    setError(message);
+    setErrorField(field);
+    trackLocalhostEvent("validation_error", form);
+    window.requestAnimationFrame(() => {
+      if (field === "email") emailRef.current?.focus();
+      if (field === "shortNote") shortNoteRef.current?.focus();
+    });
+  }
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = event.currentTarget;
     setError("");
+    setErrorField(null);
     setResult(null);
 
     if (!isValidEmail(email)) {
-      setError("Please enter a valid email.");
+      showValidationError("Please enter a valid email.", "email", form);
       return;
     }
 
     if (!noteOptional && !shortNote.trim()) {
-      setError("Please add one sentence about what you are looking for.");
+      showValidationError(
+        "Please add one sentence about what you are looking for.",
+        "shortNote",
+        form
+      );
       return;
     }
 
@@ -334,7 +357,12 @@ export function LocalhostIntakeForm({
       });
 
       if (!response.ok) {
-        setError(response.message);
+        const field = /email/i.test(response.message)
+          ? "email"
+          : /sentence|looking/i.test(response.message)
+            ? "shortNote"
+            : null;
+        showValidationError(response.message, field, form);
         return;
       }
 
@@ -342,6 +370,8 @@ export function LocalhostIntakeForm({
       if (response.mailtoHref) {
         trackLocalhostEvent("mailto_fallback");
         window.location.href = response.mailtoHref;
+      } else if (response.delivery === "email") {
+        trackLocalhostEvent("inquiry_sent", form);
       }
     });
   }
@@ -352,7 +382,8 @@ export function LocalhostIntakeForm({
       className={`localhost-intake-form${compact ? " localhost-intake-form--compact" : ""}${
         embedded ? " localhost-intake-form--embedded" : ""
       }`}
-      data-track-event="inquiry_form"
+      data-inquiry-form="true"
+      noValidate
       onSubmit={handleSubmit}
     >
       {routeContext ? (
@@ -398,6 +429,7 @@ export function LocalhostIntakeForm({
                 onClick={() => {
                   setActiveIntent(role);
                   setError("");
+                  setErrorField(null);
                   setResult(null);
                 }}
                 type="button"
@@ -415,7 +447,7 @@ export function LocalhostIntakeForm({
           <ul>
             <li>One honest sentence is enough to begin.</li>
             <li>A human reviews fit, timing, route direction, and local feasibility.</li>
-            <li>This prepares an email inquiry. It is not payment or instant booking.</li>
+            <li>This is a private route review, not payment or instant booking.</li>
           </ul>
         </div>
       ) : null}
@@ -424,14 +456,20 @@ export function LocalhostIntakeForm({
         <span>Email *</span>
         <input
           autoComplete="email"
+          aria-describedby={errorField === "email" ? "inquiry-error" : undefined}
+          aria-invalid={errorField === "email"}
           inputMode="email"
+          id="inquiry-email"
           name="email"
           onChange={(event) => {
             setEmail(event.target.value);
             setError("");
+            setErrorField(null);
             setResult(null);
           }}
           placeholder="you@example.com"
+          ref={emailRef}
+          required
           type="email"
           value={email}
         />
@@ -440,17 +478,23 @@ export function LocalhostIntakeForm({
       <label>
         <span>{noteCopy.label}{noteOptional ? "" : " *"}</span>
         <textarea
+          aria-describedby={errorField === "shortNote" ? "short-note-hint inquiry-error" : "short-note-hint"}
+          aria-invalid={errorField === "shortNote"}
+          id="inquiry-short-note"
           name="shortNote"
           onChange={(event) => {
             setShortNote(event.target.value);
             setError("");
+            setErrorField(null);
             setResult(null);
           }}
           placeholder={noteOptional ? "Optional. Route context is already captured." : "One sentence is enough."}
+          ref={shortNoteRef}
+          required={!noteOptional}
           rows={compact ? 3 : 4}
           value={shortNote}
         />
-        <small>
+        <small id="short-note-hint">
           {noteOptional
             ? "This route context is already captured. Add a short note only if useful."
             : noteCopy.helper}
@@ -534,7 +578,7 @@ export function LocalhostIntakeForm({
       ) : null}
 
       {error ? (
-        <p className="form-status form-status--error" role="alert">
+        <p className="form-status form-status--error" id="inquiry-error" role="alert" tabIndex={-1}>
           {error}
         </p>
       ) : null}

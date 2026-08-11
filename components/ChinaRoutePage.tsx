@@ -205,12 +205,17 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
           </section>
         ) : null}
 
-        <section className="section">
-          <div className="section-heading section-heading--center">
+        <section className="section intro-section route-read-section">
+          <div className="section-heading">
             <p className="eyebrow">Example Rhythm</p>
             <h2>A Day Might Feel Like This</h2>
+          </div>
+          <div className="editorial-copy">
+            <p className="lead">{route.thesis}</p>
             <p>
-              One possible rhythm, not a fixed itinerary.
+              One possible rhythm, not a fixed itinerary. The shape depends on
+              timing, appetite, weather, local interpretation, and the questions
+              the traveler brings.
             </p>
           </div>
           <div className="support-card-grid">
@@ -220,22 +225,6 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
                 <p>{item.copy}</p>
               </article>
             ))}
-          </div>
-        </section>
-
-        <section className="section intro-section">
-          <div className="section-heading">
-            <p className="eyebrow">Why This Place Matters</p>
-            <h2>{route.thesis}</h2>
-          </div>
-          <div className="editorial-copy">
-            <p className="lead">
-              This is a private cultural route, not a rigid itinerary.
-            </p>
-            <p>
-              The shape depends on timing, appetite, weather, local
-              interpretation, and the questions the traveler brings.
-            </p>
           </div>
         </section>
 
@@ -252,10 +241,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               </article>
             ))}
           </div>
-        </section>
-
-        <section className="section">
-          <div className="section-heading section-heading--center">
+          <div className="route-subsection-heading">
             <p className="eyebrow">What A Host Changes Here</p>
             <h2>Local judgment changes what the traveler can read.</h2>
           </div>
@@ -282,54 +268,48 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               </article>
             ))}
           </div>
-        </section>
-
-        <section className="section">
-          <div className="section-heading section-heading--center">
+          <div className="route-subsection-heading route-subsection-heading--dark">
             <p className="eyebrow">Possible Route Rhythm</p>
             <h2>A flexible rhythm, not a fixed plan.</h2>
           </div>
-          <ol className="rhythm-list">
+          <ol className="rhythm-list rhythm-list--dark">
             {route.rhythm.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ol>
         </section>
 
-        <section className="section section--dark">
-          <div className="section-heading">
-            <p className="eyebrow">What A Local Host Decodes</p>
-            <h2>Context, timing, food, language, and cultural reading.</h2>
-          </div>
-          <ul className="reference-matrix reference-matrix--dark">
-            {route.hostHelps.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </section>
-
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
-            <p className="eyebrow">What Localhost Handles</p>
-            <h2>Practical steadiness around the route.</h2>
+            <p className="eyebrow">Held Around The Route</p>
+            <h2>Context, practical support, and clear limits.</h2>
           </div>
-          <ul className="reference-matrix">
-            {route.handles.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </section>
-
-        <section className="section">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Practical Notes</p>
-            <h2>Comfort, timing, movement, and advance planning.</h2>
+          <div className="support-card-grid support-card-grid--three">
+            <article className="support-detail-card">
+              <h3>What a local host decodes</h3>
+              <ul className="clean-list">
+                {route.hostHelps.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
+            <article className="support-detail-card">
+              <h3>What Localhost handles</h3>
+              <ul className="clean-list">
+                {route.handles.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
+            <article className="support-detail-card">
+              <h3>Practical notes</h3>
+              <ul className="clean-list">
+                {route.practicalNotes.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
           </div>
-          <ul className="reference-matrix">
-            {route.practicalNotes.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
         </section>
 
         <section className="section final-section">

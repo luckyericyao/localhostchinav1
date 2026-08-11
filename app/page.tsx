@@ -62,24 +62,6 @@ const featuredRoutePreview = [
   }
 ] as const;
 
-const simpleVersion = [
-  {
-    title: "A route shaped around your question.",
-    copy:
-      "You tell us what kind of China you want to understand. We shape the route around timing, comfort, curiosity, and fit."
-  },
-  {
-    title: "A host chosen for fit.",
-    copy:
-      "A trusted local host or contact supports the moments where judgment matters: food, movement, etiquette, context, and adjustment."
-  },
-  {
-    title: "The practical layer stays handled.",
-    copy:
-      "Payments, transport, translation, restaurants, timing, and local decisions can be handled in the background."
-  }
-] as const;
-
 const privateRouteIncludes = [
   {
     title: "Private route design",
@@ -241,25 +223,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section-atmosphere atmosphere-ivory">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">What Localhost Is</p>
-            <h2>Private China travel, made legible.</h2>
-            <p>
-              A private local-host network for travelers who want context,
-              host fit, and practical confidence.
-            </p>
-          </div>
-          <div className="support-card-grid support-card-grid--three">
-            {simpleVersion.map((item) => (
-              <article className="support-detail-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
         <section className="section cultural-layer cultural-layer--paper">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Real Ancient China</p>
@@ -294,8 +257,12 @@ export default function Home() {
 
         <section className="section section-atmosphere atmosphere-mist">
           <div className="section-heading section-heading--center">
-            <p className="eyebrow">Private Route Scope</p>
-            <h2>What a Private Route Includes</h2>
+            <p className="eyebrow">What Localhost Is</p>
+            <h2>Private China travel, made legible.</h2>
+            <p>
+              A private local-host network for travelers who want route design,
+              host fit, practical confidence, and cultural context.
+            </p>
           </div>
           <div className="support-card-grid">
             {privateRouteIncludes.map((item) => (
