@@ -154,9 +154,6 @@ export default function ChinaPage() {
                   <p>{journey.summary}</p>
                   <Link
                     className="text-link text-link--light"
-                    data-track-event="route_view"
-                    data-track-route={journey.place}
-                    data-track-source="china_routes"
                     href={journey.href}
                   >
                     Enter {journey.place}

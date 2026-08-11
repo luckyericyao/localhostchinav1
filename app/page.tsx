@@ -137,11 +137,13 @@ export default function Home() {
       <main>
         <section className="hero">
           <Image
-            src="/images/temple-of-heaven-centered-hero.png"
+            src="/images/temple-of-heaven-centered-hero.avif"
             alt="The Temple of Heaven Hall of Prayer for Good Harvests centered in quiet morning light."
             fill
+            fetchPriority="high"
             priority
             className="hero-image"
+            unoptimized
             sizes="100vw"
           />
           <div className="hero-shade" />
@@ -191,8 +193,6 @@ export default function Home() {
             {featuredRoutePreview.map((route) => (
               <Link
                 className="visual-journey-card"
-                data-track-event="route_view"
-                data-track-route={route.place}
                 href={route.href}
                 key={route.place}
               >
@@ -201,6 +201,8 @@ export default function Home() {
                     src={route.image}
                     alt={route.alt}
                     fill
+                    fetchPriority="low"
+                    loading="lazy"
                     sizes="(min-width: 900px) 25vw, 100vw"
                   />
                 </span>
@@ -255,7 +257,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section-atmosphere atmosphere-mist">
+        <section className="section section-atmosphere atmosphere-mist home-support-section">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">What Localhost Is</p>
             <h2>Private China travel, made legible.</h2>
@@ -274,7 +276,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="section section-atmosphere atmosphere-dark trust-preview-section">
+        <section className="section section-atmosphere atmosphere-dark trust-preview-section home-trust-section">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Trust Model</p>
             <h2>Trust before scale.</h2>

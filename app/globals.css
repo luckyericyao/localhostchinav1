@@ -482,7 +482,12 @@ a.text-link {
     var(--mist-soft);
 }
 
-.atmosphere-mist::before,
+.atmosphere-mist::before {
+  background:
+    linear-gradient(90deg, rgba(251, 248, 241, 0.9), rgba(223, 232, 223, 0.72), rgba(104, 118, 107, 0.18));
+  opacity: 0.28;
+}
+
 .atmosphere-mist-soft::before {
   background:
     linear-gradient(90deg, rgba(251, 248, 241, 0.9), rgba(223, 232, 223, 0.72), rgba(104, 118, 107, 0.18)),
@@ -536,13 +541,26 @@ a.text-link {
 
 .atmosphere-dark::before {
   background:
-    linear-gradient(90deg, rgba(20, 17, 12, 0.94), rgba(20, 17, 12, 0.72), rgba(159, 58, 46, 0.12)),
-    image-set(url("/images/trust-courtyard-wall.avif") type("image/avif"), url("/images/trust-courtyard-wall.webp") type("image/webp"), url("/images/trust-courtyard-wall.png") type("image/png")) right center/cover;
+    linear-gradient(90deg, rgba(20, 17, 12, 0.94), rgba(20, 17, 12, 0.72), rgba(159, 58, 46, 0.12));
   opacity: 0.28;
 }
 
 .atmosphere-dark::after {
   background: radial-gradient(circle, rgba(159, 58, 46, 0.14), rgba(159, 58, 46, 0));
+}
+
+/* Keep below-the-fold homepage sections atmospheric without competing with the hero image. */
+.home-support-section::before {
+  background:
+    linear-gradient(145deg, rgba(223, 232, 223, 0.96), rgba(141, 155, 143, 0.34)),
+    var(--mist-soft);
+}
+
+.home-trust-section::before {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(159, 58, 46, 0.14), transparent 34%),
+    radial-gradient(circle at 82% 20%, rgba(141, 155, 143, 0.16), transparent 34%),
+    var(--ink);
 }
 
 .atmosphere-gold-soft {
@@ -629,8 +647,7 @@ a.text-link {
 
 .trust-preview-section::before {
   background:
-    linear-gradient(90deg, rgba(251, 248, 241, 0.92), rgba(223, 232, 223, 0.7), rgba(104, 118, 107, 0.16)),
-    image-set(url("/images/trust-courtyard-wall.avif") type("image/avif"), url("/images/trust-courtyard-wall.webp") type("image/webp"), url("/images/trust-courtyard-wall.png") type("image/png")) right center/cover;
+    linear-gradient(90deg, rgba(251, 248, 241, 0.92), rgba(223, 232, 223, 0.7), rgba(104, 118, 107, 0.16));
   opacity: 0.24;
 }
 

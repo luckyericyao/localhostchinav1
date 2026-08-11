@@ -19,6 +19,7 @@ async function persistMetric(payload: {
   event: string;
   path: string;
   route: string;
+  sessionId: string;
   source: string;
 }) {
   const apiKey = process.env.POSTHOG_API_KEY;
@@ -35,7 +36,7 @@ async function persistMetric(payload: {
         api_key: apiKey,
         event: payload.event,
         properties: {
-          distinct_id: "localhost-anonymous",
+          distinct_id: payload.sessionId || "localhost-anonymous",
           path: payload.path,
           route: payload.route,
           source: payload.source
@@ -64,10 +65,16 @@ export async function POST(request: Request) {
       event,
       path: cleanValue(payload?.path, 120),
       route: cleanValue(payload?.route),
+      sessionId: cleanValue(payload?.sessionId, 120),
       source: cleanValue(payload?.source)
     };
 
-    console.info("Localhost metric", metric);
+    console.info("Localhost metric", {
+      event: metric.event,
+      path: metric.path,
+      route: metric.route,
+      source: metric.source
+    });
     await persistMetric(metric);
 
     return NextResponse.json({ ok: true });

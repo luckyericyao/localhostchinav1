@@ -38,7 +38,7 @@ Optional environment variable:
 - `LOCALHOST_RESPONSE_WINDOW` — response expectation shown in the inquiry and trust flow
 - `RESEND_API_KEY` — server-only key for direct inquiry delivery when configured
 - `RESEND_FROM_EMAIL` — verified server-side sender used with Resend
-- `POSTHOG_API_KEY` — optional server-side key for anonymous funnel event persistence
+- `POSTHOG_API_KEY` — optional server-side key for anonymous session-level funnel event persistence
 - `POSTHOG_HOST` — optional PostHog host, defaulting to `https://app.posthog.com`
 
 When Resend is not configured, the inquiry flow prepares a structured `mailto:`
@@ -47,13 +47,19 @@ fallback. Private keys must remain server-only; do not use `NEXT_PUBLIC_` for
 
 For production direct email, configure `RESEND_API_KEY`, `RESEND_FROM_EMAIL`,
 and `LOCALHOST_CONTACT_EMAIL` in the Vercel project environment. For durable
-funnel reporting, also configure `POSTHOG_API_KEY` and `POSTHOG_HOST`. The app
-keeps the mailto path as a transparent fallback when direct delivery is not
-available.
+funnel reporting, also configure `POSTHOG_API_KEY` and `POSTHOG_HOST`. Events
+use a session-scoped anonymous identifier and never include email, names, or
+inquiry content. The app keeps the mailto path as a transparent fallback when
+direct delivery is not available.
 
 ## Validation
 
 ```bash
 pnpm lint
 pnpm build
+pnpm smoke
 ```
+
+Run `pnpm smoke` against the local server, or set `SITE_URL` to check a
+deployed URL. It verifies the core routes, key conversion copy, route page
+markers, and the privacy-safe analytics endpoint.

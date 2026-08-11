@@ -287,6 +287,7 @@ export function LocalhostIntakeForm({
   const [shortNote, setShortNote] = useState(defaultMessage);
   const [startedAt] = useState(() => Date.now());
   const emailRef = useRef<HTMLInputElement>(null);
+  const errorRef = useRef<HTMLParagraphElement>(null);
   const shortNoteRef = useRef<HTMLTextAreaElement>(null);
 
   const fields = useMemo(() => detailsForIntent(activeIntent), [activeIntent]);
@@ -316,6 +317,7 @@ export function LocalhostIntakeForm({
     window.requestAnimationFrame(() => {
       if (field === "email") emailRef.current?.focus();
       if (field === "shortNote") shortNoteRef.current?.focus();
+      if (!field) errorRef.current?.focus();
     });
   }
 
@@ -383,6 +385,7 @@ export function LocalhostIntakeForm({
         embedded ? " localhost-intake-form--embedded" : ""
       }`}
       data-inquiry-form="true"
+      aria-describedby={error ? "inquiry-error" : undefined}
       noValidate
       onSubmit={handleSubmit}
     >
@@ -578,7 +581,13 @@ export function LocalhostIntakeForm({
       ) : null}
 
       {error ? (
-        <p className="form-status form-status--error" id="inquiry-error" role="alert" tabIndex={-1}>
+        <p
+          className="form-status form-status--error"
+          id="inquiry-error"
+          ref={errorRef}
+          role="alert"
+          tabIndex={-1}
+        >
           {error}
         </p>
       ) : null}
@@ -591,7 +600,7 @@ export function LocalhostIntakeForm({
             {routeLabel ? ` / ${routeLabel}` : null}
           </p>
           {result.mailtoHref ? (
-            <a className="text-link" data-track-event="mailto_fallback" href={result.mailtoHref}>
+            <a className="text-link" href={result.mailtoHref}>
               Send prepared email
             </a>
           ) : null}

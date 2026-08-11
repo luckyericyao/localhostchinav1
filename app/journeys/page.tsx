@@ -76,9 +76,6 @@ export default function JourneysPage() {
               >
                 <Link
                   className="journey-comparison-card"
-                  data-track-event="route_view"
-                  data-track-route={journey.place}
-                  data-track-source="journeys_selector"
                   href={journey.href}
                 >
                   <span className="journey-comparison-media">

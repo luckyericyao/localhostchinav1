@@ -86,7 +86,11 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main
+        data-route-page={route.title.split(" —")[0]}
+        data-track-route={route.title.split(" —")[0]}
+        data-track-source="route_page"
+      >
         <section className="destination-hero route-hero">
           <div className="destination-copy">
             <p className="eyebrow">{route.eyebrow}</p>

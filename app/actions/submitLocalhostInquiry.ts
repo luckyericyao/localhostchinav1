@@ -133,7 +133,8 @@ async function sendInquiryEmail({
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json"
       },
-      method: "POST"
+      method: "POST",
+      signal: AbortSignal.timeout(5000)
     });
 
     return response.ok;

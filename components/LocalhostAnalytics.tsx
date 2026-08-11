@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 type AnalyticsEvent =
   | "hero_cta"
@@ -12,11 +13,31 @@ type AnalyticsEvent =
   | "route_view"
   | "validation_error";
 
+function getAnonymousSessionId() {
+  const storageKey = "localhost_session_id";
+
+  try {
+    const existing = window.sessionStorage.getItem(storageKey);
+    if (existing) return existing;
+
+    const generated =
+      typeof window.crypto?.randomUUID === "function"
+        ? window.crypto.randomUUID()
+        : `session-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
+
+    window.sessionStorage.setItem(storageKey, generated);
+    return generated;
+  } catch {
+    return "";
+  }
+}
+
 export function trackLocalhostEvent(event: AnalyticsEvent, element?: HTMLElement) {
   const payload = {
     event,
     path: window.location.pathname,
     route: element?.dataset.trackRoute || "",
+    sessionId: getAnonymousSessionId(),
     source: element?.dataset.trackSource || ""
   };
   const body = JSON.stringify(payload);
@@ -40,6 +61,8 @@ export function trackLocalhostEvent(event: AnalyticsEvent, element?: HTMLElement
 }
 
 export function LocalhostAnalytics() {
+  const pathname = usePathname();
+
   useEffect(() => {
     function handleClick(event: MouseEvent) {
       const target = event.target instanceof Element
@@ -70,6 +93,12 @@ export function LocalhostAnalytics() {
       document.removeEventListener("focusin", handleFocus);
     };
   }, []);
+
+  useEffect(() => {
+    const routePage = document.querySelector<HTMLElement>("[data-route-page]");
+
+    if (routePage) trackLocalhostEvent("route_view", routePage);
+  }, [pathname]);
 
   return null;
 }
