@@ -141,6 +141,13 @@ for (const path of routes) {
     }
 
     const menuSummary = page.locator(".mobile-menu summary");
+    const menuLabel = await menuSummary.getAttribute("aria-label");
+    if (menuLabel !== "Toggle navigation") {
+      console.error("FAIL /: mobile menu does not expose a state-safe label");
+      failed = true;
+    } else {
+      console.log("PASS /: mobile menu has a state-safe label");
+    }
     await menuSummary.click();
     const mobileMenuLinks = await page.locator(".mobile-menu-panel a").count();
     if (mobileMenuLinks !== 5) {

@@ -31,7 +31,7 @@ export function SiteHeader({ tone = "solid" }: SiteHeaderProps) {
             Request a Private Route
           </Link>
           <details className="mobile-menu">
-            <summary aria-controls="mobile-navigation" aria-label="Open navigation">
+            <summary aria-controls="mobile-navigation" aria-label="Toggle navigation">
               Menu
             </summary>
             <nav
