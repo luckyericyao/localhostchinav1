@@ -1,7 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
-import { localhostContactEmail } from "@/lib/contact";
+import { localhostContactEmail, localhostDeliveryEmail } from "@/lib/contact";
 
 export type LocalhostIntentType = "traveler" | "host" | "partner";
 
@@ -127,7 +127,7 @@ async function sendInquiryEmail({
         reply_to: email,
         subject,
         text: body,
-        to: [localhostContactEmail]
+        to: [localhostDeliveryEmail]
       }),
       headers: {
         Authorization: `Bearer ${apiKey}`,
