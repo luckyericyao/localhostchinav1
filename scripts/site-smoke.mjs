@@ -43,7 +43,7 @@ const expectedShareImages = new Map([
   ["/inquiry", "/images/inquiry-courtyard-threshold.png"]
 ]);
 
-const productionUrl = "https://localhostchinav1.vercel.app";
+const productionUrl = "https://localhostglobal.vercel.app";
 
 const retiredRouteHeadings = [
   "Choose Another Route If",

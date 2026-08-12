@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const localhostSiteUrl = "https://localhostchinav1.vercel.app";
+export const localhostSiteUrl = "https://localhostglobal.vercel.app";
 
 const defaultDescription =
   "Private China routes shaped with local judgment, selected hosts, and practical support. Every inquiry is reviewed by a person before any route is confirmed.";
