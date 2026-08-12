@@ -41,6 +41,7 @@ export type LocalhostInquiryResult = {
   mailtoHref?: string;
   message: string;
   ok: boolean;
+  responseWindow?: string;
   summary?: {
     email: string;
     intentType: LocalhostIntentType;
@@ -410,6 +411,7 @@ export async function submitLocalhostInquiry(
       delivery: "duplicate",
       message: "We already have this private route review. We will continue with the first submission.",
       ok: true,
+      responseWindow: localhostResponseWindow,
       summary: {
         email,
         intentType: payload.intentType,
@@ -476,6 +478,7 @@ export async function submitLocalhostInquiry(
         ? `Your private route review has been received. Reference ${inquiryId}. We will review fit, timing, and local feasibility before replying.`
         : "Your private route review has been prepared. If your email client does not open, please contact us directly.",
     ok: true,
+    responseWindow: localhostResponseWindow,
     summary: {
       email,
       intentType: payload.intentType,

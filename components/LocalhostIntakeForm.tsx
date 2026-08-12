@@ -521,6 +521,7 @@ export function LocalhostIntakeForm({
       ) : null}
 
       <button
+        aria-controls="optional-route-details"
         aria-expanded={detailsOpen}
         className="optional-toggle"
         data-track-event="optional_details"
@@ -531,7 +532,7 @@ export function LocalhostIntakeForm({
       </button>
 
       {detailsOpen ? (
-        <div className="optional-details">
+        <div className="optional-details" id="optional-route-details">
           <p>Fill only what is easy now. The examples are prompts, not requirements.</p>
           <div className="optional-detail-steps">
             {activeIntent === "traveler" ? (
@@ -617,6 +618,13 @@ export function LocalhostIntakeForm({
           </p>
           {result.inquiryId ? (
             <p className="inquiry-reference">Reference: {result.inquiryId}</p>
+          ) : null}
+          {result.responseWindow ? (
+            <p className="response-expectation">
+              {result.delivery === "mailto"
+                ? `Expected reply window after you send the email: ${result.responseWindow}.`
+                : `Expected reply window: ${result.responseWindow}.`}
+            </p>
           ) : null}
           {result.mailtoHref ? (
             <a className="text-link" href={result.mailtoHref}>

@@ -9,7 +9,7 @@ export const arrangements = [
     title: "Private Routes",
     href: "/china/private-routes",
     copy:
-      "Routes shaped around your interests, pace, budget, and curiosity — not a fixed tourist template."
+      "Routes shaped around your interests, pace, scope, and curiosity — not a fixed tourist template."
   },
   {
     title: "Seamless Logistics",
@@ -1145,7 +1145,7 @@ export const chinaSupportPages = {
     title: "Routes shaped around curiosity, not checklists.",
     subheadline: "A private China journey should move at the traveler’s pace.",
     body:
-      "Localhost routes are shaped around the traveler’s interests, rhythm, time, budget, and curiosity. The goal is not to collect attractions, but to build a way into China that feels coherent, practical, and locally grounded.",
+      "Localhost routes are shaped around the traveler’s interests, rhythm, time, comfort, and curiosity. The goal is not to collect attractions, but to build a way into China that feels coherent, practical, and locally grounded.",
     intro: {
       eyebrow: "Not A Fixed Itinerary",
       title: "A route can slow down, sharpen, or shift with the day.",

@@ -155,8 +155,9 @@ export default function Home() {
               Private routes shaped by trusted local hosts.
             </p>
             <p className="hero-body">
-              Localhost helps travelers move through China with trusted hosts,
-              private route design, cultural context, and practical confidence.
+              Localhost shapes the route, matches a selected local host where
+              useful, and keeps timing, movement, food, and cultural context
+              clear.
             </p>
             <div className="hero-actions" aria-label="Primary actions">
               <Link

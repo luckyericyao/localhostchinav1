@@ -2962,7 +2962,8 @@ a.text-link {
   margin-top: 12px;
 }
 
-.contact-copy {
+.contact-copy,
+.response-expectation {
   color: var(--mist-dark) !important;
   font-size: 0.9rem;
   margin-top: 10px;
