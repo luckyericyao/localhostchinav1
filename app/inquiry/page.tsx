@@ -154,6 +154,17 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
+                <Link
+                  aria-label="See an illustrative first review (opens in a new tab)"
+                  className="text-link"
+                  data-track-event="review_sample"
+                  data-track-source="inquiry_first_review"
+                  href="/trust#sample-review"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  See an illustrative first review
+                </Link>
               </div>
             </div>
             <LocalhostIntakeForm

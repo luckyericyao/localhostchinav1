@@ -15,11 +15,24 @@ const routes = [
 ];
 
 const expectedContent = new Map([
-  ["/", "A named Localhost reviewer replies"],
-  ["/china", "How Localhost Works In China"],
-  ["/journeys", "Flagship route"],
-  ["/trust", "Assistants, family offices, family members, and trusted advisers"],
-  ["/inquiry", "directly or through someone you trust"]
+  ["/", ["A named Localhost reviewer replies"]],
+  ["/china", ["How Localhost Works In China"]],
+  ["/journeys", ["Flagship route"]],
+  [
+    "/trust",
+    [
+      "Assistants, family offices, family members, and trusted advisers",
+      "Do not add Pingyao unless the route gains a sixth day.",
+      "not a client testimonial"
+    ]
+  ],
+  [
+    "/inquiry",
+    [
+      "directly or through someone you trust",
+      "See an illustrative first review"
+    ]
+  ]
 ]);
 
 const expectedTracking = new Map([
@@ -28,6 +41,7 @@ const expectedTracking = new Map([
   ["/journeys", ['data-track-event="route_select"', 'data-track-event="request_route"']],
   ["/travelers", ['data-track-event="request_route"']],
   ["/trust", ['data-track-event="request_route"']],
+  ["/inquiry", ['data-track-event="review_sample"']],
   ["/how-it-works", ['data-track-event="request_route"']]
 ]);
 
@@ -56,7 +70,7 @@ let failed = false;
 for (const path of routes) {
   const response = await fetch(`${baseUrl}${path}`);
   const body = await response.text();
-  const expected = expectedContent.get(path);
+  const expected = expectedContent.get(path) || [];
 
   if (!response.ok) {
     console.error(`FAIL ${path}: HTTP ${response.status}`);
@@ -64,10 +78,11 @@ for (const path of routes) {
     continue;
   }
 
-  if (expected && !body.includes(expected)) {
-    console.error(`FAIL ${path}: missing expected content: ${expected}`);
-    failed = true;
-    continue;
+  for (const marker of expected) {
+    if (!body.includes(marker)) {
+      console.error(`FAIL ${path}: missing expected content: ${marker}`);
+      failed = true;
+    }
   }
 
   for (const marker of expectedTracking.get(path) || []) {
@@ -155,6 +170,11 @@ const analyticsEvents = [
   },
   {
     event: "inquiry_error",
+    path: "/inquiry",
+    source: "smoke"
+  },
+  {
+    event: "review_sample",
     path: "/inquiry",
     source: "smoke"
   },

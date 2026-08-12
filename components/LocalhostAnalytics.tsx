@@ -15,6 +15,7 @@ type AnalyticsEvent =
   | "mailto_fallback"
   | "optional_details"
   | "request_route"
+  | "review_sample"
   | "route_select"
   | "route_view"
   | "validation_error"

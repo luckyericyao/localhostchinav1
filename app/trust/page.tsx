@@ -39,21 +39,33 @@ const operatingTrust = [
   }
 ];
 
-const reviewArtifacts = [
+const illustrativeReviewFacts = [
+  "Two travelers",
+  "Five days after Shanghai",
+  "High-comfort pace",
+  "No shopping stops"
+];
+
+const illustrativeReview = [
   {
-    title: "A route direction",
-    copy:
-      "The first review identifies the chapter, route shape, and cultural question that appear most aligned with the inquiry."
+    label: "What we heard",
+    value:
+      "Architecture and Buddhist history matter more than a long attraction list. Private car where it saves time, comfortable hotels, and moderate walking."
   },
   {
-    title: "A scope note",
-    copy:
-      "Before confirmation, host time, transport, meals, translation, payment help, and support limits are described plainly."
+    label: "First direction",
+    value:
+      "Begin in Datong and finish in Taiyuan. Hold one grotto morning, two timber-hall days, a merchant courtyard, and enough road time for meals and context. Do not add Pingyao unless the route gains a sixth day."
   },
   {
-    title: "A fit decision",
-    copy:
-      "The next step is a confirmation, a redirect, or a clear decline when local feasibility or boundaries do not align."
+    label: "Useful host role",
+    value:
+      "A local interpreter joins Yungang, one temple day, and selected meals. Driver and host remain separate roles. All-day accompaniment is not assumed."
+  },
+  {
+    label: "Still to verify",
+    value:
+      "Dates, walking comfort, hotel direction, current opening conditions, and the availability of the right local host."
   }
 ];
 
@@ -178,22 +190,48 @@ export default function TrustPage() {
           </div>
         </section>
 
-        <section className="section section--stone trust-evidence-section">
+        <section
+          className="section trust-evidence-section"
+          id="sample-review"
+        >
           <div className="section-heading section-heading--center">
-            <p className="eyebrow">What You Can Inspect</p>
-            <h2>Evidence before commitment.</h2>
+            <p className="eyebrow">Illustrative First Review</p>
+            <h2>What a useful first reply can make clear.</h2>
             <p>
-              Trust should show up in the work itself. These are review outputs,
-              not testimonials, guarantees, or public host listings.
+              The example below shows the shape of the work. It is not a client
+              testimonial, confirmed itinerary, price, or promise of
+              availability.
             </p>
           </div>
-          <div className="support-card-grid support-card-grid--three">
-            {reviewArtifacts.map((item) => (
-              <article className="support-detail-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </article>
-            ))}
+          <div
+            aria-label="Illustrative Localhost first review"
+            className="review-sample"
+          >
+            <header>
+              <p className="eyebrow">Sample Brief</p>
+              <h3>Five days of Shanxi after Shanghai.</h3>
+              <ul className="review-sample-facts">
+                {illustrativeReviewFacts.map((fact) => (
+                  <li key={fact}>{fact}</li>
+                ))}
+              </ul>
+            </header>
+            <dl>
+              {illustrativeReview.map((item) => (
+                <div key={item.label}>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="review-sample-outcome">
+              <p className="eyebrow">What the first reply does</p>
+              <p>
+                It explains why Shanxi fits, why a familiar stop has been left
+                out, which host role is useful, and the decisions needed before
+                scope can be confirmed.
+              </p>
+            </div>
           </div>
         </section>
 
