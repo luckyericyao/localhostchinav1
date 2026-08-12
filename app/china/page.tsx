@@ -6,6 +6,7 @@ import { InquirySection } from "@/components/InquirySection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { arrangements, chinaJourneys, culturalVisualLayers } from "@/lib/content";
+import { resolveImageSource } from "@/lib/image";
 
 export const metadata: Metadata = {
   title: "Localhost China — Real Ancient China",
@@ -143,7 +144,7 @@ export default function ChinaPage() {
               <article className="route-entry" key={journey.place}>
                 <div className="route-entry-media">
                   <Image
-                    src={journey.image}
+                    src={resolveImageSource(journey.image)}
                     alt={journey.alt}
                     fill
                     sizes="(min-width: 900px) 34vw, 100vw"

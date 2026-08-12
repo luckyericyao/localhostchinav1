@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { resolveImageSource } from "@/lib/image";
 
 export type CulturalImageItem = {
   alt: string;
@@ -39,7 +40,7 @@ export function CulturalImageLayer({
           >
             <div className="cultural-layer-media">
               <Image
-                src={item.src}
+                src={resolveImageSource(item.src)}
                 alt={item.alt}
                 fill
                 sizes={

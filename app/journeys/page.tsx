@@ -9,6 +9,7 @@ import {
   chinaRoutePages,
   futureChinaJourneys
 } from "@/lib/content";
+import { resolveImageSource } from "@/lib/image";
 
 export const metadata: Metadata = {
   title: "China Routes — Localhost Global",
@@ -88,7 +89,7 @@ export default function JourneysPage() {
                 >
                   <span className="journey-comparison-media">
                     <Image
-                      src={journey.image}
+                      src={resolveImageSource(journey.image)}
                       alt={journey.alt}
                       fill
                       sizes="(min-width: 1100px) 25vw, (min-width: 720px) 50vw, 100vw"

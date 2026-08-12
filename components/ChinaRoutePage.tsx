@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { resolveImageSource } from "@/lib/image";
 
 type RouteBlock = {
   title: string;
@@ -118,7 +119,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
           </div>
           <div className="destination-media">
             <Image
-              src={route.image}
+              src={resolveImageSource(route.image)}
               alt={route.alt}
               fill
               priority
@@ -194,7 +195,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
                 >
                   <div className="route-gallery-media">
                     <Image
-                      src={image.src}
+                      src={resolveImageSource(image.src)}
                       alt={image.alt}
                       fill
                       sizes={index === 0 ? "(min-width: 900px) 56vw, 100vw" : "(min-width: 900px) 28vw, 100vw"}

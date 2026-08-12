@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { culturalVisualLayers } from "@/lib/content";
+import { resolveImageSource } from "@/lib/image";
 
 export const metadata: Metadata = {
   title: "Localhost Global — Private China Routes",
@@ -202,7 +203,7 @@ export default function Home() {
               >
                 <span className="visual-journey-media">
                   <Image
-                    src={route.image}
+                    src={resolveImageSource(route.image)}
                     alt={route.alt}
                     fill
                     fetchPriority="low"
@@ -246,7 +247,7 @@ export default function Home() {
               >
                 <div className="cultural-layer-media">
                   <Image
-                    src={item.src}
+                    src={resolveImageSource(item.src)}
                     alt={item.alt}
                     fill
                     sizes="(min-width: 900px) 25vw, 100vw"
