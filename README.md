@@ -50,6 +50,10 @@ project-specific API key; custom event reporting is subject to the project's
 Vercel Analytics plan. PostHog remains available when session-level correlation
 is needed.
 
+Initial funnel targets are: at least 80% five-second brand comprehension, at
+least 15% route view to inquiry start, at least 40% inquiry start to successful
+send, less than 10% mailto fallback, and mobile CLS below 0.1.
+
 When Resend is not configured, the inquiry flow prepares a structured `mailto:`
 fallback. Private keys must remain server-only; do not use `NEXT_PUBLIC_` for
 `RESEND_API_KEY`.
@@ -62,6 +66,10 @@ funnel reporting, also configure `POSTHOG_API_KEY` and `POSTHOG_HOST`. Events
 use a session-scoped anonymous identifier and never include email, names, or
 inquiry content. The app keeps the mailto path as a transparent fallback when
 direct delivery is not available.
+
+The current no-cost production setup uses Resend's `onboarding@resend.dev`
+sender, which is limited to the connected account inbox. A verified custom
+domain can replace it later without changing the inquiry flow.
 
 ## Validation
 
