@@ -310,6 +310,52 @@ if (!desktopRouteDecision.allRoutesInFirstViewport) {
     "PASS /journeys: all four active routes are comparable in the initial desktop viewport"
   );
 }
+
+const activeRoutePaths = [
+  "/china/shanxi",
+  "/china/shaolin",
+  "/china/huizhou",
+  "/china/shanghai"
+];
+
+for (const routePath of activeRoutePaths) {
+  await desktopRoutesPage.goto(`${baseUrl}${routePath}`, {
+    waitUntil: "networkidle"
+  });
+  const routeDecisionAudit = await desktopRoutesPage.evaluate(() => {
+    const routeCta = document.querySelector(
+      '.route-hero [data-track-source="route_hero"]'
+    );
+    const ctaBox = routeCta?.getBoundingClientRect();
+
+    return {
+      compactSectionCount: document.querySelectorAll("main > section").length,
+      fitSectionPresent: Boolean(document.querySelector(".route-decision-section")),
+      routeCtaInFirstViewport: Boolean(
+        ctaBox &&
+          ctaBox.top >= 0 &&
+          ctaBox.bottom <= window.innerHeight &&
+          ctaBox.width > 0 &&
+          ctaBox.height >= 44
+      )
+    };
+  });
+
+  if (
+    !routeDecisionAudit.fitSectionPresent ||
+    !routeDecisionAudit.routeCtaInFirstViewport ||
+    routeDecisionAudit.compactSectionCount > 6
+  ) {
+    console.error(
+      `FAIL ${routePath}: compact route decision hierarchy regressed ${JSON.stringify(routeDecisionAudit)}`
+    );
+    failed = true;
+  } else {
+    console.log(
+      `PASS ${routePath}: route CTA is in the initial desktop viewport and the page stays within six sections`
+    );
+  }
+}
 await desktopRoutesPage.close();
 
 await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });

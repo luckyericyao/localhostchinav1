@@ -71,7 +71,9 @@ const productionUrl = "https://localhostglobal.vercel.app";
 const retiredRouteHeadings = [
   "Choose Another Route If",
   "Compact entry points, held with context.",
-  "Local judgment changes what the traveler can read."
+  "Local judgment changes what the traveler can read.",
+  "Route Variants",
+  "Different ways into the same chapter."
 ];
 
 let failed = false;
@@ -150,8 +152,22 @@ for (const path of routes) {
       }
     }
 
-    if (!body.includes("What Localhost Holds")) {
-      console.error(`FAIL ${path}: missing compact Localhost scope section`);
+    const requiredRouteSections = [
+      "The shape, the trade-offs, and who it suits.",
+      "The Route Can Lean Toward",
+      "Example Rhythm",
+      "What Localhost Holds"
+    ];
+
+    for (const section of requiredRouteSections) {
+      if (!body.includes(section)) {
+        console.error(`FAIL ${path}: missing compact route section: ${section}`);
+        failed = true;
+      }
+    }
+
+    if (!body.includes('data-track-source="route_fit"')) {
+      console.error(`FAIL ${path}: missing route-fit inquiry path`);
       failed = true;
     }
   }

@@ -83,6 +83,9 @@ function routeInquiryContext(route: ChinaRoutePageContent) {
 
 export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
   const inquiry = routeInquiryContext(route);
+  const decisionFacts = route.snapshot.filter(
+    (item) => item.label !== "Best For"
+  );
 
   return (
     <>
@@ -128,44 +131,63 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
           </div>
         </section>
 
-        <section className="section section--stone">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Route Snapshot</p>
-            <h2>The route shape before the details.</h2>
-          </div>
-          <dl className="snapshot-grid">
-            {route.snapshot.map((item) => (
-              <div className="snapshot-item" key={item.label}>
-                <dt>{item.label}</dt>
-                <dd>{item.value}</dd>
+        <section className="section section--stone route-decision-section">
+          <div className="route-decision-shell">
+            <header className="route-decision-header">
+              <div>
+                <p className="eyebrow">Route Fit</p>
+                <h2>The shape, the trade-offs, and who it suits.</h2>
               </div>
-            ))}
-          </dl>
-        </section>
+              <div className="route-decision-intro">
+                <p>
+                  A private route can change. Its basic demands should be clear
+                  before you ask us to shape it.
+                </p>
+                <Link
+                  className="text-link"
+                  data-track-event="request_route"
+                  data-track-route={route.title.split(" —")[0]}
+                  data-track-source="route_fit"
+                  href={inquiry.href}
+                >
+                  {route.ctaLabel}
+                </Link>
+              </div>
+            </header>
 
-        <section className="section">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Quick Fit Check</p>
-            <h2>Know early if this is your route.</h2>
-            <p>
-              Start here before reading the full chapter. The route can still
-              be shaped, but fit matters before detail.
-            </p>
-          </div>
-          <div className="split-panel-section">
-            <div className="quiet-panel">
-              <p className="eyebrow">Best For</p>
-              <ul className="clean-list">
-                {route.bestFor.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+            <dl className="route-decision-facts">
+              {decisionFacts.map((item) => (
+                <div key={item.label}>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+
+            <div className="route-fit-grid">
+              <div className="route-fit-column">
+                <p className="eyebrow">Best For</p>
+                <ul className="clean-list">
+                  {route.bestFor.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="route-fit-column">
+                <p className="eyebrow">Less Suited To</p>
+                <ul className="clean-list">
+                  {route.notFor.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div className="quiet-panel">
-              <p className="eyebrow">Not For</p>
-              <ul className="clean-list">
-                {route.notFor.map((item) => (
-                  <li key={item}>{item}</li>
+
+            <div className="route-emphasis-row">
+              <p className="eyebrow">The Route Can Lean Toward</p>
+              <ul>
+                {route.variants.map((item) => (
+                  <li key={item.title}>{item.title}</li>
                 ))}
               </ul>
             </div>
@@ -219,24 +241,6 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
           <div className="support-card-grid">
             {route.sampleDay.map((item) => (
               <article className="support-detail-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section section--dark">
-          <div className="section-heading">
-            <p className="eyebrow">Route Variants</p>
-            <h2>Different ways into the same chapter.</h2>
-          </div>
-          <div className="support-card-grid support-card-grid--three">
-            {route.variants.map((item) => (
-              <article
-                className="support-detail-card support-detail-card--dark"
-                key={item.title}
-              >
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>
               </article>
