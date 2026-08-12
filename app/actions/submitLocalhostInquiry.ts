@@ -271,7 +271,8 @@ function buildInquiryEmailContent(payload: {
     "- Acknowledge one specific detail before proposing a direction.",
     "- Offer one concrete next direction and explain why it fits.",
     "- Ask no more than three next questions.",
-    "- State what remains unconfirmed and share only the minimum necessary detail."
+    "- State what remains unconfirmed and share only the minimum necessary detail.",
+    "- Keep the initiating contact in control; do not approach a traveler, host, or principal directly unless invited."
   ];
 
   const subject = `Localhost inquiry — ${payload.inquiryId} — ${payload.intentType}${
@@ -531,7 +532,7 @@ export async function submitLocalhostInquiry(
     mailtoHref,
     message:
       emailDelivery.ok
-        ? `Thank you, ${name}. Your private route review has been received. Reference ${inquiryId}. We will review fit, timing, and local feasibility before replying.`
+        ? `Thank you, ${name}. Your private route review has been received. Reference ${inquiryId}. A named Localhost reviewer will review fit, timing, and local feasibility before replying.`
         : `Thank you, ${name}. Your private route review has been prepared. If your email client does not open, please contact us directly.`,
     ok: true,
     responseWindow: localhostResponseWindow,

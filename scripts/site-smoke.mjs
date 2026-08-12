@@ -15,11 +15,11 @@ const routes = [
 ];
 
 const expectedContent = new Map([
-  ["/", "No payment or booking at inquiry"],
+  ["/", "A named Localhost reviewer replies"],
   ["/china", "How Localhost Works In China"],
   ["/journeys", "Flagship route"],
-  ["/trust", "Your email and message are not sent to site analytics"],
-  ["/inquiry", "Begin with your name, email, and one sentence."]
+  ["/trust", "Assistants, family offices, family members, and trusted advisers"],
+  ["/inquiry", "directly or through someone you trust"]
 ]);
 
 const expectedTracking = new Map([
@@ -109,6 +109,7 @@ for (const path of routes) {
     path === "/inquiry" &&
     (!body.includes('id="inquiry-name"') ||
       !body.includes('name="name"') ||
+      !body.includes('data-representation-options="optional"') ||
       !body.includes('data-reply-preference="optional"'))
   ) {
     console.error("FAIL /inquiry: identity or reply-preference fields are missing");

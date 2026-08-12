@@ -185,8 +185,8 @@ export default function Home() {
               A private local-host network, starting with China.
             </p>
             <p className="hero-review-note">
-              A direct Localhost reply {localhostResponseWindow}. No payment or
-              booking at inquiry.
+              A named Localhost reviewer replies {localhostResponseWindow}. No
+              payment or booking at inquiry.
             </p>
           </div>
         </section>
@@ -250,7 +250,7 @@ export default function Home() {
             <dl>
               <div>
                 <dt>Reply</dt>
-                <dd>A human response {localhostResponseWindow}</dd>
+                <dd>A named human response {localhostResponseWindow}</dd>
               </div>
               <div>
                 <dt>What you receive</dt>

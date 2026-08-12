@@ -216,6 +216,29 @@ const partnerDetails: DetailField[] = [
   { label: "Notes", name: "notes", placeholder: "Anything we should understand before a conversation", type: "textarea" }
 ];
 
+const travelerRepresentationDetails: DetailField[] = [
+  {
+    helper: "A trusted representative is welcome to begin the review.",
+    label: "Inquiry made by",
+    name: "inquiryMadeBy",
+    options: [
+      "Traveler directly",
+      "Family member",
+      "Executive or personal assistant",
+      "Family office",
+      "Travel adviser",
+      "Other trusted representative"
+    ],
+    type: "select"
+  },
+  {
+    helper: "Initials or a private reference are enough at first review.",
+    label: "Traveler or principal",
+    name: "travelerOrPrincipal",
+    placeholder: "Name, initials, or private reference"
+  }
+];
+
 const replyPreferenceDetails: DetailField[] = [
   {
     helper: "Email remains the default if you leave this open.",
@@ -439,6 +462,7 @@ export function LocalhostIntakeForm({
         embedded ? " localhost-intake-form--embedded" : ""
       }`}
       data-inquiry-form="true"
+      data-representation-options="optional"
       data-reply-preference="optional"
       aria-describedby={error ? "inquiry-error" : undefined}
       noValidate
@@ -674,11 +698,17 @@ export function LocalhostIntakeForm({
             <section>
               <h3>
                 {activeIntent === "traveler"
-                  ? "Step 5: Reply preference — optional"
+                  ? "Step 5: Contact context — optional"
                   : "Reply preference — optional"}
               </h3>
               <div className="optional-field-grid">
-                {replyPreferenceDetails.map((field) => (
+                {(activeIntent === "traveler"
+                  ? [
+                      ...travelerRepresentationDetails,
+                      ...replyPreferenceDetails
+                    ]
+                  : replyPreferenceDetails
+                ).map((field) => (
                   <DetailFieldInput
                     field={field}
                     key={field.name}

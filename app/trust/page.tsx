@@ -20,7 +20,7 @@ const operatingTrust = [
   {
     title: "Direct first review",
     copy:
-      "Your first note is reviewed inside Localhost before a host or local collaborator is approached. It is not broadcast to a public marketplace."
+      "Your first note is read by a named Localhost reviewer before a host or local collaborator is approached. It is not broadcast to a public marketplace."
   },
   {
     title: "Host verification",
@@ -67,7 +67,7 @@ const trustProcess = [
 const trustCommitments = [
   {
     title: "Response window",
-    copy: `A complete inquiry is usually answered ${localhostResponseWindow}.`
+    copy: `A named Localhost reviewer usually replies ${localhostResponseWindow}.`
   },
   {
     title: "Privacy",
@@ -80,9 +80,9 @@ const trustCommitments = [
       "An inquiry creates no payment, reservation, or host obligation. Confirmation comes only after scope is understood."
   },
   {
-    title: "Changes and cancellation",
+    title: "Delegated inquiries",
     copy:
-      "Any route-specific change, cancellation, or supplier term is stated before the route is confirmed."
+      "Assistants, family offices, family members, and trusted advisers may begin the review. We keep the initiating contact in the thread and do not bypass them without permission."
   }
 ];
 

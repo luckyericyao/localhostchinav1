@@ -24,7 +24,7 @@ export const metadata: Metadata = buildLocalhostPageMetadata({
 });
 
 const afterSubmit = [
-  "We review intent, timing, route direction, and local feasibility.",
+  "A named Localhost reviewer replies to the initiating contact and reviews intent, timing, route direction, and local feasibility.",
   "We identify the right route direction or chapter.",
   "We suggest the right host role and level of involvement.",
   "We clarify scope, support limits, and what happens next.",
@@ -110,8 +110,8 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
           </div>
           <div className="page-hero-copy">
             <p>
-              Food, rhythm, comfort, privacy, curiosity, small pleasures, and
-              host fit help us shape a private route.
+              Tell us about rhythm, comfort, privacy, and host fit, directly or
+              through someone you trust.
             </p>
             <p className="support-subhead">
               Start lightly. A full itinerary is not needed.
@@ -129,18 +129,18 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
                 <p className="eyebrow">Step 1: Start</p>
                 <h2>Begin with your name, email, and one sentence.</h2>
                 <p>
-                  Submit the short version first. A Localhost reviewer reads it
-                  before any host is approached, then checks fit, timing, route
-                  direction, and local feasibility.
+                  Submit the short version first. A named Localhost reviewer
+                  reads it before any host is approached, then checks fit,
+                  timing, route direction, and local feasibility.
                 </p>
                 <p className="fine-copy">
-                  For traveler inquiries, one sentence is enough: what kind of
-                  China do you want to understand?
+                  You may write for yourself or on behalf of a traveler as an
+                  assistant, family office, family member, or trusted adviser.
                 </p>
               </div>
               <p className="fine-copy">
-                Response window: {localhostResponseWindow} for a complete
-                inquiry.
+                A named reviewer replies {localhostResponseWindow} to the
+                person who begins the conversation.
               </p>
               <p className="fine-copy">
                 Pricing depends on route depth, host involvement, logistics,

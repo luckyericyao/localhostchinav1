@@ -214,6 +214,39 @@ for (const path of routes) {
         "PASS /inquiry: required intake stays within 1.5 mobile screens and privacy guidance remains visible"
       );
     }
+
+    await page
+      .getByRole("button", { name: "Add route details — optional" })
+      .click();
+    const representationOptions = await page
+      .locator('select[name="inquiryMadeBy"] option')
+      .allTextContents();
+    const delegatedInquiryLayout = await page.evaluate(() => ({
+      principalFieldVisible: Boolean(
+        document.querySelector('input[name="travelerOrPrincipal"]')?.offsetParent
+      ),
+      replyFieldVisible: Boolean(
+        document.querySelector('select[name="preferredReply"]')?.offsetParent
+      ),
+      overflowX: document.documentElement.scrollWidth > window.innerWidth
+    }));
+
+    if (
+      !representationOptions.includes("Executive or personal assistant") ||
+      !representationOptions.includes("Family office") ||
+      !delegatedInquiryLayout.principalFieldVisible ||
+      !delegatedInquiryLayout.replyFieldVisible ||
+      delegatedInquiryLayout.overflowX
+    ) {
+      console.error(
+        `FAIL /inquiry: delegated inquiry path regressed ${JSON.stringify({ representationOptions, ...delegatedInquiryLayout })}`
+      );
+      failed = true;
+    } else {
+      console.log(
+        "PASS /inquiry: delegated inquiry and reply-preference controls are usable on mobile"
+      );
+    }
   }
 }
 
