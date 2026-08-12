@@ -194,6 +194,9 @@ export default function Home() {
             {featuredRoutePreview.map((route) => (
               <Link
                 className="visual-journey-card"
+                data-track-event="route_select"
+                data-track-route={route.place}
+                data-track-source="homepage_featured_routes"
                 href={route.href}
                 key={route.place}
               >

@@ -81,7 +81,12 @@ export default function HowItWorksPage() {
               engine. A route becomes real only when intent, timing, comfort,
               local feasibility, and host fit make sense together.
             </p>
-            <Link className="button button--dark" href={howItWorksInquiryHref}>
+            <Link
+              className="button button--dark"
+              data-track-event="request_route"
+              data-track-source="how_it_works_hero"
+              href={howItWorksInquiryHref}
+            >
               Begin a Private Route Review
             </Link>
           </div>
@@ -174,7 +179,12 @@ export default function HowItWorksPage() {
               fit.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href={howItWorksInquiryHref}>
+              <Link
+                className="button button--dark"
+                data-track-event="request_route"
+                data-track-source="how_it_works_final"
+                href={howItWorksInquiryHref}
+              >
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/trust">

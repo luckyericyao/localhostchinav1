@@ -8,6 +8,8 @@ const routes = [
   "/china/shaolin",
   "/china/huizhou",
   "/china/shanghai",
+  "/travelers",
+  "/how-it-works",
   "/trust",
   "/inquiry"
 ];
@@ -17,6 +19,15 @@ const expectedContent = new Map([
   ["/china", "How Localhost Works In China"],
   ["/journeys", "Which China should you enter first?"],
   ["/inquiry", "What the first review gives you"]
+]);
+
+const expectedTracking = new Map([
+  ["/", ['data-track-event="route_select"', 'data-track-event="request_route"']],
+  ["/china", ['data-track-event="route_select"', 'data-track-event="request_route"']],
+  ["/journeys", ['data-track-event="route_select"', 'data-track-event="request_route"']],
+  ["/travelers", ['data-track-event="request_route"']],
+  ["/trust", ['data-track-event="request_route"']],
+  ["/how-it-works", ['data-track-event="request_route"']]
 ]);
 
 let failed = false;
@@ -36,6 +47,13 @@ for (const path of routes) {
     console.error(`FAIL ${path}: missing expected content: ${expected}`);
     failed = true;
     continue;
+  }
+
+  for (const marker of expectedTracking.get(path) || []) {
+    if (!body.includes(marker)) {
+      console.error(`FAIL ${path}: missing tracking marker: ${marker}`);
+      failed = true;
+    }
   }
 
   if (path.startsWith("/china/") && !body.includes("data-route-page")) {

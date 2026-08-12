@@ -109,7 +109,12 @@ export default function TrustPage() {
               The point is trust that can hold.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href={trustTravelerInquiryHref}>
+              <Link
+                className="button button--dark"
+                data-track-event="request_route"
+                data-track-source="trust_hero"
+                href={trustTravelerInquiryHref}
+              >
                 Request a Private Route
               </Link>
               <Link className="text-link" href={trustPartnerInquiryHref}>
@@ -208,7 +213,12 @@ export default function TrustPage() {
               understand intent before any host, city, or chapter is confirmed.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href={trustTravelerInquiryHref}>
+              <Link
+                className="button button--dark"
+                data-track-event="request_route"
+                data-track-source="trust_final"
+                href={trustTravelerInquiryHref}
+              >
                 Request a Private Route
               </Link>
               <Link className="text-link" href={trustPartnerInquiryHref}>

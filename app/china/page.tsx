@@ -81,7 +81,12 @@ export default function ChinaPage() {
               for places where ancient China still has weight, silence,
               structure, and continuity.
             </p>
-            <Link className="button button--dark" href={chinaInquiryHref}>
+            <Link
+              className="button button--dark"
+              data-track-event="request_route"
+              data-track-source="china_hero"
+              href={chinaInquiryHref}
+            >
               Request a Private Route
             </Link>
           </div>
@@ -154,6 +159,9 @@ export default function ChinaPage() {
                   <p>{journey.summary}</p>
                   <Link
                     className="text-link text-link--light"
+                    data-track-event="route_select"
+                    data-track-route={journey.place}
+                    data-track-source="china_featured_routes"
                     href={journey.href}
                   >
                     Enter {journey.place}
@@ -194,7 +202,12 @@ export default function ChinaPage() {
               pace, and the kind of understanding you want to leave with.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href={chinaInquiryHref}>
+              <Link
+                className="button button--dark"
+                data-track-event="request_route"
+                data-track-source="china_final"
+                href={chinaInquiryHref}
+              >
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/travelers">

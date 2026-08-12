@@ -38,6 +38,8 @@ Use the anonymous session ID with the following events. Never add names, email a
 - Homepage to route view: distinct sessions with `route_view` on a route page divided by eligible homepage sessions.
 - Route view to inquiry start: sessions with `inquiry_start` after a route view divided by route-view sessions.
 - Inquiry start to successful submit: sessions with `inquiry_delivery_success` or `inquiry_delivery_fallback` divided by inquiry-start sessions.
+- Route selection source: `route_select` is emitted from homepage featured routes, the China route list, and the Routes comparison selector.
+- Inquiry CTA source: `request_route` is emitted from the traveler-facing route, trust, how-it-works, and inquiry entry points with a source label.
 - Four active route comparison: `Shanxi`, `Shaolin`, `Huizhou`, and `Shanghai` are the active route set; future chapters are excluded from the comparison denominator.
 
 Record the first 100 valid sessions before changing the target or the event definition. Report the targets from the brief as targets, not as current performance:

@@ -160,7 +160,12 @@ export default function TravelersPage() {
               fit, cultural fluency, and practical support handled in the
               background.
             </p>
-            <Link className="button button--dark" href={travelersInquiryHref}>
+            <Link
+              className="button button--dark"
+              data-track-event="request_route"
+              data-track-source="travelers_hero"
+              href={travelersInquiryHref}
+            >
               Request a Private Route
             </Link>
           </div>
@@ -248,7 +253,12 @@ export default function TravelersPage() {
               how to move through China without flattening it into meetings,
               hotels, and skyline photos.
             </p>
-            <Link className="button button--dark" href={travelersInquiryHref}>
+            <Link
+              className="button button--dark"
+              data-track-event="request_route"
+              data-track-source="travelers_executive"
+              href={travelersInquiryHref}
+            >
               Request a Private Route
             </Link>
           </div>
@@ -319,7 +329,12 @@ export default function TravelersPage() {
               and the judgment to know when to slow down.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href={travelersInquiryHref}>
+              <Link
+                className="button button--dark"
+                data-track-event="request_route"
+                data-track-source="travelers_final"
+                href={travelersInquiryHref}
+              >
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/how-it-works">

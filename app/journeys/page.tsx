@@ -53,7 +53,12 @@ export default function JourneysPage() {
               Four active chapters, each with a different cultural temperature,
               pace, entry point, and kind of local judgment.
             </p>
-            <Link className="button button--dark" href={journeysInquiryHref}>
+            <Link
+              className="button button--dark"
+              data-track-event="request_route"
+              data-track-source="journeys_hero"
+              href={journeysInquiryHref}
+            >
               Request a Private Route
             </Link>
           </div>
@@ -150,7 +155,12 @@ export default function JourneysPage() {
               kind of local context that would make the place legible.
             </p>
             <div className="inline-actions">
-              <Link className="button button--dark" href={journeysInquiryHref}>
+              <Link
+                className="button button--dark"
+                data-track-event="request_route"
+                data-track-source="journeys_final"
+                href={journeysInquiryHref}
+              >
                 Request a Private Route
               </Link>
               <Link className="text-link" href="/china">

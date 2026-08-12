@@ -169,7 +169,12 @@ export function ChinaSupportDetailPage({ page }: ChinaSupportDetailPageProps) {
           <div className="editorial-copy">
             <p>{page.final.body}</p>
             <div className="inline-actions">
-              <Link className="button button--dark" href={page.final.primaryHref}>
+              <Link
+                className="button button--dark"
+                data-track-event="request_route"
+                data-track-source="china_support_final"
+                href={page.final.primaryHref}
+              >
                 {page.final.primaryLabel}
               </Link>
               <Link className="text-link" href={page.final.secondaryHref}>
