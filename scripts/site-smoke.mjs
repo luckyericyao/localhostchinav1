@@ -19,7 +19,7 @@ const expectedContent = new Map([
   ["/china", "How Localhost Works In China"],
   ["/journeys", "Flagship route"],
   ["/trust", "Your email and message are not sent to site analytics"],
-  ["/inquiry", "Successful direct delivery returns a private reference here"]
+  ["/inquiry", "Begin with your name, email, and one sentence."]
 ]);
 
 const expectedTracking = new Map([
@@ -67,6 +67,14 @@ for (const path of routes) {
     console.error(`FAIL ${path}: missing route page marker`);
     failed = true;
     continue;
+  }
+
+  if (
+    path === "/inquiry" &&
+    (!body.includes('id="inquiry-name"') || !body.includes('name="name"'))
+  ) {
+    console.error("FAIL /inquiry: required name field is missing");
+    failed = true;
   }
 
   if (path.startsWith("/china/")) {

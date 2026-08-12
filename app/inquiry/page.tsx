@@ -113,12 +113,15 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
           </div>
         </section>
 
-        <section className="section section--inquiry" id="private-route">
+        <section
+          className="section section--inquiry inquiry-intake-section"
+          id="private-route"
+        >
           <div className="inquiry-shell inquiry-shell--wide">
             <div className="inquiry-copy">
               <div className="inquiry-copy-intro">
                 <p className="eyebrow">Step 1: Start</p>
-                <h2>Begin with email and one sentence.</h2>
+                <h2>Begin with your name, email, and one sentence.</h2>
                 <p>
                   Submit the short version first. A Localhost reviewer reads it
                   before any host is approached, then checks fit, timing, route

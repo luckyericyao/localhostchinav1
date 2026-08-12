@@ -168,6 +168,18 @@ for (const path of routes) {
       const mobilePrivacy = document.querySelector(
         ".privacy-boundary--standalone"
       );
+      const requiredIntake = [
+        document.querySelector("#inquiry-name"),
+        document.querySelector("#inquiry-email"),
+        document.querySelector("#inquiry-short-note"),
+        document.querySelector(".role-tabs"),
+        document.querySelector(".localhost-intake-submit button[type='submit']")
+      ];
+      const requiredBottom = Math.max(
+        ...requiredIntake.map((node) =>
+          node ? node.getBoundingClientRect().bottom + window.scrollY : Infinity
+        )
+      );
 
       return {
         assuranceListStyle: desktopAssuranceList
@@ -178,14 +190,20 @@ for (const path of routes) {
           : "missing",
         mobilePrivacyDisplay: mobilePrivacy
           ? getComputedStyle(mobilePrivacy).display
-          : "missing"
+          : "missing",
+        requiredBottom,
+        requiredFieldsPresent: requiredIntake.every(Boolean),
+        requiredWithinOneAndHalfScreens:
+          requiredBottom <= window.innerHeight * 1.5
       };
     });
 
     if (
       inquiryLayout.mobileIntroDisplay !== "none" ||
       inquiryLayout.mobilePrivacyDisplay === "none" ||
-      inquiryLayout.assuranceListStyle !== "none"
+      inquiryLayout.assuranceListStyle !== "none" ||
+      !inquiryLayout.requiredFieldsPresent ||
+      !inquiryLayout.requiredWithinOneAndHalfScreens
     ) {
       console.error(
         `FAIL /inquiry: mobile hierarchy or privacy styling regressed ${JSON.stringify(inquiryLayout)}`
@@ -193,7 +211,7 @@ for (const path of routes) {
       failed = true;
     } else {
       console.log(
-        "PASS /inquiry: mobile form stays first and privacy guidance remains visible"
+        "PASS /inquiry: required intake stays within 1.5 mobile screens and privacy guidance remains visible"
       );
     }
   }

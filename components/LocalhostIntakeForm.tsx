@@ -56,7 +56,6 @@ const roleCopy: Record<LocalhostIntentType, { helper: string; label: string }> =
 };
 
 const travelerDetails: DetailField[] = [
-  { label: "Name", name: "name", placeholder: "Your name" },
   {
     helper: "City and country are enough.",
     label: "Where are you from?",
@@ -170,7 +169,6 @@ const travelerDetails: DetailField[] = [
 ];
 
 const hostDetails: DetailField[] = [
-  { label: "Name", name: "name", placeholder: "Your name" },
   { label: "City / region", name: "cityRegion", placeholder: "Shanghai, Taiyuan, Dengfeng, Huangshan" },
   { label: "Languages", name: "languages", placeholder: "Mandarin, English, local dialect, French" },
   {
@@ -204,7 +202,6 @@ const hostDetails: DetailField[] = [
 ];
 
 const partnerDetails: DetailField[] = [
-  { label: "Name", name: "name", placeholder: "Your name" },
   { label: "Organization", name: "organization", placeholder: "Company, studio, institution, or independent" },
   { label: "City / region", name: "cityRegion", placeholder: "Where the relationship would be based" },
   {
@@ -277,9 +274,12 @@ export function LocalhostIntakeForm({
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-  const [errorField, setErrorField] = useState<"email" | "shortNote" | null>(null);
+  const [errorField, setErrorField] = useState<
+    "email" | "name" | "shortNote" | null
+  >(null);
   const [honeypot, setHoneypot] = useState("");
   const [isPending, startTransition] = useTransition();
+  const [name, setName] = useState("");
   const [optionalDetails, setOptionalDetails] = useState<Record<string, string>>(() =>
     initialDetails(routeContext)
   );
@@ -288,11 +288,11 @@ export function LocalhostIntakeForm({
   const [startedAt] = useState(() => Date.now());
   const emailRef = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
   const shortNoteRef = useRef<HTMLTextAreaElement>(null);
 
   const fields = useMemo(() => detailsForIntent(activeIntent), [activeIntent]);
   const routeLabel = routeContext ? routeLabels[routeContext] : "";
-  const noteOptional = Boolean(routeContext);
   const noteCopy = roleCopy[activeIntent];
 
   function updateDetail(name: string, value: string) {
@@ -308,13 +308,14 @@ export function LocalhostIntakeForm({
 
   function showValidationError(
     message: string,
-    field: "email" | "shortNote" | null,
+    field: "email" | "name" | "shortNote" | null,
     form: HTMLFormElement
   ) {
     setError(message);
     setErrorField(field);
     trackLocalhostEvent("validation_error", form);
     window.requestAnimationFrame(() => {
+      if (field === "name") nameRef.current?.focus();
       if (field === "email") emailRef.current?.focus();
       if (field === "shortNote") shortNoteRef.current?.focus();
       if (!field) errorRef.current?.focus();
@@ -339,12 +340,17 @@ export function LocalhostIntakeForm({
     setErrorField(null);
     setResult(null);
 
+    if (!name.trim()) {
+      showValidationError("Please enter your name.", "name", form);
+      return;
+    }
+
     if (!isValidEmail(email)) {
       showValidationError("Please enter a valid email.", "email", form);
       return;
     }
 
-    if (!noteOptional && !shortNote.trim()) {
+    if (!shortNote.trim()) {
       showValidationError(
         "Please add one sentence about what you are looking for.",
         "shortNote",
@@ -363,6 +369,7 @@ export function LocalhostIntakeForm({
           honeypot,
           intentType: activeIntent,
           locale: navigator.language,
+          name,
           optionalDetails: filteredDetails(),
           routeContext,
           shortNote,
@@ -376,11 +383,13 @@ export function LocalhostIntakeForm({
           if (/wait before sending/i.test(response.message)) {
             trackLocalhostEvent("inquiry_rate_limited", form);
           }
-          const field = /email/i.test(response.message)
-            ? "email"
-            : /sentence|looking/i.test(response.message)
-              ? "shortNote"
-              : null;
+          const field = /name/i.test(response.message)
+            ? "name"
+            : /email/i.test(response.message)
+              ? "email"
+              : /sentence|looking/i.test(response.message)
+                ? "shortNote"
+                : null;
           showValidationError(response.message, field, form);
           return;
         }
@@ -441,31 +450,55 @@ export function LocalhostIntakeForm({
         value={honeypot}
       />
 
-      <label>
-        <span>Email *</span>
-        <input
-          autoComplete="email"
-          aria-describedby={errorField === "email" ? "inquiry-error" : undefined}
-          aria-invalid={errorField === "email"}
-          inputMode="email"
-          id="inquiry-email"
-          name="email"
-          onChange={(event) => {
-            setEmail(event.target.value);
-            setError("");
-            setErrorField(null);
-            setResult(null);
-          }}
-          placeholder="you@example.com"
-          ref={emailRef}
-          required
-          type="email"
-          value={email}
-        />
-      </label>
+      <div className="intake-identity-grid">
+        <label>
+          <span>Name *</span>
+          <input
+            aria-describedby={errorField === "name" ? "inquiry-error" : undefined}
+            aria-invalid={errorField === "name"}
+            autoComplete="name"
+            id="inquiry-name"
+            name="name"
+            onChange={(event) => {
+              setName(event.target.value);
+              setError("");
+              setErrorField(null);
+              setResult(null);
+            }}
+            placeholder="How should we address you?"
+            ref={nameRef}
+            required
+            type="text"
+            value={name}
+          />
+        </label>
+
+        <label>
+          <span>Email *</span>
+          <input
+            autoComplete="email"
+            aria-describedby={errorField === "email" ? "inquiry-error" : undefined}
+            aria-invalid={errorField === "email"}
+            inputMode="email"
+            id="inquiry-email"
+            name="email"
+            onChange={(event) => {
+              setEmail(event.target.value);
+              setError("");
+              setErrorField(null);
+              setResult(null);
+            }}
+            placeholder="you@example.com"
+            ref={emailRef}
+            required
+            type="email"
+            value={email}
+          />
+        </label>
+      </div>
 
       <label>
-        <span>{noteCopy.label}{noteOptional ? "" : " *"}</span>
+        <span>{noteCopy.label} *</span>
         <textarea
           aria-describedby={errorField === "shortNote" ? "short-note-hint inquiry-error" : "short-note-hint"}
           aria-invalid={errorField === "shortNote"}
@@ -477,23 +510,27 @@ export function LocalhostIntakeForm({
             setErrorField(null);
             setResult(null);
           }}
-          placeholder={noteOptional ? "Optional. Route context is already captured." : "One sentence is enough."}
+          placeholder={
+            routeContext
+              ? "One sentence is enough. What should this route hold for you?"
+              : "One sentence is enough."
+          }
           ref={shortNoteRef}
-          required={!noteOptional}
+          required
           rows={compact ? 3 : 4}
           value={shortNote}
         />
         <small id="short-note-hint">
-          {noteOptional
-            ? "This route context is already captured. Add a short note only if useful."
+          {routeContext
+            ? "The route is already captured. Tell us what you want it to hold."
             : noteCopy.helper}
         </small>
       </label>
 
       <p className="privacy-boundary privacy-boundary--standalone">
-        Your email and message are not sent to site analytics or public host
-        listings. Please do not include passport numbers, payment details,
-        medical records, or identity documents.
+        Private first review. Your note is not published or sent to site
+        analytics. Do not include passport, payment, medical, or identity
+        documents.
       </p>
 
       {showRoleTabs ? (
@@ -557,7 +594,7 @@ export function LocalhostIntakeForm({
                 <section>
                   <h3>Step 2: Route frame — optional</h3>
                   <div className="optional-field-grid">
-                    {fields.slice(0, 8).map((field) => (
+                    {fields.slice(0, 7).map((field) => (
                       <DetailFieldInput
                         contextLocked={contextLocked}
                         field={field}
@@ -571,7 +608,7 @@ export function LocalhostIntakeForm({
                 <section>
                   <h3>Step 3: Taste & comfort — optional</h3>
                   <div className="optional-field-grid">
-                    {fields.slice(8, 13).map((field) => (
+                    {fields.slice(7, 11).map((field) => (
                       <DetailFieldInput
                         field={field}
                         key={field.name}
@@ -584,7 +621,7 @@ export function LocalhostIntakeForm({
                 <section>
                   <h3>Step 4: Host fit — optional</h3>
                   <div className="optional-field-grid">
-                    {fields.slice(13).map((field) => (
+                    {fields.slice(11).map((field) => (
                       <DetailFieldInput
                         field={field}
                         key={field.name}
@@ -630,7 +667,7 @@ export function LocalhostIntakeForm({
         <div aria-live="polite" className="form-status form-status--success" role="status">
           <strong>{result.message}</strong>
           <p>
-            {activeIntent.charAt(0).toUpperCase() + activeIntent.slice(1)} / {email}
+            {name} / {activeIntent.charAt(0).toUpperCase() + activeIntent.slice(1)} / {email}
             {routeLabel ? ` / ${routeLabel}` : null}
           </p>
           {result.inquiryId ? (

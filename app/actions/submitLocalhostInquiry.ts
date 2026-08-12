@@ -25,6 +25,7 @@ export type LocalhostInquiryPayload = {
   honeypot?: string;
   intentType: LocalhostIntentType;
   locale?: string;
+  name: string;
   optionalDetails?: Record<string, string>;
   routeContext?: LocalhostRouteContext;
   shortNote?: string;
@@ -45,6 +46,7 @@ export type LocalhostInquiryResult = {
   summary?: {
     email: string;
     intentType: LocalhostIntentType;
+    name: string;
     routeContext?: LocalhostRouteContext;
     shortNote?: string;
     sourceLabel?: string;
@@ -174,6 +176,7 @@ function logInquiryEvent(
 function inquiryFingerprint(payload: {
   email: string;
   intentType: LocalhostIntentType;
+  name: string;
   optionalDetails: Record<string, string>;
   routeContext?: LocalhostRouteContext;
   shortNote: string;
@@ -188,6 +191,7 @@ function inquiryFingerprint(payload: {
       [
         payload.email,
         payload.intentType,
+        payload.name,
         payload.routeContext || "",
         payload.shortNote,
         details
@@ -206,10 +210,6 @@ function isRateLimited(requestKey: string, now: number) {
 
   current.count += 1;
   return current.count > maxInquiriesPerWindow;
-}
-
-function hasRouteContext(routeContext?: LocalhostRouteContext) {
-  return isRouteContext(routeContext);
 }
 
 function createInquiryId(createdAt: string) {
@@ -232,6 +232,7 @@ function buildInquiryEmailContent(payload: {
   intentType: LocalhostIntentType;
   inquiryId: string;
   locale: string;
+  name: string;
   optionalDetails: Record<string, string>;
   routeContext?: LocalhostRouteContext;
   responseWindow: string;
@@ -249,7 +250,8 @@ function buildInquiryEmailContent(payload: {
     `Role: ${payload.intentType}`,
     `Inquiry ID: ${payload.inquiryId}`,
     `Reply expectation: ${payload.responseWindow}`,
-    `Traveler email: ${payload.email}`,
+    `Name: ${payload.name}`,
+    `Reply email: ${payload.email}`,
     payload.routeContext ? `Route context: ${payload.routeContext}` : "",
     payload.shortNote ? `One-sentence intent: ${payload.shortNote}` : "",
     payload.sourcePage ? `Source page: ${payload.sourcePage}` : "",
@@ -389,11 +391,19 @@ export async function submitLocalhostInquiry(
   }
 
   const email = cleanText(payload.email, 254).toLowerCase();
+  const name = cleanText(payload.name, 120);
   const shortNote = cleanText(payload.shortNote);
 
   if (!isIntentType(payload.intentType)) {
     return {
       message: "Please choose Traveler, Host, or Partner.",
+      ok: false
+    };
+  }
+
+  if (!name) {
+    return {
+      message: "Please enter your name.",
       ok: false
     };
   }
@@ -405,7 +415,7 @@ export async function submitLocalhostInquiry(
     };
   }
 
-  if (!hasRouteContext(payload.routeContext) && !shortNote) {
+  if (!shortNote) {
     return {
       message: "Please add one sentence about what you are looking for.",
       ok: false
@@ -437,6 +447,7 @@ export async function submitLocalhostInquiry(
   const fingerprint = inquiryFingerprint({
     email,
     intentType: payload.intentType,
+    name,
     optionalDetails,
     routeContext,
     shortNote
@@ -456,6 +467,7 @@ export async function submitLocalhostInquiry(
       summary: {
         email,
         intentType: payload.intentType,
+        name,
         routeContext,
         shortNote,
         sourceLabel,
@@ -482,6 +494,7 @@ export async function submitLocalhostInquiry(
     inquiryId,
     intentType: payload.intentType,
     locale,
+    name,
     optionalDetails,
     routeContext,
     responseWindow: localhostResponseWindow,
@@ -518,13 +531,14 @@ export async function submitLocalhostInquiry(
     mailtoHref,
     message:
       emailDelivery.ok
-        ? `Your private route review has been received. Reference ${inquiryId}. We will review fit, timing, and local feasibility before replying.`
-        : "Your private route review has been prepared. If your email client does not open, please contact us directly.",
+        ? `Thank you, ${name}. Your private route review has been received. Reference ${inquiryId}. We will review fit, timing, and local feasibility before replying.`
+        : `Thank you, ${name}. Your private route review has been prepared. If your email client does not open, please contact us directly.`,
     ok: true,
     responseWindow: localhostResponseWindow,
     summary: {
       email,
       intentType: payload.intentType,
+      name,
       routeContext,
       shortNote,
       sourceLabel: normalizedPayload.sourceLabel,

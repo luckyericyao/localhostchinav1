@@ -2472,6 +2472,12 @@ a.text-link {
   width: 100%;
 }
 
+.intake-identity-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+}
+
 .localhost-intake-form textarea {
   min-height: 120px;
   resize: vertical;
@@ -3267,10 +3273,14 @@ a:focus-visible,
   }
 
   .page-hero--inquiry {
-    gap: 28px;
+    gap: 16px;
     min-height: 0;
-    padding-bottom: 28px;
-    padding-top: 44px;
+    padding-bottom: 16px;
+    padding-top: 28px;
+  }
+
+  .inquiry-intake-section {
+    padding-top: 24px;
   }
 
   .intro-section,
@@ -3399,6 +3409,10 @@ a:focus-visible,
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .localhost-intake-form:not(.localhost-intake-form--compact) {
+    gap: 14px;
+  }
+
   .localhost-intake-form .intake-assurance {
     display: none;
   }
@@ -3408,7 +3422,8 @@ a:focus-visible,
     margin-top: -2px;
   }
 
-  .localhost-intake-form:not(.localhost-intake-form--compact) > label {
+  .localhost-intake-form:not(.localhost-intake-form--compact) > label,
+  .localhost-intake-form:not(.localhost-intake-form--compact) > .intake-identity-grid {
     order: 1;
   }
 
@@ -3460,6 +3475,10 @@ a:focus-visible,
   }
 
   .optional-field-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intake-identity-grid {
     grid-template-columns: 1fr;
   }
 

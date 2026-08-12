@@ -6,6 +6,10 @@ This document defines the first measurement and response workflow for Localhost 
 
 Every valid inquiry receives an `LH-YYYY-MM-DD-XXXXXXXX` reference. The reference is included in the direct email subject and body, and in the structured delivery log. The server records one of these outcomes:
 
+Name, email, role, and one sentence of intent are required before submission.
+Route timing, comfort, food, transport, and host-fit details remain optional so
+the first contact stays light while the reply can still address a real person.
+
 - `inquiry_delivery_success` — the configured Resend provider accepted the message.
 - `inquiry_delivery_fallback` — direct delivery was unavailable, so the browser received a prepared `mailto:` link.
 - `inquiry_error` — the client could not receive a submission result; the user sees a retry message and no delivery is claimed.
