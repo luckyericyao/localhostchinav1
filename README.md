@@ -34,12 +34,13 @@ pnpm dev
 
 Optional environment variable:
 
-- `LOCALHOST_CONTACT_EMAIL` — email address used for prepared inquiry mailto fallback
+- `LOCALHOST_CONTACT_EMAIL` — public fallback email when no private delivery inbox is configured
 - `LOCALHOST_RESPONSE_WINDOW` — response expectation shown in the inquiry and trust flow
 - `RESEND_API_KEY` — server-only key for direct inquiry delivery when configured
 - `RESEND_FROM_EMAIL` — verified server-side sender used with Resend
-- `RESEND_TO_EMAIL` — optional private delivery inbox for direct inquiry email;
-  falls back to `LOCALHOST_CONTACT_EMAIL`
+- `RESEND_TO_EMAIL` — optional private delivery inbox for direct inquiry email
+  and the mailto fallback when configured; otherwise it falls back to
+  `LOCALHOST_CONTACT_EMAIL`
 - `POSTHOG_API_KEY` — optional server-side key for anonymous session-level funnel event persistence
 - `POSTHOG_HOST` — optional PostHog host, defaulting to `https://app.posthog.com`
 
@@ -55,8 +56,8 @@ fallback. Private keys must remain server-only; do not use `NEXT_PUBLIC_` for
 
 For production direct email, configure `RESEND_API_KEY`, `RESEND_FROM_EMAIL`,
 `RESEND_TO_EMAIL`, and `LOCALHOST_CONTACT_EMAIL` in the Vercel project
-environment. `RESEND_TO_EMAIL` is kept separate so a private delivery inbox
-does not need to become the public mailto fallback address. For durable
+environment. The private delivery inbox is used only when direct delivery or
+the exceptional mailto fallback needs a real destination. For durable
 funnel reporting, also configure `POSTHOG_API_KEY` and `POSTHOG_HOST`. Events
 use a session-scoped anonymous identifier and never include email, names, or
 inquiry content. The app keeps the mailto path as a transparent fallback when

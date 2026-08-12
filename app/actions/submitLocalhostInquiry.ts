@@ -1,7 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
-import { localhostContactEmail, localhostDeliveryEmail } from "@/lib/contact";
+import { localhostDeliveryEmail } from "@/lib/contact";
 
 export type LocalhostIntentType = "traveler" | "host" | "partner";
 
@@ -101,7 +101,7 @@ function buildInquiryEmailContent(payload: {
 }
 
 function buildMailtoHref({ body, subject }: { body: string; subject: string }) {
-  return `mailto:${localhostContactEmail}?subject=${encodeURIComponent(
+  return `mailto:${localhostDeliveryEmail}?subject=${encodeURIComponent(
     subject
   )}&body=${encodeURIComponent(body)}`;
 }
@@ -214,7 +214,7 @@ export async function submitLocalhostInquiry(
   const mailtoHref = emailSent ? undefined : buildMailtoHref(emailContent);
 
   return {
-    contactEmail: localhostContactEmail,
+    contactEmail: emailSent ? undefined : localhostDeliveryEmail,
     delivery: emailSent ? "email" : "mailto",
     mailtoHref,
     message:
