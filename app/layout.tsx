@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { LocalhostAnalytics } from "@/components/LocalhostAnalytics";
+import { localhostBaseMetadata } from "@/lib/metadata";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "Localhost Global — Private China Routes",
-  description:
-    "A quiet local-host travel network connecting travelers with trusted hosts, private routes, cultural fluency, and practical confidence, starting with China.",
-  openGraph: {
-    title: "Localhost Global — Private China Routes",
-    description:
-      "A private local-host network for travelers who want China routes shaped with local judgment."
-  }
-};
+export const metadata: Metadata = localhostBaseMetadata;
 
 export default function RootLayout({
   children

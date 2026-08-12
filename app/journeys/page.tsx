@@ -10,12 +10,18 @@ import {
   futureChinaJourneys
 } from "@/lib/content";
 import { resolveImageSource } from "@/lib/image";
+import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "China Routes — Localhost Global",
   description:
-    "Compare the active Localhost China routes by cultural focus, pace, entry point, and practical fit."
-};
+    "Compare four active private China routes by cultural focus, pace, entry point, host role, and practical fit.",
+  image: "/images/real-ancient-china-hero.png",
+  imageAlt:
+    "A quiet ancient Chinese stone path leading through a restrained mountain landscape.",
+  path: "/journeys",
+  shareTitle: "Four Private Ways Into China"
+});
 
 const activeRouteKeys = [
   { key: "shanxi", place: "Shanxi" },

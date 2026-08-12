@@ -6,12 +6,15 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { localhostResponseWindow } from "@/lib/contact";
 import { culturalVisualLayers } from "@/lib/content";
 import { resolveImageSource } from "@/lib/image";
+import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "Localhost Global — Private China Routes",
   description:
-    "A private China-first local-host network for trusted route design, cultural fluency, and practical confidence."
-};
+    "Private China routes shaped with local judgment, selected hosts, and practical support. Every inquiry is reviewed by a person before any route is confirmed.",
+  path: "/",
+  shareTitle: "Enter China With Local Judgment."
+});
 
 const featuredRoutePreview = [
   {

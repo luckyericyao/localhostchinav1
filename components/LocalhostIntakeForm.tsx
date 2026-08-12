@@ -216,6 +216,29 @@ const partnerDetails: DetailField[] = [
   { label: "Notes", name: "notes", placeholder: "Anything we should understand before a conversation", type: "textarea" }
 ];
 
+const replyPreferenceDetails: DetailField[] = [
+  {
+    helper: "Email remains the default if you leave this open.",
+    label: "Preferred reply",
+    name: "preferredReply",
+    options: [
+      "Email",
+      "WhatsApp",
+      "WeChat",
+      "Signal",
+      "Phone call",
+      "No preference"
+    ],
+    type: "select"
+  },
+  {
+    helper: "Used only to continue this private inquiry.",
+    label: "Reply details",
+    name: "replyDetails",
+    placeholder: "Number, username, time zone, or best call window"
+  }
+];
+
 function detailsForIntent(intentType: LocalhostIntentType) {
   if (intentType === "host") return hostDetails;
   if (intentType === "partner") return partnerDetails;
@@ -416,6 +439,7 @@ export function LocalhostIntakeForm({
         embedded ? " localhost-intake-form--embedded" : ""
       }`}
       data-inquiry-form="true"
+      data-reply-preference="optional"
       aria-describedby={error ? "inquiry-error" : undefined}
       noValidate
       onSubmit={handleSubmit}
@@ -528,9 +552,9 @@ export function LocalhostIntakeForm({
       </label>
 
       <p className="privacy-boundary privacy-boundary--standalone">
-        Private first review. Your note is not published or sent to site
-        analytics. Do not include passport, payment, medical, or identity
-        documents.
+        Private first review. Your note and reply details are not published or
+        sent to site analytics. Do not include passport, payment, medical, or
+        identity documents.
       </p>
 
       {showRoleTabs ? (
@@ -647,6 +671,23 @@ export function LocalhostIntakeForm({
                 </div>
               </section>
             )}
+            <section>
+              <h3>
+                {activeIntent === "traveler"
+                  ? "Step 5: Reply preference — optional"
+                  : "Reply preference — optional"}
+              </h3>
+              <div className="optional-field-grid">
+                {replyPreferenceDetails.map((field) => (
+                  <DetailFieldInput
+                    field={field}
+                    key={field.name}
+                    onChange={updateDetail}
+                    value={optionalDetails[field.name] || ""}
+                  />
+                ))}
+              </div>
+            </section>
           </div>
         </div>
       ) : null}
@@ -678,6 +719,11 @@ export function LocalhostIntakeForm({
               {result.delivery === "mailto"
                 ? `Expected reply window after you send the email: ${result.responseWindow}.`
                 : `Expected reply window: ${result.responseWindow}.`}
+            </p>
+          ) : null}
+          {optionalDetails.preferredReply ? (
+            <p className="response-expectation">
+              Preferred reply: {optionalDetails.preferredReply}
             </p>
           ) : null}
           {result.mailtoHref ? (

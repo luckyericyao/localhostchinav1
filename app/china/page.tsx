@@ -7,12 +7,18 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { arrangements, chinaJourneys, culturalVisualLayers } from "@/lib/content";
 import { resolveImageSource } from "@/lib/image";
+import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "Localhost China — Real Ancient China",
   description:
-    "China as the first Localhost chapter: private routes into Real Ancient China, trusted hosts, cultural decoding, and practical confidence."
-};
+    "Private routes into ancient and living China, shaped with selected hosts, cultural interpretation, and practical confidence.",
+  image: "/images/china-ancient-landscape.png",
+  imageAlt:
+    "An ancient Chinese stone landscape beneath distant mountains in restrained natural light.",
+  path: "/china",
+  shareTitle: "China Is Easy to Visit. It Is Harder to Understand."
+});
 
 const chinaMethod = [
   {

@@ -10,12 +10,18 @@ import type {
 } from "@/app/actions/submitLocalhostInquiry";
 import { localhostResponseWindow } from "@/lib/contact";
 import { culturalVisualLayers } from "@/lib/content";
+import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "Private Route Preference Intake — Localhost Global",
   description:
-    "A detailed private China route intake for food rhythm, comfort, curiosity, host fit, and practical support."
-};
+    "Begin a private China route review with your intent, timing, comfort, curiosity, and preferred level of local support.",
+  image: "/images/inquiry-courtyard-threshold.png",
+  imageAlt:
+    "A quiet Chinese courtyard threshold in natural light with warm stone texture.",
+  path: "/inquiry",
+  shareTitle: "Begin a Private China Route Review"
+});
 
 const afterSubmit = [
   "We review intent, timing, route direction, and local feasibility.",

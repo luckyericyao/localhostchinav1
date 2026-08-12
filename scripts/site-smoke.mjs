@@ -31,6 +31,20 @@ const expectedTracking = new Map([
   ["/how-it-works", ['data-track-event="request_route"']]
 ]);
 
+const expectedShareImages = new Map([
+  ["/", "/images/temple-of-heaven-centered-hero.png"],
+  ["/china", "/images/china-ancient-landscape.png"],
+  ["/journeys", "/images/real-ancient-china-hero.png"],
+  ["/china/shanxi", "/images/shanxi-ancient-grotto.png"],
+  ["/china/shaolin", "/images/shaolin-temple-gate.png"],
+  ["/china/huizhou", "/images/huizhou-rain-courtyard.png"],
+  ["/china/shanghai", "/images/shanghai-bund-walk.png"],
+  ["/trust", "/images/trust-courtyard-wall.png"],
+  ["/inquiry", "/images/inquiry-courtyard-threshold.png"]
+]);
+
+const productionUrl = "https://localhostchinav1.vercel.app";
+
 const retiredRouteHeadings = [
   "Choose Another Route If",
   "Compact entry points, held with context.",
@@ -63,6 +77,28 @@ for (const path of routes) {
     }
   }
 
+  const shareImage = expectedShareImages.get(path);
+  if (shareImage) {
+    const canonicalHref =
+      path === "/" ? productionUrl : `${productionUrl}${path}`;
+    if (
+      !body.includes(
+        `property="og:image" content="${productionUrl}${shareImage}"`
+      )
+    ) {
+      console.error(`FAIL ${path}: missing page-specific Open Graph image`);
+      failed = true;
+    }
+    if (!body.includes(`rel="canonical" href="${canonicalHref}"`)) {
+      console.error(`FAIL ${path}: missing canonical URL`);
+      failed = true;
+    }
+    if (!body.includes('name="twitter:card" content="summary_large_image"')) {
+      console.error(`FAIL ${path}: missing large Twitter share card`);
+      failed = true;
+    }
+  }
+
   if (path.startsWith("/china/") && !body.includes("data-route-page")) {
     console.error(`FAIL ${path}: missing route page marker`);
     failed = true;
@@ -71,9 +107,11 @@ for (const path of routes) {
 
   if (
     path === "/inquiry" &&
-    (!body.includes('id="inquiry-name"') || !body.includes('name="name"'))
+    (!body.includes('id="inquiry-name"') ||
+      !body.includes('name="name"') ||
+      !body.includes('data-reply-preference="optional"'))
   ) {
-    console.error("FAIL /inquiry: required name field is missing");
+    console.error("FAIL /inquiry: identity or reply-preference fields are missing");
     failed = true;
   }
 

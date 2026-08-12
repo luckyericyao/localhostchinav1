@@ -3,12 +3,18 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { localhostResponseWindow } from "@/lib/contact";
+import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "Trust — Localhost Global",
   description:
-    "The Localhost trust model: host screening, no random matching, traveler respect, boundaries, privacy, and quality control."
-};
+    "How Localhost reviews inquiries, selects hosts, protects privacy, clarifies boundaries, and confirms route fit before matching.",
+  image: "/images/trust-courtyard-wall.png",
+  imageAlt:
+    "Natural light and shadow crossing a quiet stone courtyard wall in China.",
+  path: "/trust",
+  shareTitle: "Trust Before Matching — Localhost Global"
+});
 
 const operatingTrust = [
   {
