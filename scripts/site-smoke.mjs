@@ -66,4 +66,19 @@ if (!analyticsResponse.ok) {
   console.log("PASS /api/analytics");
 }
 
+if (baseUrl.endsWith(".vercel.app")) {
+  const analyticsScriptResponse = await fetch(
+    `${baseUrl}/_vercel/insights/script.js`
+  );
+
+  if (!analyticsScriptResponse.ok) {
+    console.error(
+      `FAIL /_vercel/insights/script.js: HTTP ${analyticsScriptResponse.status}`
+    );
+    failed = true;
+  } else {
+    console.log("PASS /_vercel/insights/script.js");
+  }
+}
+
 if (failed) process.exitCode = 1;
