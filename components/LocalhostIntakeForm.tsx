@@ -647,8 +647,16 @@ export function LocalhostIntakeForm({
       ) : null}
 
       <div className={`localhost-intake-actions${detailsOpen && !compact ? " localhost-intake-actions--sticky" : ""}`}>
-        <button className="button button--dark" disabled={isPending} type="submit">
-          {isPending ? "Preparing..." : submitLabel(activeIntent)}
+        <button
+          className="button button--dark"
+          disabled={isPending || Boolean(result?.ok)}
+          type="submit"
+        >
+          {isPending
+            ? "Preparing..."
+            : result?.ok
+              ? "Review prepared"
+              : submitLabel(activeIntent)}
         </button>
         {compact ? (
           <a
