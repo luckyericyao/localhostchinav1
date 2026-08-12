@@ -1,5 +1,6 @@
 "use client";
 
+import { track as trackVercelEvent } from "@vercel/analytics";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
@@ -41,6 +42,16 @@ export function trackLocalhostEvent(event: AnalyticsEvent, element?: HTMLElement
     source: element?.dataset.trackSource || ""
   };
   const body = JSON.stringify(payload);
+
+  try {
+    trackVercelEvent(event, {
+      path: payload.path,
+      route: payload.route || null,
+      source: payload.source || null
+    });
+  } catch {
+    // The local analytics and server endpoint remain the fallback paths.
+  }
 
   window.localhostDataLayer ||= [];
   window.localhostDataLayer.push(payload);

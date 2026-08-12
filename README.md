@@ -41,6 +41,12 @@ Optional environment variable:
 - `POSTHOG_API_KEY` — optional server-side key for anonymous session-level funnel event persistence
 - `POSTHOG_HOST` — optional PostHog host, defaulting to `https://app.posthog.com`
 
+The app also loads Vercel Web Analytics and sends the privacy-safe funnel
+events as custom events. Vercel handles the event transport without a
+project-specific API key; custom event reporting is subject to the project's
+Vercel Analytics plan. PostHog remains available when session-level correlation
+is needed.
+
 When Resend is not configured, the inquiry flow prepares a structured `mailto:`
 fallback. Private keys must remain server-only; do not use `NEXT_PUBLIC_` for
 `RESEND_API_KEY`.
