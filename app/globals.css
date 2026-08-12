@@ -929,7 +929,7 @@ a.text-link {
 }
 
 .journey-comparison-reveal > * {
-  height: auto;
+  height: 100%;
 }
 
 .journey-comparison-card {
@@ -995,7 +995,7 @@ a.text-link {
   text-transform: uppercase;
 }
 
-.journey-comparison-copy h3 {
+.journey-comparison-copy h2 {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.7rem;
   font-weight: 400;
@@ -1035,6 +1035,14 @@ a.text-link {
 .journey-comparison-meta div + div {
   border-left: 1px solid var(--border);
   padding-left: 10px;
+}
+
+.journey-comparison-meta .journey-comparison-meta-wide {
+  border-left: 0;
+  border-top: 1px solid var(--border);
+  grid-column: 1 / -1;
+  padding-left: 0;
+  padding-top: 8px;
 }
 
 .journey-comparison-meta dt {
@@ -1302,17 +1310,40 @@ a.text-link {
   opacity: 0.22;
 }
 
-.journeys-selector-section {
-  padding-bottom: 40px;
-  padding-top: 28px;
+.journeys-decision-section {
+  padding-bottom: 48px;
+  padding-top: 42px;
 }
 
-.journeys-selector-section .section-heading {
-  margin-bottom: 16px;
+.journeys-decision-header {
+  align-items: end;
+  display: grid;
+  gap: 56px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+  margin: 0 auto 28px;
+  max-width: 1180px;
 }
 
-.journeys-selector-section .section-heading h2 {
-  font-size: 3.1rem;
+.journeys-decision-header h1 {
+  font-size: 3.9rem;
+  line-height: 0.98;
+  margin-bottom: 0;
+  max-width: 560px;
+}
+
+.journeys-decision-copy {
+  max-width: 610px;
+}
+
+.journeys-decision-copy p {
+  color: var(--warm-gray);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.journeys-decision-copy .text-link {
+  margin-top: 0;
 }
 
 .journeys-future-section {
@@ -1909,46 +1940,6 @@ a.text-link {
   background:
     linear-gradient(135deg, rgba(247, 242, 232, 0.98), rgba(238, 228, 213, 0.9)),
     var(--ivory);
-}
-
-.journeys-hero {
-  isolation: isolate;
-  gap: 24px;
-  min-height: 260px;
-  overflow: hidden;
-  padding-bottom: 24px;
-  padding-top: 54px;
-  position: relative;
-}
-
-.journeys-hero h1 {
-  font-size: 4rem;
-}
-
-.journeys-hero::after {
-  background:
-    linear-gradient(90deg, rgba(247, 242, 232, 0.96), rgba(247, 242, 232, 0.72), rgba(247, 242, 232, 0.9)),
-    radial-gradient(circle at 70% 18%, rgba(159, 58, 46, 0.08), transparent 34%);
-  content: "";
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
-  z-index: 1;
-}
-
-.journeys-hero > :not(.journeys-hero-atmosphere) {
-  position: relative;
-  z-index: 2;
-}
-
-.journeys-hero-atmosphere {
-  background:
-    linear-gradient(90deg, rgba(247, 242, 232, 0.22), rgba(247, 242, 232, 0.02)),
-    image-set(url("/images/china-ancient-landscape.avif") type("image/avif"), url("/images/china-ancient-landscape.webp") type("image/webp"), url("/images/china-ancient-landscape.png") type("image/png")) center/cover;
-  inset: 0;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
 }
 
 .page-hero--trust {
@@ -3304,6 +3295,11 @@ a:focus-visible,
 }
 
 @media (max-width: 1020px) {
+  .journeys-decision-header {
+    gap: 28px;
+    grid-template-columns: 1fr;
+  }
+
   .journey-comparison-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3467,9 +3463,9 @@ a:focus-visible,
     gap: 28px;
   }
 
-  .journeys-selector-section {
+  .journeys-decision-section {
     padding-bottom: 56px;
-    padding-top: 58px;
+    padding-top: 42px;
   }
 
   .journeys-future-section {
@@ -3481,8 +3477,13 @@ a:focus-visible,
     font-size: 2.35rem;
   }
 
-  .journeys-selector-section .section-heading h2 {
-    font-size: 2.35rem;
+  .journeys-decision-header {
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  .journeys-decision-header h1 {
+    font-size: 3rem;
   }
 
   .journey-comparison-meta {
@@ -3494,13 +3495,6 @@ a:focus-visible,
     border-top: 1px solid var(--border);
     padding-left: 0;
     padding-top: 8px;
-  }
-
-  .journeys-hero {
-    gap: 28px;
-    min-height: 0;
-    padding-bottom: 36px;
-    padding-top: 54px;
   }
 
   .localhost-intake-form .role-tabs > div {

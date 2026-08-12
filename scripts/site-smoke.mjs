@@ -17,7 +17,16 @@ const routes = [
 const expectedContent = new Map([
   ["/", ["A named Localhost reviewer replies"]],
   ["/china", ["How Localhost Works In China"]],
-  ["/journeys", ["Flagship route"]],
+  [
+    "/journeys",
+    [
+      "Four private ways into China.",
+      "View Shanxi",
+      "View Shaolin",
+      "View Huizhou",
+      "View Shanghai"
+    ]
+  ],
   [
     "/trust",
     [

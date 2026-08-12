@@ -248,7 +248,69 @@ for (const path of routes) {
       );
     }
   }
+
+  if (path === "/journeys") {
+    const mobileRouteDecision = await page.evaluate(() => {
+      const cards = [...document.querySelectorAll(".journey-comparison-card")];
+      const firstCard = cards[0]?.getBoundingClientRect();
+
+      return {
+        cardCount: cards.length,
+        firstCardTop: firstCard?.top ?? Infinity,
+        firstRouteVisible: Boolean(
+          firstCard && firstCard.top < window.innerHeight && firstCard.bottom > 0
+        )
+      };
+    });
+
+    if (
+      mobileRouteDecision.cardCount !== 4 ||
+      !mobileRouteDecision.firstRouteVisible
+    ) {
+      console.error(
+        `FAIL /journeys: mobile route decision starts too late ${JSON.stringify(mobileRouteDecision)}`
+      );
+      failed = true;
+    } else {
+      console.log(
+        "PASS /journeys: the first active route enters the initial mobile viewport"
+      );
+    }
+  }
 }
+
+const desktopRoutesPage = await browser.newPage({
+  deviceScaleFactor: 1,
+  viewport: { height: 900, width: 1440 }
+});
+await desktopRoutesPage.goto(`${baseUrl}/journeys`, { waitUntil: "networkidle" });
+const desktopRouteDecision = await desktopRoutesPage.evaluate(() => {
+  const cards = [...document.querySelectorAll(".journey-comparison-card")];
+  const bounds = cards.map((card) => {
+    const box = card.getBoundingClientRect();
+    return { bottom: Math.round(box.bottom), top: Math.round(box.top) };
+  });
+
+  return {
+    allRoutesInFirstViewport:
+      cards.length === 4 &&
+      bounds.every((box) => box.top >= 0 && box.bottom <= window.innerHeight),
+    bounds,
+    cardCount: cards.length
+  };
+});
+
+if (!desktopRouteDecision.allRoutesInFirstViewport) {
+  console.error(
+    `FAIL /journeys: four active routes do not fit in the initial desktop viewport ${JSON.stringify(desktopRouteDecision)}`
+  );
+  failed = true;
+} else {
+  console.log(
+    "PASS /journeys: all four active routes are comparable in the initial desktop viewport"
+  );
+}
+await desktopRoutesPage.close();
 
 await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
 await page.waitForTimeout(1200);

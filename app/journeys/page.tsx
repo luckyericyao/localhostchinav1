@@ -49,37 +49,27 @@ export default function JourneysPage() {
     <>
       <SiteHeader />
       <main id="main-content">
-        <section className="page-hero support-hero journeys-hero">
-          <div className="journeys-hero-atmosphere reveal-image--background" />
-          <div>
-            <p className="eyebrow">China Routes</p>
-            <h1>Choose a China that matches your attention.</h1>
-          </div>
-          <div className="page-hero-copy">
-            <p>
-              Four active chapters, each with a different cultural temperature,
-              pace, entry point, and kind of local judgment.
-            </p>
-            <Link
-              className="button button--dark"
-              data-track-event="request_route"
-              data-track-source="journeys_hero"
-              href={journeysInquiryHref}
-            >
-              Request a Private Route
-            </Link>
-          </div>
-        </section>
-
-        <section className="section section-atmosphere atmosphere-gold-soft journeys-selector-section">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Route Selector</p>
-            <h2>Which China should you enter first?</h2>
-            <p>
-              Start with the route shape, then open the chapter that deserves a
-              closer read.
-            </p>
-          </div>
+        <section className="section section-atmosphere atmosphere-gold-soft journeys-decision-section">
+          <header className="journeys-decision-header">
+            <div>
+              <p className="eyebrow">China Routes</p>
+              <h1>Four private ways into China.</h1>
+            </div>
+            <div className="journeys-decision-copy">
+              <p>
+                Compare cultural focus, pace, length, and arrival city. Shanxi is
+                the flagship; each route is shaped privately after review.
+              </p>
+              <Link
+                className="text-link"
+                data-track-event="request_route"
+                data-track-source="journeys_decision"
+                href={journeysInquiryHref}
+              >
+                Not sure where to begin? Request a private review
+              </Link>
+            </div>
+          </header>
           <div className="journey-comparison-grid">
             {activeJourneys.map(({ journey, route }) => (
               <RevealOnScroll
@@ -107,7 +97,7 @@ export default function JourneysPage() {
                         ? "Flagship route"
                         : "Active route"}
                     </span>
-                    <h3>{journey.place}</h3>
+                    <h2>{journey.place}</h2>
                     <strong>{journey.line}</strong>
                     <dl className="journey-comparison-meta">
                       <div>
@@ -120,8 +110,12 @@ export default function JourneysPage() {
                           {snapshotValue(route, "Ideal Length")} · {snapshotValue(route, "Entry")}
                         </dd>
                       </div>
+                      <div className="journey-comparison-meta-wide">
+                        <dt>Pace</dt>
+                        <dd>{snapshotValue(route, "Pace")}</dd>
+                      </div>
                     </dl>
-                    <span className="arrangement-cue">View route</span>
+                    <span className="arrangement-cue">{`View ${journey.place}`}</span>
                   </span>
                 </Link>
               </RevealOnScroll>
