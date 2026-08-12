@@ -152,7 +152,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               be shaped, but fit matters before detail.
             </p>
           </div>
-          <div className="split-panel-section split-panel-section--three">
+          <div className="split-panel-section">
             <div className="quiet-panel">
               <p className="eyebrow">Best For</p>
               <ul className="clean-list">
@@ -165,14 +165,6 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               <p className="eyebrow">Not For</p>
               <ul className="clean-list">
                 {route.notFor.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="quiet-panel">
-              <p className="eyebrow">Choose Another Route If</p>
-              <ul className="clean-list">
-                {route.chooseAnother.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
@@ -254,31 +246,12 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
 
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
-            <p className="eyebrow">Held Around The Route</p>
-            <h2>Context, practical support, and clear limits.</h2>
-          </div>
-          <div className="route-scope-block">
-            <div className="route-subsection-heading">
-              <p className="eyebrow">What This Route Opens</p>
-              <h2>Compact entry points, held with context.</h2>
-            </div>
-            <div className="support-card-grid">
-              {route.opens.map((item) => (
-                <article className="support-detail-card" key={item.title}>
-                  <h3>{item.title}</h3>
-                  <p>{item.copy}</p>
-                </article>
-              ))}
-            </div>
-            <div className="route-subsection-heading">
-              <p className="eyebrow">What A Host Changes Here</p>
-              <h2>Local judgment changes what the traveler can read.</h2>
-            </div>
-            <ul className="reference-matrix">
-              {route.hostChanges.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+            <p className="eyebrow">What Localhost Holds</p>
+            <h2>Host judgment and practical coordination, made explicit.</h2>
+            <p>
+              Enough support to make the route legible and workable, with the
+              role of the host and the limits of the route kept clear.
+            </p>
           </div>
           <div className="support-card-grid support-card-grid--three">
             <article className="support-detail-card">

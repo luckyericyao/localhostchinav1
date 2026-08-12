@@ -30,6 +30,12 @@ const expectedTracking = new Map([
   ["/how-it-works", ['data-track-event="request_route"']]
 ]);
 
+const retiredRouteHeadings = [
+  "Choose Another Route If",
+  "Compact entry points, held with context.",
+  "Local judgment changes what the traveler can read."
+];
+
 let failed = false;
 
 for (const path of routes) {
@@ -60,6 +66,22 @@ for (const path of routes) {
     console.error(`FAIL ${path}: missing route page marker`);
     failed = true;
     continue;
+  }
+
+  if (path.startsWith("/china/")) {
+    for (const retiredHeading of retiredRouteHeadings) {
+      if (body.includes(retiredHeading)) {
+        console.error(
+          `FAIL ${path}: retired repetitive route heading remains: ${retiredHeading}`
+        );
+        failed = true;
+      }
+    }
+
+    if (!body.includes("What Localhost Holds")) {
+      console.error(`FAIL ${path}: missing compact Localhost scope section`);
+      failed = true;
+    }
   }
 
   console.log(`PASS ${path} (${body.length} bytes)`);
