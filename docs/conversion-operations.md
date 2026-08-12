@@ -8,6 +8,7 @@ Every valid inquiry receives an `LH-YYYY-MM-DD-XXXXXXXX` reference. The referenc
 
 - `inquiry_delivery_success` — the configured Resend provider accepted the message.
 - `inquiry_delivery_fallback` — direct delivery was unavailable, so the browser received a prepared `mailto:` link.
+- `inquiry_error` — the client could not receive a submission result; the user sees a retry message and no delivery is claimed.
 - `inquiry_duplicate` — the same normalized inquiry was already accepted during the duplicate window.
 - `inquiry_rate_limited` — the warm-instance abuse guard rejected the request after the hourly threshold.
 

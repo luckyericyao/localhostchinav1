@@ -84,6 +84,11 @@ const analyticsEvents = [
     source: "smoke"
   },
   {
+    event: "inquiry_error",
+    path: "/inquiry",
+    source: "smoke"
+  },
+  {
     event: "web_vital",
     metricName: "CLS",
     path: "/",

@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 type AnalyticsEvent =
   | "hero_cta"
   | "inquiry_duplicate"
+  | "inquiry_error"
   | "inquiry_rate_limited"
   | "inquiry_sent"
   | "inquiry_start"

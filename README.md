@@ -70,8 +70,8 @@ Vercel logs for delivery success, fallback, duplicate, rate-limit, honeypot, and
 timing outcomes. These guards do not require a paid database; production
 reporting should still reconcile the logs against inbox receipts because
 serverless memory is not durable across all instances. Funnel events include
-route selection, inquiry start, submit attempt, direct delivery, mailto
-fallback, duplicate, rate-limit outcomes, and native LCP/CLS/INP measurements
+route selection, inquiry start, submit attempt, client errors, direct delivery,
+mailto fallback, duplicate, rate-limit outcomes, and native LCP/CLS/INP measurements
 when supported by the browser.
 
 When Resend is not configured, the inquiry flow prepares a structured `mailto:`

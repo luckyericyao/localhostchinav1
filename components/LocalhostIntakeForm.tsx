@@ -321,8 +321,19 @@ export function LocalhostIntakeForm({
     });
   }
 
+  function showSubmissionError(form: HTMLFormElement) {
+    setError(
+      "We could not prepare your private route review. Please try again. Nothing has been sent."
+    );
+    setErrorField(null);
+    trackLocalhostEvent("inquiry_error", form);
+    window.requestAnimationFrame(() => errorRef.current?.focus());
+  }
+
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isPending || result?.ok) return;
+
     const form = event.currentTarget;
     setError("");
     setErrorField(null);
@@ -345,42 +356,46 @@ export function LocalhostIntakeForm({
     trackLocalhostEvent("inquiry_submit_attempt", form);
 
     startTransition(async () => {
-      const response = await submitLocalhostInquiry({
-        createdAt: new Date().toISOString(),
-        email,
-        honeypot,
-        intentType: activeIntent,
-        locale: navigator.language,
-        optionalDetails: filteredDetails(),
-        routeContext,
-        shortNote,
-        sourceLabel,
-        sourcePage,
-        startedAt,
-        userAgent: navigator.userAgent
-      });
+      try {
+        const response = await submitLocalhostInquiry({
+          createdAt: new Date().toISOString(),
+          email,
+          honeypot,
+          intentType: activeIntent,
+          locale: navigator.language,
+          optionalDetails: filteredDetails(),
+          routeContext,
+          shortNote,
+          sourceLabel,
+          sourcePage,
+          startedAt,
+          userAgent: navigator.userAgent
+        });
 
-      if (!response.ok) {
-        if (/wait before sending/i.test(response.message)) {
-          trackLocalhostEvent("inquiry_rate_limited", form);
+        if (!response.ok) {
+          if (/wait before sending/i.test(response.message)) {
+            trackLocalhostEvent("inquiry_rate_limited", form);
+          }
+          const field = /email/i.test(response.message)
+            ? "email"
+            : /sentence|looking/i.test(response.message)
+              ? "shortNote"
+              : null;
+          showValidationError(response.message, field, form);
+          return;
         }
-        const field = /email/i.test(response.message)
-          ? "email"
-          : /sentence|looking/i.test(response.message)
-            ? "shortNote"
-            : null;
-        showValidationError(response.message, field, form);
-        return;
-      }
 
-      setResult(response);
-      if (response.delivery === "duplicate") {
-        trackLocalhostEvent("inquiry_duplicate", form);
-      } else if (response.mailtoHref) {
-        trackLocalhostEvent("mailto_fallback", form);
-        window.location.href = response.mailtoHref;
-      } else if (response.delivery === "email") {
-        trackLocalhostEvent("inquiry_sent", form);
+        setResult(response);
+        if (response.delivery === "duplicate") {
+          trackLocalhostEvent("inquiry_duplicate", form);
+        } else if (response.mailtoHref) {
+          trackLocalhostEvent("mailto_fallback", form);
+          window.location.href = response.mailtoHref;
+        } else if (response.delivery === "email") {
+          trackLocalhostEvent("inquiry_sent", form);
+        }
+      } catch {
+        showSubmissionError(form);
       }
     });
   }

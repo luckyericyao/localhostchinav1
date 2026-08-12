@@ -1,6 +1,7 @@
 export const localhostMetricEvents = [
   "hero_cta",
   "inquiry_duplicate",
+  "inquiry_error",
   "inquiry_honeypot_rejected",
   "inquiry_rate_limited",
   "inquiry_sent",
