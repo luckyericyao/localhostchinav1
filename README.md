@@ -65,9 +65,10 @@ Conversion hardening targets are tracked in three stages:
   below 0.1, and INP is below 200ms.
 
 The inquiry action adds a warm-instance rate guard, duplicate fingerprinting,
-one transient delivery retry, a non-personal inquiry reference, and structured
-Vercel logs for delivery success, fallback, duplicate, rate-limit, honeypot, and
-timing outcomes. These guards do not require a paid database; production
+an idempotent transient delivery retry, a non-personal inquiry reference, and
+structured Vercel logs with the accepted provider message ID for delivery
+success, fallback, duplicate, rate-limit, honeypot, and timing outcomes. These
+guards do not require a paid database; production
 reporting should still reconcile the logs against inbox receipts because
 serverless memory is not durable across all instances. Funnel events include
 route selection, inquiry start, submit attempt, client errors, direct delivery,

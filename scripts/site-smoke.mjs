@@ -19,7 +19,7 @@ const expectedContent = new Map([
   ["/china", "How Localhost Works In China"],
   ["/journeys", "Flagship route"],
   ["/trust", "Your email and message are not sent to site analytics"],
-  ["/inquiry", "A Localhost reviewer reads it"]
+  ["/inquiry", "Successful direct delivery returns a private reference here"]
 ]);
 
 const expectedTracking = new Map([

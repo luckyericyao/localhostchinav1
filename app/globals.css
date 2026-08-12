@@ -2722,6 +2722,23 @@ a.text-link {
   padding-top: 20px;
 }
 
+.localhost-intake-submit {
+  display: grid;
+  gap: 8px;
+  max-width: 390px;
+}
+
+.localhost-intake-submit .button {
+  justify-self: start;
+}
+
+.submission-assurance {
+  color: var(--warm-gray);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
 .localhost-intake-actions--sticky {
   background: rgba(247, 242, 232, 0.96);
   bottom: 0;
@@ -2738,6 +2755,10 @@ a.text-link {
 
 .hero-intake-panel .localhost-intake-actions .text-link {
   color: rgba(251, 248, 241, 0.82);
+}
+
+.hero-intake-panel .submission-assurance {
+  color: rgba(251, 248, 241, 0.72);
 }
 
 .inquiry-form {

@@ -21,6 +21,12 @@ inquiry_delivery_success /
 
 The fallback rate is calculated from the same denominator. These rates must be reviewed against the Resend activity log and the receiving inbox because serverless memory is only a warm-instance guard, not a durable database.
 
+Every direct Resend request also carries an idempotency key derived from the
+inquiry reference. Provider retries therefore reuse the same request identity
+for 24 hours instead of creating a second notification. The accepted provider
+message ID is written to the structured server log without recording traveler
+email or inquiry content.
+
 ## Response SLA
 
 The inquiry email carries the configured `LOCALHOST_RESPONSE_WINDOW` value and its inquiry reference. The response operator records the received timestamp and the first substantive reply timestamp in the inbox or CRM. The two-working-day rate is:
@@ -31,6 +37,13 @@ valid inquiries received in the review period
 ```
 
 The product does not claim this target is met until the team has reviewed a real sample. The default expectation is `within two working days`.
+
+The internal notification carries a first-response standard. The reviewer
+should acknowledge one specific detail, offer one concrete next direction with
+a reason, ask no more than three next questions, state what remains
+unconfirmed, and share only the minimum necessary detail. This keeps the first
+reply personal and useful without pretending that route scope or host
+availability is already confirmed.
 
 ## Funnel baseline
 

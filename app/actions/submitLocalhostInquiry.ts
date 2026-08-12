@@ -63,6 +63,11 @@ type InquiryWindow = {
   startedAt: number;
 };
 
+type InquiryEmailDelivery = {
+  ok: boolean;
+  providerMessageId?: string;
+};
+
 // These maps are intentionally small, best-effort protection for warm server
 // instances. Delivery remains the source of truth; logs make the outcome auditable.
 const inquiryWindows = new Map<string, InquiryWindow>();
@@ -124,6 +129,7 @@ function logInquiryEvent(
     durationMs?: number;
     inquiryId?: string;
     intentType?: LocalhostIntentType;
+    providerMessageId?: string;
     routeContext?: LocalhostRouteContext;
     sourcePage?: string;
   } = {}
@@ -132,6 +138,7 @@ function logInquiryEvent(
     event,
     inquiryId: details.inquiryId || "",
     intentType: details.intentType || "",
+    providerMessageId: details.providerMessageId || "",
     routeContext: details.routeContext || "",
     sourcePage: details.sourcePage || "",
     durationMs: details.durationMs || 0
@@ -236,7 +243,7 @@ function buildInquiryEmailContent(payload: {
     .filter(([, value]) => cleanText(value))
     .map(([key, value]) => `${formatLabel(key)}: ${cleanText(value)}`);
 
-  const body = [
+  const bodyLines = [
     "Localhost private route review",
     "",
     `Role: ${payload.intentType}`,
@@ -254,11 +261,26 @@ function buildInquiryEmailContent(payload: {
     ...detailLines
   ].filter(Boolean);
 
+  const internalBody = [
+    ...bodyLines,
+    "",
+    "First-response standard (internal):",
+    `- Reply ${payload.responseWindow} and keep ${payload.inquiryId} in the thread.`,
+    "- Acknowledge one specific detail before proposing a direction.",
+    "- Offer one concrete next direction and explain why it fits.",
+    "- Ask no more than three next questions.",
+    "- State what remains unconfirmed and share only the minimum necessary detail."
+  ];
+
   const subject = `Localhost inquiry — ${payload.inquiryId} — ${payload.intentType}${
     payload.routeContext ? ` / ${payload.routeContext}` : ""
   }`;
 
-  return { body: body.join("\n"), subject };
+  return {
+    body: bodyLines.join("\n"),
+    internalBody: internalBody.join("\n"),
+    subject
+  };
 }
 
 function buildMailtoHref({ body, subject }: { body: string; subject: string }) {
@@ -270,16 +292,18 @@ function buildMailtoHref({ body, subject }: { body: string; subject: string }) {
 async function sendInquiryEmail({
   body,
   email,
+  inquiryId,
   subject
 }: {
   body: string;
   email: string;
+  inquiryId: string;
   subject: string;
-}) {
+}): Promise<InquiryEmailDelivery> {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM_EMAIL;
 
-  if (!apiKey || !from) return false;
+  if (!apiKey || !from) return { ok: false };
 
   for (let attempt = 0; attempt < 2; attempt += 1) {
     try {
@@ -293,20 +317,37 @@ async function sendInquiryEmail({
         }),
         headers: {
           Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Idempotency-Key": `private-route-review/${inquiryId}`
         },
         method: "POST",
         signal: AbortSignal.timeout(5000)
       });
 
-      if (response.ok) return true;
-      if (response.status < 500) return false;
+      if (response.ok) {
+        const providerResponse: unknown = await response.json().catch(() => null);
+        const providerMessageId = isRecord(providerResponse)
+          ? cleanText(providerResponse.id, 120)
+          : "";
+
+        return {
+          ok: true,
+          providerMessageId: providerMessageId || undefined
+        };
+      }
+
+      if (response.status === 409 && attempt === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        continue;
+      }
+
+      if (response.status < 500) return { ok: false };
     } catch {
       // A single retry covers transient network and provider failures.
     }
   }
 
-  return false;
+  return { ok: false };
 }
 
 export async function submitLocalhostInquiry(
@@ -451,30 +492,32 @@ export async function submitLocalhostInquiry(
   };
 
   const emailContent = buildInquiryEmailContent(normalizedPayload);
-  const emailSent = await sendInquiryEmail({
-    body: emailContent.body,
+  const emailDelivery = await sendInquiryEmail({
+    body: emailContent.internalBody,
     email,
+    inquiryId,
     subject: emailContent.subject
   });
-  const mailtoHref = emailSent ? undefined : buildMailtoHref(emailContent);
+  const mailtoHref = emailDelivery.ok ? undefined : buildMailtoHref(emailContent);
 
-  if (emailSent) recentInquiryHashes.set(fingerprint, now);
+  if (emailDelivery.ok) recentInquiryHashes.set(fingerprint, now);
 
-  logInquiryEvent(emailSent ? "delivery_success" : "delivery_fallback", {
+  logInquiryEvent(emailDelivery.ok ? "delivery_success" : "delivery_fallback", {
     durationMs: Date.now() - startedAt,
     inquiryId,
     intentType: payload.intentType,
+    providerMessageId: emailDelivery.providerMessageId,
     routeContext,
     sourcePage: normalizedPayload.sourcePage
   });
 
   return {
-    contactEmail: emailSent ? undefined : localhostDeliveryEmail,
-    delivery: emailSent ? "email" : "mailto",
+    contactEmail: emailDelivery.ok ? undefined : localhostDeliveryEmail,
+    delivery: emailDelivery.ok ? "email" : "mailto",
     inquiryId,
     mailtoHref,
     message:
-      emailSent
+      emailDelivery.ok
         ? `Your private route review has been received. Reference ${inquiryId}. We will review fit, timing, and local feasibility before replying.`
         : "Your private route review has been prepared. If your email client does not open, please contact us directly.",
     ok: true,
