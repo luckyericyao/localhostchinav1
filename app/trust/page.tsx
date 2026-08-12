@@ -12,6 +12,11 @@ export const metadata: Metadata = {
 
 const operatingTrust = [
   {
+    title: "Direct first review",
+    copy:
+      "Your first note is reviewed inside Localhost before a host or local collaborator is approached. It is not broadcast to a public marketplace."
+  },
+  {
     title: "Host verification",
     copy:
       "Hosts are reviewed for judgment, reliability, communication quality, cultural fluency, and the ability to represent a place with care."
@@ -47,7 +52,7 @@ const reviewArtifacts = [
 ];
 
 const trustProcess = [
-  "Read — a human reviews intent, timing, comfort, route direction, and local feasibility.",
+  "Read — a Localhost reviewer checks intent, timing, comfort, route direction, and local feasibility.",
   "Check fit — we consider the right chapter, host capacity, boundaries, and whether the request is realistic.",
   "Clarify scope — host time, transport, meals, translation, payment help, and support limits are made explicit.",
   "Confirm or redirect — a route is confirmed only when fit and feasibility align; otherwise we say so plainly."
@@ -61,7 +66,7 @@ const trustCommitments = [
   {
     title: "Privacy",
     copy:
-      "Inquiry details are used for route review and only shared with relevant local collaborators when needed for fit."
+      "Your email and message are not sent to site analytics or public host listings. Inquiry details are used for route review and shared only with relevant collaborators when needed for fit."
   },
   {
     title: "Confirmation",
@@ -157,7 +162,7 @@ export default function TrustPage() {
               is shaped. The review, host fit, and scope are part of the product.
             </p>
           </div>
-          <div className="support-card-grid support-card-grid--three">
+          <div className="support-card-grid">
             {operatingTrust.map((item) => (
               <article className="support-detail-card" key={item.title}>
                 <h3>{item.title}</h3>

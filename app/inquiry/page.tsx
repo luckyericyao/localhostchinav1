@@ -27,10 +27,8 @@ const afterSubmit = [
 
 const firstReviewDeliverables = [
   "A route direction that matches what you want to understand.",
-  "The host role that would be useful, if a host is a fit.",
-  "A clear first scope: timing, movement, support, and practical limits.",
-  "The next decision needed before any route is held.",
-  "Confirmation conditions, or a direct redirect when the fit is not right."
+  "The useful host role and support level, if there is a fit.",
+  "A clear next decision, including scope, limits, or a direct redirect."
 ];
 
 const canStayOpen = [
@@ -118,17 +116,19 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
         <section className="section section--inquiry" id="private-route">
           <div className="inquiry-shell inquiry-shell--wide">
             <div className="inquiry-copy">
-              <p className="eyebrow">Step 1: Start</p>
-              <h2>Begin with email and one sentence.</h2>
-              <p>
-                Submit the short version first. A human reviews fit, timing,
-                route direction, and local feasibility before anything is
-                confirmed.
-              </p>
-              <p className="fine-copy">
-                For traveler inquiries, one sentence is enough: what kind of
-                China do you want to understand?
-              </p>
+              <div className="inquiry-copy-intro">
+                <p className="eyebrow">Step 1: Start</p>
+                <h2>Begin with email and one sentence.</h2>
+                <p>
+                  Submit the short version first. A Localhost reviewer reads it
+                  before any host is approached, then checks fit, timing, route
+                  direction, and local feasibility.
+                </p>
+                <p className="fine-copy">
+                  For traveler inquiries, one sentence is enough: what kind of
+                  China do you want to understand?
+                </p>
+              </div>
               <p className="fine-copy">
                 Response window: {localhostResponseWindow} for a complete
                 inquiry.
@@ -180,8 +180,8 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
 
         <section className="section section--dark">
           <div className="section-heading">
-            <p className="eyebrow">After Preparation</p>
-            <h2>What happens after this intake is prepared?</h2>
+            <p className="eyebrow">After You Submit</p>
+            <h2>What happens after you submit?</h2>
           </div>
           <ol className="rhythm-list rhythm-list--dark">
             {afterSubmit.map((item) => (

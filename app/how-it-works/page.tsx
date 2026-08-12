@@ -32,7 +32,7 @@ const simpleFlow = [
   {
     title: "2. We review fit",
     copy:
-      "A human checks timing, route direction, comfort, host availability, and whether the request can be handled well."
+      "A Localhost reviewer checks timing, route direction, comfort, host availability, and whether the request can be handled well."
   },
   {
     title: "3. We shape the route",

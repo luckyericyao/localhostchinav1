@@ -491,8 +491,9 @@ export function LocalhostIntakeForm({
       </label>
 
       <p className="privacy-boundary privacy-boundary--standalone">
-        Please do not include passport numbers, payment details, medical
-        records, or identity documents. Share only what affects route fit.
+        Your email and message are not sent to site analytics or public host
+        listings. Please do not include passport numbers, payment details,
+        medical records, or identity documents.
       </p>
 
       {showRoleTabs ? (
@@ -525,8 +526,9 @@ export function LocalhostIntakeForm({
           <p className="eyebrow">Before You Write</p>
           <ul>
             <li>One honest sentence is enough to begin.</li>
-            <li>A human reviews fit, timing, route direction, and local feasibility.</li>
+            <li>A Localhost reviewer checks fit, timing, route direction, and local feasibility.</li>
             <li>This is a private route review, not payment or instant booking.</li>
+            <li>Your email and message are not sent to site analytics or public host listings.</li>
           </ul>
           <p className="privacy-boundary">
             Please do not include passport numbers, payment details, medical

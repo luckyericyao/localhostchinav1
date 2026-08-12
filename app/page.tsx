@@ -182,8 +182,8 @@ export default function Home() {
               A private local-host network, starting with China.
             </p>
             <p className="hero-review-note">
-              A human reply {localhostResponseWindow}. No payment or booking at
-              inquiry.
+              A direct Localhost reply {localhostResponseWindow}. No payment or
+              booking at inquiry.
             </p>
           </div>
         </section>

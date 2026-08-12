@@ -2624,6 +2624,7 @@ a.text-link {
 .intake-assurance ul {
   display: grid;
   gap: 10px;
+  list-style: none;
   margin: 0;
   padding: 0;
 }
@@ -3417,6 +3418,10 @@ a:focus-visible,
 
   .inquiry-shell--wide .localhost-intake-form {
     order: -1;
+  }
+
+  .inquiry-shell--wide .inquiry-copy-intro {
+    display: none;
   }
 
   .hero-intake-panel {

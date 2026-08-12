@@ -18,7 +18,8 @@ const expectedContent = new Map([
   ["/", "No payment or booking at inquiry"],
   ["/china", "How Localhost Works In China"],
   ["/journeys", "Flagship route"],
-  ["/inquiry", "What the first review gives you"]
+  ["/trust", "Your email and message are not sent to site analytics"],
+  ["/inquiry", "A Localhost reviewer reads it"]
 ]);
 
 const expectedTracking = new Map([

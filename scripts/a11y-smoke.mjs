@@ -158,6 +158,45 @@ for (const path of routes) {
     }
     await menuSummary.click();
   }
+
+  if (path === "/inquiry") {
+    const inquiryLayout = await page.evaluate(() => {
+      const desktopIntro = document.querySelector(".inquiry-copy-intro");
+      const desktopAssuranceList = document.querySelector(
+        ".intake-assurance ul"
+      );
+      const mobilePrivacy = document.querySelector(
+        ".privacy-boundary--standalone"
+      );
+
+      return {
+        assuranceListStyle: desktopAssuranceList
+          ? getComputedStyle(desktopAssuranceList).listStyleType
+          : "missing",
+        mobileIntroDisplay: desktopIntro
+          ? getComputedStyle(desktopIntro).display
+          : "missing",
+        mobilePrivacyDisplay: mobilePrivacy
+          ? getComputedStyle(mobilePrivacy).display
+          : "missing"
+      };
+    });
+
+    if (
+      inquiryLayout.mobileIntroDisplay !== "none" ||
+      inquiryLayout.mobilePrivacyDisplay === "none" ||
+      inquiryLayout.assuranceListStyle !== "none"
+    ) {
+      console.error(
+        `FAIL /inquiry: mobile hierarchy or privacy styling regressed ${JSON.stringify(inquiryLayout)}`
+      );
+      failed = true;
+    } else {
+      console.log(
+        "PASS /inquiry: mobile form stays first and privacy guidance remains visible"
+      );
+    }
+  }
 }
 
 await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
