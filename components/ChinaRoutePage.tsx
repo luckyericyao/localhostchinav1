@@ -87,6 +87,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
     <>
       <SiteHeader />
       <main
+        id="main-content"
         data-route-page={route.title.split(" —")[0]}
         data-track-route={route.title.split(" —")[0]}
         data-track-source="route_page"
@@ -232,30 +233,6 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
           </div>
         </section>
 
-        <section className="section section--stone">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">What This Route Opens</p>
-            <h2>Compact entry points, held with context.</h2>
-          </div>
-          <div className="support-card-grid">
-            {route.opens.map((item) => (
-              <article className="support-detail-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </article>
-            ))}
-          </div>
-          <div className="route-subsection-heading">
-            <p className="eyebrow">What A Host Changes Here</p>
-            <h2>Local judgment changes what the traveler can read.</h2>
-          </div>
-          <ul className="reference-matrix">
-            {route.hostChanges.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </section>
-
         <section className="section section--dark">
           <div className="section-heading">
             <p className="eyebrow">Route Variants</p>
@@ -272,21 +249,35 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               </article>
             ))}
           </div>
-          <div className="route-subsection-heading route-subsection-heading--dark">
-            <p className="eyebrow">Possible Route Rhythm</p>
-            <h2>A flexible rhythm, not a fixed plan.</h2>
-          </div>
-          <ol className="rhythm-list rhythm-list--dark">
-            {route.rhythm.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ol>
         </section>
 
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Held Around The Route</p>
             <h2>Context, practical support, and clear limits.</h2>
+          </div>
+          <div className="route-scope-block">
+            <div className="route-subsection-heading">
+              <p className="eyebrow">What This Route Opens</p>
+              <h2>Compact entry points, held with context.</h2>
+            </div>
+            <div className="support-card-grid">
+              {route.opens.map((item) => (
+                <article className="support-detail-card" key={item.title}>
+                  <h3>{item.title}</h3>
+                  <p>{item.copy}</p>
+                </article>
+              ))}
+            </div>
+            <div className="route-subsection-heading">
+              <p className="eyebrow">What A Host Changes Here</p>
+              <h2>Local judgment changes what the traveler can read.</h2>
+            </div>
+            <ul className="reference-matrix">
+              {route.hostChanges.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
           </div>
           <div className="support-card-grid support-card-grid--three">
             <article className="support-detail-card">

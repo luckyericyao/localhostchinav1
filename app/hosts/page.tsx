@@ -81,7 +81,7 @@ export default function HostsPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">For Hosts</p>

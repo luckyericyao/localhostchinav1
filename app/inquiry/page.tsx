@@ -98,7 +98,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <section className="page-hero support-hero page-hero--inquiry">
           <div>
             <p className="eyebrow">Private Inquiry</p>

@@ -66,7 +66,7 @@ export default function HostCreditsPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">Host Credits</p>

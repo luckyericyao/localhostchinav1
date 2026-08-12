@@ -60,7 +60,7 @@ export default function ChinaPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <section className="page-hero page-hero--china">
           <div>
             <p className="eyebrow">Localhost China</p>

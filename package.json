@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "a11y": "node scripts/a11y-smoke.mjs",
     "lint": "eslint . --max-warnings=0",
     "smoke": "node scripts/site-smoke.mjs",
     "start": "next start"
@@ -20,8 +21,10 @@
     "@types/node": "26.0.0",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
+    "axe-core": "^4.13.0",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.9",
+    "playwright-core": "^1.62.1",
     "typescript": "6.0.3"
   }
 }

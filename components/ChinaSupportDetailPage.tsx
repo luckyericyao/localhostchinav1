@@ -59,7 +59,7 @@ export function ChinaSupportDetailPage({ page }: ChinaSupportDetailPageProps) {
   return (
     <>
       <SiteHeader />
-      <main className="support-detail-page">
+      <main className="support-detail-page" id="main-content">
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">{page.eyebrow}</p>

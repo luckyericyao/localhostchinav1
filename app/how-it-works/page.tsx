@@ -69,7 +69,7 @@ export default function HowItWorksPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">How It Works</p>

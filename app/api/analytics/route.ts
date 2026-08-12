@@ -1,81 +1,54 @@
 import { NextResponse } from "next/server";
-
-const allowedEvents = new Set([
-  "hero_cta",
-  "inquiry_sent",
-  "inquiry_start",
-  "mailto_fallback",
-  "optional_details",
-  "request_route",
-  "route_view",
-  "validation_error"
-]);
+import {
+  isAllowedMetricEvent,
+  persistLocalhostMetric,
+  type LocalhostMetricEvent
+} from "@/lib/metrics";
 
 function cleanValue(value: unknown, maxLength = 80) {
   return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
 }
 
-async function persistMetric(payload: {
-  event: string;
-  path: string;
-  route: string;
-  sessionId: string;
-  source: string;
-}) {
-  const apiKey = process.env.POSTHOG_API_KEY;
-  if (!apiKey) return;
-
-  const host = (process.env.POSTHOG_HOST || "https://app.posthog.com").replace(
-    /\/$/,
-    ""
-  );
-
-  try {
-    await fetch(`${host}/capture/`, {
-      body: JSON.stringify({
-        api_key: apiKey,
-        event: payload.event,
-        properties: {
-          distinct_id: payload.sessionId || "localhost-anonymous",
-          path: payload.path,
-          route: payload.route,
-          source: payload.source
-        }
-      }),
-      headers: { "Content-Type": "application/json" },
-      method: "POST",
-      signal: AbortSignal.timeout(2000)
-    });
-  } catch {
-    // Analytics must never block an inquiry or page interaction.
-  }
+function cleanMetricName(value: unknown) {
+  const metricName = cleanValue(value, 40);
+  return /^[A-Za-z0-9_.-]+$/.test(metricName) ? metricName : "";
 }
 
 export async function POST(request: Request) {
   try {
     const payload = await request.json();
-    const event = cleanValue(payload?.event);
+    const eventValue = cleanValue(payload?.event);
 
-    if (!allowedEvents.has(event)) {
+    if (!isAllowedMetricEvent(eventValue)) {
       return NextResponse.json({ ok: false }, { status: 400 });
     }
 
-    // Keep the first measurement layer privacy-safe: no email, notes, or user agent.
+    const event = eventValue as LocalhostMetricEvent;
+    const value =
+      typeof payload?.value === "number" && Number.isFinite(payload.value)
+        ? Math.max(0, Math.min(payload.value, 120000))
+        : undefined;
     const metric = {
       event,
+      inquiryId: cleanValue(payload?.inquiryId, 48),
+      metricName: cleanMetricName(payload?.metricName),
       path: cleanValue(payload?.path, 120),
       route: cleanValue(payload?.route),
       sessionId: cleanValue(payload?.sessionId, 120),
-      source: cleanValue(payload?.source)
+      source: cleanValue(payload?.source),
+      value
     };
 
+    // Keep the first measurement layer privacy-safe: no email, notes, or user agent.
     console.info("Localhost metric", {
       event: metric.event,
+      metricName: metric.metricName,
       path: metric.path,
       route: metric.route,
-      source: metric.source
+      source: metric.source,
+      value: metric.value
     });
-    await persistMetric(metric);
+    await persistLocalhostMetric(metric);
 
     return NextResponse.json({ ok: true });
   } catch {

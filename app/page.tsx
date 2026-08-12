@@ -134,7 +134,8 @@ const homeInquiryHref =
 export default function Home() {
   return (
     <>
-      <main>
+      <SiteHeader tone="transparent" />
+      <main id="main-content">
         <section className="hero">
           <Image
             src="/images/temple-of-heaven-centered-hero.avif"
@@ -147,7 +148,6 @@ export default function Home() {
             sizes="100vw"
           />
           <div className="hero-shade" />
-          <SiteHeader tone="transparent" />
           <div className="hero-content">
             <p className="eyebrow">Localhost Global</p>
             <h1>Enter China With Local Judgment.</h1>

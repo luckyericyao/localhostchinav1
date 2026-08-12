@@ -47,23 +47,51 @@ for (const path of routes) {
   console.log(`PASS ${path} (${body.length} bytes)`);
 }
 
-const analyticsResponse = await fetch(`${baseUrl}/api/analytics`, {
-  body: JSON.stringify({
+const analyticsEvents = [
+  {
     event: "route_view",
     path: "/china/shanxi",
     route: "Shanxi",
-    sessionId: "smoke-test-session",
     source: "smoke"
-  }),
-  headers: { "Content-Type": "application/json" },
-  method: "POST"
-});
+  },
+  {
+    event: "route_select",
+    path: "/journeys",
+    route: "Shaolin",
+    source: "smoke"
+  },
+  {
+    event: "inquiry_submit_attempt",
+    path: "/inquiry",
+    source: "smoke"
+  },
+  {
+    event: "web_vital",
+    metricName: "CLS",
+    path: "/",
+    source: "smoke",
+    value: 0
+  }
+];
 
-if (!analyticsResponse.ok) {
-  console.error(`FAIL /api/analytics: HTTP ${analyticsResponse.status}`);
-  failed = true;
-} else {
-  console.log("PASS /api/analytics");
+for (const metric of analyticsEvents) {
+  const analyticsResponse = await fetch(`${baseUrl}/api/analytics`, {
+    body: JSON.stringify({
+      ...metric,
+      sessionId: "smoke-test-session"
+    }),
+    headers: { "Content-Type": "application/json" },
+    method: "POST"
+  });
+
+  if (!analyticsResponse.ok) {
+    console.error(
+      `FAIL /api/analytics (${metric.event}): HTTP ${analyticsResponse.status}`
+    );
+    failed = true;
+  } else {
+    console.log(`PASS /api/analytics (${metric.event})`);
+  }
 }
 
 if (baseUrl.endsWith(".vercel.app")) {

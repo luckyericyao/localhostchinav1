@@ -1,0 +1,190 @@
+import { chromium } from "playwright-core";
+import axe from "axe-core";
+
+const { source: axeSource } = axe;
+
+const baseUrl = (process.env.SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+const executablePath =
+  process.env.CHROME_PATH ||
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const routes = [
+  "/",
+  "/china",
+  "/journeys",
+  "/china/shanxi",
+  "/china/shaolin",
+  "/china/huizhou",
+  "/china/shanghai",
+  "/trust",
+  "/inquiry"
+];
+
+let failed = false;
+const browser = await chromium.launch({ executablePath, headless: true });
+const page = await browser.newPage({
+  deviceScaleFactor: 1,
+  viewport: { height: 844, width: 390 }
+});
+await page.addInitScript(() => {
+  window.__localhostA11yVitals = { cls: 0, events: [], lcp: 0 };
+
+  if (typeof PerformanceObserver === "undefined") return;
+
+  try {
+    if (PerformanceObserver.supportedEntryTypes.includes("largest-contentful-paint")) {
+      new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          window.__localhostA11yVitals.lcp = Math.max(
+            window.__localhostA11yVitals.lcp,
+            entry.startTime
+          );
+        }
+      }).observe({ buffered: true, type: "largest-contentful-paint" });
+    }
+
+    if (PerformanceObserver.supportedEntryTypes.includes("layout-shift")) {
+      new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (!entry.hadRecentInput) {
+            window.__localhostA11yVitals.cls += entry.value || 0;
+          }
+        }
+      }).observe({ buffered: true, type: "layout-shift" });
+    }
+
+    if (PerformanceObserver.supportedEntryTypes.includes("event")) {
+      new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.interactionId) {
+            window.__localhostA11yVitals.events.push(entry.duration);
+          }
+        }
+      }).observe({ buffered: true, type: "event", durationThreshold: 16 });
+    }
+  } catch {
+    // Unsupported performance observers do not block the accessibility audit.
+  }
+});
+
+for (const path of routes) {
+  await page.goto(`${baseUrl}${path}`, { waitUntil: "networkidle" });
+  await page.addScriptTag({ content: axeSource });
+
+  const axeResults = await page.evaluate(() => window.axe.run(document));
+  const audit = await page.evaluate(() => {
+    const visiblePrimaryControls = [
+      ...document.querySelectorAll("a.button, a.nav-cta, button, summary")
+    ].filter((node) => {
+      const box = node.getBoundingClientRect();
+      return box.width > 0 && box.height > 0;
+    });
+    const smallControls = visiblePrimaryControls.filter((node) => {
+      const box = node.getBoundingClientRect();
+      return box.width < 44 || box.height < 44;
+    });
+    const ids = [...document.querySelectorAll("[id]")].map((node) => node.id);
+
+    return {
+      duplicateIds: ids.filter((id, index) => ids.indexOf(id) !== index),
+      mainCount: document.querySelectorAll("main").length,
+      mainId: document.querySelector("main")?.id || "",
+      missingAlt: document.querySelectorAll("img:not([alt])").length,
+      overflowX: document.documentElement.scrollWidth > window.innerWidth,
+      smallControls: smallControls.map((node) =>
+        (node.textContent || "").trim().replace(/\s+/g, " ").slice(0, 60)
+      )
+    };
+  });
+
+  const criticalViolations = axeResults.violations.filter(
+    (violation) => violation.impact === "critical"
+  );
+  const axeSummary = axeResults.violations
+    .map(
+      (violation) =>
+        `${violation.id}:${violation.impact}:${violation.nodes
+          .map((node) => node.target.join(" "))
+          .join(",")}`
+    )
+    .join("|");
+  const problems = [
+    ...criticalViolations.map((violation) => `axe:${violation.id}`),
+    ...(audit.duplicateIds.length ? ["duplicate ids"] : []),
+    ...(audit.mainCount !== 1 || audit.mainId !== "main-content"
+      ? ["main landmark"]
+      : []),
+    ...(audit.missingAlt ? ["missing image alt"] : []),
+    ...(audit.overflowX ? ["horizontal overflow"] : []),
+    ...(audit.smallControls.length ? ["primary control below 44px"] : [])
+  ];
+
+  if (problems.length) {
+    console.error(`FAIL ${path}: ${problems.join(", ")}`);
+    failed = true;
+  } else {
+    console.log(
+      `PASS ${path}: axe violations ${axeSummary || "0"}, critical 0, landmarks, alt text, and controls`
+    );
+  }
+
+  if (path === "/") {
+    await page.keyboard.press("Tab");
+    const skipFocused = await page.evaluate(
+      () => document.activeElement?.classList.contains("skip-link")
+    );
+
+    if (!skipFocused) {
+      console.error("FAIL /: skip link is not first keyboard target");
+      failed = true;
+    } else {
+      console.log("PASS /: skip link is first keyboard target");
+    }
+
+    const menuSummary = page.locator(".mobile-menu summary");
+    await menuSummary.click();
+    const mobileMenuLinks = await page.locator(".mobile-menu-panel a").count();
+    if (mobileMenuLinks !== 5) {
+      console.error("FAIL /: mobile menu does not expose five primary links");
+      failed = true;
+    } else {
+      console.log("PASS /: mobile menu exposes five primary links");
+    }
+    await menuSummary.click();
+  }
+}
+
+await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+await page.waitForTimeout(1200);
+const vitals = await page.evaluate(() => {
+  const measured = window.__localhostA11yVitals;
+  const interactionDurations = measured.events;
+
+  return {
+    cls: Math.round(measured.cls * 10000) / 10000,
+    inp: interactionDurations.length
+      ? Math.round(Math.max(...interactionDurations))
+      : null,
+    lcp: measured.lcp ? Math.round(measured.lcp) : null
+  };
+});
+console.log(`Homepage vitals: ${JSON.stringify(vitals)}`);
+
+if (vitals.lcp === null) {
+  console.warn("WARN /: LCP was not exposed by this headless browser run");
+}
+
+if (vitals.lcp !== null && vitals.lcp >= 2500) {
+  console.error("FAIL /: LCP is at or above 2.5s");
+  failed = true;
+}
+if (vitals.cls >= 0.1) {
+  console.error("FAIL /: CLS is at or above 0.1");
+  failed = true;
+}
+if (vitals.inp !== null && vitals.inp >= 200) {
+  console.error("FAIL /: observed interaction latency is at or above 200ms");
+  failed = true;
+}
+
+await browser.close();
+if (failed) process.exitCode = 1;

@@ -50,9 +50,29 @@ project-specific API key; custom event reporting is subject to the project's
 Vercel Analytics plan. PostHog remains available when session-level correlation
 is needed.
 
-Initial funnel targets are: at least 80% five-second brand comprehension, at
-least 15% route view to inquiry start, at least 40% inquiry start to successful
-send, less than 10% mailto fallback, and mobile CLS below 0.1.
+Conversion hardening targets are tracked in three stages:
+
+- P0, 7 days: required inquiry fields appear within 1.5 mobile screens,
+  direct delivery stays above 95%, mailto fallback stays below 5%, no inquiry
+  is duplicated or silently lost, and 90% of valid inquiries receive a reply
+  within two working days.
+- P1, 14 days: the four active China routes are comparable in the Routes first
+  viewport, 80% of first-time international visitors can select a first route
+  within 45 seconds, and Future China Chapters remain visibly secondary.
+- P2, 30 days: three inspectable trust-process outputs are live, the first 100
+  valid sessions establish a funnel baseline, critical accessibility issues are
+  zero, primary controls are at least 44px, mobile LCP is below 2.5s, CLS is
+  below 0.1, and INP is below 200ms.
+
+The inquiry action adds a warm-instance rate guard, duplicate fingerprinting,
+one transient delivery retry, a non-personal inquiry reference, and structured
+Vercel logs for delivery success, fallback, duplicate, rate-limit, honeypot, and
+timing outcomes. These guards do not require a paid database; production
+reporting should still reconcile the logs against inbox receipts because
+serverless memory is not durable across all instances. Funnel events include
+route selection, inquiry start, submit attempt, direct delivery, mailto
+fallback, duplicate, rate-limit outcomes, and native LCP/CLS/INP measurements
+when supported by the browser.
 
 When Resend is not configured, the inquiry flow prepares a structured `mailto:`
 fallback. Private keys must remain server-only; do not use `NEXT_PUBLIC_` for
@@ -67,6 +87,11 @@ use a session-scoped anonymous identifier and never include email, names, or
 inquiry content. The app keeps the mailto path as a transparent fallback when
 direct delivery is not available.
 
+The operational formulas and response workflow are recorded in
+`docs/conversion-operations.md`. The two-working-day response target is an
+operational goal, not an automatic product guarantee; the inquiry reference
+allows the receiving team to audit it against the inbox.
+
 The current no-cost production setup uses Resend's `onboarding@resend.dev`
 sender, which is limited to the connected account inbox. A verified custom
 domain can replace it later without changing the inquiry flow.
@@ -77,8 +102,11 @@ domain can replace it later without changing the inquiry flow.
 pnpm lint
 pnpm build
 pnpm smoke
+pnpm a11y
 ```
 
 Run `pnpm smoke` against the local server, or set `SITE_URL` to check a
 deployed URL. It verifies the core routes, key conversion copy, route page
-markers, and the privacy-safe analytics endpoint.
+markers, and the privacy-safe analytics endpoint. `pnpm a11y` uses the local
+Chrome binary for a mobile axe and keyboard smoke check plus homepage LCP/CLS
+measurement; set `CHROME_PATH` when Chrome is installed elsewhere.

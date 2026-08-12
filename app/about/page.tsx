@@ -63,7 +63,7 @@ export default function AboutPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">About Localhost</p>

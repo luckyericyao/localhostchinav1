@@ -28,6 +28,24 @@ const operatingTrust = [
   }
 ];
 
+const reviewArtifacts = [
+  {
+    title: "A route direction",
+    copy:
+      "The first review identifies the chapter, route shape, and cultural question that appear most aligned with the inquiry."
+  },
+  {
+    title: "A scope note",
+    copy:
+      "Before confirmation, host time, transport, meals, translation, payment help, and support limits are described plainly."
+  },
+  {
+    title: "A fit decision",
+    copy:
+      "The next step is a confirmation, a redirect, or a clear decline when local feasibility or boundaries do not align."
+  }
+];
+
 const trustProcess = [
   "Read — a human reviews intent, timing, comfort, route direction, and local feasibility.",
   "Check fit — we consider the right chapter, host capacity, boundaries, and whether the request is realistic.",
@@ -78,7 +96,7 @@ export default function TrustPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <section className="page-hero support-hero page-hero--trust">
           <div>
             <p className="eyebrow">Trust</p>
@@ -136,6 +154,25 @@ export default function TrustPage() {
           </div>
           <div className="support-card-grid support-card-grid--three">
             {operatingTrust.map((item) => (
+              <article className="support-detail-card" key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section section--stone trust-evidence-section">
+          <div className="section-heading section-heading--center">
+            <p className="eyebrow">What You Can Inspect</p>
+            <h2>Evidence before commitment.</h2>
+            <p>
+              Trust should show up in the work itself. These are review outputs,
+              not testimonials, guarantees, or public host listings.
+            </p>
+          </div>
+          <div className="support-card-grid support-card-grid--three">
+            {reviewArtifacts.map((item) => (
               <article className="support-detail-card" key={item.title}>
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>

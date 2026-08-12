@@ -342,6 +342,8 @@ export function LocalhostIntakeForm({
       return;
     }
 
+    trackLocalhostEvent("inquiry_submit_attempt", form);
+
     startTransition(async () => {
       const response = await submitLocalhostInquiry({
         createdAt: new Date().toISOString(),
@@ -359,6 +361,9 @@ export function LocalhostIntakeForm({
       });
 
       if (!response.ok) {
+        if (/wait before sending/i.test(response.message)) {
+          trackLocalhostEvent("inquiry_rate_limited", form);
+        }
         const field = /email/i.test(response.message)
           ? "email"
           : /sentence|looking/i.test(response.message)
@@ -369,8 +374,10 @@ export function LocalhostIntakeForm({
       }
 
       setResult(response);
-      if (response.mailtoHref) {
-        trackLocalhostEvent("mailto_fallback");
+      if (response.delivery === "duplicate") {
+        trackLocalhostEvent("inquiry_duplicate", form);
+      } else if (response.mailtoHref) {
+        trackLocalhostEvent("mailto_fallback", form);
         window.location.href = response.mailtoHref;
       } else if (response.delivery === "email") {
         trackLocalhostEvent("inquiry_sent", form);
@@ -418,42 +425,6 @@ export function LocalhostIntakeForm({
         type="text"
         value={honeypot}
       />
-
-      {showRoleTabs ? (
-        <fieldset className="role-tabs">
-          <legend>I am a</legend>
-          <div>
-            {(["traveler", "host", "partner"] as const).map((role) => (
-              <button
-                aria-pressed={activeIntent === role}
-                className="role-tab"
-                disabled={contextLocked}
-                key={role}
-                onClick={() => {
-                  setActiveIntent(role);
-                  setError("");
-                  setErrorField(null);
-                  setResult(null);
-                }}
-                type="button"
-              >
-                {role.charAt(0).toUpperCase() + role.slice(1)}
-              </button>
-            ))}
-          </div>
-        </fieldset>
-      ) : null}
-
-      {!compact ? (
-        <div className="intake-assurance">
-          <p className="eyebrow">Before You Write</p>
-          <ul>
-            <li>One honest sentence is enough to begin.</li>
-            <li>A human reviews fit, timing, route direction, and local feasibility.</li>
-            <li>This is a private route review, not payment or instant booking.</li>
-          </ul>
-        </div>
-      ) : null}
 
       <label>
         <span>Email *</span>
@@ -503,6 +474,51 @@ export function LocalhostIntakeForm({
             : noteCopy.helper}
         </small>
       </label>
+
+      <p className="privacy-boundary privacy-boundary--standalone">
+        Please do not include passport numbers, payment details, medical
+        records, or identity documents. Share only what affects route fit.
+      </p>
+
+      {showRoleTabs ? (
+        <fieldset className="role-tabs">
+          <legend>I am a</legend>
+          <div>
+            {(["traveler", "host", "partner"] as const).map((role) => (
+              <button
+                aria-pressed={activeIntent === role}
+                className="role-tab"
+                disabled={contextLocked}
+                key={role}
+                onClick={() => {
+                  setActiveIntent(role);
+                  setError("");
+                  setErrorField(null);
+                  setResult(null);
+                }}
+                type="button"
+              >
+                {role.charAt(0).toUpperCase() + role.slice(1)}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+      ) : null}
+
+      {!compact ? (
+        <div className="intake-assurance">
+          <p className="eyebrow">Before You Write</p>
+          <ul>
+            <li>One honest sentence is enough to begin.</li>
+            <li>A human reviews fit, timing, route direction, and local feasibility.</li>
+            <li>This is a private route review, not payment or instant booking.</li>
+          </ul>
+          <p className="privacy-boundary">
+            Please do not include passport numbers, payment details, medical
+            records, or identity documents. Share only what affects route fit.
+          </p>
+        </div>
+      ) : null}
 
       <button
         aria-expanded={detailsOpen}
@@ -593,12 +609,15 @@ export function LocalhostIntakeForm({
       ) : null}
 
       {result?.ok ? (
-        <div className="form-status form-status--success" role="status">
+        <div aria-live="polite" className="form-status form-status--success" role="status">
           <strong>{result.message}</strong>
           <p>
             {activeIntent.charAt(0).toUpperCase() + activeIntent.slice(1)} / {email}
             {routeLabel ? ` / ${routeLabel}` : null}
           </p>
+          {result.inquiryId ? (
+            <p className="inquiry-reference">Reference: {result.inquiryId}</p>
+          ) : null}
           {result.mailtoHref ? (
             <a className="text-link" href={result.mailtoHref}>
               Send prepared email

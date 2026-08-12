@@ -41,7 +41,7 @@ export default function JourneysPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <section className="page-hero support-hero journeys-hero">
           <div className="journeys-hero-atmosphere reveal-image--background" />
           <div>
@@ -76,6 +76,9 @@ export default function JourneysPage() {
               >
                 <Link
                   className="journey-comparison-card"
+                  data-track-event="route_select"
+                  data-track-route={journey.place}
+                  data-track-source="journeys_comparison"
                   href={journey.href}
                 >
                   <span className="journey-comparison-media">
@@ -92,7 +95,6 @@ export default function JourneysPage() {
                     </span>
                     <h3>{journey.place}</h3>
                     <strong>{journey.line}</strong>
-                    <p>{journey.summary}</p>
                     <dl className="journey-comparison-meta">
                       <div>
                         <dt>Best for</dt>
@@ -102,12 +104,6 @@ export default function JourneysPage() {
                         <dt>Length / entry</dt>
                         <dd>
                           {snapshotValue(route, "Ideal Length")} · {snapshotValue(route, "Entry")}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt>Pace / demand</dt>
-                        <dd>
-                          {snapshotValue(route, "Pace")} · {snapshotValue(route, "Physical Demand")}
                         </dd>
                       </div>
                     </dl>

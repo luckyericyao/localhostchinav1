@@ -148,7 +148,7 @@ export default function TravelersPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main-content">
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">For Travelers</p>
