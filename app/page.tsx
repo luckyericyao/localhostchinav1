@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { localhostResponseWindow } from "@/lib/contact";
 import { culturalVisualLayers } from "@/lib/content";
 import { resolveImageSource } from "@/lib/image";
 
@@ -23,7 +24,8 @@ const featuredRoutePreview = [
       "Caves, timber halls, merchant courtyards, mountain roads, and the northern China that rewards patient context.",
     image: "/images/shanxi-ancient-grotto.png",
     alt: "Weathered Buddhist grotto stone and old timber temple architecture in Shanxi.",
-    href: "/china/shanxi"
+    href: "/china/shanxi",
+    status: "Flagship route"
   },
   {
     place: "Shaolin",
@@ -35,7 +37,8 @@ const featuredRoutePreview = [
       "Temple atmosphere, Songshan paths, martial practice, and a quieter entry beyond kung fu spectacle.",
     image: "/images/shaolin-temple-gate.png",
     alt: "Shaolin Temple courtyard beneath Songshan mountain haze in restrained morning light.",
-    href: "/china/shaolin"
+    href: "/china/shaolin",
+    status: "Active route"
   },
   {
     place: "Huizhou",
@@ -47,7 +50,8 @@ const featuredRoutePreview = [
       "White walls, black tiles, tea tables, mist, ancestral halls, and the slower intelligence of southern built culture.",
     image: "/images/huizhou-rain-courtyard.png",
     alt: "A rain-washed Huizhou lane with white walls, dark tiled roofs, and mountain mist.",
-    href: "/china/huizhou"
+    href: "/china/huizhou",
+    status: "Active route"
   },
   {
     place: "Shanghai",
@@ -59,7 +63,8 @@ const featuredRoutePreview = [
       "A composed first reading of modern China through river architecture, a considered table, and a quiet night ending.",
     image: "/images/shanghai-bund-walk.png",
     alt: "A quiet early evening walk along the Bund in Shanghai with historic riverfront architecture.",
-    href: "/china/shanghai"
+    href: "/china/shanghai",
+    status: "Active route"
   }
 ] as const;
 
@@ -176,6 +181,10 @@ export default function Home() {
             <p className="positioning-line">
               A private local-host network, starting with China.
             </p>
+            <p className="hero-review-note">
+              A human reply {localhostResponseWindow}. No payment or booking at
+              inquiry.
+            </p>
           </div>
         </section>
 
@@ -212,7 +221,9 @@ export default function Home() {
                   />
                 </span>
                 <span className="visual-journey-copy">
-                  <span>{route.place}</span>
+                  <span>
+                    {route.place} · {route.status}
+                  </span>
                   <strong>{route.line}</strong>
                   <dl className="journey-best-for">
                     <dt>Best for</dt>
@@ -227,6 +238,34 @@ export default function Home() {
                 </span>
               </Link>
             ))}
+          </div>
+          <div className="route-review-band">
+            <div>
+              <p className="eyebrow">Your First Review</p>
+              <h3>Know the route direction before anything is held.</h3>
+            </div>
+            <dl>
+              <div>
+                <dt>Reply</dt>
+                <dd>A human response {localhostResponseWindow}</dd>
+              </div>
+              <div>
+                <dt>What you receive</dt>
+                <dd>Route direction, host role, and the next decision</dd>
+              </div>
+              <div>
+                <dt>Commitment</dt>
+                <dd>No payment or booking at inquiry</dd>
+              </div>
+            </dl>
+            <Link
+              className="text-link"
+              data-track-event="request_route"
+              data-track-source="homepage_route_review"
+              href={homeInquiryHref}
+            >
+              Request a Private Route
+            </Link>
           </div>
         </section>
 

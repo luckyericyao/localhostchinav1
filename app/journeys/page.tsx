@@ -97,7 +97,9 @@ export default function JourneysPage() {
                   </span>
                   <span className="journey-comparison-copy">
                     <span className="journey-comparison-kicker">
-                      Active chapter
+                      {journey.place === "Shanxi"
+                        ? "Flagship route"
+                        : "Active route"}
                     </span>
                     <h3>{journey.place}</h3>
                     <strong>{journey.line}</strong>

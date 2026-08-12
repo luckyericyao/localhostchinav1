@@ -362,7 +362,14 @@ a.text-link {
 .positioning-line {
   color: rgba(251, 248, 241, 0.7);
   font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.hero-review-note {
+  color: rgba(251, 248, 241, 0.84);
+  font-size: 0.84rem;
   margin-bottom: 0;
+  max-width: 600px;
 }
 
 .hero-intake-panel {
@@ -1609,6 +1616,57 @@ a.text-link {
   font-size: 0.95rem;
   line-height: 1.55;
   margin-top: auto;
+}
+
+.route-review-band {
+  align-items: end;
+  border-bottom: 1px solid var(--light-border);
+  border-top: 1px solid var(--light-border);
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(460px, 1.4fr) auto;
+  margin: 48px auto 0;
+  max-width: 1292px;
+  padding: 30px 0;
+}
+
+.route-review-band h3 {
+  color: var(--warm-white);
+  font-size: 1.65rem;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.route-review-band dl {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+}
+
+.route-review-band dl div {
+  border-left: 1px solid var(--light-border);
+  padding-left: 16px;
+}
+
+.route-review-band dt {
+  color: #d8cbb8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin-bottom: 7px;
+  text-transform: uppercase;
+}
+
+.route-review-band dd {
+  color: rgba(251, 248, 241, 0.78);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.route-review-band .text-link {
+  color: var(--warm-white);
+  white-space: nowrap;
 }
 
 .future-journeys {
@@ -3084,6 +3142,7 @@ a:focus-visible,
   .final-section,
   .executive-traveler-section,
   .inquiry-preview,
+  .route-review-band,
   .china-feature,
   .inquiry-shell,
   .route-entry,
@@ -3245,6 +3304,18 @@ a:focus-visible,
 
   .visual-journey-card {
     grid-template-rows: 230px 1fr;
+  }
+
+  .route-review-band {
+    align-items: start;
+    gap: 24px;
+    grid-template-columns: 1fr;
+    margin-top: 36px;
+    padding: 28px 0;
+  }
+
+  .route-review-band dl {
+    grid-template-columns: 1fr;
   }
 
   .future-journeys {
@@ -3443,7 +3514,8 @@ a:focus-visible,
   }
 
   .hero-body,
-  .positioning-line {
+  .positioning-line,
+  .hero-review-note {
     max-width: 340px;
   }
 

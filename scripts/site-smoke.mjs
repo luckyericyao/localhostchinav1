@@ -15,9 +15,9 @@ const routes = [
 ];
 
 const expectedContent = new Map([
-  ["/", "Request a Private Route"],
+  ["/", "No payment or booking at inquiry"],
   ["/china", "How Localhost Works In China"],
-  ["/journeys", "Which China should you enter first?"],
+  ["/journeys", "Flagship route"],
   ["/inquiry", "What the first review gives you"]
 ]);
 
