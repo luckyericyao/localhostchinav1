@@ -223,6 +223,7 @@ const travelerRepresentationDetails: DetailField[] = [
     name: "inquiryMadeBy",
     options: [
       "Traveler directly",
+      "Trusted representative",
       "Family member",
       "Executive or personal assistant",
       "Family office",
@@ -330,12 +331,14 @@ export function LocalhostIntakeForm({
     initialDetails(routeContext)
   );
   const [result, setResult] = useState<LocalhostInquiryResult | null>(null);
+  const [representativeInquiry, setRepresentativeInquiry] = useState(false);
   const [shortNote, setShortNote] = useState(defaultMessage);
   const [startedAt] = useState(() => Date.now());
   const emailRef = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const shortNoteRef = useRef<HTMLTextAreaElement>(null);
+  const representativePathTracked = useRef(false);
 
   const fields = useMemo(() => detailsForIntent(activeIntent), [activeIntent]);
   const routeLabel = routeContext ? routeLabels[routeContext] : "";
@@ -344,6 +347,29 @@ export function LocalhostIntakeForm({
   function updateDetail(name: string, value: string) {
     setOptionalDetails((current) => ({ ...current, [name]: value }));
     setResult(null);
+  }
+
+  function updateRepresentativeInquiry(
+    enabled: boolean,
+    form?: HTMLFormElement | null
+  ) {
+    setRepresentativeInquiry(enabled);
+    setOptionalDetails((current) => {
+      const next = { ...current };
+      if (enabled) {
+        next.inquiryMadeBy = next.inquiryMadeBy || "Trusted representative";
+      } else {
+        delete next.inquiryMadeBy;
+        delete next.travelerOrPrincipal;
+      }
+      return next;
+    });
+    setResult(null);
+
+    if (enabled && !representativePathTracked.current) {
+      representativePathTracked.current = true;
+      trackLocalhostEvent("representative_path_start", form || undefined);
+    }
   }
 
   function filteredDetails() {
@@ -426,6 +452,12 @@ export function LocalhostIntakeForm({
         });
 
         if (!response.ok) {
+          if (response.errorCode === "delivery_unconfigured") {
+            setError(response.message);
+            setErrorField(null);
+            window.requestAnimationFrame(() => errorRef.current?.focus());
+            return;
+          }
           if (/wait before sending/i.test(response.message)) {
             trackLocalhostEvent("inquiry_rate_limited", form);
           }
@@ -464,6 +496,8 @@ export function LocalhostIntakeForm({
       data-inquiry-form="true"
       data-representation-options="optional"
       data-reply-preference="optional"
+      data-track-route={routeContext}
+      data-track-source={sourceLabel || sourcePage || "private_inquiry"}
       aria-describedby={error ? "inquiry-error" : undefined}
       noValidate
       onSubmit={handleSubmit}
@@ -582,28 +616,70 @@ export function LocalhostIntakeForm({
       </p>
 
       {showRoleTabs ? (
-        <fieldset className="role-tabs">
-          <legend>I am a</legend>
-          <div>
-            {(["traveler", "host", "partner"] as const).map((role) => (
-              <button
-                aria-pressed={activeIntent === role}
-                className="role-tab"
-                disabled={contextLocked}
-                key={role}
-                onClick={() => {
-                  setActiveIntent(role);
-                  setError("");
-                  setErrorField(null);
-                  setResult(null);
-                }}
-                type="button"
-              >
-                {role.charAt(0).toUpperCase() + role.slice(1)}
-              </button>
-            ))}
-          </div>
-        </fieldset>
+        <>
+          <fieldset className="role-tabs">
+            <legend>I am a</legend>
+            <div>
+              {(["traveler", "host", "partner"] as const).map((role) => (
+                <button
+                  aria-pressed={activeIntent === role}
+                  className="role-tab"
+                  disabled={contextLocked}
+                  key={role}
+                  onClick={() => {
+                    setActiveIntent(role);
+                    if (role !== "traveler") {
+                      updateRepresentativeInquiry(false);
+                    }
+                    setError("");
+                    setErrorField(null);
+                    setResult(null);
+                  }}
+                  type="button"
+                >
+                  {role.charAt(0).toUpperCase() + role.slice(1)}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+          {activeIntent === "traveler" && !compact ? (
+            <div className="representative-intake">
+              <label className="representative-toggle">
+                <input
+                  checked={representativeInquiry}
+                  name="representativeInquiry"
+                  onChange={(event) =>
+                    updateRepresentativeInquiry(
+                      event.currentTarget.checked,
+                      event.currentTarget.form
+                    )
+                  }
+                  type="checkbox"
+                />
+                <span>I am arranging this on behalf of a traveler</span>
+              </label>
+              {representativeInquiry ? (
+                <div className="representative-details">
+                  <p>
+                    Assistants, family offices, and trusted advisers can begin.
+                    A traveler&apos;s name is optional; initials or a private
+                    reference are enough.
+                  </p>
+                  <div className="optional-field-grid">
+                    {travelerRepresentationDetails.map((field) => (
+                      <DetailFieldInput
+                        field={field}
+                        key={field.name}
+                        onChange={updateDetail}
+                        value={optionalDetails[field.name] || ""}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+        </>
       ) : null}
 
       {!compact ? (
@@ -704,7 +780,7 @@ export function LocalhostIntakeForm({
               <div className="optional-field-grid">
                 {(activeIntent === "traveler"
                   ? [
-                      ...travelerRepresentationDetails,
+                      ...(representativeInquiry ? [] : travelerRepresentationDetails),
                       ...replyPreferenceDetails
                     ]
                   : replyPreferenceDetails

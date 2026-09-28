@@ -38,6 +38,7 @@ export type LocalhostInquiryPayload = {
 export type LocalhostInquiryResult = {
   contactEmail?: string;
   delivery?: "duplicate" | "email" | "mailto";
+  errorCode?: "delivery_unconfigured";
   inquiryId?: string;
   mailtoHref?: string;
   message: string;
@@ -149,6 +150,7 @@ function logInquiryEvent(
   const metricEvent = {
     delivery_fallback: "inquiry_delivery_fallback",
     delivery_success: "inquiry_delivery_success",
+    delivery_unconfigured: "inquiry_delivery_unconfigured",
     duplicate: "inquiry_duplicate",
     honeypot_rejected: "inquiry_honeypot_rejected",
     rate_limited: "inquiry_rate_limited",
@@ -156,6 +158,7 @@ function logInquiryEvent(
   }[event] as
     | "inquiry_delivery_fallback"
     | "inquiry_delivery_success"
+    | "inquiry_delivery_unconfigured"
     | "inquiry_duplicate"
     | "inquiry_honeypot_rejected"
     | "inquiry_rate_limited"
@@ -306,7 +309,7 @@ async function sendInquiryEmail({
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM_EMAIL;
 
-  if (!apiKey || !from) return { ok: false };
+  if (!apiKey || !from || !localhostDeliveryEmail) return { ok: false };
 
   for (let attempt = 0; attempt < 2; attempt += 1) {
     try {
@@ -512,6 +515,22 @@ export async function submitLocalhostInquiry(
     inquiryId,
     subject: emailContent.subject
   });
+
+  if (!emailDelivery.ok && !localhostDeliveryEmail) {
+    logInquiryEvent("delivery_unconfigured", {
+      durationMs: Date.now() - startedAt,
+      inquiryId,
+      intentType: payload.intentType,
+      routeContext,
+      sourcePage: normalizedPayload.sourcePage
+    });
+    return {
+      errorCode: "delivery_unconfigured",
+      message: "We could not route your inquiry right now. Please try again shortly.",
+      ok: false
+    };
+  }
+
   const mailtoHref = emailDelivery.ok ? undefined : buildMailtoHref(emailContent);
 
   if (emailDelivery.ok) recentInquiryHashes.set(fingerprint, now);

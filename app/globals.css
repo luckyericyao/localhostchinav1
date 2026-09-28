@@ -2781,6 +2781,52 @@ a.text-link {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.representative-intake {
+  border-top: 1px solid var(--border);
+  display: grid;
+  gap: 12px;
+  padding-top: 14px;
+}
+
+.localhost-intake-form .representative-toggle {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+}
+
+.localhost-intake-form .representative-toggle input {
+  accent-color: var(--wine);
+  flex: 0 0 20px;
+  height: 20px;
+  min-height: 20px;
+  padding: 0;
+  width: 20px;
+}
+
+.localhost-intake-form .representative-toggle span {
+  color: var(--deep-brown);
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.45;
+  text-transform: none;
+}
+
+.representative-details {
+  border-left: 2px solid var(--mist-dark);
+  display: grid;
+  gap: 12px;
+  margin-left: 9px;
+  padding-left: 16px;
+}
+
+.representative-details > p {
+  color: var(--warm-gray);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
 .role-tab {
   background: rgba(251, 248, 241, 0.72);
   border: 1px solid var(--border);
@@ -3767,21 +3813,25 @@ a:focus-visible,
     order: 3;
   }
 
-  .localhost-intake-form:not(.localhost-intake-form--compact) > .localhost-intake-actions {
+  .localhost-intake-form:not(.localhost-intake-form--compact) > .representative-intake {
     order: 4;
+  }
+
+  .localhost-intake-form:not(.localhost-intake-form--compact) > .localhost-intake-actions {
+    order: 5;
     padding-top: 10px;
   }
 
   .localhost-intake-form:not(.localhost-intake-form--compact) > .optional-toggle {
-    order: 5;
-  }
-
-  .localhost-intake-form:not(.localhost-intake-form--compact) > .optional-details {
     order: 6;
   }
 
-  .localhost-intake-form:not(.localhost-intake-form--compact) > .form-status {
+  .localhost-intake-form:not(.localhost-intake-form--compact) > .optional-details {
     order: 7;
+  }
+
+  .localhost-intake-form:not(.localhost-intake-form--compact) > .form-status {
+    order: 8;
   }
 
   .inquiry-shell--wide .localhost-intake-form {

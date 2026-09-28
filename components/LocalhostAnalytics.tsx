@@ -12,6 +12,7 @@ type AnalyticsEvent =
   | "inquiry_sent"
   | "inquiry_start"
   | "inquiry_submit_attempt"
+  | "representative_path_start"
   | "mailto_fallback"
   | "optional_details"
   | "request_route"
