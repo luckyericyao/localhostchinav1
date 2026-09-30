@@ -106,15 +106,11 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
         <section className="page-hero support-hero page-hero--inquiry">
           <div>
             <p className="eyebrow">Private Inquiry</p>
-            <h1>Tell us how you want to enter China.</h1>
+            <h1>Your private China route.</h1>
           </div>
           <div className="page-hero-copy">
             <p>
-              Tell us about rhythm, comfort, privacy, and host fit, directly or
-              through someone you trust.
-            </p>
-            <p className="support-subhead">
-              Start lightly. A full itinerary is not needed.
+              Write directly or through someone you trust.
             </p>
           </div>
         </section>

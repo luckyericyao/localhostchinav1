@@ -7,6 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "a11y": "node scripts/a11y-smoke.mjs",
+    "inquiry:check": "node scripts/inquiry-layout-smoke.mjs",
     "lint": "eslint . --max-warnings=0",
     "smoke": "node scripts/site-smoke.mjs",
     "start": "next start"

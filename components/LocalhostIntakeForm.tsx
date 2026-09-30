@@ -502,22 +502,11 @@ export function LocalhostIntakeForm({
       noValidate
       onSubmit={handleSubmit}
     >
+      <h2 className="visually-hidden">Private inquiry details</h2>
       {routeContext ? (
-        <div className="context-card" aria-label="Request context">
-          <p className="eyebrow">Request context</p>
-          <dl>
-            <div>
-              <dt>Route</dt>
-              <dd>{routeLabel}</dd>
-            </div>
-            {sourceLabel || sourcePage ? (
-              <div>
-                <dt>Source</dt>
-                <dd>{sourceLabel || sourcePage}</dd>
-              </div>
-            ) : null}
-          </dl>
-          <p>This context will be included automatically.</p>
+        <div className="context-card context-card--compact" aria-label="Route interest">
+          <span>Route interest</span>
+          <strong>{routeLabel}</strong>
         </div>
       ) : null}
 

@@ -2645,6 +2645,15 @@ a.text-link {
   position: relative;
 }
 
+.visually-hidden {
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
 .localhost-intake-form--compact {
   gap: 14px;
 }
@@ -2725,6 +2734,20 @@ a.text-link {
   border: 1px solid rgba(104, 118, 107, 0.22);
   border-radius: 8px;
   padding: 18px;
+}
+
+.context-card--compact {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: space-between;
+  padding: 10px 14px;
+}
+
+.context-card--compact span {
+  color: var(--warm-gray);
+  font-size: 0.82rem;
 }
 
 .context-card dl {
@@ -2873,7 +2896,7 @@ a.text-link {
 }
 
 .intake-assurance .eyebrow {
-  color: var(--mist-dark);
+  color: var(--warm-gray);
   margin-bottom: 12px;
 }
 
@@ -3572,8 +3595,8 @@ a:focus-visible,
   .page-hero--inquiry {
     gap: 16px;
     min-height: 0;
-    padding-bottom: 16px;
-    padding-top: 28px;
+    padding-bottom: 8px;
+    padding-top: 20px;
   }
 
   .route-hero .destination-copy {
@@ -3748,6 +3771,7 @@ a:focus-visible,
     display: flex;
     flex-direction: column;
     gap: 28px;
+    padding: 20px;
   }
 
   .journeys-decision-section {
