@@ -7,6 +7,7 @@ import {
   localhostResponseWindow
 } from "@/lib/contact";
 import { persistLocalhostMetric } from "@/lib/metrics";
+import { sendInquiryEmail } from "@/lib/inquiryEmail";
 
 export type LocalhostIntentType = "traveler" | "host" | "partner";
 
@@ -64,11 +65,6 @@ const maxInquiriesPerWindow = 8;
 type InquiryWindow = {
   count: number;
   startedAt: number;
-};
-
-type InquiryEmailDelivery = {
-  ok: boolean;
-  providerMessageId?: string;
 };
 
 // These maps are intentionally small, best-effort protection for warm server
@@ -295,67 +291,6 @@ function buildMailtoHref({ body, subject }: { body: string; subject: string }) {
   )}&body=${encodeURIComponent(body)}`;
 }
 
-async function sendInquiryEmail({
-  body,
-  email,
-  inquiryId,
-  subject
-}: {
-  body: string;
-  email: string;
-  inquiryId: string;
-  subject: string;
-}): Promise<InquiryEmailDelivery> {
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.RESEND_FROM_EMAIL;
-
-  if (!apiKey || !from || !localhostDeliveryEmail) return { ok: false };
-
-  for (let attempt = 0; attempt < 2; attempt += 1) {
-    try {
-      const response = await fetch("https://api.resend.com/emails", {
-        body: JSON.stringify({
-          from,
-          reply_to: email,
-          subject,
-          text: body,
-          to: [localhostDeliveryEmail]
-        }),
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-          "Idempotency-Key": `private-route-review/${inquiryId}`
-        },
-        method: "POST",
-        signal: AbortSignal.timeout(5000)
-      });
-
-      if (response.ok) {
-        const providerResponse: unknown = await response.json().catch(() => null);
-        const providerMessageId = isRecord(providerResponse)
-          ? cleanText(providerResponse.id, 120)
-          : "";
-
-        return {
-          ok: true,
-          providerMessageId: providerMessageId || undefined
-        };
-      }
-
-      if (response.status === 409 && attempt === 0) {
-        await new Promise((resolve) => setTimeout(resolve, 200));
-        continue;
-      }
-
-      if (response.status < 500) return { ok: false };
-    } catch {
-      // A single retry covers transient network and provider failures.
-    }
-  }
-
-  return { ok: false };
-}
-
 export async function submitLocalhostInquiry(
   payload: LocalhostInquiryPayload
 ): Promise<LocalhostInquiryResult> {
@@ -514,6 +449,10 @@ export async function submitLocalhostInquiry(
     email,
     inquiryId,
     subject: emailContent.subject
+  }, {
+    apiKey: process.env.RESEND_API_KEY,
+    from: process.env.RESEND_FROM_EMAIL,
+    to: localhostDeliveryEmail
   });
 
   if (!emailDelivery.ok && !localhostDeliveryEmail) {
@@ -539,7 +478,7 @@ export async function submitLocalhostInquiry(
     durationMs: Date.now() - startedAt,
     inquiryId,
     intentType: payload.intentType,
-    providerMessageId: emailDelivery.providerMessageId,
+    providerMessageId: emailDelivery.ok ? emailDelivery.providerMessageId : undefined,
     routeContext,
     sourcePage: normalizedPayload.sourcePage
   });
