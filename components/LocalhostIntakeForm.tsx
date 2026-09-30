@@ -396,7 +396,7 @@ export function LocalhostIntakeForm({
 
   function showSubmissionError(form: HTMLFormElement) {
     setError(
-      "We could not prepare your private route review. Please try again. Nothing has been sent."
+      "We could not confirm receipt. Your details are still here; please try again."
     );
     setErrorField(null);
     trackLocalhostEvent("inquiry_error", form);
@@ -862,7 +862,9 @@ export function LocalhostIntakeForm({
             {isPending
               ? "Preparing..."
               : result?.ok
-                ? "Review prepared"
+                ? result.delivery === "mailto"
+                  ? "Email ready to send"
+                  : "Inquiry received"
                 : submitLabel(activeIntent)}
           </button>
           <p className="submission-assurance">

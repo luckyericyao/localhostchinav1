@@ -2793,6 +2793,7 @@ a.text-link {
   cursor: pointer;
   display: flex;
   gap: 12px;
+  min-height: 44px;
 }
 
 .localhost-intake-form .representative-toggle input {
