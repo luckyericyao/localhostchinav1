@@ -70,7 +70,11 @@ type InquiryWindow = {
 // These maps are intentionally small, best-effort protection for warm server
 // instances. Delivery remains the source of truth; logs make the outcome auditable.
 const inquiryWindows = new Map<string, InquiryWindow>();
-const recentInquiryHashes = new Map<string, number>();
+const recentInquiryHashes = new Map<string, { createdAt: number; inquiryId: string }>();
+const pendingInquiryDeliveries = new Map<string, {
+  inquiryId: string;
+  delivery: ReturnType<typeof sendInquiryEmail>;
+}>();
 
 function cleanText(value: unknown, maxLength = 1200) {
   return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
@@ -117,7 +121,7 @@ function pruneInquiryGuards(now: number) {
     if (now - window.startedAt > inquiryWindowMs) inquiryWindows.delete(key);
   }
 
-  for (const [key, createdAt] of recentInquiryHashes) {
+  for (const [key, { createdAt }] of recentInquiryHashes) {
     if (now - createdAt > duplicateWindowMs) recentInquiryHashes.delete(key);
   }
 }
@@ -181,20 +185,18 @@ function inquiryFingerprint(payload: {
   shortNote: string;
 }) {
   const details = Object.entries(payload.optionalDetails)
-    .sort(([left], [right]) => left.localeCompare(right))
-    .map(([key, value]) => `${key}=${cleanText(value)}`)
-    .join("&");
+    .sort(([left], [right]) => left.localeCompare(right));
 
   return createHash("sha256")
     .update(
-      [
+      JSON.stringify([
         payload.email,
         payload.intentType,
         payload.name,
         payload.routeContext || "",
         payload.shortNote,
         details
-      ].join("\n")
+      ])
     )
     .digest("hex");
 }
@@ -392,14 +394,17 @@ export async function submitLocalhostInquiry(
     shortNote
   });
 
-  if (recentInquiryHashes.has(fingerprint)) {
+  const previousReceipt = recentInquiryHashes.get(fingerprint);
+  if (previousReceipt) {
     logInquiryEvent("duplicate", {
+      inquiryId: previousReceipt.inquiryId,
       intentType: payload.intentType,
       routeContext,
       sourcePage
     });
     return {
       delivery: "duplicate",
+      inquiryId: previousReceipt.inquiryId,
       message: "We already have this private route review. We will continue with the first submission.",
       ok: true,
       responseWindow: localhostResponseWindow,
@@ -425,7 +430,8 @@ export async function submitLocalhostInquiry(
   );
   // Use server time for the operational receipt and SLA reference.
   const createdAt = new Date().toISOString();
-  const inquiryId = createInquiryId(createdAt);
+  const pending = pendingInquiryDeliveries.get(fingerprint);
+  const inquiryId = pending?.inquiryId || createInquiryId(createdAt);
 
   const normalizedPayload = {
     createdAt,
@@ -444,7 +450,7 @@ export async function submitLocalhostInquiry(
   };
 
   const emailContent = buildInquiryEmailContent(normalizedPayload);
-  const emailDelivery = await sendInquiryEmail({
+  const delivery = pending?.delivery || sendInquiryEmail({
     body: emailContent.internalBody,
     email,
     inquiryId,
@@ -454,6 +460,18 @@ export async function submitLocalhostInquiry(
     from: process.env.RESEND_FROM_EMAIL,
     to: localhostDeliveryEmail
   });
+  if (!pending) pendingInquiryDeliveries.set(fingerprint, { inquiryId, delivery });
+  let emailDelivery: Awaited<ReturnType<typeof sendInquiryEmail>>;
+  try {
+    emailDelivery = await delivery;
+    if (emailDelivery.ok) {
+      recentInquiryHashes.set(fingerprint, { createdAt: Date.now(), inquiryId });
+    }
+  } finally {
+    if (pendingInquiryDeliveries.get(fingerprint)?.delivery === delivery) {
+      pendingInquiryDeliveries.delete(fingerprint);
+    }
+  }
 
   if (!emailDelivery.ok && !localhostDeliveryEmail) {
     logInquiryEvent("delivery_unconfigured", {
@@ -472,9 +490,8 @@ export async function submitLocalhostInquiry(
 
   const mailtoHref = emailDelivery.ok ? undefined : buildMailtoHref(emailContent);
 
-  if (emailDelivery.ok) recentInquiryHashes.set(fingerprint, now);
-
-  logInquiryEvent(emailDelivery.ok ? "delivery_success" : "delivery_fallback", {
+  // A coalesced request must not count as a second provider delivery.
+  if (!pending) logInquiryEvent(emailDelivery.ok ? "delivery_success" : "delivery_fallback", {
     durationMs: Date.now() - startedAt,
     inquiryId,
     intentType: payload.intentType,

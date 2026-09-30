@@ -8,7 +8,7 @@
     "build": "next build",
     "a11y": "node scripts/a11y-smoke.mjs",
     "inquiry:check": "node scripts/inquiry-layout-smoke.mjs",
-    "inquiry:delivery": "node --experimental-strip-types --test scripts/inquiry-delivery.test.mjs",
+    "inquiry:delivery": "node --experimental-strip-types --test scripts/inquiry-delivery.test.mjs scripts/inquiry-action.test.mjs",
     "lint": "eslint . --max-warnings=0",
     "smoke": "node scripts/site-smoke.mjs",
     "start": "next start"
