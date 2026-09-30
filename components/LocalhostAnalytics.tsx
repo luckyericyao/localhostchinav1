@@ -3,6 +3,7 @@
 import { track as trackVercelEvent } from "@vercel/analytics";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { normalizeMetricSessionId } from "@/lib/metricSession";
 
 type AnalyticsEvent =
   | "hero_cta"
@@ -15,6 +16,7 @@ type AnalyticsEvent =
   | "representative_path_start"
   | "mailto_fallback"
   | "optional_details"
+  | "page_view"
   | "request_route"
   | "review_sample"
   | "route_select"
@@ -29,11 +31,11 @@ type MetricDetails = {
   value?: number;
 };
 
-function getAnonymousSessionId() {
+export function getAnonymousSessionId() {
   const storageKey = "localhost_session_id";
 
   try {
-    const existing = window.sessionStorage.getItem(storageKey);
+    const existing = normalizeMetricSessionId(window.sessionStorage.getItem(storageKey));
     if (existing) return existing;
 
     const generated =
@@ -259,6 +261,7 @@ export function LocalhostAnalytics() {
   }, []);
 
   useEffect(() => {
+    sendLocalhostMetric("page_view");
     const routePage = document.querySelector<HTMLElement>("[data-route-page]");
 
     if (routePage) trackLocalhostEvent("route_view", routePage);

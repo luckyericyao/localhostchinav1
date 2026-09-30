@@ -53,14 +53,31 @@ availability is already confirmed.
 
 Use the anonymous session ID with the following events. Never add names, email addresses, notes, passport details, or message bodies to analytics.
 
-- Homepage to route view: distinct sessions with `route_view` on a route page divided by eligible homepage sessions.
+- Homepage to route view: distinct sessions with `route_view` after a `page_view` on `/`, divided by distinct eligible sessions with `page_view` on `/`.
 - Route view to inquiry start: sessions with `inquiry_start` after a route view divided by route-view sessions.
-- Inquiry start to successful submit: sessions with `inquiry_delivery_success` or `inquiry_delivery_fallback` divided by inquiry-start sessions.
+- Inquiry start to direct acceptance: sessions with `inquiry_delivery_success` after `inquiry_start`, divided by inquiry-start sessions. This confirms provider acceptance; it does not prove inbox delivery.
+- Manual email recovery: sessions with `inquiry_delivery_fallback` are reported separately. A prepared `mailto:` is not a sent inquiry and must not enter the successful-submission numerator.
 - Route selection source: `route_select` is emitted from homepage featured routes, the China route list, and the Routes comparison selector.
 - Inquiry CTA source: `request_route` is emitted from the traveler-facing route, trust, how-it-works, and inquiry entry points with a source label.
 - Four active route comparison: `Shanxi`, `Shaolin`, `Huizhou`, and `Shanghai` are the active route set; future chapters are excluded from the comparison denominator.
 
 Record the first 100 valid sessions before changing the target or the event definition. Report the targets from the brief as targets, not as current performance:
+
+The browser emits `page_view` on each navigation and uses the same opaque
+session ID for route selection, inquiry start, and submission. The server
+validates this ID and includes it in delivery events so the accepted inquiry
+can be joined to the preceding funnel steps. Names, email addresses, and notes
+remain outside analytics. Sessions with missing IDs are reported separately;
+do not group them as one visitor or include them in session conversion rates.
+
+Without `POSTHOG_API_KEY`, these events are recorded in operational logs only.
+An HTTP 200 from `/api/analytics` does not prove durable analytics storage.
+Export and retain the relevant anonymous log period or configure the existing
+analytics destination before claiming a measured 100-session baseline.
+
+Provider acceptance and recovery events originate in the server action. The
+public browser analytics endpoint rejects these event names; use the server
+outcomes for the delivery numerator, rather than client-reported `inquiry_sent`.
 
 - Homepage to route view: at least 25%.
 - Route view to inquiry start: at least 15%.

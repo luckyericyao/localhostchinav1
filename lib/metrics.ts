@@ -1,3 +1,5 @@
+import { normalizeMetricSessionId } from "@/lib/metricSession";
+
 export const localhostMetricEvents = [
   "hero_cta",
   "inquiry_duplicate",
@@ -14,6 +16,7 @@ export const localhostMetricEvents = [
   "inquiry_delivery_unconfigured",
   "mailto_fallback",
   "optional_details",
+  "page_view",
   "request_route",
   "review_sample",
   "route_select",
@@ -41,6 +44,16 @@ export function isAllowedMetricEvent(
   return (localhostMetricEvents as readonly string[]).includes(value);
 }
 
+export function isAllowedClientMetricEvent(value: string): value is LocalhostMetricEvent {
+  return isAllowedMetricEvent(value) && ![
+    "inquiry_delivery_success",
+    "inquiry_delivery_fallback",
+    "inquiry_delivery_unconfigured",
+    "inquiry_honeypot_rejected",
+    "inquiry_timing_rejected"
+  ].includes(value);
+}
+
 function cleanMetricString(value: string | undefined, maxLength: number) {
   return value?.trim().slice(0, maxLength) || "";
 }
@@ -54,9 +67,7 @@ export async function persistLocalhostMetric(payload: LocalhostMetricPayload) {
     ""
   );
   const properties: Record<string, string | number> = {
-    distinct_id: payload.sessionId
-      ? cleanMetricString(payload.sessionId, 120)
-      : "localhost-server",
+    distinct_id: normalizeMetricSessionId(payload.sessionId) || "localhost-server",
     path: cleanMetricString(payload.path, 120),
     route: cleanMetricString(payload.route, 80),
     source: cleanMetricString(payload.source, 80)

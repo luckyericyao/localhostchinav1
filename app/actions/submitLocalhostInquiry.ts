@@ -8,6 +8,7 @@ import {
 } from "@/lib/contact";
 import { persistLocalhostMetric } from "@/lib/metrics";
 import { sendInquiryEmail } from "@/lib/inquiryEmail";
+import { normalizeMetricSessionId } from "@/lib/metricSession";
 
 export type LocalhostIntentType = "traveler" | "host" | "partner";
 
@@ -29,6 +30,7 @@ export type LocalhostInquiryPayload = {
   name: string;
   optionalDetails?: Record<string, string>;
   routeContext?: LocalhostRouteContext;
+  sessionId?: string;
   shortNote?: string;
   sourceLabel?: string;
   sourcePage?: string;
@@ -134,6 +136,7 @@ function logInquiryEvent(
     intentType?: LocalhostIntentType;
     providerMessageId?: string;
     routeContext?: LocalhostRouteContext;
+    sessionId?: string;
     sourcePage?: string;
   } = {}
 ) {
@@ -143,6 +146,7 @@ function logInquiryEvent(
     intentType: details.intentType || "",
     providerMessageId: details.providerMessageId || "",
     routeContext: details.routeContext || "",
+    sessionId: details.sessionId || "",
     sourcePage: details.sourcePage || "",
     durationMs: details.durationMs || 0
   });
@@ -171,6 +175,7 @@ function logInquiryEvent(
       inquiryId: details.inquiryId,
       path: details.sourcePage || "/inquiry",
       route: details.routeContext,
+      sessionId: details.sessionId,
       source: "server_action"
     });
   }
@@ -299,9 +304,11 @@ export async function submitLocalhostInquiry(
   const requestHeaders = await headers();
   const requestKey = getRequestKey(requestHeaders);
   const startedAt = Date.now();
+  const sessionId = normalizeMetricSessionId(payload.sessionId);
 
   if (cleanText(payload.honeypot)) {
     logInquiryEvent("honeypot_rejected", {
+      sessionId,
       intentType: isIntentType(payload.intentType) ? payload.intentType : undefined,
       routeContext: isRouteContext(payload.routeContext)
         ? payload.routeContext
@@ -319,6 +326,7 @@ export async function submitLocalhostInquiry(
     Date.now() - payload.startedAt < minimumSubmitDelayMs
   ) {
     logInquiryEvent("timing_rejected", {
+      sessionId,
       intentType: isIntentType(payload.intentType) ? payload.intentType : undefined,
       routeContext: isRouteContext(payload.routeContext)
         ? payload.routeContext
@@ -374,6 +382,7 @@ export async function submitLocalhostInquiry(
 
   if (isRateLimited(requestKey, now)) {
     logInquiryEvent("rate_limited", {
+      sessionId,
       intentType: payload.intentType,
       routeContext,
       sourcePage
@@ -397,6 +406,7 @@ export async function submitLocalhostInquiry(
   const previousReceipt = recentInquiryHashes.get(fingerprint);
   if (previousReceipt) {
     logInquiryEvent("duplicate", {
+      sessionId,
       inquiryId: previousReceipt.inquiryId,
       intentType: payload.intentType,
       routeContext,
@@ -475,6 +485,7 @@ export async function submitLocalhostInquiry(
 
   if (!emailDelivery.ok && !localhostDeliveryEmail) {
     logInquiryEvent("delivery_unconfigured", {
+      sessionId,
       durationMs: Date.now() - startedAt,
       inquiryId,
       intentType: payload.intentType,
@@ -492,6 +503,7 @@ export async function submitLocalhostInquiry(
 
   // A coalesced request must not count as a second provider delivery.
   if (!pending) logInquiryEvent(emailDelivery.ok ? "delivery_success" : "delivery_fallback", {
+    sessionId,
     durationMs: Date.now() - startedAt,
     inquiryId,
     intentType: payload.intentType,

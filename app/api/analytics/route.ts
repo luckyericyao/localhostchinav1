@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
+import { normalizeMetricSessionId } from "@/lib/metricSession";
 import {
-  isAllowedMetricEvent,
+  isAllowedClientMetricEvent,
   persistLocalhostMetric,
   type LocalhostMetricEvent
 } from "@/lib/metrics";
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
     const payload = await request.json();
     const eventValue = cleanValue(payload?.event);
 
-    if (!isAllowedMetricEvent(eventValue)) {
+    if (!isAllowedClientMetricEvent(eventValue)) {
       return NextResponse.json({ ok: false }, { status: 400 });
     }
 
@@ -34,7 +35,7 @@ export async function POST(request: Request) {
       metricName: cleanMetricName(payload?.metricName),
       path: cleanValue(payload?.path, 120),
       route: cleanValue(payload?.route),
-      sessionId: cleanValue(payload?.sessionId, 120),
+      sessionId: normalizeMetricSessionId(payload?.sessionId),
       source: cleanValue(payload?.source),
       value
     };
@@ -45,6 +46,7 @@ export async function POST(request: Request) {
       metricName: metric.metricName,
       path: metric.path,
       route: metric.route,
+      sessionId: metric.sessionId,
       source: metric.source,
       value: metric.value
     });

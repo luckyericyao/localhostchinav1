@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import vm from "node:vm";
 import ts from "typescript";
+import { normalizeMetricSessionId } from "../lib/metricSession.ts";
 
 const source = readFileSync(new URL("../app/actions/submitLocalhostInquiry.ts", import.meta.url), "utf8");
 const compiled = ts.transpileModule(source, {
@@ -23,7 +24,8 @@ function harness(send, contactEmail = "owner@example.test") {
       localhostResponseWindow: "within two working days"
     },
     "@/lib/metrics": { persistLocalhostMetric: async (metric) => { metrics.push(metric); } },
-    "@/lib/inquiryEmail": { sendInquiryEmail: send }
+    "@/lib/inquiryEmail": { sendInquiryEmail: send },
+    "@/lib/metricSession": { normalizeMetricSessionId }
   };
   // Execute the real server action with isolated state and no network capability.
   vm.runInNewContext(compiled, {
@@ -129,4 +131,25 @@ test("validation prevents delivery and operational logs omit personal content", 
   for (const privateValue of [payload.name, payload.email, payload.shortNote]) {
     assert.equal(logs.includes(privateValue), false);
   }
+});
+
+test("accepted delivery retains its anonymous funnel session", async () => {
+  let delivered;
+  const h = harness(async (inquiry) => { delivered = inquiry; return accepted; });
+  const sessionId = "04f3afbb-2097-48b1-832e-7e15eea08c03";
+  await h.submit({ ...payload, sessionId });
+  assert.equal(h.metrics[0].sessionId, sessionId);
+  assert.equal(h.events[0].sessionId, sessionId);
+  assert.equal(delivered.body.includes(sessionId), false);
+});
+
+test("free-form identity cannot become an anonymous session ID", async () => {
+  for (const sessionId of [payload.email, payload.name, "", null, 42, "session-email@example.test"]) {
+    assert.equal(normalizeMetricSessionId(sessionId), "");
+    const h = harness(async () => accepted);
+    await h.submit({ ...payload, sessionId });
+    assert.equal(h.metrics[0].sessionId, "");
+    assert.equal(h.events[0].sessionId, "");
+  }
+  assert.equal(normalizeMetricSessionId("session-mgz30ym0-2jh8s7k"), "session-mgz30ym0-2jh8s7k");
 });

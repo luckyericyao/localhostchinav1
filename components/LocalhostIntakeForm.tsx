@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useRef, useState, useTransition } from "react";
-import { trackLocalhostEvent } from "@/components/LocalhostAnalytics";
+import { getAnonymousSessionId, trackLocalhostEvent } from "@/components/LocalhostAnalytics";
 import {
   submitLocalhostInquiry,
   type LocalhostIntentType,
@@ -444,6 +444,7 @@ export function LocalhostIntakeForm({
           name,
           optionalDetails: filteredDetails(),
           routeContext,
+          sessionId: getAnonymousSessionId(),
           shortNote,
           sourceLabel,
           sourcePage,
