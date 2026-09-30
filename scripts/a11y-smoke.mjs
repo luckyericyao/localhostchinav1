@@ -15,16 +15,37 @@ const routes = [
   "/china/shaolin",
   "/china/huizhou",
   "/china/shanghai",
+  "/travelers",
+  "/hosts",
+  "/how-it-works",
+  "/about",
+  "/host-credits",
   "/trust",
   "/inquiry"
 ];
 
 let failed = false;
 const browser = await chromium.launch({ executablePath, headless: true });
-const page = await browser.newPage({
-  deviceScaleFactor: 1,
-  viewport: { height: 844, width: 390 }
-});
+const context = await browser.newContext();
+// Audit interactions must not appear as real visitor activity in the funnel.
+await context.route("**/api/analytics", (route) =>
+  route.fulfill({ status: 200, body: "{}" })
+);
+await context.route("**/_vercel/insights/**", (route) =>
+  route.fulfill({ status: 200, body: "" })
+);
+
+async function visit(page, path) {
+  const response = await page.goto(`${baseUrl}${path}`, { waitUntil: "load" });
+  if (!response || response.status() !== 200) {
+    throw new Error(`${path}: expected HTTP 200, got ${response?.status()}`);
+  }
+  await page.locator("main#main-content").waitFor({ state: "visible" });
+  await page.evaluate(() => document.fonts.ready);
+}
+
+const page = await context.newPage();
+await page.setViewportSize({ height: 844, width: 390 });
 await page.addInitScript(() => {
   window.__localhostA11yVitals = { cls: 0, events: [], lcp: 0 };
 
@@ -67,7 +88,7 @@ await page.addInitScript(() => {
 });
 
 for (const path of routes) {
-  await page.goto(`${baseUrl}${path}`, { waitUntil: "networkidle" });
+  await visit(page, path);
   await page.addScriptTag({ content: axeSource });
 
   const axeResults = await page.evaluate(() => window.axe.run(document));
@@ -96,8 +117,8 @@ for (const path of routes) {
     };
   });
 
-  const criticalViolations = axeResults.violations.filter(
-    (violation) => violation.impact === "critical"
+  const blockingViolations = axeResults.violations.filter(
+    (violation) => violation.impact === "critical" || violation.impact === "serious"
   );
   const axeSummary = axeResults.violations
     .map(
@@ -108,7 +129,7 @@ for (const path of routes) {
     )
     .join("|");
   const problems = [
-    ...criticalViolations.map((violation) => `axe:${violation.id}`),
+    ...blockingViolations.map((violation) => `axe:${violation.id}`),
     ...(audit.duplicateIds.length ? ["duplicate ids"] : []),
     ...(audit.mainCount !== 1 || audit.mainId !== "main-content"
       ? ["main landmark"]
@@ -123,7 +144,7 @@ for (const path of routes) {
     failed = true;
   } else {
     console.log(
-      `PASS ${path}: axe violations ${axeSummary || "0"}, critical 0, landmarks, alt text, and controls`
+      `PASS ${path}: axe violations ${axeSummary || "0"}, serious/critical 0, landmarks, alt text, and controls`
     );
   }
 
@@ -279,11 +300,9 @@ for (const path of routes) {
   }
 }
 
-const desktopRoutesPage = await browser.newPage({
-  deviceScaleFactor: 1,
-  viewport: { height: 900, width: 1440 }
-});
-await desktopRoutesPage.goto(`${baseUrl}/journeys`, { waitUntil: "networkidle" });
+const desktopRoutesPage = await context.newPage();
+await desktopRoutesPage.setViewportSize({ height: 900, width: 1440 });
+await visit(desktopRoutesPage, "/journeys");
 const desktopRouteDecision = await desktopRoutesPage.evaluate(() => {
   const cards = [...document.querySelectorAll(".journey-comparison-card")];
   const bounds = cards.map((card) => {
@@ -319,9 +338,7 @@ const activeRoutePaths = [
 ];
 
 for (const routePath of activeRoutePaths) {
-  await desktopRoutesPage.goto(`${baseUrl}${routePath}`, {
-    waitUntil: "networkidle"
-  });
+  await visit(desktopRoutesPage, routePath);
   const routeDecisionAudit = await desktopRoutesPage.evaluate(() => {
     const routeCta = document.querySelector(
       '.route-hero [data-track-source="route_hero"]'
@@ -358,7 +375,7 @@ for (const routePath of activeRoutePaths) {
 }
 await desktopRoutesPage.close();
 
-await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+await visit(page, "/");
 await page.waitForTimeout(1200);
 const vitals = await page.evaluate(() => {
   const measured = window.__localhostA11yVitals;
@@ -372,7 +389,10 @@ const vitals = await page.evaluate(() => {
     lcp: measured.lcp ? Math.round(measured.lcp) : null
   };
 });
-console.log(`Homepage vitals: ${JSON.stringify(vitals)}`);
+console.log(`Homepage lab smoke (warm, unthrottled; not field Core Web Vitals): ${JSON.stringify(vitals)}`);
+if (vitals.inp === null) {
+  console.warn("WARN /: no interaction latency sample; INP target remains unverified");
+}
 
 if (vitals.lcp === null) {
   console.warn("WARN /: LCP was not exposed by this headless browser run");
