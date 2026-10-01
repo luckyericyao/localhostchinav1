@@ -13,6 +13,7 @@ try {
   for (const viewport of [
     { width: 390, height: 844 },
     { width: 375, height: 812 },
+    { width: 1280, height: 720 },
     { width: 1440, height: 900 }
   ]) {
     const page = await browser.newPage({ viewport });
@@ -28,6 +29,7 @@ try {
       const response = await page.goto(`${baseUrl}${path}`, { waitUntil: "load" });
       assert.equal(response.status(), 200, path);
       await page.locator("#inquiry-name").waitFor();
+      await page.evaluate(() => document.fonts.ready);
       const layout = await page.evaluate(() => ({
         submitBottom: document.querySelector("button[type=submit]")
           .getBoundingClientRect().bottom + window.scrollY,
@@ -38,10 +40,11 @@ try {
       }));
       assert.equal(layout.overflow, false, `${path}: horizontal overflow`);
       assert.ok(layout.representativeTarget >= 44, "Representative target below 44px");
-      if (viewport.width < 720) {
-        assert.ok(layout.submitBottom <= layout.limit,
-          `${path} at ${viewport.width}px: submit ${layout.submitBottom} > ${layout.limit}`);
-      }
+      assert.ok(layout.submitBottom <= layout.limit,
+        `${path} at ${viewport.width}px: submit ${layout.submitBottom} > ${layout.limit}`);
+      const privacy = page.locator(".privacy-boundary--standalone");
+      assert.equal(await privacy.isVisible(), true, "Privacy reminder hidden");
+      assert.equal(await page.locator(".privacy-boundary").count(), 1, "Duplicate privacy reminders");
 
       const representative = page.getByRole("checkbox", {
         name: "I am arranging this on behalf of a traveler"

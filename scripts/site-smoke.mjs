@@ -20,7 +20,7 @@ const expectedContent = new Map([
   [
     "/journeys",
     [
-      "Four private ways into China.",
+      "Four routes into China.",
       "View Shanxi",
       "View Shaolin",
       "View Huizhou",

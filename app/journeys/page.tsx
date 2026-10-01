@@ -53,12 +53,11 @@ export default function JourneysPage() {
           <header className="journeys-decision-header">
             <div>
               <p className="eyebrow">China Routes</p>
-              <h1>Four private ways into China.</h1>
+              <h1>Four routes into China.</h1>
             </div>
             <div className="journeys-decision-copy">
               <p>
-                Compare cultural focus, pace, length, and arrival city. Shanxi is
-                the flagship; each route is shaped privately after review.
+                Compare focus, pace, length, and arrival city.
               </p>
               <Link
                 className="text-link"

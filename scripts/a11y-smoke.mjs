@@ -183,9 +183,6 @@ for (const path of routes) {
   if (path === "/inquiry") {
     const inquiryLayout = await page.evaluate(() => {
       const desktopIntro = document.querySelector(".inquiry-copy-intro");
-      const desktopAssuranceList = document.querySelector(
-        ".intake-assurance ul"
-      );
       const mobilePrivacy = document.querySelector(
         ".privacy-boundary--standalone"
       );
@@ -203,9 +200,7 @@ for (const path of routes) {
       );
 
       return {
-        assuranceListStyle: desktopAssuranceList
-          ? getComputedStyle(desktopAssuranceList).listStyleType
-          : "missing",
+        privacyCount: document.querySelectorAll(".privacy-boundary").length,
         mobileIntroDisplay: desktopIntro
           ? getComputedStyle(desktopIntro).display
           : "missing",
@@ -222,7 +217,7 @@ for (const path of routes) {
     if (
       inquiryLayout.mobileIntroDisplay !== "none" ||
       inquiryLayout.mobilePrivacyDisplay === "none" ||
-      inquiryLayout.assuranceListStyle !== "none" ||
+      inquiryLayout.privacyCount !== 1 ||
       !inquiryLayout.requiredFieldsPresent ||
       !inquiryLayout.requiredWithinOneAndHalfScreens
     ) {
@@ -301,33 +296,38 @@ for (const path of routes) {
 }
 
 const desktopRoutesPage = await context.newPage();
-await desktopRoutesPage.setViewportSize({ height: 900, width: 1440 });
-await visit(desktopRoutesPage, "/journeys");
-const desktopRouteDecision = await desktopRoutesPage.evaluate(() => {
-  const cards = [...document.querySelectorAll(".journey-comparison-card")];
-  const bounds = cards.map((card) => {
-    const box = card.getBoundingClientRect();
-    return { bottom: Math.round(box.bottom), top: Math.round(box.top) };
+for (const viewport of [
+  { height: 720, width: 1280 },
+  { height: 900, width: 1440 }
+]) {
+  await desktopRoutesPage.setViewportSize(viewport);
+  await visit(desktopRoutesPage, "/journeys");
+  const desktopRouteDecision = await desktopRoutesPage.evaluate(() => {
+    const cards = [...document.querySelectorAll(".journey-comparison-card")];
+    const bounds = cards.map((card) => {
+      const box = card.getBoundingClientRect();
+      return { bottom: Math.round(box.bottom), top: Math.round(box.top) };
+    });
+
+    return {
+      allRoutesInFirstViewport:
+        cards.length === 4 &&
+        bounds.every((box) => box.top >= 0 && box.bottom <= window.innerHeight),
+      bounds,
+      cardCount: cards.length
+    };
   });
 
-  return {
-    allRoutesInFirstViewport:
-      cards.length === 4 &&
-      bounds.every((box) => box.top >= 0 && box.bottom <= window.innerHeight),
-    bounds,
-    cardCount: cards.length
-  };
-});
-
-if (!desktopRouteDecision.allRoutesInFirstViewport) {
-  console.error(
-    `FAIL /journeys: four active routes do not fit in the initial desktop viewport ${JSON.stringify(desktopRouteDecision)}`
-  );
-  failed = true;
-} else {
-  console.log(
-    "PASS /journeys: all four active routes are comparable in the initial desktop viewport"
-  );
+  if (!desktopRouteDecision.allRoutesInFirstViewport) {
+    console.error(
+      `FAIL /journeys at ${viewport.width}x${viewport.height}: four active routes do not fit in the initial desktop viewport ${JSON.stringify(desktopRouteDecision)}`
+    );
+    failed = true;
+  } else {
+    console.log(
+      `PASS /journeys at ${viewport.width}x${viewport.height}: all four active routes are comparable in the initial desktop viewport`
+    );
+  }
 }
 
 const activeRoutePaths = [

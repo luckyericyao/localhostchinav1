@@ -984,7 +984,7 @@ a.text-link {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  padding: 16px;
+  padding: 12px;
 }
 
 .journey-comparison-kicker {
@@ -1021,20 +1021,20 @@ a.text-link {
   border-bottom: 1px solid var(--border);
   border-top: 1px solid var(--border);
   display: grid;
-  gap: 7px;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-  margin: auto 0 16px;
-  padding: 10px 0;
+  gap: 4px;
+  grid-template-columns: minmax(0, 1fr);
+  margin: auto 0 8px;
+  padding: 6px 0;
 }
 
 .journey-comparison-meta div {
   display: grid;
-  gap: 3px;
+  gap: 2px;
 }
 
 .journey-comparison-meta div + div {
-  border-left: 1px solid var(--border);
-  padding-left: 10px;
+  border-top: 1px solid var(--border);
+  padding-top: 4px;
 }
 
 .journey-comparison-meta .journey-comparison-meta-wide {
@@ -1042,7 +1042,7 @@ a.text-link {
   border-top: 1px solid var(--border);
   grid-column: 1 / -1;
   padding-left: 0;
-  padding-top: 8px;
+  padding-top: 4px;
 }
 
 .journey-comparison-meta dt {
@@ -1285,7 +1285,7 @@ a.text-link {
 
 .journeys-decision-section {
   padding-bottom: 48px;
-  padding-top: 42px;
+  padding-top: 20px;
 }
 
 .journeys-decision-header {
@@ -1293,12 +1293,12 @@ a.text-link {
   display: grid;
   gap: 56px;
   grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
-  margin: 0 auto 28px;
+  margin: 0 auto 12px;
   max-width: 1180px;
 }
 
 .journeys-decision-header h1 {
-  font-size: 3.9rem;
+  font-size: 3rem;
   line-height: 0.98;
   margin-bottom: 0;
   max-width: 560px;
@@ -1925,7 +1925,25 @@ a.text-link {
   background:
     linear-gradient(90deg, rgba(247, 242, 232, 0.98), rgba(247, 242, 232, 0.8)),
     image-set(url("/images/inquiry-courtyard-threshold.avif") type("image/avif"), url("/images/inquiry-courtyard-threshold.webp") type("image/webp"), url("/images/inquiry-courtyard-threshold.png") type("image/png")) center/cover;
-  min-height: 390px;
+  min-height: 0;
+  padding-bottom: 24px;
+  padding-top: 24px;
+}
+
+.page-hero--inquiry h1 {
+  font-size: 3.2rem;
+}
+
+.inquiry-intake-section {
+  padding-top: 32px;
+}
+
+.inquiry-intake-section .localhost-intake-form {
+  gap: 14px;
+}
+
+.inquiry-intake-section .privacy-boundary {
+  margin-top: 8px;
 }
 
 .page-hero-copy .support-subhead {
@@ -2536,6 +2554,8 @@ a.text-link {
 }
 
 .inquiry-copy h2 {
+  font-size: 2rem;
+  line-height: 1.12;
   margin-bottom: 24px;
 }
 
@@ -2937,7 +2957,7 @@ a.text-link {
 }
 
 .privacy-boundary--standalone {
-  display: none;
+  display: block;
 }
 
 .optional-toggle,
