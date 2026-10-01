@@ -2,6 +2,7 @@
 
 import { FormEvent, useMemo, useRef, useState, useTransition } from "react";
 import { getAnonymousSessionId, trackLocalhostEvent } from "@/components/LocalhostAnalytics";
+import { buildInquiryHref } from "@/lib/inquiryLinks";
 import {
   submitLocalhostInquiry,
   type LocalhostIntentType,
@@ -284,26 +285,6 @@ function submitLabel(intentType: LocalhostIntentType) {
   if (intentType === "host") return "Apply as a host";
   if (intentType === "partner") return "Start partner conversation";
   return "Request Private Route Review";
-}
-
-function fullIntakeHref({
-  intentType,
-  routeContext,
-  sourceLabel,
-  sourcePage
-}: {
-  intentType: LocalhostIntentType;
-  routeContext?: LocalhostRouteContext;
-  sourceLabel?: string;
-  sourcePage?: string;
-}) {
-  const params = new URLSearchParams({ type: intentType });
-
-  if (routeContext) params.set("route", routeContext);
-  if (sourcePage) params.set("sourcePage", sourcePage);
-  if (sourceLabel) params.set("sourceLabel", sourceLabel);
-
-  return `/inquiry?${params.toString()}`;
 }
 
 export function LocalhostIntakeForm({
@@ -849,7 +830,7 @@ export function LocalhostIntakeForm({
         {compact ? (
           <a
             className="text-link"
-            href={fullIntakeHref({
+            href={buildInquiryHref({
               intentType: activeIntent,
               routeContext,
               sourceLabel,

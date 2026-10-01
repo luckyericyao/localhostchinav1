@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { NavigationInquiryLink } from "@/components/NavigationInquiryLink";
 
 type SiteHeaderProps = {
   tone?: "transparent" | "solid";
@@ -22,14 +23,7 @@ export function SiteHeader({ tone = "solid" }: SiteHeaderProps) {
           <Link href="/trust">Trust</Link>
         </nav>
         <div className="header-actions">
-          <Link
-            className="nav-cta"
-            data-track-event="request_route"
-            data-track-source="header"
-            href="/inquiry?type=traveler&sourcePage=%2F&sourceLabel=Header"
-          >
-            Request a Private Route
-          </Link>
+          <NavigationInquiryLink className="nav-cta" source="header" />
           <details className="mobile-menu">
             <summary aria-controls="mobile-navigation" aria-label="Toggle navigation">
               Menu

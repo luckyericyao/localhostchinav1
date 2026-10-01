@@ -61,6 +61,13 @@ Use the anonymous session ID with the following events. Never add names, email a
 - Inquiry CTA source: `request_route` is emitted from the traveler-facing route, trust, how-it-works, and inquiry entry points with a source label.
 - Four active route comparison: `Shanxi`, `Shaolin`, `Huizhou`, and `Shanghai` are the active route set; future chapters are excluded from the comparison denominator.
 
+Shared header and footer inquiry links retain the current page path. On an
+active route page they also preselect that route in the intake, including after
+client-side navigation. Other pages open a general traveler review without
+inventing a route. Only the path is included, not URL queries or fragments.
+Run `pnpm run funnel:test` and `pnpm run funnel:check` to verify these handoffs
+on desktop and mobile without submitting a real inquiry.
+
 Record the first 100 valid sessions before changing the target or the event definition. Report the targets from the brief as targets, not as current performance:
 
 The browser emits `page_view` on each navigation and uses the same opaque

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { NavigationInquiryLink } from "@/components/NavigationInquiryLink";
 
 export function SiteFooter() {
   return (
@@ -27,14 +28,10 @@ export function SiteFooter() {
         <Link href="/host-credits">Host Credits</Link>
       </nav>
       <div className="footer-actions" aria-label="Footer actions">
-        <Link
-        className="button button--light"
-        data-track-event="request_route"
-        data-track-source="footer"
-          href="/inquiry?type=traveler&sourcePage=%2F&sourceLabel=Footer"
-        >
-          Request a Private Route
-        </Link>
+        <NavigationInquiryLink
+          className="button button--light"
+          source="footer"
+        />
       </div>
     </footer>
   );

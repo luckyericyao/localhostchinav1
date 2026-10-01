@@ -9,7 +9,7 @@
     "a11y": "node scripts/a11y-smoke.mjs",
     "inquiry:check": "node scripts/inquiry-layout-smoke.mjs",
     "funnel:check": "node scripts/funnel-smoke.mjs",
-    "funnel:test": "node --experimental-strip-types --test scripts/analytics-route.test.mjs",
+    "funnel:test": "node --experimental-strip-types --test scripts/analytics-route.test.mjs scripts/inquiry-links.test.mjs",
     "inquiry:delivery": "node --experimental-strip-types --test scripts/inquiry-delivery.test.mjs scripts/inquiry-action.test.mjs",
     "lint": "eslint . --max-warnings=0",
     "smoke": "node scripts/site-smoke.mjs",
