@@ -10,6 +10,16 @@ Name, email, role, and one sentence of intent are required before submission.
 Route timing, comfort, food, transport, and host-fit details remain optional so
 the first contact stays light while the reply can still address a real person.
 
+Traveler-authored text is never silently cut to fit delivery. Shared client and
+server validation accepts names up to 120 characters, email addresses up to 254,
+first notes up to 1,200, and each optional detail up to 800. Additional fields
+are limited to 32 distinct labels, each up to 80 characters. Oversized or
+ambiguous content is rejected before delivery; the browser retains the original
+text, displays a field-level error, and focuses the relevant control. A folded
+optional section opens when its field needs attention. Only whitespace trimming
+and email casing are normalized. Role changes retain cached text in memory but
+submit only the selected role's fields and shared reply preferences.
+
 - `inquiry_delivery_success` — the configured Resend provider accepted the message.
 - `inquiry_delivery_fallback` — direct delivery was unavailable, so the browser received a prepared `mailto:` link.
 - `inquiry_error` — the client could not receive a submission result; the user sees a retry message and no delivery is claimed.

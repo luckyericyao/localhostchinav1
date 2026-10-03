@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
 import { getAnonymousSessionId, trackLocalhostEvent } from "@/components/LocalhostAnalytics";
 import { buildInquiryHref } from "@/lib/inquiryLinks";
+import { readInquiryFields } from "@/lib/inquiryValidation";
 import {
   submitLocalhostInquiry,
   type LocalhostIntentType,
@@ -277,10 +278,6 @@ function initialDetails(routeContext?: LocalhostRouteContext): Record<string, st
   };
 }
 
-function isValidEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
 function submitLabel(intentType: LocalhostIntentType) {
   if (intentType === "host") return "Apply as a host";
   if (intentType === "partner") return "Start partner conversation";
@@ -302,6 +299,7 @@ export function LocalhostIntakeForm({
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [errorDetail, setErrorDetail] = useState<string | null>(null);
   const [errorField, setErrorField] = useState<
     "email" | "name" | "shortNote" | null
   >(null);
@@ -325,14 +323,30 @@ export function LocalhostIntakeForm({
   const fields = useMemo(() => detailsForIntent(activeIntent), [activeIntent]);
   const routeLabel = routeContext ? routeLabels[routeContext] : "";
   const noteCopy = roleCopy[activeIntent];
+  const activeDetailNames = new Set([
+    ...fields.map((field) => field.name),
+    ...replyPreferenceDetails.map((field) => field.name),
+    ...(activeIntent === "traveler" ? travelerRepresentationDetails.map((field) => field.name) : [])
+  ]);
+  const hasVisibleDetailError = Boolean(errorDetail && (
+    detailsOpen || (activeIntent === "traveler" && representativeInquiry &&
+      travelerRepresentationDetails.some((field) => field.name === errorDetail))
+  ));
 
   useEffect(() => {
     if (result?.ok) resultRef.current?.focus();
   }, [result]);
 
+  function clearSubmissionFeedback() {
+    setError("");
+    setErrorField(null);
+    setErrorDetail(null);
+    setResult(null);
+  }
+
   function updateDetail(name: string, value: string) {
     setOptionalDetails((current) => ({ ...current, [name]: value }));
-    setResult(null);
+    clearSubmissionFeedback();
   }
 
   function updateRepresentativeInquiry(
@@ -350,7 +364,7 @@ export function LocalhostIntakeForm({
       }
       return next;
     });
-    setResult(null);
+    clearSubmissionFeedback();
 
     if (enabled && !representativePathTracked.current) {
       representativePathTracked.current = true;
@@ -360,23 +374,31 @@ export function LocalhostIntakeForm({
 
   function filteredDetails() {
     return Object.fromEntries(
-      Object.entries(optionalDetails).filter(([, value]) => value.trim())
+      Object.entries(optionalDetails).filter(([key, value]) => activeDetailNames.has(key) && value.trim())
     );
   }
 
   function showValidationError(
     message: string,
     field: "email" | "name" | "shortNote" | null,
-    form: HTMLFormElement
+    form: HTMLFormElement,
+    detailKey?: string
   ) {
     setError(message);
     setErrorField(field);
+    const activeDetail = !field && detailKey && activeDetailNames.has(detailKey) ? detailKey : null;
+    setErrorDetail(activeDetail);
+    if (activeDetail) setDetailsOpen(true);
     trackLocalhostEvent("validation_error", form);
     window.requestAnimationFrame(() => {
       if (field === "name") nameRef.current?.focus();
       if (field === "email") emailRef.current?.focus();
       if (field === "shortNote") shortNoteRef.current?.focus();
-      if (!field) errorRef.current?.focus();
+      if (!field) {
+        const target = activeDetail ? form.elements.namedItem(activeDetail) : null;
+        if (target instanceof HTMLElement) target.focus();
+        else errorRef.current?.focus();
+      }
     });
   }
 
@@ -385,6 +407,7 @@ export function LocalhostIntakeForm({
       "We could not confirm receipt. Your details are still here; please try again."
     );
     setErrorField(null);
+    setErrorDetail(null);
     trackLocalhostEvent("inquiry_error", form);
     window.requestAnimationFrame(() => errorRef.current?.focus());
   }
@@ -394,26 +417,11 @@ export function LocalhostIntakeForm({
     if (isPending || result?.ok) return;
 
     const form = event.currentTarget;
-    setError("");
-    setErrorField(null);
-    setResult(null);
-
-    if (!name.trim()) {
-      showValidationError("Please enter your name.", "name", form);
-      return;
-    }
-
-    if (!isValidEmail(email)) {
-      showValidationError("Please enter a valid email.", "email", form);
-      return;
-    }
-
-    if (!shortNote.trim()) {
-      showValidationError(
-        "Please add one sentence about what you are looking for.",
-        "shortNote",
-        form
-      );
+    clearSubmissionFeedback();
+    const validatedFields = readInquiryFields({ name, email, shortNote, optionalDetails: filteredDetails() });
+    if (!validatedFields.ok) {
+      const { field, detailKey, message } = validatedFields.error;
+      showValidationError(message, field === "details" ? null : field, form, detailKey);
       return;
     }
 
@@ -423,15 +431,15 @@ export function LocalhostIntakeForm({
       try {
         const response = await submitLocalhostInquiry({
           createdAt: new Date().toISOString(),
-          email,
+          email: validatedFields.value.email,
           honeypot,
           intentType: activeIntent,
           locale: navigator.language,
-          name,
-          optionalDetails: filteredDetails(),
+          name: validatedFields.value.name,
+          optionalDetails: validatedFields.value.optionalDetails,
           routeContext,
           sessionId: getAnonymousSessionId(),
-          shortNote,
+          shortNote: validatedFields.value.shortNote,
           sourceLabel,
           sourcePage,
           startedAt,
@@ -439,6 +447,11 @@ export function LocalhostIntakeForm({
         });
 
         if (!response.ok) {
+          if (response.fieldError) {
+            const { field, detailKey } = response.fieldError;
+            showValidationError(response.message, field === "details" ? null : field, form, detailKey);
+            return;
+          }
           if (response.errorCode === "delivery_unconfigured") {
             setError(response.message);
             setErrorField(null);
@@ -518,9 +531,7 @@ export function LocalhostIntakeForm({
             name="name"
             onChange={(event) => {
               setName(event.target.value);
-              setError("");
-              setErrorField(null);
-              setResult(null);
+              clearSubmissionFeedback();
             }}
             placeholder="How should we address you?"
             ref={nameRef}
@@ -528,6 +539,7 @@ export function LocalhostIntakeForm({
             type="text"
             value={name}
           />
+          {errorField === "name" ? <InquiryFieldErrorText message={error} /> : null}
         </label>
 
         <label>
@@ -541,9 +553,7 @@ export function LocalhostIntakeForm({
             name="email"
             onChange={(event) => {
               setEmail(event.target.value);
-              setError("");
-              setErrorField(null);
-              setResult(null);
+              clearSubmissionFeedback();
             }}
             placeholder="you@example.com"
             ref={emailRef}
@@ -551,6 +561,7 @@ export function LocalhostIntakeForm({
             type="email"
             value={email}
           />
+          {errorField === "email" ? <InquiryFieldErrorText message={error} /> : null}
         </label>
       </div>
 
@@ -563,9 +574,7 @@ export function LocalhostIntakeForm({
           name="shortNote"
           onChange={(event) => {
             setShortNote(event.target.value);
-            setError("");
-            setErrorField(null);
-            setResult(null);
+            clearSubmissionFeedback();
           }}
           placeholder={
             routeContext
@@ -582,6 +591,7 @@ export function LocalhostIntakeForm({
             ? "The route is already captured. Tell us what you want it to hold."
             : noteCopy.helper}
         </small>
+        {errorField === "shortNote" ? <InquiryFieldErrorText message={error} /> : null}
       </label>
 
       <p className="privacy-boundary privacy-boundary--standalone">
@@ -606,9 +616,7 @@ export function LocalhostIntakeForm({
                     if (role !== "traveler") {
                       updateRepresentativeInquiry(false);
                     }
-                    setError("");
-                    setErrorField(null);
-                    setResult(null);
+                    clearSubmissionFeedback();
                   }}
                   type="button"
                 >
@@ -644,6 +652,7 @@ export function LocalhostIntakeForm({
                     {travelerRepresentationDetails.map((field) => (
                       <DetailFieldInput
                         field={field}
+                        error={errorDetail === field.name ? error : ""}
                         key={field.name}
                         onChange={updateDetail}
                         value={optionalDetails[field.name] || ""}
@@ -681,6 +690,7 @@ export function LocalhostIntakeForm({
                       <DetailFieldInput
                         contextLocked={contextLocked}
                         field={field}
+                        error={errorDetail === field.name ? error : ""}
                         key={field.name}
                         onChange={updateDetail}
                         value={optionalDetails[field.name] || ""}
@@ -694,6 +704,7 @@ export function LocalhostIntakeForm({
                     {fields.slice(7, 11).map((field) => (
                       <DetailFieldInput
                         field={field}
+                        error={errorDetail === field.name ? error : ""}
                         key={field.name}
                         onChange={updateDetail}
                         value={optionalDetails[field.name] || ""}
@@ -707,6 +718,7 @@ export function LocalhostIntakeForm({
                     {fields.slice(11).map((field) => (
                       <DetailFieldInput
                         field={field}
+                        error={errorDetail === field.name ? error : ""}
                         key={field.name}
                         onChange={updateDetail}
                         value={optionalDetails[field.name] || ""}
@@ -722,6 +734,7 @@ export function LocalhostIntakeForm({
                   {fields.map((field) => (
                     <DetailFieldInput
                       field={field}
+                      error={errorDetail === field.name ? error : ""}
                       key={field.name}
                       onChange={updateDetail}
                       value={optionalDetails[field.name] || ""}
@@ -746,6 +759,7 @@ export function LocalhostIntakeForm({
                 ).map((field) => (
                   <DetailFieldInput
                     field={field}
+                    error={errorDetail === field.name ? error : ""}
                     key={field.name}
                     onChange={updateDetail}
                     value={optionalDetails[field.name] || ""}
@@ -757,7 +771,7 @@ export function LocalhostIntakeForm({
         </div>
       ) : null}
 
-      {error ? (
+      {error && !errorField && !hasVisibleDetailError ? (
         <p
           className="form-status form-status--error"
           id="inquiry-error"
@@ -892,24 +906,35 @@ function PreparedInquiryEmail({
   );
 }
 
+function InquiryFieldErrorText({ message }: { message: string }) {
+  return <small className="field-error" id="inquiry-error" role="alert">{message}</small>;
+}
+
 function DetailFieldInput({
   contextLocked = false,
   field,
+  error = "",
   onChange,
   value
 }: {
   contextLocked?: boolean;
   field: DetailField;
+  error?: string;
   onChange: (name: string, value: string) => void;
   value: string;
 }) {
   const disabled = contextLocked && field.name === "routeInterest";
+  const errorAttributes = {
+    "aria-invalid": Boolean(error),
+    "aria-describedby": error ? "inquiry-error" : undefined
+  };
 
   return (
     <label>
       <span>{field.label}</span>
       {field.type === "select" ? (
         <select
+          {...errorAttributes}
           disabled={disabled}
           name={field.name}
           onChange={(event) => onChange(field.name, event.target.value)}
@@ -924,6 +949,7 @@ function DetailFieldInput({
         </select>
       ) : field.type === "textarea" ? (
         <textarea
+          {...errorAttributes}
           name={field.name}
           onChange={(event) => onChange(field.name, event.target.value)}
           placeholder={field.placeholder}
@@ -932,6 +958,7 @@ function DetailFieldInput({
         />
       ) : (
         <input
+          {...errorAttributes}
           name={field.name}
           onChange={(event) => onChange(field.name, event.target.value)}
           placeholder={field.placeholder}
@@ -940,6 +967,7 @@ function DetailFieldInput({
         />
       )}
       {field.helper ? <small>{field.helper}</small> : null}
+      {error ? <InquiryFieldErrorText message={error} /> : null}
     </label>
   );
 }

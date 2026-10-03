@@ -3365,6 +3365,10 @@ a.text-link {
   color: var(--wine);
 }
 
+.localhost-intake-form .field-error {
+  color: var(--wine);
+}
+
 .form-status--success {
   background: rgba(223, 232, 223, 0.42);
   border: 1px solid rgba(104, 118, 107, 0.22);

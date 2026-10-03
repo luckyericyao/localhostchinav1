@@ -9,6 +9,7 @@ import {
 import { persistLocalhostMetric } from "@/lib/metrics";
 import { sendInquiryEmail } from "@/lib/inquiryEmail";
 import { normalizeMetricSessionId } from "@/lib/metricSession";
+import { readInquiryFields, type InquiryFieldError } from "@/lib/inquiryValidation";
 
 export type LocalhostIntentType = "traveler" | "host" | "partner";
 
@@ -42,6 +43,7 @@ export type LocalhostInquiryResult = {
   contactEmail?: string;
   delivery?: "duplicate" | "email" | "mailto";
   errorCode?: "delivery_unconfigured";
+  fieldError?: InquiryFieldError;
   inquiryId?: string;
   mailtoHref?: string;
   message: string;
@@ -59,7 +61,6 @@ export type LocalhostInquiryResult = {
   };
 };
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const minimumSubmitDelayMs = 900;
 const inquiryWindowMs = 60 * 60 * 1000;
 const duplicateWindowMs = 15 * 60 * 1000;
@@ -97,21 +98,6 @@ function isRouteContext(value: unknown): value is LocalhostRouteContext {
     "chengdu",
     "china-general"
   ].includes(value as LocalhostRouteContext);
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
-}
-
-function normalizeOptionalDetails(value: unknown) {
-  if (!isRecord(value)) return {};
-
-  return Object.fromEntries(
-    Object.entries(value)
-      .slice(0, 32)
-      .map(([key, detail]) => [cleanText(key, 80), cleanText(detail, 800)])
-      .filter(([key, detail]) => Boolean(key && detail))
-  );
 }
 
 function getRequestKey(requestHeaders: Headers) {
@@ -340,10 +326,6 @@ export async function submitLocalhostInquiry(
     };
   }
 
-  const email = cleanText(payload.email, 254).toLowerCase();
-  const name = cleanText(payload.name, 120);
-  const shortNote = cleanText(payload.shortNote);
-
   if (!isIntentType(payload.intentType)) {
     return {
       message: "Please choose Traveler, Host, or Partner.",
@@ -351,26 +333,11 @@ export async function submitLocalhostInquiry(
     };
   }
 
-  if (!name) {
-    return {
-      message: "Please enter your name.",
-      ok: false
-    };
+  const fields = readInquiryFields(payload);
+  if (!fields.ok) {
+    return { ok: false, message: fields.error.message, fieldError: fields.error };
   }
-
-  if (!email || !emailPattern.test(email)) {
-    return {
-      message: "Please enter a valid email.",
-      ok: false
-    };
-  }
-
-  if (!shortNote) {
-    return {
-      message: "Please add one sentence about what you are looking for.",
-      ok: false
-    };
-  }
+  const { email, name, shortNote, optionalDetails } = fields.value;
 
   const routeContext = isRouteContext(payload.routeContext)
     ? payload.routeContext
@@ -394,7 +361,6 @@ export async function submitLocalhostInquiry(
     };
   }
 
-  const optionalDetails = normalizeOptionalDetails(payload.optionalDetails);
   const fingerprint = inquiryFingerprint({
     email,
     intentType: payload.intentType,

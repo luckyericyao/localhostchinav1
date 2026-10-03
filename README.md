@@ -106,6 +106,7 @@ pnpm smoke
 pnpm a11y
 pnpm inquiry:delivery
 pnpm inquiry:recovery
+pnpm inquiry:content
 ```
 
 Run `pnpm smoke` against the local server, or set `SITE_URL` to check a
@@ -120,3 +121,5 @@ measurement; set `CHROME_PATH` when Chrome is installed elsewhere.
 `pnpm inquiry:recovery` intercepts all form submissions and simulates direct
 receipt and unsent email recovery, including long drafts and unavailable
 clipboard access. It never sends an inquiry to the backend or email provider.
+`pnpm inquiry:content` checks shared text boundaries, retained originals,
+inline field errors, and role-specific payloads with every submission intercepted.

@@ -5,6 +5,7 @@ import test from "node:test";
 import vm from "node:vm";
 import ts from "typescript";
 import { normalizeMetricSessionId } from "../lib/metricSession.ts";
+import { readInquiryFields } from "../lib/inquiryValidation.ts";
 
 const source = readFileSync(new URL("../app/actions/submitLocalhostInquiry.ts", import.meta.url), "utf8");
 const compiled = ts.transpileModule(source, {
@@ -25,7 +26,8 @@ function harness(send, contactEmail = "owner@example.test") {
     },
     "@/lib/metrics": { persistLocalhostMetric: async (metric) => { metrics.push(metric); } },
     "@/lib/inquiryEmail": { sendInquiryEmail: send },
-    "@/lib/metricSession": { normalizeMetricSessionId }
+    "@/lib/metricSession": { normalizeMetricSessionId },
+    "@/lib/inquiryValidation": { readInquiryFields }
   };
   // Execute the real server action with isolated state and no network capability.
   vm.runInNewContext(compiled, {
@@ -128,6 +130,32 @@ test("manual recovery retains a long inquiry without exposing internal response 
   for (const value of Object.values(optionalDetails)) assert.ok(draft.body.includes(value.trim()));
   assert.equal(draft.body.includes("First-response standard (internal)"), false);
   assert.equal(JSON.stringify([h.events, h.metrics]).includes(payload.shortNote), false);
+});
+
+test("overlong traveler content is rejected rather than silently shortened", async () => {
+  let calls = 0;
+  const h = harness(async () => { calls += 1; return accepted; });
+  for (const change of [
+    { name: "N".repeat(121) },
+    { shortNote: "N".repeat(1201) },
+    { optionalDetails: { foodPreferences: "N".repeat(801) } }
+  ]) {
+    const result = await h.submit({ ...payload, ...change });
+    assert.equal(result.ok, false, "Oversized content must not be accepted partially");
+    assert.ok(result.fieldError);
+  }
+  assert.equal(calls, 0);
+});
+
+test("content at supported limits retains its last character", async () => {
+  let sent;
+  const h = harness(async (inquiry) => { sent = inquiry; return accepted; });
+  const shortNote = "N".repeat(1199) + "Z";
+  const detail = "D".repeat(799) + "Z";
+  const result = await h.submit({ ...payload, shortNote, optionalDetails: { foodPreferences: detail } });
+  assert.equal(result.delivery, "email");
+  assert.ok(sent.body.includes(shortNote));
+  assert.ok(sent.body.includes(detail));
 });
 
 test("missing contact configuration stays a failure, not a duplicate", async () => {
