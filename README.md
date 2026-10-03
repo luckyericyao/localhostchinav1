@@ -104,6 +104,8 @@ pnpm lint
 pnpm build
 pnpm smoke
 pnpm a11y
+pnpm inquiry:delivery
+pnpm inquiry:recovery
 ```
 
 Run `pnpm smoke` against the local server, or set `SITE_URL` to check a
@@ -115,3 +117,6 @@ this checks rendered pages without posting synthetic analytics events.
 `pnpm a11y` uses the local
 Chrome binary for a mobile axe and keyboard smoke check plus homepage LCP/CLS
 measurement; set `CHROME_PATH` when Chrome is installed elsewhere.
+`pnpm inquiry:recovery` intercepts all form submissions and simulates direct
+receipt and unsent email recovery, including long drafts and unavailable
+clipboard access. It never sends an inquiry to the backend or email provider.

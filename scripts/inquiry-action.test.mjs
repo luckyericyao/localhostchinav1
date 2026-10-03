@@ -104,9 +104,30 @@ test("failed delivery does not suppress a later retry or claim receipt", async (
   const fallback = await h.submit(payload);
   assert.equal(fallback.delivery, "mailto");
   assert.match(fallback.mailtoHref, /^mailto:owner@example.test\?/);
+  assert.match(fallback.message, /could not confirm direct receipt/);
+  assert.equal(fallback.preparedEmail.body.includes(payload.shortNote), true);
+  assert.equal(fallback.preparedEmail.subject.includes(fallback.inquiryId), true);
   const delivered = await h.submit(payload);
   assert.equal(delivered.delivery, "email");
+  assert.equal(delivered.preparedEmail, undefined);
   assert.equal(calls, 2);
+});
+
+test("manual recovery retains a long inquiry without exposing internal response instructions", async () => {
+  const h = harness(async () => ({ ok: false }));
+  const optionalDetails = Object.fromEntries(Array.from({ length: 32 }, (_, i) =>
+    [`detail${i}`, `Optional detail ${i}: ${"test context ".repeat(59)}`]
+  ));
+  const result = await h.submit({ ...payload, optionalDetails });
+  assert.equal(result.delivery, "mailto");
+  assert.ok(result.mailtoHref.length > 30000, "Fixture must exercise a long email link");
+  const draft = result.preparedEmail;
+  const url = new URL(result.mailtoHref);
+  assert.equal(draft.body, url.searchParams.get("body"));
+  assert.equal(draft.subject, url.searchParams.get("subject"));
+  for (const value of Object.values(optionalDetails)) assert.ok(draft.body.includes(value.trim()));
+  assert.equal(draft.body.includes("First-response standard (internal)"), false);
+  assert.equal(JSON.stringify([h.events, h.metrics]).includes(payload.shortNote), false);
 });
 
 test("missing contact configuration stays a failure, not a duplicate", async () => {

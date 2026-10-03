@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useRef, useState, useTransition } from "react";
+import { FormEvent, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
 import { getAnonymousSessionId, trackLocalhostEvent } from "@/components/LocalhostAnalytics";
 import { buildInquiryHref } from "@/lib/inquiryLinks";
 import {
@@ -318,12 +318,17 @@ export function LocalhostIntakeForm({
   const emailRef = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
   const shortNoteRef = useRef<HTMLTextAreaElement>(null);
   const representativePathTracked = useRef(false);
 
   const fields = useMemo(() => detailsForIntent(activeIntent), [activeIntent]);
   const routeLabel = routeContext ? routeLabels[routeContext] : "";
   const noteCopy = roleCopy[activeIntent];
+
+  useEffect(() => {
+    if (result?.ok) resultRef.current?.focus();
+  }, [result]);
 
   function updateDetail(name: string, value: string) {
     setOptionalDetails((current) => ({ ...current, [name]: value }));
@@ -459,7 +464,6 @@ export function LocalhostIntakeForm({
           trackLocalhostEvent("inquiry_duplicate", form);
         } else if (response.mailtoHref) {
           trackLocalhostEvent("mailto_fallback", form);
-          window.location.href = response.mailtoHref;
         } else if (response.delivery === "email") {
           trackLocalhostEvent("inquiry_sent", form);
         }
@@ -766,8 +770,14 @@ export function LocalhostIntakeForm({
       ) : null}
 
       {result?.ok ? (
-        <div aria-live="polite" className="form-status form-status--success" role="status">
-          <strong>{result.message}</strong>
+        <div
+          aria-label="Inquiry result"
+          className={`form-status${result.delivery === "mailto" ? "" : " form-status--success"}`}
+          ref={resultRef}
+          role="region"
+          tabIndex={-1}
+        >
+          <strong aria-live="polite" role="status">{result.message}</strong>
           <p>
             {name} / {activeIntent.charAt(0).toUpperCase() + activeIntent.slice(1)} / {email}
             {routeLabel ? ` / ${routeLabel}` : null}
@@ -787,22 +797,14 @@ export function LocalhostIntakeForm({
               Preferred reply: {optionalDetails.preferredReply}
             </p>
           ) : null}
-          {result.mailtoHref ? (
-            <a className="text-link" href={result.mailtoHref}>
-              Send prepared email
-            </a>
+          {result.mailtoHref && result.preparedEmail ? (
+            <PreparedInquiryEmail
+              draft={result.preparedEmail}
+              mailtoHref={result.mailtoHref}
+            />
           ) : null}
           {result.contactEmail ? (
             <p className="contact-copy">Direct contact: {result.contactEmail}</p>
-          ) : null}
-          {!detailsOpen ? (
-            <button
-              className="text-button"
-              onClick={() => setDetailsOpen(true)}
-              type="button"
-            >
-              Add more details
-            </button>
           ) : null}
         </div>
       ) : null}
@@ -842,6 +844,51 @@ export function LocalhostIntakeForm({
         ) : null}
       </div>
     </form>
+  );
+}
+
+function PreparedInquiryEmail({
+  draft,
+  mailtoHref
+}: {
+  draft: { body: string; subject: string };
+  mailtoHref: string;
+}) {
+  const [copyMessage, setCopyMessage] = useState("");
+  const draftId = useId();
+  const previewRef = useRef<HTMLDetailsElement>(null);
+  const textRef = useRef<HTMLTextAreaElement>(null);
+  const emailText = `Subject: ${draft.subject}\n\n${draft.body}`;
+
+  async function copyInquiry() {
+    try {
+      await navigator.clipboard.writeText(emailText);
+      setCopyMessage("Inquiry copied. Copying does not send the email.");
+    } catch {
+      if (previewRef.current) previewRef.current.open = true;
+      textRef.current?.focus();
+      textRef.current?.select();
+      setCopyMessage("Automatic copying is unavailable. Your email text is selected below.");
+    }
+  }
+
+  return (
+    <div className="inquiry-email-recovery">
+      <div className="inline-actions">
+        <a className="text-link" href={mailtoHref}>Open prepared email</a>
+        <button className="text-button" onClick={copyInquiry} type="button">
+          Copy inquiry
+        </button>
+      </div>
+      <details ref={previewRef}>
+        <summary>Review email text</summary>
+        <label htmlFor={draftId}>
+          <span>Prepared email</span>
+          <textarea id={draftId} readOnly ref={textRef} rows={8} value={emailText} />
+        </label>
+      </details>
+      {copyMessage ? <p aria-live="polite">{copyMessage}</p> : null}
+    </div>
   );
 }
 

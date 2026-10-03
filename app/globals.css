@@ -3355,6 +3355,12 @@ a.text-link {
   margin-top: 8px;
 }
 
+.form-status .contact-copy,
+.form-status .response-expectation,
+.form-status .inquiry-reference {
+  color: var(--warm-gray) !important;
+}
+
 .form-status--error {
   color: var(--wine);
 }
@@ -3363,12 +3369,34 @@ a.text-link {
   background: rgba(223, 232, 223, 0.42);
   border: 1px solid rgba(104, 118, 107, 0.22);
   border-radius: 8px;
-  color: var(--mist-dark);
+  color: var(--warm-gray);
   padding: 18px;
 }
 
 .form-status--success .text-button {
   margin-top: 12px;
+}
+
+.inquiry-email-recovery {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.inquiry-email-recovery .inline-actions {
+  margin-top: 0;
+}
+
+.inquiry-email-recovery summary {
+  align-content: center;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.inquiry-email-recovery summary:focus-visible,
+.form-status[tabindex="-1"]:focus-visible {
+  outline: 2px solid var(--wine);
+  outline-offset: 4px;
 }
 
 .after-submit-note {

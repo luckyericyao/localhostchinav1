@@ -46,6 +46,7 @@ export type LocalhostInquiryResult = {
   mailtoHref?: string;
   message: string;
   ok: boolean;
+  preparedEmail?: { body: string; subject: string };
   responseWindow?: string;
   summary?: {
     email: string;
@@ -517,10 +518,14 @@ export async function submitLocalhostInquiry(
     delivery: emailDelivery.ok ? "email" : "mailto",
     inquiryId,
     mailtoHref,
+    preparedEmail: emailDelivery.ok ? undefined : {
+      body: emailContent.body,
+      subject: emailContent.subject
+    },
     message:
       emailDelivery.ok
         ? `Thank you, ${name}. Your private route review has been received. Reference ${inquiryId}. A named Localhost reviewer will review fit, timing, and local feasibility before replying.`
-        : `Thank you, ${name}. Your private route review has been prepared. If your email client does not open, please contact us directly.`,
+        : "We could not confirm direct receipt. Your email draft is ready; send it so we can review fit, route direction, and host availability.",
     ok: true,
     responseWindow: localhostResponseWindow,
     summary: {

@@ -16,6 +16,18 @@ the first contact stays light while the reply can still address a real person.
 - `inquiry_duplicate` — the same normalized inquiry was already accepted during the duplicate window.
 - `inquiry_rate_limited` — the warm-instance abuse guard rejected the request after the hourly threshold.
 
+Manual recovery does not confirm receipt of the original request: a provider
+timeout can have an uncertain outcome. Its email draft is explicitly unsent.
+The visitor chooses whether to open the
+prepared email or copy its full subject and body; the site does not launch an
+email client automatically or claim that a prepared draft was delivered. Long
+inquiries remain available in a read-only preview independently of mail-client
+URL handling. If clipboard access is unavailable, the preview opens with its
+text selected. This draft contains the normalized inquiry fields, not internal
+response instructions, and is not persisted in browser storage or analytics.
+Run `pnpm run inquiry:recovery` against a local or deployed server to exercise
+these states with every submission intercepted before it reaches the backend.
+
 Direct delivery rate is calculated as:
 
 ```text
