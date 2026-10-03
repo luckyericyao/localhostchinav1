@@ -12,6 +12,7 @@
     "funnel:test": "node --experimental-strip-types --test scripts/analytics-route.test.mjs scripts/inquiry-links.test.mjs",
     "inquiry:delivery": "node --experimental-strip-types --test scripts/inquiry-delivery.test.mjs scripts/inquiry-action.test.mjs scripts/inquiry-validation.test.mjs",
     "inquiry:content": "node scripts/inquiry-content-smoke.mjs",
+    "inquiry:pending": "node scripts/inquiry-pending-smoke.mjs",
     "inquiry:recovery": "node scripts/inquiry-recovery-smoke.mjs",
     "lint": "eslint . --max-warnings=0",
     "smoke": "node scripts/site-smoke.mjs",

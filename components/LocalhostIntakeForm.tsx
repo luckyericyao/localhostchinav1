@@ -332,6 +332,11 @@ export function LocalhostIntakeForm({
     detailsOpen || (activeIntent === "traveler" && representativeInquiry &&
       travelerRepresentationDetails.some((field) => field.name === errorDetail))
   ));
+  const receiptName = result?.summary?.name ?? name;
+  const receiptEmail = result?.summary?.email ?? email;
+  const receiptIntent = result?.summary?.intentType ?? activeIntent;
+  const receiptRoute = result?.summary?.routeContext;
+  const receiptRouteLabel = receiptRoute ? routeLabels[receiptRoute] : routeLabel;
 
   useEffect(() => {
     if (result?.ok) resultRef.current?.focus();
@@ -489,6 +494,7 @@ export function LocalhostIntakeForm({
   return (
     <form
       aria-label="Localhost private inquiry"
+      aria-busy={isPending}
       className={`localhost-intake-form${compact ? " localhost-intake-form--compact" : ""}${
         embedded ? " localhost-intake-form--embedded" : ""
       }`}
@@ -513,6 +519,7 @@ export function LocalhostIntakeForm({
         aria-hidden="true"
         autoComplete="off"
         className="intake-honeypot"
+        disabled={isPending}
         name="companyWebsite"
         onChange={(event) => setHoneypot(event.target.value)}
         tabIndex={-1}
@@ -527,6 +534,7 @@ export function LocalhostIntakeForm({
             aria-describedby={errorField === "name" ? "inquiry-error" : undefined}
             aria-invalid={errorField === "name"}
             autoComplete="name"
+            disabled={isPending}
             id="inquiry-name"
             name="name"
             onChange={(event) => {
@@ -549,6 +557,7 @@ export function LocalhostIntakeForm({
             aria-describedby={errorField === "email" ? "inquiry-error" : undefined}
             aria-invalid={errorField === "email"}
             inputMode="email"
+            disabled={isPending}
             id="inquiry-email"
             name="email"
             onChange={(event) => {
@@ -570,6 +579,7 @@ export function LocalhostIntakeForm({
         <textarea
           aria-describedby={errorField === "shortNote" ? "short-note-hint inquiry-error" : "short-note-hint"}
           aria-invalid={errorField === "shortNote"}
+          disabled={isPending}
           id="inquiry-short-note"
           name="shortNote"
           onChange={(event) => {
@@ -609,7 +619,7 @@ export function LocalhostIntakeForm({
                 <button
                   aria-pressed={activeIntent === role}
                   className="role-tab"
-                  disabled={contextLocked}
+                  disabled={contextLocked || isPending}
                   key={role}
                   onClick={() => {
                     setActiveIntent(role);
@@ -630,6 +640,7 @@ export function LocalhostIntakeForm({
               <label className="representative-toggle">
                 <input
                   checked={representativeInquiry}
+                  disabled={isPending}
                   name="representativeInquiry"
                   onChange={(event) =>
                     updateRepresentativeInquiry(
@@ -651,6 +662,7 @@ export function LocalhostIntakeForm({
                   <div className="optional-field-grid">
                     {travelerRepresentationDetails.map((field) => (
                       <DetailFieldInput
+                        disabled={isPending}
                         field={field}
                         error={errorDetail === field.name ? error : ""}
                         key={field.name}
@@ -671,6 +683,7 @@ export function LocalhostIntakeForm({
         aria-expanded={detailsOpen}
         className="optional-toggle"
         data-track-event="optional_details"
+        disabled={isPending}
         onClick={() => setDetailsOpen((open) => !open)}
         type="button"
       >
@@ -689,6 +702,7 @@ export function LocalhostIntakeForm({
                     {fields.slice(0, 7).map((field) => (
                       <DetailFieldInput
                         contextLocked={contextLocked}
+                        disabled={isPending}
                         field={field}
                         error={errorDetail === field.name ? error : ""}
                         key={field.name}
@@ -703,6 +717,7 @@ export function LocalhostIntakeForm({
                   <div className="optional-field-grid">
                     {fields.slice(7, 11).map((field) => (
                       <DetailFieldInput
+                        disabled={isPending}
                         field={field}
                         error={errorDetail === field.name ? error : ""}
                         key={field.name}
@@ -717,6 +732,7 @@ export function LocalhostIntakeForm({
                   <div className="optional-field-grid">
                     {fields.slice(11).map((field) => (
                       <DetailFieldInput
+                        disabled={isPending}
                         field={field}
                         error={errorDetail === field.name ? error : ""}
                         key={field.name}
@@ -733,6 +749,7 @@ export function LocalhostIntakeForm({
                 <div className="optional-field-grid">
                   {fields.map((field) => (
                     <DetailFieldInput
+                      disabled={isPending}
                       field={field}
                       error={errorDetail === field.name ? error : ""}
                       key={field.name}
@@ -758,6 +775,7 @@ export function LocalhostIntakeForm({
                   : replyPreferenceDetails
                 ).map((field) => (
                   <DetailFieldInput
+                    disabled={isPending}
                     field={field}
                     error={errorDetail === field.name ? error : ""}
                     key={field.name}
@@ -793,8 +811,8 @@ export function LocalhostIntakeForm({
         >
           <strong aria-live="polite" role="status">{result.message}</strong>
           <p>
-            {name} / {activeIntent.charAt(0).toUpperCase() + activeIntent.slice(1)} / {email}
-            {routeLabel ? ` / ${routeLabel}` : null}
+            {receiptName} / {receiptIntent.charAt(0).toUpperCase() + receiptIntent.slice(1)} / {receiptEmail}
+            {receiptRouteLabel ? ` / ${receiptRouteLabel}` : null}
           </p>
           {result.inquiryId ? (
             <p className="inquiry-reference">Reference: {result.inquiryId}</p>
@@ -912,18 +930,20 @@ function InquiryFieldErrorText({ message }: { message: string }) {
 
 function DetailFieldInput({
   contextLocked = false,
+  disabled = false,
   field,
   error = "",
   onChange,
   value
 }: {
   contextLocked?: boolean;
+  disabled?: boolean;
   field: DetailField;
   error?: string;
   onChange: (name: string, value: string) => void;
   value: string;
 }) {
-  const disabled = contextLocked && field.name === "routeInterest";
+  const controlDisabled = disabled || (contextLocked && field.name === "routeInterest");
   const errorAttributes = {
     "aria-invalid": Boolean(error),
     "aria-describedby": error ? "inquiry-error" : undefined
@@ -935,7 +955,7 @@ function DetailFieldInput({
       {field.type === "select" ? (
         <select
           {...errorAttributes}
-          disabled={disabled}
+          disabled={controlDisabled}
           name={field.name}
           onChange={(event) => onChange(field.name, event.target.value)}
           value={value}
@@ -950,6 +970,7 @@ function DetailFieldInput({
       ) : field.type === "textarea" ? (
         <textarea
           {...errorAttributes}
+          disabled={controlDisabled}
           name={field.name}
           onChange={(event) => onChange(field.name, event.target.value)}
           placeholder={field.placeholder}
@@ -959,6 +980,7 @@ function DetailFieldInput({
       ) : (
         <input
           {...errorAttributes}
+          disabled={controlDisabled}
           name={field.name}
           onChange={(event) => onChange(field.name, event.target.value)}
           placeholder={field.placeholder}

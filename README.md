@@ -107,6 +107,7 @@ pnpm a11y
 pnpm inquiry:delivery
 pnpm inquiry:recovery
 pnpm inquiry:content
+pnpm inquiry:pending
 ```
 
 Run `pnpm smoke` against the local server, or set `SITE_URL` to check a
@@ -123,3 +124,6 @@ receipt and unsent email recovery, including long drafts and unavailable
 clipboard access. It never sends an inquiry to the backend or email provider.
 `pnpm inquiry:content` checks shared text boundaries, retained originals,
 inline field errors, and role-specific payloads with every submission intercepted.
+`pnpm inquiry:pending` holds intercepted responses to check that identity, role,
+and route details cannot change in flight. It verifies accurate receipt summaries,
+retained drafts and retry after rejection or network loss, without sending email.

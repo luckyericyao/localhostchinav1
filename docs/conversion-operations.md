@@ -20,6 +20,14 @@ optional section opens when its field needs attention. Only whitespace trimming
 and email casing are normalized. Role changes retain cached text in memory but
 submit only the selected role's fields and shared reply preferences.
 
+While a submission is in flight, intake controls are disabled and the form is
+marked busy. A returned receipt uses the server's normalized submission summary,
+not the live draft values. Once the response arrives, editing resumes; rejection
+or network loss retains the complete draft for retry without claiming receipt.
+An intentional edit after a receipt clears that receipt and starts a new draft.
+Run `pnpm run inquiry:pending` to test these transitions with delayed, intercepted
+responses. These fixtures do not prove real email delivery.
+
 - `inquiry_delivery_success` — the configured Resend provider accepted the message.
 - `inquiry_delivery_fallback` — direct delivery was unavailable, so the browser received a prepared `mailto:` link.
 - `inquiry_error` — the client could not receive a submission result; the user sees a retry message and no delivery is claimed.
