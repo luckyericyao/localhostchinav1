@@ -174,10 +174,11 @@ export default function TravelersPage() {
         <section className="section">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Plain Terms</p>
-            <h2>How to read Localhost language.</h2>
+            <h2>The parts of a private route.</h2>
             <p>
-              A few words repeat across the site. They are meant to make the
-              model clearer, not more mysterious.
+              A route gives the journey its structure; a host provides local
+              interpretation. Review comes first, before scope or availability
+              is confirmed.
             </p>
           </div>
           <div className="support-card-grid">
@@ -193,7 +194,7 @@ export default function TravelersPage() {
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">What You Receive</p>
-            <h2>Not more itinerary noise. A route that can be held.</h2>
+            <h2>A clear route, a considered host, practical support.</h2>
           </div>
           <div className="support-card-grid support-card-grid--three">
             {received.map((item) => (

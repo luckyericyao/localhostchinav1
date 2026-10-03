@@ -108,6 +108,10 @@ pnpm a11y
 
 Run `pnpm smoke` against the local server, or set `SITE_URL` to check a
 deployed URL. It verifies the core routes, key conversion copy, route page
-markers, and the privacy-safe analytics endpoint. `pnpm a11y` uses the local
+markers, retired editorial-direction copy, and the privacy-safe analytics
+endpoint. For a read-only production check, run
+`SITE_URL=https://localhostglobal.vercel.app SMOKE_READ_ONLY=1 pnpm smoke`;
+this checks rendered pages without posting synthetic analytics events.
+`pnpm a11y` uses the local
 Chrome binary for a mobile axe and keyboard smoke check plus homepage LCP/CLS
 measurement; set `CHROME_PATH` when Chrome is installed elsewhere.

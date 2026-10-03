@@ -101,11 +101,10 @@ export default function AboutPage() {
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Plain Version</p>
-            <h2>The brand in practical terms.</h2>
+            <h2>What Localhost does.</h2>
             <p>
-              Localhost should feel thoughtful, not mysterious. The model is
-              private route design, trusted host fit, and practical local
-              judgment.
+              We shape a private route, identify a suitable local host, and
+              agree the practical support before confirmation.
             </p>
           </div>
           <div className="support-card-grid support-card-grid--three">

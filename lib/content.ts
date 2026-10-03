@@ -28,14 +28,14 @@ export const arrangements = [
 export const culturalVisualLayers = {
   home: {
     eyebrow: "Cultural Texture",
-    title: "China is read through practice, roads, temples, tea, and quiet judgment.",
+    title: "Practice, old roads, temples, and the tea table.",
     body:
-      "Localhost routes use visible cultural texture as an entry point: movement, old roads, temple thresholds, tea tables, and the slower intelligence of place.",
+      "Follow your curiosity into a temple courtyard, along an old road, or across a tea table. Local context gives these encounters meaning.",
     items: [
       {
         title: "Martial Discipline",
         copy:
-          "Practice culture is shown as rhythm, repetition, breath, and restraint before spectacle.",
+          "Repetition, breath, and restraint offer a way into Chinese martial culture beyond a performance.",
         src: "/images/shaolin-practice-courtyard.png",
         alt: "Restrained Shaolin martial practice in a stone courtyard at dawn."
       },
@@ -100,9 +100,9 @@ export const culturalVisualLayers = {
   },
   journeys: {
     eyebrow: "Route Language",
-    title: "Each route should have a different visual temperature.",
+    title: "Four routes, four ways into China.",
     body:
-      "Shanxi carries weight, Shaolin carries discipline, Huizhou carries ink and tea. The page should let those differences be felt before they are explained.",
+      "Shanxi for timber halls and Buddhist history; Shaolin for Chan and practice; Huizhou for villages and tea; Shanghai for a considered arrival.",
     items: [
       {
         title: "Road-Based North",
@@ -189,7 +189,7 @@ export const culturalVisualLayers = {
     eyebrow: "Trust Has A Setting",
     title: "Private access only works when the place is protected.",
     body:
-      "The visual language should remind travelers that culture is not a commodity: temples, roads, tables, and practice spaces need boundaries before access.",
+      "Temple etiquette, photography permissions, and a clear role for the visitor matter. Access depends on the people who live, work, or practice there.",
     items: [
       {
         title: "Protected Thresholds",
@@ -432,10 +432,10 @@ export const chinaRoutePages = {
       { label: "Host Role", value: "Cultural interpreter and route steadying presence" }
     ],
     gallery: {
-      eyebrow: "Shanxi Visual Entry",
+      eyebrow: "Shanxi In Detail",
       title: "Stone, timber, road, and Buddhist weight.",
       body:
-        "Shanxi should feel material and old: grotto stone, timber architecture, ancient roads, temple thresholds, and the dry northern earth beneath the route.",
+        "Follow stone and timber through northern Buddhist history, linking grottoes, temple halls, old roads, and merchant courtyards. A host helps connect what you see with the lives behind it.",
       images: [
         {
           title: "Buddhist Stone",
@@ -447,14 +447,14 @@ export const chinaRoutePages = {
         {
           title: "Ancient Road",
           copy:
-            "Road time is part of the chapter: old routes, walled thresholds, and patient movement.",
+            "Travel time leaves room for regional food and for understanding how one site connects to the next.",
           src: "/images/cultural-ancient-road.png",
           alt: "Ancient stone road leading toward an old Chinese gate in mountain haze."
         },
         {
           title: "Temple Threshold",
           copy:
-            "Wood, incense, and shadow make the spiritual layer easier to feel before it is explained.",
+            "A host explains how to enter a working temple, what to notice, and when to leave space for worship.",
           src: "/images/cultural-temple-threshold.png",
           alt: "Old timber temple threshold with incense and courtyard light."
         },
@@ -602,36 +602,36 @@ export const chinaRoutePages = {
       { label: "Host Role", value: "Context keeper and practice-culture interpreter" }
     ],
     gallery: {
-      eyebrow: "Shaolin Visual Entry",
+      eyebrow: "Around Shaolin",
       title: "Temple, practice, mountain, memory.",
       body:
-        "For a first encounter, Shaolin should read clearly: monastery architecture, disciplined movement, Buddhist memory, and the Songshan landscape that holds it together.",
+        "Begin with the monastery and Pagoda Forest, then make room for Songshan and the culture of daily practice. The route balances temple context, mountain time, and your interest in training.",
       images: [
         {
           title: "Monastery Atmosphere",
           copy:
-            "Temple roofs, incense, stone, pine, and mountain haze make the spiritual setting legible before the route begins.",
+            "Temple halls and courtyards introduce Chan heritage, with local context before you enter.",
           src: "/images/shaolin-dengfeng.png",
           alt: "Shaolin temple courtyard with mountain haze and quiet morning practice."
         },
         {
           title: "Practice Culture",
           copy:
-            "Training is presented as rhythm and discipline, not entertainment or kung fu spectacle.",
+            "Repetition, breath, and attention matter more than a performance. Training visits require permission and an agreed role for the visitor.",
           src: "/images/shaolin-practice-courtyard.png",
           alt: "Restrained Shaolin martial practice in a stone temple courtyard at dawn."
         },
         {
           title: "Pagoda Forest",
           copy:
-            "Stone pagodas carry Buddhist memory and make the route feel older than a single temple visit.",
+            "Time among the pagodas opens a different conversation about Shaolin’s Buddhist history.",
           src: "/images/shaolin-pagoda-forest.png",
           alt: "Shaolin Pagoda Forest with weathered stone towers and Songshan mountain haze."
         },
         {
           title: "Songshan Stillness",
           copy:
-            "Stone paths, pine, monastery walls, and mountain air keep the route grounded and quiet.",
+            "A mountain walk is chosen for the weather, walking tolerance, and time available, with room to pause.",
           src: "/images/shaolin-songshan-steps.png",
           alt: "Ancient stone steps beside a Songshan monastery wall and misted mountain pines."
         }
@@ -707,7 +707,7 @@ export const chinaRoutePages = {
       "Visitors who want the temple reduced to a photo stop"
     ],
     final:
-      "A Shaolin route should feel grounded: mountain air, practice, restraint, and a host who knows when to explain and when to let the place stay quiet."
+      "Mountain time and practice set the pace, with a host who knows when context helps and when to leave room for observation."
   },
   huizhou: {
     eyebrow: "Huizhou / Huangshan",
@@ -772,36 +772,36 @@ export const chinaRoutePages = {
       { label: "Host Role", value: "Village reader, tea companion, architecture interpreter" }
     ],
     gallery: {
-      eyebrow: "Huizhou Visual Entry",
+      eyebrow: "Village & Mountain",
       title: "White walls, tea, mist, and inward beauty.",
       body:
-        "Huizhou should feel quieter than scenic tourism: rain-washed lanes, ancestral halls, tea tables, ink-like mountains, and the social memory behind the architecture.",
+        "Village lanes and ancestral halls reveal the region’s merchant culture. Tea and courtyard time balance the walking, with Huangshan added when weather and route length allow.",
       images: [
         {
           title: "Village Lanes",
           copy:
-            "White walls, black tiles, stone lanes, and rain hold the route in a quieter register.",
+            "White-walled lanes give the architecture time to register, with local context for the houses and halls along the way.",
           src: "/images/huizhou-rain-courtyard.png",
           alt: "Rain-washed Huizhou lane with white walls and dark tiled roofs."
         },
         {
           title: "Tea & Weiqi",
           copy:
-            "Tea and weiqi make the route feel inward: taste, pause, conversation, and reading.",
+            "A tea table offers a slower setting for conversation; weiqi adds another way to talk about patience and strategy.",
           src: "/images/cultural-tea-weiqi.png",
           alt: "Tea set and weiqi board in an old courtyard."
         },
         {
           title: "Mountain Mist",
           copy:
-            "Huangshan atmosphere gives the route its ink-landscape horizon.",
+            "Huangshan is a possible mountain chapter, shaped around weather, walking comfort, and available time.",
           src: "/images/huizhou-huangshan.png",
           alt: "Huizhou and Huangshan atmosphere with mist and mountain light."
         },
         {
           title: "Courtyard Culture",
           copy:
-            "Old thresholds and private rooms help explain family memory, taste, and merchant culture.",
+            "Courtyards and ancestral halls connect architecture with family history and merchant life.",
           src: "/images/cultural-temple-threshold.png",
           alt: "Old Chinese timber threshold with stone courtyard beyond."
         }
@@ -944,29 +944,29 @@ export const chinaRoutePages = {
       { label: "Host Role", value: "Steady arrival lead and city interpreter" }
     ],
     gallery: {
-      eyebrow: "Shanghai Visual Entry",
-      title: "River, table, quiet door.",
+      eyebrow: "Three Parts Of Shanghai",
+      title: "The Bund, dinner, after dark.",
       body:
-        "Shanghai should not read like a skyline card. It should feel like a controlled first threshold: river architecture, a table with judgment, an after-dark ending, and the confidence to continue deeper.",
+        "A walk along the Bund, a well-chosen table, and a quieter end to the evening. The sequence follows your arrival time, appetite, and energy, with onward China travel in view.",
       images: [
         {
-          title: "The Bund, Read Slowly",
+          title: "The Bund On Foot",
           copy:
-            "The riverfront becomes an orientation walk: history, finance, movement, and the city’s public face read without hurry.",
+            "Walk the riverfront with context for its buildings and history, timed around light, weather, and your first day in the city.",
           src: "/images/shanghai-bund-walk.png",
           alt: "Quiet Shanghai Bund riverside walk with historic architecture and muted evening light."
         },
         {
-          title: "A Table With Judgment",
+          title: "A Table Chosen For You",
           copy:
-            "The meal is chosen for taste and discretion, not spectacle: a table where pace, ordering, and conversation are held well.",
+            "Restaurant choice starts with your appetite, dietary needs, and privacy. Ordering and reservations are handled within the agreed scope.",
           src: "/images/shanghai-vip-eat.png",
           alt: "Discreet private Shanghai dining room with tea, composed dishes, and warm evening light."
         },
         {
-          title: "A Quiet After-Dark Door",
+          title: "After Dark",
           copy:
-            "The night ends through a smaller door into the city: quiet light, old lane texture, and access without noise.",
+            "An old lane, a river walk, or a small venue, chosen for your energy that evening. Entry and availability are checked before anything is confirmed.",
           src: "/images/shanghai-secret-night.png",
           alt: "Quiet hidden Shanghai night lane with warm doorway light and distant city glow."
         }
@@ -1346,9 +1346,9 @@ export const chinaSupportPages = {
             "A lane, temple, market, courtyard, or neighborhood becomes clearer when someone explains what to notice and what not to force."
         },
         {
-          title: "No borrowed importance",
+          title: "Permission before access",
           copy:
-            "Access should not feel like theater. It should feel respectful, contextual, and appropriate to the place."
+            "A visit depends on invitation, permission, and the boundaries of the people who live or work there. Access is discussed before it is confirmed."
         }
       ]
     },

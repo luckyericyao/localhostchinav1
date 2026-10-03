@@ -8,7 +8,9 @@ const routes = [
   "/china/shaolin",
   "/china/huizhou",
   "/china/shanghai",
+  "/china/real-access",
   "/travelers",
+  "/about",
   "/how-it-works",
   "/trust",
   "/inquiry"
@@ -17,6 +19,13 @@ const routes = [
 const expectedContent = new Map([
   ["/", ["A named Localhost reviewer replies"]],
   ["/china", ["How Localhost Works In China"]],
+  ["/china/shanxi", ["Flagship China Route", "Shanxi In Detail", "Follow stone and timber"]],
+  ["/china/shaolin", ["Around Shaolin", "Training visits require permission"]],
+  ["/china/huizhou", ["Village &amp; Mountain", "with Huangshan added when weather and route length allow"]],
+  ["/china/shanghai", ["The Bund, dinner, after dark.", "Entry and availability are checked"]],
+  ["/china/real-access", ["Permission before access", "A visit depends on invitation, permission"]],
+  ["/travelers", ["The parts of a private route.", "A clear route, a considered host, practical support."]],
+  ["/about", ["What Localhost does.", "Practice, old roads, temples, and the tea table."]],
   [
     "/journeys",
     [
@@ -68,6 +77,26 @@ const expectedShareImages = new Map([
 
 const productionUrl = "https://localhostglobal.vercel.app";
 
+const activeRoutePaths = new Set([
+  "/china/shanxi", "/china/shaolin", "/china/huizhou", "/china/shanghai"
+]);
+
+const retiredEditorialCopy = [
+  "Visual Entry",
+  "different visual temperature",
+  "The page should let",
+  "The visual language should",
+  "visible cultural texture",
+  "Practice culture is shown",
+  "Training is presented",
+  "Shanxi should feel",
+  "Shaolin should read",
+  "Huizhou should feel",
+  "Shanghai should not read",
+  "Localhost should feel thoughtful",
+  "A few words repeat across the site"
+];
+
 const retiredRouteHeadings = [
   "Choose Another Route If",
   "Compact entry points, held with context.",
@@ -92,6 +121,13 @@ for (const path of routes) {
   for (const marker of expected) {
     if (!body.includes(marker)) {
       console.error(`FAIL ${path}: missing expected content: ${marker}`);
+      failed = true;
+    }
+  }
+
+  for (const marker of retiredEditorialCopy) {
+    if (body.includes(marker)) {
+      console.error(`FAIL ${path}: internal editorial direction remains: ${marker}`);
       failed = true;
     }
   }
@@ -125,7 +161,7 @@ for (const path of routes) {
     }
   }
 
-  if (path.startsWith("/china/") && !body.includes("data-route-page")) {
+  if (activeRoutePaths.has(path) && !body.includes("data-route-page")) {
     console.error(`FAIL ${path}: missing route page marker`);
     failed = true;
     continue;
@@ -142,7 +178,7 @@ for (const path of routes) {
     failed = true;
   }
 
-  if (path.startsWith("/china/")) {
+  if (activeRoutePaths.has(path)) {
     for (const retiredHeading of retiredRouteHeadings) {
       if (body.includes(retiredHeading)) {
         console.error(
@@ -175,7 +211,7 @@ for (const path of routes) {
   console.log(`PASS ${path} (${body.length} bytes)`);
 }
 
-const analyticsEvents = [
+const analyticsEvents = process.env.SMOKE_READ_ONLY === "1" ? [] : [
   {
     event: "route_view",
     path: "/china/shanxi",
