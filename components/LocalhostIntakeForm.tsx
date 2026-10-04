@@ -33,9 +33,9 @@ type DetailField = {
 };
 
 const routeLabels: Record<LocalhostRouteContext, string> = {
-  beijing: "Beijing",
+  beijing: "Beijing — future route",
   "china-general": "China general",
-  chengdu: "Chengdu",
+  chengdu: "Chengdu — future route",
   huizhou: "Huizhou",
   shanghai: "Shanghai",
   shanxi: "Shanxi",
@@ -52,7 +52,7 @@ const roleCopy: Record<LocalhostIntentType, { helper: string; label: string }> =
     label: "What kind of route, relationship, or collaboration are you considering?"
   },
   traveler: {
-    helper: "One sentence is enough: what kind of China do you want to understand?",
+    helper: "A place, interest, rough date, or practical need is enough to begin.",
     label: "What kind of China do you want to understand?"
   }
 };
@@ -86,7 +86,7 @@ const travelerDetails: DetailField[] = [
     helper: "Choose a route if one already feels right.",
     label: "Route interest",
     name: "routeInterest",
-    options: ["Shanxi", "Shaolin", "Huizhou", "Shanghai", "Beijing", "Chengdu", "Not sure yet"],
+    options: ["Shanxi", "Shaolin", "Huizhou", "Shanghai", "Beijing — future route", "Chengdu — future route", "Not sure yet"],
     type: "select"
   },
   {
@@ -162,10 +162,10 @@ const travelerDetails: DetailField[] = [
     type: "textarea"
   },
   {
-    helper: "Share only what affects comfort, safety, privacy, or fit.",
-    label: "Sensitive or important notes",
+    helper: "Describe only the practical adjustment needed. Do not share diagnoses, identity documents, or payment details.",
+    label: "Important arrangements",
     name: "sensitiveNotes",
-    placeholder: "Mobility, medical, privacy, religious, family, or business constraints",
+    placeholder: "Step-free access, more rest stops, dietary needs, or discretion for work calls",
     type: "textarea"
   }
 ];
@@ -313,8 +313,10 @@ export function LocalhostIntakeForm({
   const [representativeInquiry, setRepresentativeInquiry] = useState(false);
   const [shortNote, setShortNote] = useState(defaultMessage);
   const [startedAt] = useState(() => Date.now());
+  const [validationAttempt, setValidationAttempt] = useState(0);
   const emailRef = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const shortNoteRef = useRef<HTMLTextAreaElement>(null);
@@ -341,6 +343,20 @@ export function LocalhostIntakeForm({
   useEffect(() => {
     if (result?.ok) resultRef.current?.focus();
   }, [result]);
+
+  useEffect(() => {
+    if (!error || isPending) return;
+    if (errorField === "name") nameRef.current?.focus();
+    else if (errorField === "email") emailRef.current?.focus();
+    else if (errorField === "shortNote") shortNoteRef.current?.focus();
+    else {
+      const target = errorDetail && hasVisibleDetailError
+        ? formRef.current?.elements.namedItem(errorDetail)
+        : null;
+      if (target instanceof HTMLElement) target.focus();
+      else errorRef.current?.focus();
+    }
+  }, [error, errorField, errorDetail, hasVisibleDetailError, isPending, validationAttempt]);
 
   function clearSubmissionFeedback() {
     setError("");
@@ -394,17 +410,8 @@ export function LocalhostIntakeForm({
     const activeDetail = !field && detailKey && activeDetailNames.has(detailKey) ? detailKey : null;
     setErrorDetail(activeDetail);
     if (activeDetail) setDetailsOpen(true);
+    setValidationAttempt((attempt) => attempt + 1);
     trackLocalhostEvent("validation_error", form);
-    window.requestAnimationFrame(() => {
-      if (field === "name") nameRef.current?.focus();
-      if (field === "email") emailRef.current?.focus();
-      if (field === "shortNote") shortNoteRef.current?.focus();
-      if (!field) {
-        const target = activeDetail ? form.elements.namedItem(activeDetail) : null;
-        if (target instanceof HTMLElement) target.focus();
-        else errorRef.current?.focus();
-      }
-    });
   }
 
   function showSubmissionError(form: HTMLFormElement) {
@@ -413,8 +420,8 @@ export function LocalhostIntakeForm({
     );
     setErrorField(null);
     setErrorDetail(null);
+    setValidationAttempt((attempt) => attempt + 1);
     trackLocalhostEvent("inquiry_error", form);
-    window.requestAnimationFrame(() => errorRef.current?.focus());
   }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -460,7 +467,7 @@ export function LocalhostIntakeForm({
           if (response.errorCode === "delivery_unconfigured") {
             setError(response.message);
             setErrorField(null);
-            window.requestAnimationFrame(() => errorRef.current?.focus());
+            setValidationAttempt((attempt) => attempt + 1);
             return;
           }
           if (/wait before sending/i.test(response.message)) {
@@ -491,6 +498,22 @@ export function LocalhostIntakeForm({
     });
   }
 
+  const submitButton = (
+    <button
+      className="button button--dark"
+      disabled={isPending || Boolean(result?.ok)}
+      type="submit"
+    >
+      {isPending
+        ? "Preparing..."
+        : result?.ok
+          ? result.delivery === "mailto"
+            ? "Email ready to send"
+            : "Inquiry received"
+          : submitLabel(activeIntent)}
+    </button>
+  );
+
   return (
     <form
       aria-label="Localhost private inquiry"
@@ -506,6 +529,7 @@ export function LocalhostIntakeForm({
       aria-describedby={error ? "inquiry-error" : undefined}
       noValidate
       onSubmit={handleSubmit}
+      ref={formRef}
     >
       <h2 className="visually-hidden">Private inquiry details</h2>
       {routeContext ? (
@@ -587,9 +611,9 @@ export function LocalhostIntakeForm({
             clearSubmissionFeedback();
           }}
           placeholder={
-            routeContext
-              ? "One sentence is enough. What should this route hold for you?"
-              : "One sentence is enough."
+            activeIntent === "traveler"
+              ? "For example: five days, old temples, good food, and time to walk."
+              : noteCopy.helper
           }
           ref={shortNoteRef}
           required
@@ -598,7 +622,7 @@ export function LocalhostIntakeForm({
         />
         <small id="short-note-hint">
           {routeContext
-            ? "The route is already captured. Tell us what you want it to hold."
+            ? "Your route is selected. Tell us your interests or practical needs."
             : noteCopy.helper}
         </small>
         {errorField === "shortNote" ? <InquiryFieldErrorText message={error} /> : null}
@@ -677,6 +701,29 @@ export function LocalhostIntakeForm({
           ) : null}
         </>
       ) : null}
+
+      <div className="localhost-intake-actions">
+        <div className="localhost-intake-submit">
+          {submitButton}
+          <p className="submission-assurance">
+            No payment or booking at inquiry. A confirmed submission returns a
+            private reference here; an unsent email draft is marked separately.
+          </p>
+        </div>
+        {compact ? (
+          <a
+            className="text-link"
+            href={buildInquiryHref({
+              intentType: activeIntent,
+              routeContext,
+              sourceLabel,
+              sourcePage
+            })}
+          >
+            See full intake
+          </a>
+        ) : null}
+      </div>
 
       <button
         aria-controls="optional-route-details"
@@ -786,6 +833,9 @@ export function LocalhostIntakeForm({
               </div>
             </section>
           </div>
+          <div className="localhost-intake-actions">
+            {submitButton}
+          </div>
         </div>
       ) : null}
 
@@ -841,40 +891,6 @@ export function LocalhostIntakeForm({
         </div>
       ) : null}
 
-      <div className={`localhost-intake-actions${detailsOpen && !compact ? " localhost-intake-actions--sticky" : ""}`}>
-        <div className="localhost-intake-submit">
-          <button
-            className="button button--dark"
-            disabled={isPending || Boolean(result?.ok)}
-            type="submit"
-          >
-            {isPending
-              ? "Preparing..."
-              : result?.ok
-                ? result.delivery === "mailto"
-                  ? "Email ready to send"
-                  : "Inquiry received"
-                : submitLabel(activeIntent)}
-          </button>
-          <p className="submission-assurance">
-            Successful direct delivery returns a private reference here. No
-            payment or identity documents are requested at inquiry.
-          </p>
-        </div>
-        {compact ? (
-          <a
-            className="text-link"
-            href={buildInquiryHref({
-              intentType: activeIntent,
-              routeContext,
-              sourceLabel,
-              sourcePage
-            })}
-          >
-            See full intake
-          </a>
-        ) : null}
-      </div>
     </form>
   );
 }

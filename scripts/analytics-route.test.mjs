@@ -4,6 +4,7 @@ import test from "node:test";
 import vm from "node:vm";
 import ts from "typescript";
 import { normalizeMetricSessionId } from "../lib/metricSession.ts";
+import * as dimensions from "../lib/metricDimensions.ts";
 
 function load(path, dependencies, extra = {}) {
   const source = readFileSync(new URL(path, import.meta.url), "utf8");
@@ -26,16 +27,18 @@ function harness() {
   const captured = [];
   const logged = [];
   const metrics = load("../lib/metrics.ts", {
-    "@/lib/metricSession": { normalizeMetricSessionId }
-  });
+    "@/lib/metricSession": { normalizeMetricSessionId },
+    "@/lib/metricDimensions": dimensions
+  }, { process: { env: {} }, console: { info: (line) => logged.push(JSON.parse(line)) } });
   const route = load("../app/api/analytics/route.ts", {
     "next/server": { NextResponse: { json: Response.json } },
     "@/lib/metricSession": { normalizeMetricSessionId },
+    "@/lib/metricDimensions": dimensions,
     "@/lib/metrics": {
       ...metrics,
-      persistLocalhostMetric: async (metric) => { captured.push(metric); }
+      persistLocalhostMetric: async (metric) => { captured.push(metric); await metrics.persistLocalhostMetric(metric); }
     }
-  }, { console: { info: (_label, metric) => logged.push(metric) } });
+  });
   return { post: route.POST, captured, logged };
 }
 
@@ -55,6 +58,9 @@ test("page views retain opaque sessions and drop personal fields", async () => {
   assert.equal(response.status, 200);
   assert.equal(h.captured[0].sessionId, sessionId);
   assert.equal(h.logged[0].sessionId, sessionId);
+  assert.equal(h.logged[0].kind, "localhost_metric");
+  assert.equal(h.logged[0].origin, "client");
+  assert.ok(Number.isFinite(Date.parse(h.logged[0].recordedAt)));
   for (const value of ["PRIVATE NAME", "private@example.test", "PRIVATE NOTE"]) {
     assert.equal(JSON.stringify([h.captured, h.logged]).includes(value), false);
   }
@@ -78,4 +84,18 @@ test("invalid session identity is discarded and unknown events are rejected", as
   assert.equal(h.captured[0].sessionId, "");
   assert.equal(JSON.stringify(h.logged).includes("private@example.test"), false);
   assert.equal((await h.post(request({ event: "unknown" }))).status, 400);
+});
+
+test("analytics dimensions cannot carry private text or URL parameters", async () => {
+  const h = harness();
+  const response = await h.post(request({
+    event: "inquiry_start", path: "/inquiry?principal=PRIVATE PRINCIPAL#PRIVATE NOTE",
+    route: "PRIVATE ROUTE", source: "private@example.test",
+    metricName: "PRIVATE_NAME", inquiryId: "PRIVATE_REFERENCE"
+  }));
+  assert.equal(response.status, 200);
+  assert.equal(h.captured[0].path, "/inquiry");
+  for (const value of ["PRIVATE PRINCIPAL", "PRIVATE NOTE", "PRIVATE ROUTE", "private@example.test", "PRIVATE_NAME", "PRIVATE_REFERENCE"]) {
+    assert.equal(JSON.stringify([h.captured, h.logged]).includes(value), false, `Leaked ${value}`);
+  }
 });

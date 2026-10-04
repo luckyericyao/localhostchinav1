@@ -9,6 +9,7 @@ import {
 import { persistLocalhostMetric } from "@/lib/metrics";
 import { sendInquiryEmail } from "@/lib/inquiryEmail";
 import { normalizeMetricSessionId } from "@/lib/metricSession";
+import { normalizeMetricPath } from "@/lib/metricDimensions";
 import { readInquiryFields, type InquiryFieldError } from "@/lib/inquiryValidation";
 
 export type LocalhostIntentType = "traveler" | "host" | "partner";
@@ -134,7 +135,7 @@ function logInquiryEvent(
     providerMessageId: details.providerMessageId || "",
     routeContext: details.routeContext || "",
     sessionId: details.sessionId || "",
-    sourcePage: details.sourcePage || "",
+    sourcePage: normalizeMetricPath(details.sourcePage),
     durationMs: details.durationMs || 0
   });
 
@@ -160,11 +161,11 @@ function logInquiryEvent(
     void persistLocalhostMetric({
       event: metricEvent,
       inquiryId: details.inquiryId,
-      path: details.sourcePage || "/inquiry",
+      path: normalizeMetricPath(details.sourcePage) || "/inquiry",
       route: details.routeContext,
       sessionId: details.sessionId,
       source: "server_action"
-    });
+    }, { origin: "server" });
   }
 }
 

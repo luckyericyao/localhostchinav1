@@ -1,4 +1,8 @@
 import { normalizeMetricSessionId } from "@/lib/metricSession";
+import {
+  normalizeMetricInquiryId, normalizeMetricName, normalizeMetricPath,
+  normalizeMetricRoute, normalizeMetricSource
+} from "@/lib/metricDimensions";
 
 export const localhostMetricEvents = [
   "hero_cta",
@@ -54,11 +58,25 @@ export function isAllowedClientMetricEvent(value: string): value is LocalhostMet
   ].includes(value);
 }
 
-function cleanMetricString(value: string | undefined, maxLength: number) {
-  return value?.trim().slice(0, maxLength) || "";
-}
-
-export async function persistLocalhostMetric(payload: LocalhostMetricPayload) {
+export async function persistLocalhostMetric(
+  payload: LocalhostMetricPayload,
+  options: { origin?: "client" | "server" } = {}
+) {
+  const origin = options.origin || "client";
+  const record = {
+    kind: "localhost_metric", version: 1,
+    recordedAt: new Date().toISOString(), origin,
+    event: payload.event,
+    sessionId: normalizeMetricSessionId(payload.sessionId),
+    path: normalizeMetricPath(payload.path),
+    route: normalizeMetricRoute(payload.route),
+    source: normalizeMetricSource(payload.source),
+    metricName: payload.event === "web_vital" ? normalizeMetricName(payload.metricName) : "",
+    inquiryId: origin === "server" ? normalizeMetricInquiryId(payload.inquiryId) : "",
+    value: typeof payload.value === "number" && Number.isFinite(payload.value)
+      ? Math.max(0, Math.min(payload.value, 120000)) : undefined
+  };
+  console.info(JSON.stringify(record));
   const apiKey = process.env.POSTHOG_API_KEY;
   if (!apiKey) return;
 
@@ -67,19 +85,19 @@ export async function persistLocalhostMetric(payload: LocalhostMetricPayload) {
     ""
   );
   const properties: Record<string, string | number> = {
-    distinct_id: normalizeMetricSessionId(payload.sessionId) || "localhost-server",
-    path: cleanMetricString(payload.path, 120),
-    route: cleanMetricString(payload.route, 80),
-    source: cleanMetricString(payload.source, 80)
+    distinct_id: record.sessionId || "localhost-server",
+    path: record.path,
+    route: record.route,
+    source: record.source
   };
 
-  const metricName = cleanMetricString(payload.metricName, 40);
-  const inquiryId = cleanMetricString(payload.inquiryId, 48);
+  const metricName = record.metricName;
+  const inquiryId = record.inquiryId;
 
   if (metricName) properties.metric_name = metricName;
   if (inquiryId) properties.inquiry_id = inquiryId;
-  if (typeof payload.value === "number" && Number.isFinite(payload.value)) {
-    properties.value = Math.max(0, Math.min(payload.value, 120000));
+  if (record.value !== undefined) {
+    properties.value = record.value;
   }
 
   try {

@@ -250,16 +250,16 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
 
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
-            <p className="eyebrow">What Localhost Holds</p>
-            <h2>Host judgment and practical coordination, made explicit.</h2>
+            <p className="eyebrow">Host & Support</p>
+            <h2>Know who joins you, and what is agreed.</h2>
             <p>
-              Enough support to make the route legible and workable, with the
-              role of the host and the limits of the route kept clear.
+              Host time, transport, costs, and support are clarified before
+              confirmation. A local host and a driver are separate roles.
             </p>
           </div>
           <div className="support-card-grid support-card-grid--three">
             <article className="support-detail-card">
-              <h3>What a local host decodes</h3>
+              <h3>Where a host helps</h3>
               <ul className="clean-list">
                 {route.hostHelps.map((item) => (
                   <li key={item}>{item}</li>
@@ -267,9 +267,14 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               </ul>
             </article>
             <article className="support-detail-card">
-              <h3>What Localhost handles</h3>
+              <h3>What we agree before confirmation</h3>
               <ul className="clean-list">
-                {route.handles.map((item) => (
+                {[
+                  "When the host joins you, and when you travel independently.",
+                  "Transport arrangements and the separate roles of host and driver.",
+                  "Fees, third-party costs, availability, and cancellation terms.",
+                  "Your point of contact, reply window, and support boundaries."
+                ].map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
@@ -288,7 +293,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
         <section className="section final-section">
           <div className="section-heading">
             <p className="eyebrow">Private Route Inquiry</p>
-            <h2>Enter the chapter with context and judgment.</h2>
+            <h2>Discuss the route before making plans.</h2>
           </div>
           <div className="editorial-copy">
             <p>{route.final}</p>

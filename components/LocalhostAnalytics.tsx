@@ -1,9 +1,11 @@
 "use client";
 
 import { track as trackVercelEvent } from "@vercel/analytics";
+import { Analytics } from "@vercel/analytics/react";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { normalizeMetricSessionId } from "@/lib/metricSession";
+import { normalizeAnalyticsUrl, normalizeMetricName, normalizeMetricPath, normalizeMetricRoute, normalizeMetricSource } from "@/lib/metricDimensions";
 
 type AnalyticsEvent =
   | "hero_cta"
@@ -56,11 +58,11 @@ function sendLocalhostMetric(
 ) {
   const payload = {
     event,
-    metricName: details.metricName || "",
-    path: window.location.pathname,
-    route: details.route || "",
+    metricName: event === "web_vital" ? normalizeMetricName(details.metricName) : "",
+    path: normalizeMetricPath(window.location.pathname),
+    route: normalizeMetricRoute(details.route),
     sessionId: getAnonymousSessionId(),
-    source: details.source || "",
+    source: normalizeMetricSource(details.source),
     value: details.value
   };
   const body = JSON.stringify(payload);
@@ -269,7 +271,10 @@ export function LocalhostAnalytics() {
 
   useEffect(() => startWebVitalCollection(), [pathname]);
 
-  return null;
+  return <Analytics beforeSend={(event) => {
+    const url = normalizeAnalyticsUrl(event.url);
+    return url ? { ...event, url } : null;
+  }} />;
 }
 
 declare global {

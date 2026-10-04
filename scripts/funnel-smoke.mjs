@@ -10,6 +10,10 @@ const browser = await chromium.launch({
 try {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   const metrics = [];
+  await page.addInitScript(() => {
+    window.__funnelBeacons = [];
+    navigator.sendBeacon = (_url, data) => { window.__funnelBeacons.push(data); return true; };
+  });
   await page.route("**/api/analytics", (route) => {
     metrics.push(route.request().postDataJSON());
     return route.fulfill({ status: 200, body: "{}" });
@@ -60,6 +64,24 @@ try {
     assert.equal(JSON.stringify([events, metrics]).includes(privateValue), false);
   }
   console.log("PASS homepage → Shanxi → inquiry: one anonymous session, one inquiry start, no personal data or submission");
+
+  const privateLabel = "private-attribution@example.test";
+  await page.goto(`${baseUrl}/inquiry?sourcePage=${encodeURIComponent("/china/shanxi?principal=PRIVATE PRINCIPAL")}&sourceLabel=${encodeURIComponent(privateLabel)}`, { waitUntil: "load" });
+  await page.locator("#inquiry-name").focus();
+  await page.waitForFunction(() => window.localhostDataLayer?.some((item) => item.event === "inquiry_start"));
+  const privateEntryEvents = await page.evaluate(() => window.localhostDataLayer);
+  const beacons = await page.evaluate(async () => Promise.all(window.__funnelBeacons.map((data) => data instanceof Blob ? data.text() : String(data))));
+  assert.equal(JSON.stringify([privateEntryEvents, metrics, beacons]).includes(privateLabel), false);
+  assert.equal(JSON.stringify([privateEntryEvents, metrics, beacons]).includes("PRIVATE PRINCIPAL"), false);
+  const safeUrl = await page.evaluate(() => {
+    const callback = window.vaq?.find(([event]) => event === "beforeSend")?.[1];
+    return typeof callback === "function" ? callback({ type: "pageview", url: window.location.href })?.url : null;
+  });
+  assert.equal(safeUrl, `${baseUrl}/inquiry`);
+  const referrerRequest = page.waitForRequest((request) => request.url().endsWith("/api/analytics"));
+  await page.evaluate(() => fetch("/api/analytics", { method: "POST", body: JSON.stringify({ event: "page_view", path: "/inquiry" }) }));
+  assert.equal((await referrerRequest).headers().referer, `${new URL(baseUrl).origin}/`);
+  console.log("PASS private attribution: no free-form source in client telemetry, automatic URL excludes query/fragment, Referer contains origin only");
 
   const activeRoutes = ["shanxi", "shaolin", "huizhou", "shanghai"];
   const paths = ["/", "/china", "/journeys", "/travelers", "/hosts", "/trust",

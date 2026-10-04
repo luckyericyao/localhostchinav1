@@ -108,6 +108,8 @@ pnpm inquiry:delivery
 pnpm inquiry:recovery
 pnpm inquiry:content
 pnpm inquiry:pending
+pnpm funnel:test
+pnpm funnel:check
 ```
 
 Run `pnpm smoke` against the local server, or set `SITE_URL` to check a
@@ -127,3 +129,30 @@ inline field errors, and role-specific payloads with every submission intercepte
 `pnpm inquiry:pending` holds intercepted responses to check that identity, role,
 and route details cannot change in flight. It verifies accurate receipt summaries,
 retained drafts and retry after rejection or network loss, without sending email.
+
+The short-review submit action precedes optional details in visual and keyboard
+order. Expanded details have an adjacent submit action at their end in the same
+form. Both share validation and pending state. `pnpm inquiry:check` verifies the
+1.5-screen short intake, keyboard sequence, future-route labels, and expanded
+form accessibility; `pnpm inquiry:content` tests the end-of-details submission
+with a synthetic response, not a real email.
+
+Funnel records use a versioned JSON format with a server timestamp and explicit
+client/server origin. Only known page, route, source, and performance dimensions
+are retained. Query strings and fragments are stripped from automatic Web
+Analytics URLs. Names, email, notes, and arbitrary source labels are excluded.
+The browser referrer policy sends only the site origin, not inquiry URL parameters.
+
+For a bounded production export, use the existing authenticated Vercel CLI:
+
+```bash
+vercel logs --project localhostglobal --environment production --since 1h --limit 1000 --query localhost_metric --json | pnpm funnel:report
+```
+
+The report consumes JSON Lines on stdin, accepts direct structured records or
+Vercel records with a JSON `message`, and outputs aggregate counts only. It
+deduplicates repeated exports, excludes marked smoke traffic and future routes,
+and treats prepared email separately from provider acceptance. It does not
+establish human validity, inbox receipt, or a complete historical baseline.
+Review log retention and export coverage before using it to judge the first
+100 valid sessions. No new service, storage destination, or paid plan is enabled.

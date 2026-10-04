@@ -280,13 +280,13 @@ export const chinaJourneys = [
   },
   {
     place: "Shanghai",
-    line: "Your first stop, properly read.",
+    line: "Your first stop, and more.",
     href: "/china/shanghai",
     image: "/images/shanghai-bund-walk.png",
     alt: "A quiet early evening walk along the Bund in Shanghai with historic riverfront architecture.",
     summary:
-      "A composed first entry into China: river architecture read with context, a table chosen with judgment, and an after-dark ending beyond the obvious skyline.",
-    bestFor: "First China arrival, Bund context, private dining, after-dark rhythm"
+      "Begin with the Bund, a table chosen for your appetite and privacy, and an evening beyond the skyline. Practical arrival support makes the next China route easier.",
+    bestFor: "First China arrival, the Bund, private dining, a considered evening"
   }
 ];
 
@@ -427,9 +427,9 @@ export const chinaRoutePages = {
       { label: "Best For", value: "Ancient sites, Buddhist depth, road-based culture" },
       { label: "Pace", value: "Measured, road-aware, history-heavy" },
       { label: "Physical Demand", value: "Moderate steps, road time, uneven older sites" },
-      { label: "Comfort", value: "High-comfort with some older-site texture" },
+      { label: "Comfort", value: "Hotel comfort and access to older sites need separate planning" },
       { label: "Season", value: "Spring and autumn for easier pacing; winter for stark atmosphere" },
-      { label: "Host Role", value: "Cultural interpreter and route steadying presence" }
+      { label: "Host Role", value: "Cultural interpretation at agreed visits and meals" }
     ],
     gallery: {
       eyebrow: "Shanxi In Detail",
@@ -534,7 +534,7 @@ export const chinaRoutePages = {
     notFor: [
       "Travelers seeking only fast photo stops",
       "People who want a standardized group route",
-      "Visitors who do not want old places explained slowly"
+      "Travelers needing minimal road time or step-free access throughout"
     ],
     final:
       "A Shanxi route is strongest when it has patience: old roads, old structures, local meals, and a host who can help the past feel legible."
@@ -880,15 +880,15 @@ export const chinaRoutePages = {
       "A Huizhou route is strongest when it stays intimate: a lane, a cup of tea, a hall, a mountain cloud, and a host who can explain what the quiet contains."
   },
   shanghai: {
-    eyebrow: "Shanghai First Threshold",
-    title: "Shanghai — Your first stop, properly read.",
-    thesis: "A composed arrival into the language of modern China.",
+    eyebrow: "Shanghai First Stop",
+    title: "Shanghai — Your first stop, and more.",
+    thesis: "The Bund, a well-chosen table, and an evening beyond the skyline.",
     image: "/images/shanghai-bund-walk.png",
     alt: "A quiet early evening walk along the Bund in Shanghai with historic riverfront architecture.",
     routeNote:
-      "Not a layover. Not a skyline chase. A first reading of China.",
+      "Settle into Shanghai, then continue into China with confidence.",
     body:
-      "Shanghai is often treated as a convenient landing city. We use it as a first reading of modern China: river architecture, money, taste, service rhythm, old lanes, and the small decisions that help an international traveler arrive with confidence rather than noise.",
+      "Begin with the Bund, dinner chosen for your appetite and privacy, and a quieter end to the evening. Arrival, transport, ordering, and onward plans are shaped around your time and energy, with a local host where useful.",
     opens: [
       {
         title: "The Bund, Read Slowly",
@@ -976,7 +976,7 @@ export const chinaRoutePages = {
       {
         title: "Morning",
         copy:
-          "If the traveler has just landed, the host keeps the morning practical: payment setup, luggage rhythm, jet lag, coffee or tea, and a first short walk near the hotel. China becomes workable before the route becomes ambitious."
+          "After arrival, allow time for luggage, payment setup, and rest. A short walk near the hotel and coffee or tea can follow; the host helps with practical questions before the day becomes ambitious."
       },
       {
         title: "Noon",
@@ -986,12 +986,12 @@ export const chinaRoutePages = {
       {
         title: "Afternoon",
         copy:
-          "The Bund walk is timed around light, weather, and crowd rhythm. Architecture, concessions, finance, river geography, and modern ambition are explained as the city appears, not as a lecture."
+          "Walk the Bund when light, weather, and crowds suit the day. The host connects the riverfront buildings with Shanghai's trading history and the city across the water, leaving time to look and ask questions."
       },
       {
         title: "Evening",
         copy:
-          "Dinner moves to a private table: clean service rhythm, strong local judgment, and a host who knows when to translate, when to order, and when to leave the room for conversation."
+          "Dinner follows your appetite, dietary needs, and privacy preferences. The host helps with ordering and translation when useful, then leaves space for conversation. A private room is considered if available and agreed."
       },
       {
         title: "Night",
@@ -1039,8 +1039,8 @@ export const chinaRoutePages = {
     bestFor: [
       "First-time China travelers who want a polished landing",
       "Travelers using Shanghai before Huizhou, Shanxi, Shaolin, Beijing, or Hangzhou",
-      "Food-focused guests who value discretion, service rhythm, and taste",
-      "Founders, investors, executives, families, and cultural travelers who need China to feel legible quickly"
+      "Food-focused guests who value good ordering, privacy, and a well-chosen table",
+      "Founders, executives, families, and cultural travelers balancing arrival, meals, and onward travel"
     ],
     notFor: [
       "Travelers who only want skyline photos",
@@ -1048,7 +1048,7 @@ export const chinaRoutePages = {
       "Visitors who want Shanghai reduced to shopping, status venues, and obvious luxury"
     ],
     final:
-      "At its best, Shanghai is not a prelude. It is the first threshold: river, table, night, and enough local judgment to make the rest of China feel possible."
+      "Tell us when you arrive, how much time you have, and what would make the first days easier. We review the Bund walk, dining, evening plans, and onward travel before confirming scope or availability."
   }
 } as const;
 

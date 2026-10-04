@@ -6,6 +6,7 @@ import vm from "node:vm";
 import ts from "typescript";
 import { normalizeMetricSessionId } from "../lib/metricSession.ts";
 import { readInquiryFields } from "../lib/inquiryValidation.ts";
+import { normalizeMetricPath } from "../lib/metricDimensions.ts";
 
 const source = readFileSync(new URL("../app/actions/submitLocalhostInquiry.ts", import.meta.url), "utf8");
 const compiled = ts.transpileModule(source, {
@@ -27,6 +28,7 @@ function harness(send, contactEmail = "owner@example.test") {
     "@/lib/metrics": { persistLocalhostMetric: async (metric) => { metrics.push(metric); } },
     "@/lib/inquiryEmail": { sendInquiryEmail: send },
     "@/lib/metricSession": { normalizeMetricSessionId },
+    "@/lib/metricDimensions": { normalizeMetricPath },
     "@/lib/inquiryValidation": { readInquiryFields }
   };
   // Execute the real server action with isolated state and no network capability.
@@ -51,6 +53,15 @@ const payload = {
   intentType: "traveler", routeContext: "shanxi", shortNote: "Timber temples with moderate walking."
 };
 const accepted = { ok: true, providerMessageId: "test-provider-id" };
+
+test("inquiry analytics retain only a known source path, not private URL parameters", async () => {
+  const h = harness(async () => accepted);
+  await h.submit({ ...payload, sourcePage: "/china/shanxi?principal=PRIVATE PRINCIPAL#PRIVATE NOTE" });
+  assert.equal(h.events[0].sourcePage, "/china/shanxi");
+  assert.equal(h.metrics[0].path, "/china/shanxi");
+  assert.equal(JSON.stringify([h.events, h.metrics]).includes("PRIVATE PRINCIPAL"), false);
+  assert.equal(JSON.stringify([h.events, h.metrics]).includes("PRIVATE NOTE"), false);
+});
 
 test("concurrent identical inquiries share one delivery and reference", async () => {
   let release;

@@ -79,6 +79,26 @@ unconfirmed, and share only the minimum necessary detail. This keeps the first
 reply personal and useful without pretending that route scope or host
 availability is already confirmed.
 
+For each valid inquiry, the operator keeps a private review row: inquiry
+reference, provider message reference, received time, assigned reviewer, first
+substantive reply time, and next action. Keep personal notes in the existing
+restricted inbox, not the analytics export. Provider acceptance, actual inbox
+receipt, and a human response are separate checks. Do not publish a delivery
+or response percentage until its denominator and review period are recorded.
+
+The short-review submit action appears before optional details in both DOM and
+visual order. Expanded details have a second action at their end in the same
+form, using the same validation and pending state; there is no second intake or
+automatic submission. Keyboard users can move from the final optional field
+to the adjacent action without returning several screens upward.
+
+Deployment blockers must not become invented public claims. The current
+operator identity, public-contact DNS, sender-domain verification, actual
+inbox receipt, and response SLA require separately verified operational
+evidence. This release does not change those credentials or establish those
+results, enable a paid service, or replace warm-instance guards with durable
+cross-instance storage.
+
 ## Funnel baseline
 
 Use the anonymous session ID with the following events. Never add names, email addresses, notes, passport details, or message bodies to analytics.
@@ -111,6 +131,33 @@ Without `POSTHOG_API_KEY`, these events are recorded in operational logs only.
 An HTTP 200 from `/api/analytics` does not prove durable analytics storage.
 Export and retain the relevant anonymous log period or configure the existing
 analytics destination before claiming a measured 100-session baseline.
+
+Each event now emits a single versioned `localhost_metric` JSON record with a
+server timestamp and an explicit `client` or `server` origin. Browser requests
+cannot set that origin or supply a delivery reference. Finite page, route,
+source, and performance dimensions are applied before the browser data layer,
+Web Analytics, server logging, and the existing analytics destination. The
+automatic Web Analytics URL filter removes query strings and fragments and
+drops unknown paths. Inquiry source-page parameters are also excluded from
+operational logs. The shared browser referrer policy is `strict-origin`, so
+inquiry URL parameters are not copied into analytics request headers either.
+
+`pnpm funnel:report` reads a production JSON Lines export from stdin. It reports
+the first 100 observed sessions with a known page view, chronological funnel
+steps, unique server acceptance/recovery references, and data-quality gaps.
+It accepts direct metric records or the Vercel CLI `message` envelope. Repeated
+exports are deduplicated; source `smoke`, future routes, legacy unstructured
+messages, and browser-claimed delivery outcomes do not count toward conversion.
+Missing opaque session IDs remain unjoined rather than becoming one visitor.
+No personal data or session/reference identifiers are copied into the report.
+
+An empty denominator is reported as `null`, not a measured zero conversion
+rate. Fewer than 100 observed sessions is `insufficient_sample`; even 100
+requires traffic review before calling the sessions valid. Request log arrival
+order, query limits, and retention can omit or reorder steps. A bounded export
+does not provide ongoing storage or recover expired records. Retain exports
+privately and use the platform's current retention limits when planning the
+baseline; do not claim that this reporting command establishes persistence.
 
 Provider acceptance and recovery events originate in the server action. The
 public browser analytics endpoint rejects these event names; use the server

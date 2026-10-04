@@ -1,0 +1,112 @@
+import { normalizeMetricSessionId } from "../../lib/metricSession.ts";
+import { normalizeMetricInquiryId, normalizeMetricPath, normalizeMetricSource } from "../../lib/metricDimensions.ts";
+
+const events = new Set(["page_view", "route_view", "inquiry_start", "inquiry_delivery_success", "inquiry_delivery_fallback", "inquiry_delivery_unconfigured"]);
+const activeRoutes = new Map(["shanxi", "shaolin", "huizhou", "shanghai"].map((route) => [`/china/${route}`, route]));
+const deliveryEvents = new Set(["inquiry_delivery_success", "inquiry_delivery_fallback", "inquiry_delivery_unconfigured"]);
+
+function readRecord(line) {
+  try {
+    let record = JSON.parse(line);
+    if (record?.kind !== "localhost_metric" && typeof record?.message === "string") record = JSON.parse(record.message);
+    if (record?.kind !== "localhost_metric" || record.version !== 1 || !events.has(record.event)) return null;
+    const time = Date.parse(record.recordedAt);
+    if (!Number.isFinite(time) || new Date(time).toISOString() !== record.recordedAt) return null;
+    if (!["client", "server"].includes(record.origin)) return null;
+    if (deliveryEvents.has(record.event) && record.origin !== "server") return null;
+    return {
+      event: record.event, time, origin: record.origin,
+      path: normalizeMetricPath(record.path), source: normalizeMetricSource(record.source),
+      sessionId: normalizeMetricSessionId(record.sessionId),
+      inquiryId: record.origin === "server" ? normalizeMetricInquiryId(record.inquiryId) : ""
+    };
+  } catch {
+    return null;
+  }
+}
+
+function rate(numerator, denominator, target) {
+  return { numerator, denominator, rate: denominator ? numerator / denominator : null, target };
+}
+
+function firstTime(records, event, predicate = () => true, after = -Infinity) {
+  return records.find((record) => record.event === event && record.time >= after && predicate(record))?.time;
+}
+
+export function buildFunnelReport(lines) {
+  const sessions = new Map();
+  const uniqueRecords = new Set();
+  const outcomes = new Map([...deliveryEvents].map((event) => [event, new Set()]));
+  const quality = { inputLines: 0, supportedRecords: 0, ignoredLines: 0, duplicateRecords: 0, syntheticRecords: 0, recordsWithoutSession: 0, outcomesWithoutReference: 0 };
+  const times = [];
+  for (const line of lines) {
+    if (!line.trim()) continue;
+    quality.inputLines += 1;
+    const record = readRecord(line);
+    if (!record) { quality.ignoredLines += 1; continue; }
+    if (record.source === "smoke") { quality.syntheticRecords += 1; continue; }
+    const key = JSON.stringify(record);
+    if (uniqueRecords.has(key)) { quality.duplicateRecords += 1; continue; }
+    uniqueRecords.add(key);
+    quality.supportedRecords += 1;
+    times.push(record.time);
+    if (deliveryEvents.has(record.event)) {
+      if (record.inquiryId) outcomes.get(record.event).add(record.inquiryId);
+      else quality.outcomesWithoutReference += 1;
+    }
+    if (!record.sessionId) { quality.recordsWithoutSession += 1; continue; }
+    if (!sessions.has(record.sessionId)) sessions.set(record.sessionId, []);
+    sessions.get(record.sessionId).push(record);
+  }
+
+  const observed = [...sessions.values()].map((records) => {
+    records.sort((a, b) => a.time - b.time);
+    return { records, enteredAt: firstTime(records, "page_view", (record) => Boolean(record.path)) };
+  }).filter(({ enteredAt }) => enteredAt !== undefined).sort((a, b) => a.enteredAt - b.enteredAt);
+  const sample = observed.slice(0, 100);
+  let home = 0, homeToRoute = 0, routes = 0, routeToStart = 0, starts = 0, startToAcceptance = 0;
+  const routeViews = Object.fromEntries([...activeRoutes.values()].map((route) => [route, 0]));
+  for (const { records } of sample) {
+    const homeAt = firstTime(records, "page_view", (record) => record.path === "/");
+    const routeAt = firstTime(records, "route_view", (record) => activeRoutes.has(record.path));
+    const startAt = firstTime(records, "inquiry_start");
+    if (homeAt !== undefined) {
+      home += 1;
+      if (firstTime(records, "route_view", (record) => activeRoutes.has(record.path), homeAt) !== undefined) homeToRoute += 1;
+    }
+    if (routeAt !== undefined) {
+      routes += 1;
+      if (firstTime(records, "inquiry_start", () => true, routeAt) !== undefined) routeToStart += 1;
+    }
+    if (startAt !== undefined) {
+      starts += 1;
+      if (firstTime(records, "inquiry_delivery_success", (record) => Boolean(record.inquiryId), startAt) !== undefined) startToAcceptance += 1;
+    }
+    for (const path of new Set(records.filter((record) => record.event === "route_view" && activeRoutes.has(record.path)).map((record) => record.path))) {
+      routeViews[activeRoutes.get(path)] += 1;
+    }
+  }
+  const accepted = outcomes.get("inquiry_delivery_success").size;
+  const recoveryPrepared = outcomes.get("inquiry_delivery_fallback").size;
+  return {
+    kind: "localhost_funnel_report", version: 1,
+    observedWindow: times.length ? { from: new Date(Math.min(...times)).toISOString(), to: new Date(Math.max(...times)).toISOString() } : null,
+    quality,
+    observedSessions: observed.length,
+    sample: { target: 100, size: sample.length, status: sample.length < 100 ? "insufficient_sample" : "requires_traffic_review" },
+    funnel: {
+      homepageToRoute: rate(homeToRoute, home, 0.25),
+      routeToInquiryStart: rate(routeToStart, routes, 0.15),
+      inquiryStartToProviderAcceptance: rate(startToAcceptance, starts, 0.4)
+    },
+    routeViews,
+    delivery: { accepted, recoveryPrepared, unconfigured: outcomes.get("inquiry_delivery_unconfigured").size,
+      directAcceptanceRate: rate(accepted, accepted + recoveryPrepared, 0.95) },
+    limits: [
+      "This is an observed log sample, not proof of 100 valid human visitors or high-net-worth intent.",
+      "Exports can omit earlier or later session steps because of log retention, query limits, and network arrival order.",
+      "Provider acceptance does not prove inbox receipt or a human reply. Prepared email recovery is not a successful submission.",
+      "Historical unstructured logs are ignored rather than reconstructed into unsupported measurements."
+    ]
+  };
+}

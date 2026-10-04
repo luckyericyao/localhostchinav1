@@ -192,7 +192,7 @@ for (const path of routes) {
       "The shape, the trade-offs, and who it suits.",
       "The Route Can Lean Toward",
       "Example Rhythm",
-      "What Localhost Holds"
+      "Host &amp; Support"
     ];
 
     for (const section of requiredRouteSections) {

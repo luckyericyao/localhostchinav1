@@ -50,7 +50,7 @@ const featuredRoutePreview = [
     entry: "Huangshan, Hangzhou, or Shanghai extension",
     bestFor: "Villages, tea, ancestral halls, ink landscape",
     summary:
-      "White walls, black tiles, tea tables, mist, ancestral halls, and the slower intelligence of southern built culture.",
+      "Village lanes, tea tables, ancestral halls, and southern architecture, with time for the road to Huangshan.",
     image: "/images/huizhou-rain-courtyard.png",
     alt: "A rain-washed Huizhou lane with white walls, dark tiled roofs, and mountain mist.",
     href: "/china/huizhou",
@@ -58,12 +58,12 @@ const featuredRoutePreview = [
   },
   {
     place: "Shanghai",
-    line: "Your first stop, properly read.",
+    line: "Your first stop, and more.",
     length: "2–4 days",
     entry: "Pudong, Hongqiao, or rail arrival",
-    bestFor: "First arrival, Bund context, food, after-dark rhythm",
+    bestFor: "First arrival, the Bund, private dining, a considered evening",
     summary:
-      "A composed first reading of modern China through river architecture, a considered table, and a quiet night ending.",
+      "Arrive with practical support, walk the Bund, find a table that suits you, and explore beyond the skyline.",
     image: "/images/shanghai-bund-walk.png",
     alt: "A quiet early evening walk along the Bund in Shanghai with historic riverfront architecture.",
     href: "/china/shanghai",
@@ -199,8 +199,7 @@ export default function Home() {
             <p className="eyebrow">Featured China Routes</p>
             <h2>Choose the China you want to enter first.</h2>
             <p>
-              Four distinct thresholds, each shaped around a different kind of
-              attention.
+              Compare cultural focus, pace, length, and arrival city.
             </p>
           </div>
           <div className="journey-grid">
@@ -245,7 +244,7 @@ export default function Home() {
           <div className="route-review-band">
             <div>
               <p className="eyebrow">Your First Review</p>
-              <h3>Know the route direction before anything is held.</h3>
+              <h3>Know the next step before making a commitment.</h3>
             </div>
             <dl>
               <div>

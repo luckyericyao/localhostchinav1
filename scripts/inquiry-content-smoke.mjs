@@ -34,7 +34,7 @@ async function isolatedPage(viewport) {
 }
 
 async function expectFieldError(page, field, value, message) {
-  await page.locator('button[type="submit"]').click();
+  await page.locator('button[type="submit"]').first().click();
   await page.getByRole("alert").filter({ hasText: message }).waitFor();
   assert.equal(await field.inputValue(), value, "Original text was shortened");
   assert.equal(await field.getAttribute("aria-invalid"), "true");
@@ -100,7 +100,7 @@ async function boundaryCase(viewport) {
     await food.fill(exactFood);
     assert.equal(await page.locator("#inquiry-error").count(), 0);
     assert.equal(await food.getAttribute("aria-invalid"), "false");
-    await page.locator('button[type="submit"]').click();
+    await page.locator('button[type="submit"]').last().click();
     await page.getByText("Synthetic inquiry received.", { exact: true }).waitFor();
     assert.equal(submissions.length, 1);
     assert.equal(submissions[0].shortNote, exactNote);
@@ -128,7 +128,7 @@ async function roleCase(viewport, role) {
     } else {
       await page.locator('input[name="organization"]').fill("Synthetic partner");
     }
-    await page.locator('button[type="submit"]').click();
+    await page.locator('button[type="submit"]').first().click();
     await page.getByText("Synthetic inquiry received.", { exact: true }).waitFor();
     assert.equal(submissions.length, 1);
     assert.equal(submissions[0].intentType, role);

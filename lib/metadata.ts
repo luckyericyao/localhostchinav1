@@ -11,6 +11,7 @@ const defaultImageAlt =
 export const localhostBaseMetadata: Metadata = {
   applicationName: "Localhost Global",
   metadataBase: new URL(localhostSiteUrl),
+  referrer: "strict-origin",
   title: "Localhost Global — Private China Routes",
   description: defaultDescription,
   formatDetection: {

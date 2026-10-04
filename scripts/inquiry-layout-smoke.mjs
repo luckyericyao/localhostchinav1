@@ -56,6 +56,23 @@ try {
       await page.getByRole("button", { name: "Add route details — optional" }).click();
       assert.equal(await page.locator('select[name="inquiryMadeBy"]').count(), 1);
       assert.equal(await page.locator('input[name="travelerOrPrincipal"]').count(), 1);
+      const submitButtons = page.locator('button[type="submit"]');
+      assert.equal(await submitButtons.count(), 2, "One short-review action and one detail-review action");
+      await submitButtons.first().focus();
+      await page.keyboard.press("Tab");
+      assert.equal(await page.getByRole("button", { name: "Hide route details" })
+        .evaluate((element) => document.activeElement === element), true,
+      "Short-review action must precede optional details in keyboard order");
+      await page.locator('input[name="replyDetails"]').focus();
+      await page.keyboard.press("Tab");
+      assert.equal(await submitButtons.last().evaluate((element) => document.activeElement === element), true,
+        "Last optional field must lead to the adjacent submit action");
+      await page.waitForFunction(() => {
+        const rect = document.activeElement.getBoundingClientRect();
+        return rect.top >= 0 && rect.bottom <= window.innerHeight;
+      });
+      assert.ok(await submitButtons.last().evaluate((element) => element.getBoundingClientRect().height >= 44));
+      assert.ok((await page.locator('select[name="routeInterest"]').innerText()).includes("Beijing — future route"));
       await page.addScriptTag({ content: axe.source });
       const violations = await page.evaluate(async () =>
         (await window.axe.run(document)).violations.map(({ id, impact, nodes }) => ({

@@ -70,7 +70,7 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     await page.locator('select[name="preferredReply"]').selectOption("Signal");
     await page.locator('input[name="replyDetails"]').fill("PRIVATE REPLY CONTEXT");
 
-    await page.locator('button[type="submit"]').click();
+    await page.locator('button[type="submit"]').first().click();
     await page.waitForFunction(() => document.querySelector('button[type="submit"]')?.textContent === "Preparing...");
     const form = page.getByRole("form", { name: "Localhost private inquiry" });
     const editableWhilePending = await form.locator("input, textarea, select, button").evaluateAll((elements) =>
@@ -107,9 +107,9 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
       assert.match(await error.innerText(), outcome === "network-error" ? /could not confirm receipt/ : /wait before sending/);
       await page.waitForFunction(() => document.activeElement?.id === "inquiry-error");
       assert.equal(await page.getByRole("region", { name: "Inquiry result" }).count(), 0);
-      assert.equal(await page.locator('button[type="submit"]').isDisabled(), false);
+      assert.equal(await page.locator('button[type="submit"]').first().isDisabled(), false);
       assert.equal(await page.locator("#inquiry-short-note").inputValue(), "PRIVATE PENDING INTENT");
-      await page.locator('button[type="submit"]').click();
+      await page.locator('button[type="submit"]').last().click();
       await page.getByText("Synthetic inquiry received.", { exact: true }).waitFor();
       assert.equal(submissions.length, 2);
       for (const field of ["name", "email", "intentType", "shortNote", "optionalDetails", "routeContext"]) {
@@ -129,7 +129,8 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
       await receipt.scrollIntoViewIfNeeded();
       await page.screenshot({ path: resolve(directory, `inquiry-receipt-${viewport.width}.png`) });
     }
-    assert.equal(await page.locator('button[type="submit"]').isDisabled(), true);
+    assert.equal(await page.locator('button[type="submit"]').first().isDisabled(), true);
+    assert.equal(await page.locator('button[type="submit"]').last().isDisabled(), true);
     assert.equal(await page.locator("#inquiry-name").inputValue(), "  PRIVATE PENDING TEST  ");
     assert.equal(await page.locator(`[name="${detailName}"]`).inputValue(), "PRIVATE OPTIONAL CONTEXT");
     const events = await page.evaluate(() => window.localhostDataLayer || []);
@@ -139,7 +140,7 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     }
     await page.locator("#inquiry-short-note").fill("Revised draft after receipt");
     assert.equal(await receipt.count(), 0);
-    assert.equal(await page.locator('button[type="submit"]').isDisabled(), false,
+    assert.equal(await page.locator('button[type="submit"]').first().isDisabled(), false,
       "Intentional new edits should remain possible after the previous response");
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth), false);
     console.log(`PASS ${viewport.width}px ${intentType} ${outcome}${routeContext ? ` ${routeContext}` : ""}: frozen pending controls, intact draft, accurate receipt${outcome === "network-error" || outcome === "rejection" ? ", intact retry" : ""}, axe 0`);
