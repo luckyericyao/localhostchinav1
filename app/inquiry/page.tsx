@@ -9,6 +9,7 @@ import type {
   LocalhostRouteContext
 } from "@/app/actions/submitLocalhostInquiry";
 import { localhostResponseWindow } from "@/lib/contact";
+import { publicOperator } from "@/lib/operator";
 import { culturalVisualLayers } from "@/lib/content";
 import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
@@ -98,6 +99,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
   const routeContext = parseRoute(firstValue(params.route));
   const sourcePage = firstValue(params.sourcePage) || "/inquiry";
   const sourceLabel = firstValue(params.sourceLabel) || "Inquiry page";
+  const operator = publicOperator(process.env);
 
   return (
     <>
@@ -138,6 +140,12 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
                 A named reviewer replies {localhostResponseWindow} to the
                 person who begins the conversation.
               </p>
+              {operator ? (
+                <p className="fine-copy">
+                  Your point of contact: {operator.name}. You can also write to{" "}
+                  <a href={`mailto:${operator.contact}`}>{operator.contact}</a>.
+                </p>
+              ) : null}
               <p className="fine-copy">
                 Pricing depends on route depth, host involvement, logistics,
                 city coverage, and support level. Localhost does not quote

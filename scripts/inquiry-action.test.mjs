@@ -7,13 +7,14 @@ import ts from "typescript";
 import { normalizeMetricSessionId } from "../lib/metricSession.ts";
 import { readInquiryFields } from "../lib/inquiryValidation.ts";
 import { normalizeMetricPath } from "../lib/metricDimensions.ts";
+import { replyDueAt, reviewOwner } from "../lib/inquiryOperations.ts";
 
 const source = readFileSync(new URL("../app/actions/submitLocalhostInquiry.ts", import.meta.url), "utf8");
 const compiled = ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 }
 }).outputText;
 
-function harness(send, contactEmail = "owner@example.test") {
+function harness(send, contactEmail = "owner@example.test", publicEmail = contactEmail) {
   const exports = {};
   const events = [];
   const metrics = [];
@@ -22,6 +23,7 @@ function harness(send, contactEmail = "owner@example.test") {
     "node:crypto": crypto,
     "next/headers": { headers: async () => new Headers({ "x-real-ip": "192.0.2.1" }) },
     "@/lib/contact": {
+      localhostContactEmail: publicEmail,
       localhostDeliveryEmail: contactEmail,
       localhostResponseWindow: "within two working days"
     },
@@ -29,7 +31,8 @@ function harness(send, contactEmail = "owner@example.test") {
     "@/lib/inquiryEmail": { sendInquiryEmail: send },
     "@/lib/metricSession": { normalizeMetricSessionId },
     "@/lib/metricDimensions": { normalizeMetricPath },
-    "@/lib/inquiryValidation": { readInquiryFields }
+    "@/lib/inquiryValidation": { readInquiryFields },
+    "@/lib/inquiryOperations": { replyDueAt, reviewOwner }
   };
   // Execute the real server action with isolated state and no network capability.
   vm.runInNewContext(compiled, {
@@ -38,7 +41,7 @@ function harness(send, contactEmail = "owner@example.test") {
       assert.ok(name in dependencies, `Unexpected dependency: ${name}`);
       return dependencies[name];
     },
-    console: { info: (_label, event) => events.push(event) },
+    console: { info: (record) => events.push(JSON.parse(record)) },
     process: { env: {} },
     Date: class extends Date { static now() { return clock; } }
   });
@@ -124,6 +127,14 @@ test("failed delivery does not suppress a later retry or claim receipt", async (
   assert.equal(delivered.delivery, "email");
   assert.equal(delivered.preparedEmail, undefined);
   assert.equal(calls, 2);
+});
+
+test("public email recovery never reveals a private delivery inbox", async () => {
+  const h = harness(async () => ({ ok: false }), "private-inbox@example.test", "public-contact@example.test");
+  const result = await h.submit(payload);
+  assert.equal(result.contactEmail, "public-contact@example.test");
+  assert.match(result.mailtoHref, /^mailto:public-contact@example.test\?/);
+  assert.equal(JSON.stringify(result).includes("private-inbox@example.test"), false);
 });
 
 test("manual recovery retains a long inquiry without exposing internal response instructions", async () => {

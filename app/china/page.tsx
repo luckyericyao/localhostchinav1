@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { InquirySection } from "@/components/InquirySection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { arrangements, chinaJourneys, culturalVisualLayers } from "@/lib/content";
+import { arrangements, chinaJourneys } from "@/lib/content";
 import { resolveImageSource } from "@/lib/image";
 import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
@@ -118,8 +117,6 @@ export default function ChinaPage() {
           </div>
         </section>
 
-        <CulturalImageLayer {...culturalVisualLayers.china} tone="paper" />
-
         <section className="section" aria-labelledby="china-arrange">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Local Support Layers</p>
@@ -195,32 +192,6 @@ export default function ChinaPage() {
                 <li key={item}>{item}</li>
               ))}
             </ul>
-          </div>
-        </section>
-
-        <section className="section final-section">
-          <div className="section-heading">
-            <p className="eyebrow">Private Inquiry</p>
-            <h2>Tell us what kind of China you want to enter.</h2>
-          </div>
-          <div className="editorial-copy">
-            <p>
-              The first route should be shaped around your curiosity, time,
-              pace, and the kind of understanding you want to leave with.
-            </p>
-            <div className="inline-actions">
-              <Link
-                className="button button--dark"
-                data-track-event="request_route"
-                data-track-source="china_final"
-                href={chinaInquiryHref}
-              >
-                Request a Private Route
-              </Link>
-              <Link className="text-link" href="/travelers">
-                For travelers
-              </Link>
-            </div>
           </div>
         </section>
 

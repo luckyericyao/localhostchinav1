@@ -1,3 +1,5 @@
+import { routePhotography } from "@/lib/routePhotography";
+
 export const arrangements = [
   {
     title: "Local Hosts",
@@ -433,37 +435,33 @@ export const chinaRoutePages = {
     ],
     gallery: {
       eyebrow: "Shanxi In Detail",
-      title: "Stone, timber, road, and Buddhist weight.",
+      title: "Datong, Yingxian, Taiyuan.",
       body:
-        "Follow stone and timber through northern Buddhist history, linking grottoes, temple halls, old roads, and merchant courtyards. A host helps connect what you see with the lives behind it.",
+        "Follow stone and timber from Yungang near Datong, through Yingxian, toward Jinci outside Taiyuan. This is a multi-day direction: road time and opening conditions decide what belongs in the final route.",
       images: [
         {
-          title: "Buddhist Stone",
+          title: "Yungang Grottoes — Datong",
           copy:
-            "Grottoes and carved stone carry the scale and silence of northern Buddhist history.",
-          src: "/images/shanxi-ancient-grotto.png",
-          alt: "Weathered Buddhist grotto stone and old temple architecture in Shanxi."
+            "Northern Wei Buddhist carving gives the route its northern starting point. Allow a focused visit, rather than treating the caves as a stop between long drives.",
+          src: routePhotography.yungang.src,
+          credit: routePhotography.yungang,
+          alt: "The open-air Buddha at Cave 20 of Yungang Grottoes near Datong."
         },
         {
-          title: "Ancient Road",
+          title: "Yingxian Wooden Pagoda",
           copy:
-            "Travel time leaves room for regional food and for understanding how one site connects to the next.",
-          src: "/images/cultural-ancient-road.png",
-          alt: "Ancient stone road leading toward an old Chinese gate in mountain haze."
+            "The timber pagoda at Fogong Temple offers a different way to read Buddhist architecture. It belongs on a southbound road day; access conditions are checked, not assumed.",
+          src: routePhotography.yingxian.src,
+          credit: routePhotography.yingxian,
+          alt: "Yingxian Wooden Pagoda at Fogong Temple, photographed above its courtyard."
         },
         {
-          title: "Temple Threshold",
+          title: "Jinci — Taiyuan",
           copy:
-            "A host explains how to enter a working temple, what to notice, and when to leave space for worship.",
-          src: "/images/cultural-temple-threshold.png",
-          alt: "Old timber temple threshold with incense and courtyard light."
-        },
-        {
-          title: "Northern Architecture",
-          copy:
-            "Timber, courtyards, walls, and old surfaces make time visible.",
-          src: "/images/shanxi-flagship.png",
-          alt: "Ancient Shanxi architecture in quiet editorial light."
+            "Temple halls, sculpture, and water give the Taiyuan end of the route another register. Choose time here over adding a distant town simply to lengthen the list.",
+          src: routePhotography.jinci.src,
+          credit: routePhotography.jinci,
+          alt: "A stone bridge and buildings on the approach to Jinci in Taiyuan."
         }
       ]
     },
@@ -471,7 +469,7 @@ export const chinaRoutePages = {
       {
         title: "Morning",
         copy:
-          "A private car leaves after breakfast, timed around road conditions and site traffic. The host frames the day before arrival: Buddhist caves, timber halls, or merchant memory, so the first stop has context before it has scale."
+          "After breakfast in Datong, a car brings you to Yungang. The host introduces Northern Wei Buddhist history before the caves, with the visit timed around opening conditions and your walking comfort."
       },
       {
         title: "Noon",
@@ -481,7 +479,7 @@ export const chinaRoutePages = {
       {
         title: "Afternoon",
         copy:
-          "The route slows at one major site instead of stacking three. Transport waits nearby, the host explains what to notice, and timing flexes for weather, steps, photography, fatigue, or a small detour."
+          "If this is a southbound road day, Yingxian can follow after lunch; otherwise stay with Datong rather than adding another transfer. Jinci belongs to a later Taiyuan day, not the same afternoon."
       },
       {
         title: "Evening",
@@ -603,37 +601,33 @@ export const chinaRoutePages = {
     ],
     gallery: {
       eyebrow: "Around Shaolin",
-      title: "Temple, practice, mountain, memory.",
+      title: "Shaolin, the Pagoda Forest, Songyang.",
       body:
-        "Begin with the monastery and Pagoda Forest, then make room for Songshan and the culture of daily practice. The route balances temple context, mountain time, and your interest in training.",
+        "Pair Shaolin and its nearby Pagoda Forest, then leave a separate Dengfeng visit for Songyang Academy. Songshan walking is chosen around weather and comfort, not added automatically.",
       images: [
         {
-          title: "Monastery Atmosphere",
+          title: "Shaolin Monastery — Dengfeng",
           copy:
-            "Temple halls and courtyards introduce Chan heritage, with local context before you enter.",
-          src: "/images/shaolin-dengfeng.png",
-          alt: "Shaolin temple courtyard with mountain haze and quiet morning practice."
-        },
-        {
-          title: "Practice Culture",
-          copy:
-            "Repetition, breath, and attention matter more than a performance. Training visits require permission and an agreed role for the visitor.",
-          src: "/images/shaolin-practice-courtyard.png",
-          alt: "Restrained Shaolin martial practice in a stone temple courtyard at dawn."
+            "Begin with the monastery and Chan heritage before discussing practice. Training visits require permission and an agreed role for the visitor; private access is not implied.",
+          src: routePhotography.shaolin.src,
+          credit: routePhotography.shaolin,
+          alt: "The historic gate of Shaolin Monastery in Dengfeng."
         },
         {
           title: "Pagoda Forest",
           copy:
-            "Time among the pagodas opens a different conversation about Shaolin’s Buddhist history.",
-          src: "/images/shaolin-pagoda-forest.png",
-          alt: "Shaolin Pagoda Forest with weathered stone towers and Songshan mountain haze."
+            "The funerary pagodas near the monastery place generations of Buddhist practice in view. Leave room to walk and understand their purpose, rather than making them a photo backdrop.",
+          src: routePhotography.pagoda.src,
+          credit: routePhotography.pagoda,
+          alt: "Historic brick pagodas in the Pagoda Forest near Shaolin Monastery."
         },
         {
-          title: "Songshan Stillness",
+          title: "Songyang Academy — Dengfeng",
           copy:
-            "A mountain walk is chosen for the weather, walking tolerance, and time available, with room to pause.",
-          src: "/images/shaolin-songshan-steps.png",
-          alt: "Ancient stone steps beside a Songshan monastery wall and misted mountain pines."
+            "A separate academy visit brings learning and scholarly tradition into the conversation. It offers a counterpoint to the monastery without turning the day into a checklist.",
+          src: routePhotography.songyang.src,
+          credit: routePhotography.songyang,
+          alt: "Courtyard buildings at Songyang Academy with the mountains behind."
         }
       ]
     },
@@ -641,7 +635,7 @@ export const chinaRoutePages = {
       {
         title: "Morning",
         copy:
-          "The host starts early if the air is quiet, with a private car into Dengfeng or Songshan before the loudest movement of the day. Temple etiquette, Chan language, and practice culture are introduced before entering the grounds."
+          "Leave your Dengfeng base by car for Shaolin Monastery. The host introduces temple etiquette and Chan heritage before entering; timing follows opening conditions and the group, not a guaranteed private slot."
       },
       {
         title: "Noon",
@@ -651,7 +645,7 @@ export const chinaRoutePages = {
       {
         title: "Afternoon",
         copy:
-          "A mountain path, courtyard, or practice observation replaces a checklist of shows. The host helps distinguish discipline and repetition from spectacle, with transport positioned so the day can shorten or deepen."
+          "Continue to the nearby Pagoda Forest if walking comfort allows. Training observation needs separate permission; Songyang Academy can wait for another Dengfeng day rather than filling this one."
       },
       {
         title: "Evening",
@@ -773,37 +767,33 @@ export const chinaRoutePages = {
     ],
     gallery: {
       eyebrow: "Village & Mountain",
-      title: "White walls, tea, mist, and inward beauty.",
+      title: "Hongcun, Xidi, and a considered mountain day.",
       body:
-        "Village lanes and ancestral halls reveal the region’s merchant culture. Tea and courtyard time balance the walking, with Huangshan added when weather and route length allow.",
+        "Hongcun and Xidi form the village part of the route in Yi County, with Huangshan added when weather and route length allow. A mountain day has its own transfer, walking, and overnight decisions; it is not another village stop.",
       images: [
         {
-          title: "Village Lanes",
+          title: "Hongcun — Yi County",
           copy:
-            "White-walled lanes give the architecture time to register, with local context for the houses and halls along the way.",
-          src: "/images/huizhou-rain-courtyard.png",
-          alt: "Rain-washed Huizhou lane with white walls and dark tiled roofs."
+            "Moon Pond, water channels, and village lanes introduce the relationship between houses, communal space, and the surrounding landscape. Start at a pace that leaves room to look.",
+          src: routePhotography.hongcun.src,
+          credit: routePhotography.hongcun,
+          alt: "White-walled houses and an ancestral hall reflected in Hongcun Moon Pond."
         },
         {
-          title: "Tea & Weiqi",
+          title: "Xidi — Yi County",
           copy:
-            "A tea table offers a slower setting for conversation; weiqi adds another way to talk about patience and strategy.",
-          src: "/images/cultural-tea-weiqi.png",
-          alt: "Tea set and weiqi board in an old courtyard."
+            "Stone lanes and merchant houses give another reading of Huizhou architecture. Select houses and halls for their meaning, with tea and a local meal between visits.",
+          src: routePhotography.xidi.src,
+          credit: routePhotography.xidi,
+          alt: "A stone lane and traditional white-walled houses in Xidi village."
         },
         {
-          title: "Mountain Mist",
+          title: "Huangshan — Optional Mountain Chapter",
           copy:
-            "Huangshan is a possible mountain chapter, shaped around weather, walking comfort, and available time.",
-          src: "/images/huizhou-huangshan.png",
-          alt: "Huizhou and Huangshan atmosphere with mist and mountain light."
-        },
-        {
-          title: "Courtyard Culture",
-          copy:
-            "Courtyards and ancestral halls connect architecture with family history and merchant life.",
-          src: "/images/cultural-temple-threshold.png",
-          alt: "Old Chinese timber threshold with stone courtyard beyond."
+            "Granite peaks and pines change the physical demands of the route. Weather, stairs, transport, and room availability are checked before a mountain stay is proposed.",
+          src: routePhotography.huangshan.src,
+          credit: routePhotography.huangshan,
+          alt: "Pine trees and granite scenery at Huangshan."
         }
       ]
     },
@@ -811,7 +801,7 @@ export const chinaRoutePages = {
       {
         title: "Morning",
         copy:
-          "The day begins with mist, tea, and a slow entry into a village lane before crowds or heat settle in. The host explains white walls, black tiles, clan memory, and why the lane turns the way it does."
+          "After tea, enter Hongcun with the host to read Moon Pond, village lanes, and the relationship between water and houses. The car waits outside the walking area; timing accounts for crowds and weather."
       },
       {
         title: "Noon",
@@ -821,7 +811,7 @@ export const chinaRoutePages = {
       {
         title: "Afternoon",
         copy:
-          "Ancestral halls, a courtyard interior, tea, or a weather-aware Huangshan approach replaces loud scenic rushing. A private car links villages so the traveler can read the region rather than chase stops."
+          "Stay with one house or hall, or transfer by car to Xidi if there is time and appetite for another village. Huangshan is a separate mountain day, with its own weather and walking decisions."
       },
       {
         title: "Evening",
@@ -947,28 +937,31 @@ export const chinaRoutePages = {
       eyebrow: "Three Parts Of Shanghai",
       title: "The Bund, dinner, after dark.",
       body:
-        "A walk along the Bund, a well-chosen table, and a quieter end to the evening. The sequence follows your arrival time, appetite, and energy, with onward China travel in view.",
+        "Begin on the Bund, choose a separate walk around Wukang Road or the Old City, and build the table and evening around your arrival energy. Yu Garden is a daytime option, not a promise of after-hours entry.",
       images: [
         {
-          title: "The Bund On Foot",
+          title: "The Bund — Huangpu River",
           copy:
             "Walk the riverfront with context for its buildings and history, timed around light, weather, and your first day in the city.",
-          src: "/images/shanghai-bund-walk.png",
-          alt: "Quiet Shanghai Bund riverside walk with historic architecture and muted evening light."
+          src: routePhotography.bund.src,
+          credit: routePhotography.bund,
+          alt: "Historic riverfront buildings and the pedestrian promenade on Shanghai's Bund."
         },
         {
-          title: "A Table Chosen For You",
+          title: "Wukang Road — A Different City Pace",
           copy:
-            "Restaurant choice starts with your appetite, dietary needs, and privacy. Ordering and reservations are handled within the agreed scope.",
-          src: "/images/shanghai-vip-eat.png",
-          alt: "Discreet private Shanghai dining room with tea, composed dishes, and warm evening light."
+            "Residential architecture and shaded streets offer a slower counterpart to the riverfront. Restaurant choice nearby starts with appetite, privacy, and dietary needs, not a status list.",
+          src: routePhotography.wukang.src,
+          credit: routePhotography.wukang,
+          alt: "Tree-lined Wukang Road and residential architecture in Shanghai."
         },
         {
-          title: "After Dark",
+          title: "Yu Garden — The Old City",
           copy:
-            "An old lane, a river walk, or a small venue, chosen for your energy that evening. Entry and availability are checked before anything is confirmed.",
-          src: "/images/shanghai-secret-night.png",
-          alt: "Quiet hidden Shanghai night lane with warm doorway light and distant city glow."
+            "A garden visit adds another layer before dinner or an evening walk. Entry and availability are checked before anything is confirmed; a quieter night ending is planned separately.",
+          src: routePhotography.yuyuan.src,
+          credit: routePhotography.yuyuan,
+          alt: "Traditional buildings, rockwork, and a pond inside Yu Garden in Shanghai."
         }
       ]
     },
@@ -991,12 +984,7 @@ export const chinaRoutePages = {
       {
         title: "Evening",
         copy:
-          "Dinner follows your appetite, dietary needs, and privacy preferences. The host helps with ordering and translation when useful, then leaves space for conversation. A private room is considered if available and agreed."
-      },
-      {
-        title: "Night",
-        copy:
-          "The day ends away from the obvious: a lane, terrace, room, or river edge that fits the traveler’s energy and makes Shanghai feel more intimate than its skyline."
+          "Dinner follows your appetite, dietary needs, and privacy preferences. A private room is considered if available and agreed. Afterwards, a lane or river walk can bring the day to a quieter close, with the host checking transport and leaving room for your energy."
       }
     ],
     hostChanges: [

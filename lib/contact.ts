@@ -1,5 +1,7 @@
+import { approvedOperator } from "@/lib/operator";
+
 export const localhostContactEmail =
-  process.env.LOCALHOST_CONTACT_EMAIL?.trim() || "";
+  process.env.LOCALHOST_CONTACT_EMAIL?.trim() || approvedOperator.contact;
 
 // Keep internal delivery separate from the public mailto fallback address.
 export const localhostDeliveryEmail =

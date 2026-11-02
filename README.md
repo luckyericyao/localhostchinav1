@@ -36,11 +36,15 @@ Optional environment variable:
 
 - `LOCALHOST_CONTACT_EMAIL` — public fallback email when no private delivery inbox is configured
 - `LOCALHOST_RESPONSE_WINDOW` — response expectation shown in the inquiry and trust flow
+- `LOCALHOST_OPERATOR_NAME` / `LOCALHOST_OPERATOR_BIO` — approved public profile overrides; the default contact is Eric Yao with no invented biography
+- `LOCALHOST_REVIEW_OWNER` — internal reviewer alias, default `eric-yao`
+- `LOCALHOST_REVIEW_HOLIDAYS` — China-local holiday dates excluded from reply deadlines
+- `LOCALHOST_REVIEW_LEDGER` — optional restricted local metadata-ledger path; default `.local/inquiry-reviews.jsonl`
 - `RESEND_API_KEY` — server-only key for direct inquiry delivery when configured
 - `RESEND_FROM_EMAIL` — verified server-side sender used with Resend
-- `RESEND_TO_EMAIL` — optional private delivery inbox for direct inquiry email
-  and the mailto fallback when configured; otherwise it falls back to
-  `LOCALHOST_CONTACT_EMAIL`
+- `RESEND_TO_EMAIL` — optional private delivery inbox for direct inquiry email;
+  otherwise it falls back to `LOCALHOST_CONTACT_EMAIL`. It is never used as the
+  public mailto destination.
 - `POSTHOG_API_KEY` — optional server-side key for anonymous session-level funnel event persistence
 - `POSTHOG_HOST` — optional PostHog host, defaulting to `https://app.posthog.com`
 
@@ -81,8 +85,8 @@ fallback. Private keys must remain server-only; do not use `NEXT_PUBLIC_` for
 
 For production direct email, configure `RESEND_API_KEY`, `RESEND_FROM_EMAIL`,
 `RESEND_TO_EMAIL`, and `LOCALHOST_CONTACT_EMAIL` in the Vercel project
-environment. The private delivery inbox is used only when direct delivery or
-the exceptional mailto fallback needs a real destination. For durable
+environment. The private delivery inbox is used only for direct delivery;
+manual email recovery uses the approved public contact address. For durable
 funnel reporting, also configure `POSTHOG_API_KEY` and `POSTHOG_HOST`. Events
 use a session-scoped anonymous identifier and never include email, names, or
 inquiry content. The app keeps the mailto path as a transparent fallback when
@@ -93,9 +97,21 @@ The operational formulas and response workflow are recorded in
 operational goal, not an automatic product guarantee; the inquiry reference
 allows the receiving team to audit it against the inbox.
 
-The current no-cost production setup uses Resend's `onboarding@resend.dev`
-sender, which is limited to the connected account inbox. A verified custom
-domain can replace it later without changing the inquiry flow.
+Resend's `onboarding@resend.dev` sender is limited to the connected account
+inbox. Verify the actual production sender and receiving inbox before claiming
+direct delivery. The owner-approved public fallback is
+`yaohaohui2014@hotmail.com`; a prepared draft is not a sent inquiry.
+
+`pnpm inquiry:reviews` imports structured operational log exports into a private
+append-only local ledger. It supports assignment, confirmed inbox receipt,
+substantive replies, closure, next-action status, and aggregate delivery/SLA
+reports without retaining traveler content. It is not an automatically synced
+production database. See `docs/conversion-operations.md` for commands and limits.
+
+The four route galleries use 12 independently licensed photographs of named
+places, with visible source/author/license attribution. See
+`public/images/routes/CREDITS.md`. These are not Localhost scouting or client
+records. Hero images and the current four-route hierarchy remain unchanged.
 
 ## Validation
 
@@ -105,6 +121,8 @@ pnpm build
 pnpm smoke
 pnpm a11y
 pnpm inquiry:delivery
+pnpm inquiry:operations
+pnpm routes:test
 pnpm inquiry:recovery
 pnpm inquiry:content
 pnpm inquiry:pending

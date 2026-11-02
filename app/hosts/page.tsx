@@ -48,7 +48,7 @@ const applicationSteps = [
   "Localhost reviews fit, boundaries, communication, and chapter needs.",
   "A first conversation clarifies expectations, availability, and safety limits.",
   "Host role and route type are matched slowly, not assigned automatically.",
-  "Feedback shapes future hosting and Host Credit recognition."
+  "Agree the role, hours, fee, expenses, payment timing, and cancellation terms before accepting work."
 ];
 
 const boundaries = [
@@ -62,7 +62,7 @@ const boundaries = [
 const rewards = [
   "Earn income for trusted local contribution",
   "Build serious global relationships",
-  "Earn Host Credits inside the Localhost network",
+  "Discuss contribution recognition separately; future credits are not compensation",
   "Represent a place with dignity rather than performance"
 ];
 
@@ -151,6 +151,11 @@ export default function HostsPage() {
           </div>
           <div className="quiet-panel">
             <p className="eyebrow">Compensation And Credits</p>
+            <p>
+              Host work is paid according to the written agreement for that
+              route. Any future contribution recognition is separate: it does
+              not replace fees, reimbursements, or a payment date.
+            </p>
             <ul className="clean-list">
               {rewards.map((item) => (
                 <li key={item}>{item}</li>

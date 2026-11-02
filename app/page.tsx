@@ -7,6 +7,7 @@ import { localhostResponseWindow } from "@/lib/contact";
 import { culturalVisualLayers } from "@/lib/content";
 import { resolveImageSource } from "@/lib/image";
 import { buildLocalhostPageMetadata } from "@/lib/metadata";
+import { serviceLevels } from "@/lib/serviceScope";
 
 export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "Localhost Global — Private China Routes",
@@ -117,24 +118,6 @@ const howItWorks = [
   "We shape a private route with local context.",
   "A trusted local host helps you enter the place properly.",
   "Logistics, translation, payments, timing, and cultural context are supported."
-] as const;
-
-const entryWays = [
-  {
-    title: "Route Advisory",
-    copy:
-      "Direction, timing, cultural context, food, and practical preparation before you move independently."
-  },
-  {
-    title: "Hosted Private Route",
-    copy:
-      "A selected host joins key moments: meals, movement, interpretation, and decisions where local judgment matters."
-  },
-  {
-    title: "Fully Held China Route",
-    copy:
-      "Route design, host layer, logistics, timing, translation, payments, and day-to-day support held together."
-  }
 ] as const;
 
 const homeInquiryHref =
@@ -306,7 +289,7 @@ export default function Home() {
         <section className="section section-atmosphere atmosphere-mist home-support-section">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">What Localhost Is</p>
-            <h2>Private China travel, made legible.</h2>
+            <h2>A route, the right host, and practical support.</h2>
             <p>
               A private local-host network for travelers who want route design,
               host fit, practical confidence, and cultural context.
@@ -358,10 +341,10 @@ export default function Home() {
               ))}
             </ol>
             <div className="support-card-grid support-card-grid--three home-entry-ways">
-              {entryWays.map((item) => (
+              {serviceLevels.map((item) => (
                 <article className="support-detail-card" key={item.title}>
                   <h3>{item.title}</h3>
-                  <p>{item.copy}</p>
+                  <p>{item.summary}</p>
                 </article>
               ))}
             </div>

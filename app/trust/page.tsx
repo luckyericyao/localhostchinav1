@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { OperatorDetails } from "@/components/OperatorDetails";
 import { localhostResponseWindow } from "@/lib/contact";
 import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
@@ -99,15 +100,11 @@ const trustCommitments = [
 ];
 
 const boundaries = [
-  "Hosts are not servants.",
-  "Hosts are not entertainers.",
-  "Hosts are not drivers by default.",
-  "Hosts are not emergency responders.",
-  "Hosts are not forced to be available 24/7.",
-  "Localhost does not encourage lowest-price bidding.",
-  "Trust comes before scale.",
-  "Localhost may decline or redirect inquiries that are not a fit.",
-  "A public guide marketplace is not the model."
+  "Agree host hours, transport, third-party costs, cancellation terms, and a named point of contact before confirming.",
+  "A host provides interpretation and coordination; a driver is a separate role.",
+  "Support follows the agreed scope and reply window, not 24/7 personal staffing or emergency response.",
+  "Traveler privacy, host time, and permission from local people take priority over access requests.",
+  "If a route is not feasible, we explain the limit or suggest another direction. There are no public host listings."
 ];
 
 const trustTravelerInquiryHref =
@@ -146,6 +143,8 @@ export default function TrustPage() {
             </div>
           </div>
         </section>
+
+        <OperatorDetails />
 
         <section className="section section--stone trust-process-section">
           <div className="section-heading section-heading--center">

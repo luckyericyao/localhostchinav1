@@ -1,21 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { culturalVisualLayers } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Host Credits — Localhost Global",
   description:
-    "Host Credits are how Localhost remembers contribution inside a private reciprocal hospitality network."
+    "A proposed contribution-recognition model, separate from agreed host compensation and without guaranteed redemption."
 };
 
 const whatTheyAre = [
-  "Internal recognition of trusted contribution",
-  "Earned through hosting, support, referrals, chapter help, or network-building work",
-  "Connected to future hosted travel only where a local chapter is ready",
-  "Held inside a private trust network, not a public marketplace"
+  "Recognition of contribution, separate from agreed host compensation",
+  "No automatic balance, redemption rate, or guaranteed benefit is offered here",
+  "Any future arrangement needs written terms and a ready local chapter"
 ];
 
 const earnedBy = [
@@ -74,9 +71,9 @@ export default function HostCreditsPage() {
           </div>
           <div className="page-hero-copy">
             <p>
-              Host Credits are how Localhost remembers contribution. They are a
-              private trust mechanism for reciprocal hospitality, not a public
-              token or travel voucher.
+              A proposed way to recognize contribution over time. Host pay is
+              agreed for the work itself; future recognition does not replace
+              compensation or create a travel entitlement.
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href={hostCreditsInquiryHref}>
@@ -91,8 +88,13 @@ export default function HostCreditsPage() {
 
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
-            <p className="eyebrow">What They Are</p>
-            <h2>Private credits inside a trust network.</h2>
+            <p className="eyebrow">Current Scope</p>
+            <h2>Paid work and future recognition are separate.</h2>
+            <p>
+              Before accepting a route, agree the role, hours, fee, expenses,
+              payment timing, and cancellation terms in writing. This page is
+              not an active credit account or redemption programme.
+            </p>
           </div>
           <ul className="reference-matrix">
             {whatTheyAre.map((item) => (
@@ -100,8 +102,6 @@ export default function HostCreditsPage() {
             ))}
           </ul>
         </section>
-
-        <CulturalImageLayer {...culturalVisualLayers.hosts} tone="paper" />
 
         <section className="section">
           <div className="section-heading section-heading--center">
@@ -117,7 +117,7 @@ export default function HostCreditsPage() {
 
         <section className="section split-panel-section">
           <div className="quiet-panel">
-            <p className="eyebrow">How They Are Earned</p>
+            <p className="eyebrow">Contributions That May Be Recognized</p>
             <ul className="clean-list">
               {earnedBy.map((item) => (
                 <li key={item}>{item}</li>
@@ -125,7 +125,8 @@ export default function HostCreditsPage() {
             </ul>
           </div>
           <div className="quiet-panel">
-            <p className="eyebrow">How They May Be Used</p>
+            <p className="eyebrow">Future Possibilities, Not Entitlements</p>
+            <p>These possibilities are not currently promised. Eligibility and any benefit would require separate written terms.</p>
             <ul className="clean-list">
               {mayBeUsed.map((item) => (
                 <li key={item}>{item}</li>
@@ -182,8 +183,9 @@ export default function HostCreditsPage() {
           </div>
           <div className="editorial-copy">
             <p>
-              Host Credits are not a promise of scale. They are the beginning of
-              a more reciprocal way for host contribution to carry forward.
+              Any future recognition model needs clear eligibility, written
+              terms, and a local chapter able to honour it. No balance or
+              redemption right is created by an application or inquiry.
             </p>
             <div className="inline-actions">
               <Link className="button button--dark" href={hostCreditsInquiryHref}>

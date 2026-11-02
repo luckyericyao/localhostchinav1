@@ -3,6 +3,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { headers } from "next/headers";
 import {
+  localhostContactEmail,
   localhostDeliveryEmail,
   localhostResponseWindow
 } from "@/lib/contact";
@@ -10,6 +11,7 @@ import { persistLocalhostMetric } from "@/lib/metrics";
 import { sendInquiryEmail } from "@/lib/inquiryEmail";
 import { normalizeMetricSessionId } from "@/lib/metricSession";
 import { normalizeMetricPath } from "@/lib/metricDimensions";
+import { replyDueAt, reviewOwner } from "@/lib/inquiryOperations";
 import { readInquiryFields, type InquiryFieldError } from "@/lib/inquiryValidation";
 
 export type LocalhostIntentType = "traveler" | "host" | "partner";
@@ -128,7 +130,9 @@ function logInquiryEvent(
     sourcePage?: string;
   } = {}
 ) {
-  console.info("Localhost inquiry event", {
+  console.info(JSON.stringify({
+    kind: "localhost_inquiry",
+    recordedAt: new Date().toISOString(),
     event,
     inquiryId: details.inquiryId || "",
     intentType: details.intentType || "",
@@ -136,8 +140,9 @@ function logInquiryEvent(
     routeContext: details.routeContext || "",
     sessionId: details.sessionId || "",
     sourcePage: normalizeMetricPath(details.sourcePage),
-    durationMs: details.durationMs || 0
-  });
+    durationMs: details.durationMs || 0,
+    reviewOwner: reviewOwner(process.env.LOCALHOST_REVIEW_OWNER) || "eric-yao"
+  }));
 
   const metricEvent = {
     delivery_fallback: "inquiry_delivery_fallback",
@@ -261,6 +266,10 @@ function buildInquiryEmailContent(payload: {
     ...bodyLines,
     "",
     "First-response standard (internal):",
+    `Review owner: ${reviewOwner(process.env.LOCALHOST_REVIEW_OWNER) || "eric-yao"}`,
+    "Review status: awaiting inbox confirmation and first human review.",
+    `Initial reply target: ${replyDueAt(payload.createdAt, (process.env.LOCALHOST_REVIEW_HOLIDAYS || "").split(",").map((item) => item.trim()))} (China working calendar; recalculate from actual inbox receipt).`,
+    "Record inbox receipt, owner, first substantive reply, and next action in the private review ledger. Provider acceptance alone is not inbox receipt.",
     `- Reply ${payload.responseWindow} and keep ${payload.inquiryId} in the thread.`,
     "- Acknowledge one specific detail before proposing a direction.",
     "- Offer one concrete next direction and explain why it fits.",
@@ -281,7 +290,7 @@ function buildInquiryEmailContent(payload: {
 }
 
 function buildMailtoHref({ body, subject }: { body: string; subject: string }) {
-  return `mailto:${localhostDeliveryEmail}?subject=${encodeURIComponent(
+  return `mailto:${localhostContactEmail}?subject=${encodeURIComponent(
     subject
   )}&body=${encodeURIComponent(body)}`;
 }
@@ -451,7 +460,7 @@ export async function submitLocalhostInquiry(
     }
   }
 
-  if (!emailDelivery.ok && !localhostDeliveryEmail) {
+  if (!emailDelivery.ok && !localhostContactEmail) {
     logInquiryEvent("delivery_unconfigured", {
       sessionId,
       durationMs: Date.now() - startedAt,
@@ -481,7 +490,7 @@ export async function submitLocalhostInquiry(
   });
 
   return {
-    contactEmail: emailDelivery.ok ? undefined : localhostDeliveryEmail,
+    contactEmail: emailDelivery.ok ? undefined : localhostContactEmail,
     delivery: emailDelivery.ok ? "email" : "mailto",
     inquiryId,
     mailtoHref,

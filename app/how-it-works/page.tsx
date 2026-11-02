@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { culturalVisualLayers } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "How It Works — Localhost Global",
@@ -20,7 +18,7 @@ const operatingFlow = [
   "Route proposal",
   "Local support",
   "Post-route feedback",
-  "Future relationship / Host Credits"
+  "Future travel, if the fit continues"
 ];
 
 const simpleFlow = [
@@ -122,25 +120,6 @@ export default function HowItWorksPage() {
               <li key={item}>{item}</li>
             ))}
           </ol>
-        </section>
-
-        <CulturalImageLayer {...culturalVisualLayers.china} tone="paper" />
-
-        <section className="section split-layout">
-          <div className="section-heading">
-            <p className="eyebrow">Review</p>
-            <h2>Not every inquiry should become the same route.</h2>
-          </div>
-          <div className="editorial-copy">
-            <p className="lead">
-              Route shaping begins with the traveler&apos;s question, then meets
-              the reality of the place.
-            </p>
-            <p>
-              The strongest routes come from alignment: the right chapter, the
-              right pace, the right host, and the right expectations.
-            </p>
-          </div>
         </section>
 
         <section className="section section--stone">

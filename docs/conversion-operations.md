@@ -2,6 +2,61 @@
 
 This document defines the first measurement and response workflow for Localhost China. It records targets and formulas without inventing performance results.
 
+## Private review ledger
+
+`pnpm inquiry:reviews` maintains an append-only metadata ledger at
+`.local/inquiry-reviews.jsonl`, excluded from Git, with owner-only file
+permissions. This is an operator-run local record, not a production database or
+an automatically synchronized CRM. Import production log exports regularly and
+keep the file on a restricted, backed-up operator machine. Nothing is sent by
+these commands.
+
+```bash
+# Import a private JSON Lines export containing localhost_inquiry records.
+pnpm inquiry:reviews import < /private/path/production-logs.jsonl
+pnpm inquiry:reviews list
+pnpm inquiry:reviews assign LH-2026-11-02-1234ABCD eric-yao
+pnpm inquiry:reviews receive LH-2026-11-02-1234ABCD 2026-11-02T03:00:00Z
+pnpm inquiry:reviews reply LH-2026-11-02-1234ABCD 2026-11-03T03:00:00Z
+pnpm inquiry:reviews close LH-2026-11-02-1234ABCD
+pnpm inquiry:reviews report
+```
+
+The references and times above are examples, not production inquiries. The
+ledger accepts only references, event times, delivery states, and reviewer
+aliases; it does not retain names, traveler emails, notes, or message bodies.
+The source export can contain private data: keep it outside the repository.
+Never import arbitrary browser analytics as proof of delivery.
+
+New server events use JSON `kind=localhost_inquiry`, an ISO timestamp, and
+the configured `LOCALHOST_REVIEW_OWNER` alias (default `eric-yao`). The accepted
+provider reference remains in the operational source log. Import is idempotent;
+queue state distinguishes awaiting inbox, unassigned, awaiting reply, replied,
+and closed, with a derived next action. An operator must confirm actual inbox
+receipt and record the first substantive human reply. Recording a reply requires
+confirmed receipt and an assigned reviewer; the tool never sends or invents one.
+
+Reply deadlines use China-local Monday-Friday working days, excluding dates
+listed in `LOCALHOST_REVIEW_HOLIDAYS` (comma-separated YYYY-MM-DD). Keep this
+calendar current; compensating weekend workdays are not modeled. Deadlines are
+recalculated from actual inbox receipt, not an unsent draft. The reply-rate
+denominator includes received inquiries whose target has elapsed or that already
+have a reply; still-within-window inquiries are shown separately. Empty rates
+are `null`. Provider acceptance, confirmed direct inbox delivery, and fallback
+are reported separately. These records do not establish the 95%/90% targets until
+an actual, complete review period is imported and reconciled.
+
+## Public identity
+
+The owner approved Eric Yao and `yaohaohui2014@hotmail.com` as the public point
+of contact on 2026-11-02. These appear in About, Trust, and Inquiry and provide
+the default public email fallback. Optional `LOCALHOST_OPERATOR_NAME`,
+`LOCALHOST_OPERATOR_BIO`, and `LOCALHOST_CONTACT_EMAIL` overrides must contain
+approved facts. No biography, credentials, portrait, client case, or scouting
+record is invented. Independently licensed route photographs are credited as
+place references, not Localhost work records. A mailto fallback remains an
+unsent draft until the visitor sends it.
+
 ## Inquiry delivery
 
 Every valid inquiry receives an `LH-YYYY-MM-DD-XXXXXXXX` reference. The reference is included in the direct email subject and body, and in the structured delivery log. The server records one of these outcomes:
@@ -46,14 +101,20 @@ response instructions, and is not persisted in browser storage or analytics.
 Run `pnpm run inquiry:recovery` against a local or deployed server to exercise
 these states with every submission intercepted before it reaches the backend.
 
-Direct delivery rate is calculated as:
+The legacy log-only provider acceptance rate is calculated as:
 
 ```text
 inquiry_delivery_success /
 (inquiry_delivery_success + inquiry_delivery_fallback)
 ```
 
-The fallback rate is calculated from the same denominator. These rates must be reviewed against the Resend activity log and the receiving inbox because serverless memory is only a warm-instance guard, not a durable database.
+This is provider acceptance, not inbox delivery. The new review ledger also
+includes valid references whose delivery was unconfigured in its denominator.
+Its `confirmedDirectDeliveryRate` requires both provider acceptance and an
+operator-confirmed inbox receipt. Reconcile all rates with the provider activity
+log and receiving inbox; serverless memory is only a warm-instance guard, not a
+durable database. Repeated references or prepared drafts must not inflate the
+successful delivery count.
 
 Every direct Resend request also carries an idempotency key derived from the
 inquiry reference. Provider retries therefore reuse the same request identity

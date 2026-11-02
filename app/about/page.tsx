@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CulturalImageLayer } from "@/components/CulturalImageLayer";
+import { OperatorDetails } from "@/components/OperatorDetails";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { culturalVisualLayers } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "About — Localhost Global",
@@ -53,10 +52,10 @@ const plainVersion = [
 ];
 
 const networkIdeas = [
-  "A traveler receives local judgment in one chapter.",
-  "A host contributes judgment, access, and hospitality.",
-  "Host Credits remember contribution inside the network.",
-  "Future chapters allow trusted hospitality to move across the network."
+  "A host is paid for the work agreed for a confirmed route.",
+  "Feedback and useful introductions can inform future collaboration.",
+  "Any reciprocal recognition needs separate written terms.",
+  "New chapters follow real local capacity, not a promise of global coverage."
 ];
 
 export default function AboutPage() {
@@ -67,19 +66,20 @@ export default function AboutPage() {
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">About Localhost</p>
-            <h1>Tourism often turns places into content. Localhost starts with local judgment.</h1>
+            <h1>Private China routes, with someone accountable.</h1>
           </div>
           <div className="page-hero-copy">
             <p>
-              Localhost Global exists to make private travel more legible,
-              respectful, and locally grounded. The work is route design, host
-              fit, and practical context.
+              We help travelers choose a route, find the right local host, and
+              agree the practical arrangements. China is our first chapter.
             </p>
             <Link className="button button--dark" href="/how-it-works">
               See How It Works
             </Link>
           </div>
         </section>
+
+        <OperatorDetails />
 
         <section className="section intro-section">
           <div className="section-heading">
@@ -117,8 +117,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <CulturalImageLayer {...culturalVisualLayers.home} tone="paper" />
-
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Why It Exists</p>
@@ -137,13 +135,14 @@ export default function AboutPage() {
         <section className="section section--dark">
           <div className="section-heading">
             <p className="eyebrow">Reciprocal Hospitality</p>
-            <h2>A global network should remember contribution.</h2>
+            <h2>Contribution and future chapters.</h2>
           </div>
           <ol className="rhythm-list rhythm-list--dark">
             {networkIdeas.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ol>
+          <p className="scope-note">Host compensation is agreed separately. Future recognition or reciprocal access is not a confirmed benefit.</p>
         </section>
 
         <section className="section final-section">

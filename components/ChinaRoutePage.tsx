@@ -19,6 +19,7 @@ type RouteGalleryImage = {
   copy: string;
   src: string;
   title: string;
+  credit?: { author: string; source: string; license: string; licenseUrl: string };
 };
 
 type RouteGallery = {
@@ -201,7 +202,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               <h2>{route.gallery.title}</h2>
               <p>{route.gallery.body}</p>
             </div>
-            <div className="route-gallery-grid">
+            <div className={`route-gallery-grid${route.gallery.images.length === 3 ? " route-gallery-grid--three" : ""}`}>
               {route.gallery.images.map((image, index) => (
                 <article
                   className={`route-gallery-card${index === 0 ? " route-gallery-card--featured" : ""}`}
@@ -212,16 +213,24 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
                       src={resolveImageSource(image.src)}
                       alt={image.alt}
                       fill
-                      sizes={index === 0 ? "(min-width: 900px) 56vw, 100vw" : "(min-width: 900px) 28vw, 100vw"}
+                      sizes={route.gallery!.images.length === 3 ? "(min-width: 900px) 33vw, 100vw" : index === 0 ? "(min-width: 900px) 56vw, 100vw" : "(min-width: 900px) 28vw, 100vw"}
                     />
                   </div>
                   <div className="route-gallery-copy">
                     <h3>{image.title}</h3>
                     <p>{image.copy}</p>
+                    {image.credit ? (
+                      <p className="route-photo-credit">
+                        Photo: <a href={image.credit.source}>{image.credit.author}</a>
+                        {" · "}<a href={image.credit.licenseUrl}>{image.credit.license}</a>
+                        {" · Cropped and toned for display."}
+                      </p>
+                    ) : null}
                   </div>
                 </article>
               ))}
             </div>
+            <p className="scope-note">Photographs are credited place references, not records of a Localhost-hosted journey. Visits and any private access are confirmed separately.</p>
           </section>
         ) : null}
 

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { culturalVisualLayers } from "@/lib/content";
+import { serviceLevels } from "@/lib/serviceScope";
 
 export const metadata: Metadata = {
   title: "Travelers — Localhost Global",
@@ -38,7 +37,7 @@ const plainTerms = [
   {
     title: "Host",
     copy:
-      "A trusted local person matched for judgment, communication, and fit. A host is not a random guide or personal servant."
+      "A selected local person who provides interpretation and coordination during the visits or hours you agree."
   },
   {
     title: "Review",
@@ -98,35 +97,6 @@ const practicalQuestions = [
   }
 ];
 
-const judgmentAreas = [
-  "Payments",
-  "Local apps",
-  "Food ordering",
-  "Timing and traffic",
-  "Language",
-  "Transport",
-  "Etiquette",
-  "Local interpretation"
-];
-
-const supportLevels = [
-  {
-    title: "Route Advisory",
-    copy:
-      "For travelers who want direction, context, and practical preparation before moving independently."
-  },
-  {
-    title: "Hosted Private Route",
-    copy:
-      "For travelers who want a selected host present for key moments, meals, movement, and cultural interpretation."
-  },
-  {
-    title: "Fully Held China Route",
-    copy:
-      "For travelers who want the route, host layer, logistics, timing, and local support held together with greater care."
-  }
-];
-
 const rightFit = [
   "You want a route shaped around understanding, not speed.",
   "You are comfortable with review before confirmation.",
@@ -135,10 +105,9 @@ const rightFit = [
 ];
 
 const notRightFit = [
-  "You want instant booking without review.",
-  "You want the lowest possible price before the route is understood.",
-  "You want a host to act as a servant, entertainer, or 24/7 assistant.",
-  "You only want fast photo stops with no local interpretation."
+  "You need immediate confirmation before dates and local availability are checked.",
+  "You need continuous personal staffing or emergency response.",
+  "You want a fixed public departure rather than a privately reviewed route."
 ];
 
 const travelersInquiryHref =
@@ -240,8 +209,6 @@ export default function TravelersPage() {
           </div>
         </section>
 
-        <CulturalImageLayer {...culturalVisualLayers.travelers} tone="paper" />
-
         <section className="section executive-traveler-section">
           <div className="section-heading">
             <p className="eyebrow">Executive Travelers</p>
@@ -265,28 +232,21 @@ export default function TravelersPage() {
           </div>
         </section>
 
-        <section className="section section--dark">
-          <div className="section-heading">
-            <p className="eyebrow">Local Judgment</p>
-            <h2>The small decisions often change the whole day.</h2>
-          </div>
-          <ul className="reference-matrix reference-matrix--dark">
-            {judgmentAreas.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </section>
-
         <section className="section section--stone">
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Support Levels</p>
-            <h2>Scope language, not pricing tiers.</h2>
+            <h2>Choose how much support joins the route.</h2>
           </div>
           <div className="support-card-grid support-card-grid--three">
-            {supportLevels.map((item) => (
+            {serviceLevels.map((item) => (
               <article className="support-detail-card" key={item.title}>
                 <h3>{item.title}</h3>
-                <p>{item.copy}</p>
+                <p>{item.summary}</p>
+                <dl className="service-level-details">
+                  <dt>Who joins you</dt><dd>{item.presence}</dd>
+                  <dt>Before departure</dt><dd>{item.preparation}</dd>
+                  <dt>Support window</dt><dd>{item.support}</dd>
+                </dl>
               </article>
             ))}
           </div>
@@ -294,6 +254,12 @@ export default function TravelersPage() {
             Pricing depends on route depth, host involvement, logistics, city
             coverage, and support level. Localhost does not quote before the
             route scope is understood.
+          </p>
+          <p className="scope-note">
+            The proposal separates route design, host time, and coordination
+            from hotels, transport, tickets, and meals. You approve scope,
+            fees, availability, payment timing, and cancellation terms before
+            anything is reserved. A host is not a driver by default.
           </p>
         </section>
 

@@ -25,7 +25,7 @@ const expectedContent = new Map([
   ["/china/shanghai", ["The Bund, dinner, after dark.", "Entry and availability are checked"]],
   ["/china/real-access", ["Permission before access", "A visit depends on invitation, permission"]],
   ["/travelers", ["The parts of a private route.", "A clear route, a considered host, practical support."]],
-  ["/about", ["What Localhost does.", "Practice, old roads, temples, and the tea table."]],
+  ["/about", ["What Localhost does.", "Your Point of Contact", "Eric Yao"]],
   [
     "/journeys",
     [
