@@ -509,7 +509,7 @@ export function LocalhostIntakeForm({
         : result?.ok
           ? result.delivery === "mailto"
             ? "Email ready to send"
-            : "Inquiry received"
+            : "Inquiry submitted"
           : submitLabel(activeIntent)}
     </button>
   );
@@ -871,7 +871,7 @@ export function LocalhostIntakeForm({
             <p className="response-expectation">
               {result.delivery === "mailto"
                 ? `Expected reply window after you send the email: ${result.responseWindow}.`
-                : `Expected reply window: ${result.responseWindow}.`}
+                : `Expected reply window once we receive your inquiry: ${result.responseWindow}.`}
             </p>
           ) : null}
           {optionalDetails.preferredReply ? (

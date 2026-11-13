@@ -1,209 +1,105 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { InquirySection } from "@/components/InquirySection";
+import { PhotographCredit } from "@/components/PhotographCredit";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { arrangements, chinaJourneys } from "@/lib/content";
+import { discoveryChapters } from "@/lib/discovery";
 import { resolveImageSource } from "@/lib/image";
 import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildLocalhostPageMetadata({
-  title: "Localhost China — Real Ancient China",
+  title: "Localhost China — Four Local Perspectives",
   description:
-    "Private routes into ancient and living China, shaped with selected hosts, cultural interpretation, and practical confidence.",
+    "Explore northern architecture in Shanxi, practice around Shaolin, the villages of Huizhou, and the river city of Shanghai. Four starting points for a private China journey.",
   image: "/images/china-ancient-landscape.png",
-  imageAlt:
-    "An ancient Chinese stone landscape beneath distant mountains in restrained natural light.",
+  imageAlt: "A weathered Chinese stone wall beneath distant mountains.",
   path: "/china",
-  shareTitle: "China Is Easy to Visit. It Is Harder to Understand."
+  shareTitle: "Shanxi. Shaolin. Huizhou. Shanghai."
 });
-
-const chinaMethod = [
-  {
-    title: "Arrive with practical confidence",
-    copy:
-      "Shanghai can be a composed first threshold: landing, payments, food, movement, and a more intelligent first read of modern China."
-  },
-  {
-    title: "Choose depth after arrival",
-    copy:
-      "Go ancient in Shanxi, disciplined in Shaolin, poetic in Huizhou, or stay urban in Shanghai."
-  },
-  {
-    title: "Context over sightseeing",
-    copy:
-      "Temples, villages, cities, food, etiquette, and history become clearer with local interpretation."
-  },
-  {
-    title: "Local support in the background",
-    copy:
-      "Transport, timing, restaurants, translation, payments, and day-of adjustments can sit behind the experience while the route keeps what you are seeing, eating, entering, and missing legible."
-  }
-];
-
-const whoFor = [
-  "Thoughtful international travelers",
-  "Overseas Chinese and diaspora returning with questions",
-  "Founders, investors, academics, artists, writers, and executives",
-  "People who want to understand China beyond headlines and tourist lists"
-];
-
-const notFor = [
-  "People looking only for the lowest-cost group tour",
-  "Travelers who only want photo stops",
-  "People who want standardized tourism"
-];
 
 const chinaInquiryHref =
   "/inquiry?type=traveler&route=china-general&sourcePage=%2Fchina&sourceLabel=Localhost%20China%20page";
 
 export default function ChinaPage() {
-  const featuredRoutes = chinaJourneys.filter((journey) =>
-    ["Shanxi", "Shaolin", "Huizhou", "Shanghai"].includes(journey.place)
-  );
-
   return (
     <>
-      <SiteHeader />
-      <main id="main-content">
-        <section className="page-hero page-hero--china">
-          <div>
-            <p className="eyebrow">Localhost China</p>
-            <h1>China is easy to visit. It is harder to understand.</h1>
-          </div>
-          <div className="page-hero-copy">
-            <p>
-              China asks for local decoding: language, payments, food,
-              etiquette, cities, temples, villages, rhythm, and regional
-              history. Localhost China is the first chapter of a private
-              local-host network built around context.
-            </p>
-            <p className="support-subhead">
-              Ancient China, approached through living context.
-            </p>
-            <p>
-              We do not design routes around retro-themed attractions. We look
-              for places where ancient China still has weight, silence,
-              structure, and continuity.
-            </p>
-            <Link
-              className="button button--dark"
-              data-track-event="request_route"
-              data-track-source="china_hero"
-              href={chinaInquiryHref}
-            >
-              Request a Private Route
-            </Link>
+      <SiteHeader tone="transparent" discovery />
+      <main id="main-content" className="china-atlas-page">
+        <section className="chapter-opening" aria-labelledby="china-title">
+          <Image
+            src={resolveImageSource("/images/china-ancient-landscape.png")}
+            alt="A weathered Chinese stone wall beneath distant mountains."
+            fill
+            priority
+            sizes="100vw"
+            className="chapter-opening-image"
+          />
+          <div className="chapter-opening-shade" />
+          <div className="chapter-opening-copy">
+            <p className="eyebrow">Localhost / China</p>
+            <h1 id="china-title">China.</h1>
+            <p>Begin in the north, around Songshan, among the villages of Huizhou, or by the river in Shanghai.</p>
+            <a className="discovery-explore" href="#china-places">Explore the places <span aria-hidden="true">↓</span></a>
           </div>
         </section>
 
-        <section className="section section--stone">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">How Localhost Works In China</p>
-            <h2>Practical confidence first. Cultural reading deeper.</h2>
-            <p>
-              The route holds the details that make China easier to enter, then
-              makes space for the local meaning behind them.
-            </p>
-          </div>
-          <div className="support-card-grid">
-            {chinaMethod.map((card) => (
-              <article className="support-detail-card" key={card.title}>
-                <h3>{card.title}</h3>
-                <p>{card.copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section" aria-labelledby="china-arrange">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Local Support Layers</p>
-            <h2 id="china-arrange">What we arrange in China.</h2>
-          </div>
-          <div className="arrangement-grid">
-            {arrangements.map((item) => (
-              <Link
-                className="arrangement-card arrangement-card--link"
-                href={item.href}
-                key={item.title}
-              >
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-                <span className="arrangement-cue">Learn more</span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        <section className="section section--dark" id="journeys">
-          <div className="section-heading">
-            <p className="eyebrow">Featured Routes</p>
-            <h2>Private cultural routes with local context.</h2>
-          </div>
-          <div className="china-route-list">
-            {featuredRoutes.map((journey) => (
-              <article className="route-entry" key={journey.place}>
-                <div className="route-entry-media">
-                  <Image
-                    src={resolveImageSource(journey.image)}
-                    alt={journey.alt}
-                    fill
-                    sizes="(min-width: 900px) 34vw, 100vw"
-                  />
-                </div>
-                <div className="route-entry-copy">
-                  <p className="eyebrow">{journey.place}</p>
-                  <h3>{journey.line}</h3>
-                  <dl className="route-best-for">
-                    <dt>Best for</dt>
-                    <dd>{journey.bestFor}</dd>
-                  </dl>
-                  <p>{journey.summary}</p>
+        <section className="china-atlas" id="china-places" aria-labelledby="china-perspectives-title">
+          <header className="discovery-section-heading">
+            <p className="eyebrow">Place before plans</p>
+            <h2 id="china-perspectives-title">Four local perspectives.</h2>
+          </header>
+          <div className="china-atlas-places">
+            {discoveryChapters.map((chapter) => (
+              <article className="china-atlas-place" data-china-place={chapter.slug} key={chapter.slug}>
+                <figure>
                   <Link
-                    className="text-link text-link--light"
+                    className="china-atlas-image"
+                    href={`/china/${chapter.slug}`}
+                    aria-label={`Explore ${chapter.place}`}
                     data-track-event="route_select"
-                    data-track-route={journey.place}
+                    data-track-route={chapter.place}
                     data-track-source="china_featured_routes"
-                    href={journey.href}
                   >
-                    Enter {journey.place}
+                    <Image src={chapter.photograph.src} alt={chapter.imageAlt} fill sizes="(min-width: 900px) 50vw, 100vw" />
                   </Link>
+                  <figcaption>
+                    <span>{chapter.imageCaption}</span>
+                    <PhotographCredit photograph={chapter.photograph} />
+                  </figcaption>
+                </figure>
+                <div className="china-atlas-copy">
+                  <p className="eyebrow">{chapter.number} / {chapter.region}{chapter.slug === "shanxi" ? " / Flagship chapter" : ""}</p>
+                  <h3>{chapter.place}</h3>
+                  <p className="china-atlas-perspective">{chapter.perspective}</p>
+                  <p>{chapter.regionalContext}</p>
+                  <p className="discovery-setting">{chapter.setting}</p>
+                  <Link className="text-link" href={`/china/${chapter.slug}`} data-track-event="route_select" data-track-route={chapter.place} data-track-source="china_featured_routes">Explore {chapter.place}</Link>
                 </div>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="section split-panel-section">
-          <div className="quiet-panel">
-            <p className="eyebrow">Who This Is For</p>
-            <ul className="clean-list">
-              {whoFor.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="quiet-panel">
-            <p className="eyebrow">Not For</p>
-            <ul className="clean-list">
-              {notFor.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+        <section className="discovery-orientation" aria-labelledby="china-practical-title">
+          <p className="eyebrow">When a place interests you</p>
+          <h2 id="china-practical-title">Then consider the journey.</h2>
+          <p>Compare time, arrival cities, and pace on the Routes page. Host involvement, transport, costs, and support are agreed separately before a journey is confirmed.</p>
+          <div className="discovery-context-links">
+            <Link className="text-link" href="/journeys">Compare the four routes</Link>
+            <Link className="text-link" href="/travelers">How a journey is supported</Link>
+            <Link className="text-link" href="/trust">Trust & care</Link>
           </div>
         </section>
 
-        <InquirySection
-          compact
-          id="china-private-route-inquiry"
-          routeContext="china-general"
-          sourceLabel="Localhost China page"
-          sourcePage="/china"
-        />
+        <section className="discovery-conversation" aria-labelledby="china-conversation-title">
+          <p className="eyebrow">A conversation</p>
+          <h2 id="china-conversation-title">Start with a place<br />or a question.</h2>
+          <p>You do not need a finished itinerary. Tell us what drew your attention, and we can consider the next steps together.</p>
+          <Link className="text-link" href={chinaInquiryHref} data-track-event="request_route" data-track-source="china_final">Begin a conversation</Link>
+        </section>
       </main>
-      <SiteFooter />
+      <SiteFooter discovery />
     </>
   );
 }

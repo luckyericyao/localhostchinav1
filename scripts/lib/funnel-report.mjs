@@ -36,9 +36,9 @@ function firstTime(records, event, predicate = () => true, after = -Infinity) {
 export function buildFunnelReport(lines) {
   const sessions = new Map();
   const uniqueRecords = new Set();
-  const outcomes = new Map([...deliveryEvents].map((event) => [event, new Set()]));
+  const outcomes = new Map();
   const quality = { inputLines: 0, supportedRecords: 0, ignoredLines: 0, duplicateRecords: 0, syntheticRecords: 0, recordsWithoutSession: 0, outcomesWithoutReference: 0 };
-  const times = [];
+  let earliest = Infinity, latest = -Infinity;
   for (const line of lines) {
     if (!line.trim()) continue;
     quality.inputLines += 1;
@@ -49,10 +49,13 @@ export function buildFunnelReport(lines) {
     if (uniqueRecords.has(key)) { quality.duplicateRecords += 1; continue; }
     uniqueRecords.add(key);
     quality.supportedRecords += 1;
-    times.push(record.time);
+    earliest = Math.min(earliest, record.time);
+    latest = Math.max(latest, record.time);
     if (deliveryEvents.has(record.event)) {
-      if (record.inquiryId) outcomes.get(record.event).add(record.inquiryId);
-      else quality.outcomesWithoutReference += 1;
+      if (record.inquiryId) {
+        if (!outcomes.has(record.inquiryId)) outcomes.set(record.inquiryId, new Set());
+        outcomes.get(record.inquiryId).add(record.event);
+      } else quality.outcomesWithoutReference += 1;
     }
     if (!record.sessionId) { quality.recordsWithoutSession += 1; continue; }
     if (!sessions.has(record.sessionId)) sessions.set(record.sessionId, []);
@@ -86,11 +89,16 @@ export function buildFunnelReport(lines) {
       routeViews[activeRoutes.get(path)] += 1;
     }
   }
-  const accepted = outcomes.get("inquiry_delivery_success").size;
-  const recoveryPrepared = outcomes.get("inquiry_delivery_fallback").size;
+  const delivery = { validReferences: outcomes.size, accepted: 0, recoveryPrepared: 0, unconfigured: 0, referencesWithMultipleOutcomes: 0 };
+  for (const observedOutcomes of outcomes.values()) {
+    if (observedOutcomes.size > 1) delivery.referencesWithMultipleOutcomes += 1;
+    if (observedOutcomes.has("inquiry_delivery_success")) delivery.accepted += 1;
+    else if (observedOutcomes.has("inquiry_delivery_fallback")) delivery.recoveryPrepared += 1;
+    else delivery.unconfigured += 1;
+  }
   return {
-    kind: "localhost_funnel_report", version: 1,
-    observedWindow: times.length ? { from: new Date(Math.min(...times)).toISOString(), to: new Date(Math.max(...times)).toISOString() } : null,
+    kind: "localhost_funnel_report", version: 2,
+    observedWindow: Number.isFinite(earliest) ? { from: new Date(earliest).toISOString(), to: new Date(latest).toISOString() } : null,
     quality,
     observedSessions: observed.length,
     sample: { target: 100, size: sample.length, status: sample.length < 100 ? "insufficient_sample" : "requires_traffic_review" },
@@ -100,12 +108,12 @@ export function buildFunnelReport(lines) {
       inquiryStartToProviderAcceptance: rate(startToAcceptance, starts, 0.4)
     },
     routeViews,
-    delivery: { accepted, recoveryPrepared, unconfigured: outcomes.get("inquiry_delivery_unconfigured").size,
-      directAcceptanceRate: rate(accepted, accepted + recoveryPrepared, 0.95) },
+    delivery: { ...delivery, providerAcceptanceRate: rate(delivery.accepted, delivery.validReferences, null) },
     limits: [
       "This is an observed log sample, not proof of 100 valid human visitors or high-net-worth intent.",
       "Exports can omit earlier or later session steps because of log retention, query limits, and network arrival order.",
       "Provider acceptance does not prove inbox receipt or a human reply. Prepared email recovery is not a successful submission.",
+      "Delivery counts summarize unique references across the export, not sessions in the 100-session sample.",
       "Historical unstructured logs are ignored rather than reconstructed into unsupported measurements."
     ]
   };

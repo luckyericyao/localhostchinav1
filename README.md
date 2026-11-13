@@ -6,12 +6,12 @@ Localhost Global is positioned as a quiet luxury local-host travel network for t
 
 ## Pages
 
-- `/` — premium homepage
+- `/` — discovery-first China opening and editorial chapters, with Shanxi first
 - `/about` — Localhost philosophy and global network thesis
 - `/how-it-works` — inquiry, review, route shaping, and host matching flow
 - `/trust` — host screening, boundaries, privacy, and quality control
-- `/china` — Localhost China market page
-- `/journeys` — China journey index and future chapter overview
+- `/china` — regional introduction to four cultural perspectives, with credited photographs
+- `/journeys` — practical comparison of the four active routes, with future chapters secondary
 - `/travelers` — traveler product page
 - `/hosts` — host recruitment page
 - `/host-credits` — reciprocal host credit explanation
@@ -103,15 +103,24 @@ direct delivery. The owner-approved public fallback is
 `yaohaohui2014@hotmail.com`; a prepared draft is not a sent inquiry.
 
 `pnpm inquiry:reviews` imports structured operational log exports into a private
-append-only local ledger. It supports assignment, confirmed inbox receipt,
-substantive replies, closure, next-action status, and aggregate delivery/SLA
-reports without retaining traveler content. It is not an automatically synced
-production database. See `docs/conversion-operations.md` for commands and limits.
+append-only local ledger. It distinguishes provider acceptance, direct and
+manual inbox receipt, and substantive replies, and supports historical reports
+with `--as-of`. It does not retain traveler content or sync with production.
+See `docs/conversion-operations.md` for commands and limits.
 
 The four route galleries use 12 independently licensed photographs of named
 places, with visible source/author/license attribution. See
 `public/images/routes/CREDITS.md`. These are not Localhost scouting or client
 records. Hero images and the current four-route hierarchy remain unchanged.
+
+The homepage's full-width Shaolin, Huizhou, and Shanghai scenes also use
+attributed local photographs. Their source and preparation records are in
+`public/images/chapters/CREDITS.md`; they are not Localhost fieldwork evidence.
+
+The homepage opens with the centered Temple of Heaven and a single exploration
+action. Chapter pages introduce places and an example rhythm before practical
+fit and contact. A local check of inquiry recovery and follow-through is not
+proof of production delivery or a human reply.
 
 ## Validation
 
@@ -120,6 +129,9 @@ pnpm lint
 pnpm build
 pnpm smoke
 pnpm a11y
+pnpm discovery:check
+pnpm editorial:check
+pnpm inquiry:check
 pnpm inquiry:delivery
 pnpm inquiry:operations
 pnpm routes:test
@@ -139,9 +151,33 @@ this checks rendered pages without posting synthetic analytics events.
 `pnpm a11y` uses the local
 Chrome binary for a mobile axe and keyboard smoke check plus homepage LCP/CLS
 measurement; set `CHROME_PATH` when Chrome is installed elsewhere.
-`pnpm inquiry:recovery` intercepts all form submissions and simulates direct
-receipt and unsent email recovery, including long drafts and unavailable
-clipboard access. It never sends an inquiry to the backend or email provider.
+`SITE_URL=http://127.0.0.1:3118 pnpm mobile:load` tests the homepage and four
+active routes against an isolated production build. It runs three cold-browser
+navigations per page at 390 x 844, DPR 3, 4x CPU slowdown, and 1.6 Mbit/s down
+with 150 ms added latency. It checks decoded hero images, median LCP below
+2.5 seconds, and CLS below 0.1 on each run. These lab results are not field
+Core Web Vitals or an INP measurement.
+`SITE_URL=http://127.0.0.1:3118 pnpm discovery:check` checks the discovery opening
+across nine responsive viewport sizes, full-width chapter framing, cover-aware
+image resolution, keyboard and native no-JavaScript navigation, reduced
+motion, loaded images, four chapter-to-inquiry handoffs, and axe on mobile and
+desktop. It accepts local URLs only, blocks external requests and submissions,
+and writes screenshots/results under `.codex-audit/discovery-pass-YYYY-MM-DD/`
+using the China-local date, with the tested URL and timestamp in its JSON report.
+Set `DISCOVERY_CHECK_RUN` to a short lowercase run name to preserve an earlier
+same-day screenshot set. `pnpm editorial:check` checks the distinct China and
+Routes page roles, readable comparisons without JavaScript, and the four
+chapter-to-chapter-to-inquiry paths on mobile and desktop. It uses the same
+local `SITE_URL` and writes evidence under `.codex-audit/editorial-pass-YYYY-MM-DD/`.
+Generated audit artifacts stay local and are excluded from Git, lint, and
+TypeScript inputs. Use a separate production-build snapshot without local
+environment files when testing alongside a running development server.
+Homepage image sources and usage terms are in `public/images/chapters/CREDITS.md`;
+route-detail gallery sources remain separate.
+`pnpm inquiry:recovery` intercepts all form submissions and simulates provider
+acceptance, duplicate submissions, and unsent email recovery, including long
+drafts and unavailable clipboard access. It never sends an inquiry to the
+backend or email provider.
 `pnpm inquiry:content` checks shared text boundaries, retained originals,
 inline field errors, and role-specific payloads with every submission intercepted.
 `pnpm inquiry:pending` holds intercepted responses to check that identity, role,

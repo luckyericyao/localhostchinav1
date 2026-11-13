@@ -42,7 +42,9 @@ try {
     assert.equal(params.get("sourcePage"), "/china/shanxi", "Client navigation left stale inquiry source");
     assert.equal(params.get("route"), "shanxi", "Client navigation lost route context");
   }
-  await page.locator('[data-track-source="route_hero"]').click();
+  assert.equal(await page.locator('.chapter-opening a[href^="/inquiry"]').count(), 0,
+    "The chapter opening should invite exploration, not an inquiry");
+  await page.locator('[data-track-source="route_final"]').click();
   await page.waitForURL("**/inquiry?**");
   await page.locator("#inquiry-name").fill("PRIVATE TEST NAME");
   await page.locator("#inquiry-email").fill("private-test@example.test");
@@ -107,6 +109,11 @@ try {
     for (const routeName of activeRoutes) {
       for (const source of ["header", "footer"]) {
         await page.goto(`${baseUrl}/china/${routeName}`, { waitUntil: "load" });
+        if (source === "header") {
+          // A previous inquiry may restore a lower scroll position on return.
+          await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+          await page.locator(".discovery-menu summary").click();
+        }
         await page.locator(`${source} [data-track-source="${source}"]`).click();
         await page.waitForURL("**/inquiry?**");
         const params = new URL(page.url()).searchParams;

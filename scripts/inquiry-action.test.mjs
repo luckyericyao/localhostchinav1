@@ -84,11 +84,15 @@ test("concurrent identical inquiries share one delivery and reference", async ()
   release(accepted);
   const results = await Promise.all([first, second]);
   assert.equal(results[0].delivery, "email");
+  assert.match(results[0].message, /submitted for private review/);
+  assert.doesNotMatch(results[0].message, /received|inbox/i);
   assert.equal(results[1].inquiryId, results[0].inquiryId);
   assert.equal(h.events.filter((event) => event.event === "delivery_success").length, 1);
   assert.equal(h.metrics.filter((metric) => metric.event === "inquiry_delivery_success").length, 1);
   const repeat = await h.submit(payload);
   assert.equal(repeat.delivery, "duplicate");
+  assert.match(repeat.message, /already submitted for private review/);
+  assert.doesNotMatch(repeat.message, /received|already have/i);
   assert.equal(repeat.inquiryId, results[0].inquiryId);
   assert.equal(calls, 1);
 });

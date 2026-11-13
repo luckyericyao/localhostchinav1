@@ -94,7 +94,7 @@ for (const path of routes) {
   const axeResults = await page.evaluate(() => window.axe.run(document));
   const audit = await page.evaluate(() => {
     const visiblePrimaryControls = [
-      ...document.querySelectorAll("a.button, a.nav-cta, button, summary")
+      ...document.querySelectorAll("a.button, a.nav-cta, a.discovery-explore, a.discovery-scene-link, .discovery-menu-panel a, button, summary")
     ].filter((node) => {
       const box = node.getBoundingClientRect();
       return box.width > 0 && box.height > 0;
@@ -161,23 +161,29 @@ for (const path of routes) {
       console.log("PASS /: skip link is first keyboard target");
     }
 
-    const menuSummary = page.locator(".mobile-menu summary");
+    const menuSummary = page.locator(".discovery-menu summary");
     const menuLabel = await menuSummary.getAttribute("aria-label");
-    if (menuLabel !== "Toggle navigation") {
-      console.error("FAIL /: mobile menu does not expose a state-safe label");
+    if (menuLabel !== "Explore Localhost") {
+      console.error("FAIL /: discovery menu does not expose a state-safe label");
       failed = true;
     } else {
-      console.log("PASS /: mobile menu has a state-safe label");
+      console.log("PASS /: discovery menu has a state-safe label");
     }
     await menuSummary.click();
-    const mobileMenuLinks = await page.locator(".mobile-menu-panel a").count();
-    if (mobileMenuLinks !== 5) {
-      console.error("FAIL /: mobile menu does not expose five primary links");
+    const chapterLinks = await page.locator("[data-discovery-chapter]").count();
+    const contactVisible = await page.locator('header [data-track-source="header"]').isVisible();
+    if (chapterLinks !== 4 || !contactVisible) {
+      console.error("FAIL /: discovery menu must expose four chapters and contact");
       failed = true;
     } else {
-      console.log("PASS /: mobile menu exposes five primary links");
+      console.log("PASS /: discovery menu exposes four chapters and contact");
     }
-    await menuSummary.click();
+    await page.keyboard.press("Escape");
+    if (await page.locator(".discovery-menu").getAttribute("open") !== null ||
+      !await menuSummary.evaluate((element) => element === document.activeElement)) {
+      console.error("FAIL /: Escape must dismiss the menu and return focus");
+      failed = true;
+    }
   }
 
   if (path === "/inquiry") {
@@ -340,15 +346,18 @@ const activeRoutePaths = [
 for (const routePath of activeRoutePaths) {
   await visit(desktopRoutesPage, routePath);
   const routeDecisionAudit = await desktopRoutesPage.evaluate(() => {
-    const routeCta = document.querySelector(
-      '.route-hero [data-track-source="route_hero"]'
-    );
-    const ctaBox = routeCta?.getBoundingClientRect();
+    const explore = document.querySelector('.chapter-opening a[href="#chapter-places"]');
+    const ctaBox = explore?.getBoundingClientRect();
+    const sections = [...document.querySelectorAll("main > section")];
+    const galleryIndex = sections.findIndex((section) => section.id === "chapter-places");
+    const fitIndex = sections.findIndex((section) => section.classList.contains("route-decision-section"));
 
     return {
       compactSectionCount: document.querySelectorAll("main > section").length,
       fitSectionPresent: Boolean(document.querySelector(".route-decision-section")),
-      routeCtaInFirstViewport: Boolean(
+      placesBeforeFit: galleryIndex > 0 && galleryIndex < fitIndex,
+      finalInquiryPresent: Boolean(document.querySelector('[data-track-source="route_final"]')),
+      explorationInFirstViewport: Boolean(
         ctaBox &&
           ctaBox.top >= 0 &&
           ctaBox.bottom <= window.innerHeight &&
@@ -360,16 +369,18 @@ for (const routePath of activeRoutePaths) {
 
   if (
     !routeDecisionAudit.fitSectionPresent ||
-    !routeDecisionAudit.routeCtaInFirstViewport ||
+    !routeDecisionAudit.explorationInFirstViewport ||
+    !routeDecisionAudit.placesBeforeFit ||
+    !routeDecisionAudit.finalInquiryPresent ||
     routeDecisionAudit.compactSectionCount > 6
   ) {
     console.error(
-      `FAIL ${routePath}: compact route decision hierarchy regressed ${JSON.stringify(routeDecisionAudit)}`
+      `FAIL ${routePath}: discovery and practical hierarchy regressed ${JSON.stringify(routeDecisionAudit)}`
     );
     failed = true;
   } else {
     console.log(
-      `PASS ${routePath}: route CTA is in the initial desktop viewport and the page stays within six sections`
+      `PASS ${routePath}: exploration opens the chapter, places precede fit, later inquiry remains, six sections maximum`
     );
   }
 }

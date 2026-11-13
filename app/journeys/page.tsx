@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import {
@@ -10,6 +9,7 @@ import {
   futureChinaJourneys
 } from "@/lib/content";
 import { resolveImageSource } from "@/lib/image";
+import { discoveryChapters } from "@/lib/discovery";
 import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildLocalhostPageMetadata({
@@ -23,13 +23,6 @@ export const metadata: Metadata = buildLocalhostPageMetadata({
   shareTitle: "Four Private Ways Into China"
 });
 
-const activeRouteKeys = [
-  { key: "shanxi", place: "Shanxi" },
-  { key: "shaolin", place: "Shaolin" },
-  { key: "huizhou", place: "Huizhou" },
-  { key: "shanghai", place: "Shanghai" }
-] as const;
-
 type RoutePage = (typeof chinaRoutePages)[keyof typeof chinaRoutePages];
 
 function snapshotValue(route: RoutePage, label: string) {
@@ -40,16 +33,16 @@ const journeysInquiryHref =
   "/inquiry?type=traveler&sourcePage=%2Fjourneys&sourceLabel=China%20Routes%20page";
 
 export default function JourneysPage() {
-  const activeJourneys = activeRouteKeys.map(({ key, place }) => ({
+  const activeJourneys = discoveryChapters.map(({ slug, place }) => ({
     journey: chinaJourneys.find((item) => item.place === place)!,
-    route: chinaRoutePages[key]
+    route: chinaRoutePages[slug]
   }));
 
   return (
     <>
-      <SiteHeader />
-      <main id="main-content">
-        <section className="section section-atmosphere atmosphere-gold-soft journeys-decision-section">
+      <SiteHeader discovery />
+      <main id="main-content" className="journeys-index">
+        <section className="section journeys-decision-section">
           <header className="journeys-decision-header">
             <div>
               <p className="eyebrow">China Routes</p>
@@ -61,17 +54,15 @@ export default function JourneysPage() {
               </p>
               <Link
                 className="text-link"
-                data-track-event="request_route"
-                data-track-source="journeys_decision"
-                href={journeysInquiryHref}
+                href="/china"
               >
-                Not sure where to begin? Request a private review
+                Explore the regional context
               </Link>
             </div>
           </header>
           <div className="journey-comparison-grid">
             {activeJourneys.map(({ journey, route }) => (
-              <RevealOnScroll
+              <div
                 className="journey-comparison-reveal"
                 key={journey.place}
               >
@@ -117,62 +108,47 @@ export default function JourneysPage() {
                     <span className="arrangement-cue">{`View ${journey.place}`}</span>
                   </span>
                 </Link>
-              </RevealOnScroll>
+              </div>
             ))}
           </div>
         </section>
 
-        <section className="section section-atmosphere atmosphere-mist-soft journeys-future-section">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Future China Chapters</p>
-            <h2>Held as future routes until the local chapter is ready.</h2>
-            <p>
-              Beijing and Chengdu stay secondary until their local host layer
-              and route standards are ready to be held properly.
-            </p>
-          </div>
-          <div className="arrangement-grid arrangement-grid--three">
-            {futureChinaJourneys.map((journey) => (
-              <article
-                className="arrangement-card journey-status-card"
-                key={journey.place}
-              >
-                <span className="status-pill">Future Chapter</span>
-                <h3>{journey.place}</h3>
-                <p className="journey-status-line">{journey.line}</p>
-                <p>{journey.summary}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section section-atmosphere atmosphere-dusk final-section journeys-final-section">
+        <section className="section section--stone journeys-future-section">
           <div className="section-heading">
-            <p className="eyebrow">Private Route Inquiry</p>
-            <h2>Start with what you want to understand.</h2>
-          </div>
-          <div className="editorial-copy">
+            <p className="eyebrow">Future China Chapters</p>
+            <h2>Further chapters, not current routes.</h2>
             <p>
-              The right China route begins with curiosity, pace, timing, and the
-              kind of local context that would make the place legible.
+              Beijing and Chengdu remain in development. They are not offered
+              as confirmed Localhost routes.
             </p>
-            <div className="inline-actions">
+          </div>
+          <ul className="journeys-future-list">
+            {futureChinaJourneys.map((journey) => (
+              <li key={journey.place}>{journey.place}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="discovery-conversation">
+            <p className="eyebrow">A conversation</p>
+            <h2>A first direction is enough.</h2>
+            <p>Share the chapter that interests you, your timing, and any questions about the practical fit. A person reviews the details before anything is confirmed.</p>
+            <div className="discovery-context-links">
               <Link
-                className="button button--dark"
+                className="text-link"
                 data-track-event="request_route"
                 data-track-source="journeys_final"
                 href={journeysInquiryHref}
               >
-                Request a Private Route
+                Begin a conversation
               </Link>
               <Link className="text-link" href="/china">
-                Return to Localhost China
+                Return to China
               </Link>
             </div>
-          </div>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter discovery />
     </>
   );
 }

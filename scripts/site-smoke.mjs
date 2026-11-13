@@ -9,7 +9,12 @@ const routes = [
   "/china/huizhou",
   "/china/shanghai",
   "/china/real-access",
+  "/china/local-hosts",
+  "/china/private-routes",
+  "/china/seamless-logistics",
   "/travelers",
+  "/hosts",
+  "/host-credits",
   "/about",
   "/how-it-works",
   "/trust",
@@ -17,8 +22,8 @@ const routes = [
 ];
 
 const expectedContent = new Map([
-  ["/", ["A named Localhost reviewer replies"]],
-  ["/china", ["How Localhost Works In China"]],
+  ["/", ["China.", "Explore the chapters", "Stone, timber, and the roads between.", "Begin a conversation"]],
+  ["/china", ["Four local perspectives.", "Place before plans", "Compare the four routes"]],
   ["/china/shanxi", ["Flagship China Route", "Shanxi In Detail", "Follow stone and timber"]],
   ["/china/shaolin", ["Around Shaolin", "Training visits require permission"]],
   ["/china/huizhou", ["Village &amp; Mountain", "with Huangshan added when weather and route length allow"]],
@@ -202,8 +207,8 @@ for (const path of routes) {
       }
     }
 
-    if (!body.includes('data-track-source="route_fit"')) {
-      console.error(`FAIL ${path}: missing route-fit inquiry path`);
+    if (!body.includes('data-track-source="route_final"')) {
+      console.error(`FAIL ${path}: missing end-of-chapter inquiry path`);
       failed = true;
     }
   }

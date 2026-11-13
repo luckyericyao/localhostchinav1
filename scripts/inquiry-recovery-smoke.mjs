@@ -150,7 +150,7 @@ async function recoveryCase(viewport, clipboardAvailable, intentType) {
   }
 }
 
-async function receivedCase() {
+async function submittedCase(delivery) {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
   try {
     await isolateBeacons(context);
@@ -159,24 +159,33 @@ async function receivedCase() {
     await page.route("**/_vercel/insights/**", (route) => route.fulfill({ status: 200, body: "" }));
     await page.route("**/inquiry**", (route) => {
       if (route.request().method() !== "POST") return route.continue();
-      const result = { ok: true, delivery: "email", inquiryId: "LH-TEST-RECEIVED", responseWindow: "within two working days", message: "Thank you, Synthetic Receipt Test. Your private route review has been received. Reference LH-TEST-RECEIVED. A named Localhost reviewer will review fit, timing, and local feasibility before replying." };
+      const result = {
+        ok: true, delivery, inquiryId: "LH-TEST-SUBMITTED", responseWindow: "within two working days",
+        message: delivery === "duplicate"
+          ? "This inquiry was already submitted for private review. Please keep the original reference."
+          : "Thank you, Synthetic Traveler. Your inquiry was submitted for private review."
+      };
       return route.fulfill({ status: 200, contentType: "text/x-component", body: `0:${JSON.stringify({ a: result, f: "" })}\n` });
     });
     await page.goto(`${baseUrl}/inquiry`, { waitUntil: "load" });
-    await page.locator("#inquiry-name").fill("Synthetic Receipt Test");
-    await page.locator("#inquiry-email").fill("receipt@example.test");
+    await page.locator("#inquiry-name").fill("Synthetic Traveler");
+    await page.locator("#inquiry-email").fill("submission@example.test");
     await page.locator("#inquiry-short-note").fill("Synthetic route context");
     await page.locator('button[type="submit"]').click();
-    await page.getByText(/Your private route review has been received\. Reference LH-TEST-RECEIVED/).waitFor();
-    assert.equal(await page.getByRole("button", { name: "Copy inquiry" }).count(), 0);
-    assert.equal(await page.locator('button[type="submit"]').innerText(), "Inquiry received");
+    const status = page.getByRole("region", { name: "Inquiry result" });
+    assert.match(await status.getByRole("status").innerText(), /submitted for private review/);
+    await status.getByText("Reference: LH-TEST-SUBMITTED", { exact: true }).waitFor();
+    await status.getByText("Expected reply window once we receive your inquiry: within two working days.", { exact: true }).waitFor();
+    assert.doesNotMatch(await status.innerText(), /has been received|inbox confirmed/i);
+    assert.equal(await status.getByRole("button", { name: "Copy inquiry" }).count(), 0);
+    assert.equal(await page.locator('button[type="submit"]').innerText(), "Inquiry submitted");
     await page.addScriptTag({ content: axe.source });
     assert.deepEqual(await page.evaluate(async () =>
       (await window.axe.run(document)).violations.map(({ id, nodes }) => ({
         id, nodes: nodes.map(({ target, failureSummary }) => ({ target, failureSummary }))
       }))
     ), []);
-    console.log("PASS simulated receipt: no manual recovery or false-unsent status, axe 0");
+    console.log(`PASS simulated ${delivery}: submitted with reference, no inbox claim, axe 0`);
   } finally {
     await context.close();
   }
@@ -190,7 +199,7 @@ try {
       }
     }
   }
-  await receivedCase();
+  for (const delivery of ["email", "duplicate"]) await submittedCase(delivery);
 } finally {
   await browser.close();
 }

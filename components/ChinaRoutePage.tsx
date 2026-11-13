@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { discoveryChapters } from "@/lib/discovery";
 import { resolveImageSource } from "@/lib/image";
 
 type RouteBlock = {
@@ -84,119 +85,47 @@ function routeInquiryContext(route: ChinaRoutePageContent) {
 
 export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
   const inquiry = routeInquiryContext(route);
+  const place = route.title.split(" —")[0];
+  const chapter = discoveryChapters.find((item) => item.place === place);
+  const otherChapters = discoveryChapters.filter((item) => item.place !== place);
   const decisionFacts = route.snapshot.filter(
     (item) => item.label !== "Best For"
   );
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader tone="transparent" discovery />
       <main
         id="main-content"
-        data-route-page={route.title.split(" —")[0]}
-        data-track-route={route.title.split(" —")[0]}
+        className="discovery-route"
+        data-route-page={place}
+        data-track-route={place}
         data-track-source="route_page"
       >
-        <section className="destination-hero route-hero">
-          <div className="destination-copy">
+        <section className="chapter-opening" aria-labelledby="chapter-title">
+          <Image
+            src={resolveImageSource(route.image)}
+            alt={route.alt}
+            fill
+            fetchPriority="high"
+            priority
+            sizes="100vw"
+            className="chapter-opening-image"
+          />
+          <div className="chapter-opening-shade" />
+          <div className="chapter-opening-copy">
             <p className="eyebrow">{route.eyebrow}</p>
-            <h1>{route.title}</h1>
-            <p>{route.body}</p>
-            <p className="route-ancient-note">
-              {route.routeNote ||
-                "Ancient China, read through place, practice, and local context."}
-            </p>
-            <div className="inline-actions">
-              <Link
-                className="button button--dark"
-                data-track-event="request_route"
-                data-track-route={route.title.split(" —")[0]}
-                data-track-source="route_hero"
-                href={inquiry.href}
-              >
-                {route.ctaLabel}
-              </Link>
-              <Link className="text-link" href="/china">
-                Back to China
-              </Link>
-            </div>
+            <h1 id="chapter-title">{place}</h1>
+            <p>{chapter?.introduction || route.body}</p>
+            <a className="discovery-explore" href="#chapter-places">
+              Begin with the places <span aria-hidden="true">↓</span>
+            </a>
           </div>
-          <div className="destination-media">
-            <Image
-              src={resolveImageSource(route.image)}
-              alt={route.alt}
-              fill
-              priority
-              sizes="(min-width: 900px) 46vw, 100vw"
-            />
-          </div>
-        </section>
-
-        <section className="section section--stone route-decision-section">
-          <div className="route-decision-shell">
-            <header className="route-decision-header">
-              <div>
-                <p className="eyebrow">Route Fit</p>
-                <h2>The shape, the trade-offs, and who it suits.</h2>
-              </div>
-              <div className="route-decision-intro">
-                <p>
-                  A private route can change. Its basic demands should be clear
-                  before you ask us to shape it.
-                </p>
-                <Link
-                  className="text-link"
-                  data-track-event="request_route"
-                  data-track-route={route.title.split(" —")[0]}
-                  data-track-source="route_fit"
-                  href={inquiry.href}
-                >
-                  {route.ctaLabel}
-                </Link>
-              </div>
-            </header>
-
-            <dl className="route-decision-facts">
-              {decisionFacts.map((item) => (
-                <div key={item.label}>
-                  <dt>{item.label}</dt>
-                  <dd>{item.value}</dd>
-                </div>
-              ))}
-            </dl>
-
-            <div className="route-fit-grid">
-              <div className="route-fit-column">
-                <p className="eyebrow">Best For</p>
-                <ul className="clean-list">
-                  {route.bestFor.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-              <div className="route-fit-column">
-                <p className="eyebrow">Less Suited To</p>
-                <ul className="clean-list">
-                  {route.notFor.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div className="route-emphasis-row">
-              <p className="eyebrow">The Route Can Lean Toward</p>
-              <ul>
-                {route.variants.map((item) => (
-                  <li key={item.title}>{item.title}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          <p className="chapter-opening-setting">{chapter?.setting}</p>
         </section>
 
         {route.gallery ? (
-          <section className="section section--dark route-gallery-section">
+          <section className="section route-gallery-section" id="chapter-places">
             <div className="section-heading">
               <p className="eyebrow">{route.gallery.eyebrow}</p>
               <h2>{route.gallery.title}</h2>
@@ -213,6 +142,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
                       src={resolveImageSource(image.src)}
                       alt={image.alt}
                       fill
+                      fetchPriority="low"
                       sizes={route.gallery!.images.length === 3 ? "(min-width: 900px) 33vw, 100vw" : index === 0 ? "(min-width: 900px) 56vw, 100vw" : "(min-width: 900px) 28vw, 100vw"}
                     />
                   </div>
@@ -247,13 +177,62 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               the traveler brings.
             </p>
           </div>
-          <div className="support-card-grid">
+          <div className="support-card-grid chapter-rhythm">
             {route.sampleDay.map((item) => (
               <article className="support-detail-card" key={item.title}>
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section className="section section--stone route-decision-section">
+          <div className="route-decision-shell">
+            <header className="route-decision-header">
+              <div>
+                <p className="eyebrow">Route Fit</p>
+                <h2>The shape, the trade-offs, and who it suits.</h2>
+              </div>
+              <div className="route-decision-intro">
+                <p>
+                  A private route can change. Its basic demands should be clear
+                  before you ask us to shape it.
+                </p>
+                <Link className="text-link" href="/journeys">Compare the four routes</Link>
+              </div>
+            </header>
+
+            <dl className="route-decision-facts">
+              {decisionFacts.map((item) => (
+                <div key={item.label}>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+
+            <div className="route-fit-grid">
+              <div className="route-fit-column">
+                <p className="eyebrow">Best For</p>
+                <ul className="clean-list">
+                  {route.bestFor.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </div>
+              <div className="route-fit-column">
+                <p className="eyebrow">Less Suited To</p>
+                <ul className="clean-list">
+                  {route.notFor.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              </div>
+            </div>
+
+            <div className="route-emphasis-row">
+              <p className="eyebrow">The Route Can Lean Toward</p>
+              <ul>
+                {route.variants.map((item) => <li key={item.title}>{item.title}</li>)}
+              </ul>
+            </div>
           </div>
         </section>
 
@@ -308,9 +287,9 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
             <p>{route.final}</p>
             <div className="inline-actions">
               <Link
-                className="button button--dark"
+                className="text-link"
                 data-track-event="request_route"
-                data-track-route={route.title.split(" —")[0]}
+                data-track-route={place}
                 data-track-source="route_final"
                 href={inquiry.href}
               >
@@ -321,9 +300,28 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
               </Link>
             </div>
           </div>
+          <nav className="chapter-continuation" aria-label="Other China chapters">
+            <p className="eyebrow">Continue exploring</p>
+            <ul>
+              {otherChapters.map((item) => (
+                <li key={item.slug}>
+                  <Link
+                    className="chapter-continuation-link"
+                    data-track-event="route_select"
+                    data-track-route={item.place}
+                    data-track-source="route_page"
+                    href={`/china/${item.slug}`}
+                  >
+                    <span>{item.place}</span>
+                    <span>{item.perspective}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter discovery />
     </>
   );
 }

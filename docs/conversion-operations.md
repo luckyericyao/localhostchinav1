@@ -15,26 +15,52 @@ these commands.
 # Import a private JSON Lines export containing localhost_inquiry records.
 pnpm inquiry:reviews import < /private/path/production-logs.jsonl
 pnpm inquiry:reviews list
-pnpm inquiry:reviews assign LH-2026-11-02-1234ABCD eric-yao
-pnpm inquiry:reviews receive LH-2026-11-02-1234ABCD 2026-11-02T03:00:00Z
+pnpm inquiry:reviews list --open
+pnpm inquiry:reviews assign LH-2026-11-02-1234ABCD eric-yao 2026-11-02T02:30:00Z
+pnpm inquiry:reviews receive LH-2026-11-02-1234ABCD 2026-11-02T03:00:00Z --channel provider
 pnpm inquiry:reviews reply LH-2026-11-02-1234ABCD 2026-11-03T03:00:00Z
 pnpm inquiry:reviews close LH-2026-11-02-1234ABCD
 pnpm inquiry:reviews report
+pnpm inquiry:reviews report --as-of 2026-11-02T04:00:00Z
 ```
 
 The references and times above are examples, not production inquiries. The
 ledger accepts only references, event times, delivery states, and reviewer
 aliases; it does not retain names, traveler emails, notes, or message bodies.
 The source export can contain private data: keep it outside the repository.
-Never import arbitrary browser analytics as proof of delivery.
+Never import arbitrary browser analytics as proof of delivery. Use an explicit
+ISO time with a timezone when recording a past event. `report --as-of` includes
+only events that occurred by its cutoff; it reconstructs event time from the
+evidence now available, rather than saving a copy of what was known then.
+
+Use `list --open` for daily follow-up. It omits closed records and orders overdue
+replies by deadline, then unconfigured delivery, upcoming reply deadlines,
+unconfirmed inbox receipt, and cases that already have a reply. The full `list`
+still includes closed records for reconciliation.
+
+Commands sharing the same ledger path use a short-lived local lock. Repeated
+and overlapping exports append each normalized record once. Use a trusted
+local directory and a regular file owned by the operator with no group or other
+access (normally `0600`). Linked, nonregular, or corrupt ledgers are rejected.
+If a command is interrupted and leaves a lock, verify that the recorded process
+and any other ledger command have stopped before clearing that lock. Keep
+backups private; the command will not repair or overwrite damaged history.
 
 New server events use JSON `kind=localhost_inquiry`, an ISO timestamp, and
 the configured `LOCALHOST_REVIEW_OWNER` alias (default `eric-yao`). The accepted
 provider reference remains in the operational source log. Import is idempotent;
 queue state distinguishes awaiting inbox, unassigned, awaiting reply, replied,
-and closed, with a derived next action. An operator must confirm actual inbox
-receipt and record the first substantive human reply. Recording a reply requires
-confirmed receipt and an assigned reviewer; the tool never sends or invents one.
+and closed, with a derived next action. A delivery log's reviewer alias is a
+routing default; it cannot overwrite an explicit assignment. Confirm actual
+inbox receipt with `--channel provider` only when it matches provider acceptance
+for that reference. Use `--channel manual` for a visitor-sent email, or omit the
+channel if the receipt source cannot be verified. A legacy unknown channel can
+be confirmed at its original receipt time; do not replace the first receipt or
+reply. A substantive reply requires inbox receipt and assignment by its recorded
+time. The tool never sends a message or treats closure as a reply.
+
+Run `pnpm run inquiry:operations` to rehearse these states with synthetic data
+in isolated ledgers. Keep rehearsal records separate from real operations.
 
 Reply deadlines use China-local Monday-Friday working days, excluding dates
 listed in `LOCALHOST_REVIEW_HOLIDAYS` (comma-separated YYYY-MM-DD). Keep this
@@ -42,9 +68,12 @@ calendar current; compensating weekend workdays are not modeled. Deadlines are
 recalculated from actual inbox receipt, not an unsent draft. The reply-rate
 denominator includes received inquiries whose target has elapsed or that already
 have a reply; still-within-window inquiries are shown separately. Empty rates
-are `null`. Provider acceptance, confirmed direct inbox delivery, and fallback
-are reported separately. These records do not establish the 95%/90% targets until
-an actual, complete review period is imported and reconciled.
+are `null`. Provider acceptance, confirmed direct inbox delivery, manual receipt,
+unverified channels, and fallback are reported separately. The direct-delivery
+fraction is observed confirmed provider receipts over valid imported references;
+missing evidence cannot establish whether a message actually arrived. These
+records do not establish the 95%/90% targets until an actual, complete review
+period is imported and reconciled.
 
 ## Public identity
 
@@ -59,7 +88,7 @@ unsent draft until the visitor sends it.
 
 ## Inquiry delivery
 
-Every valid inquiry receives an `LH-YYYY-MM-DD-XXXXXXXX` reference. The reference is included in the direct email subject and body, and in the structured delivery log. The server records one of these outcomes:
+Every valid inquiry receives an `LH-YYYY-MM-DD-XXXXXXXX` reference. The reference is included in the direct email subject and body, and in the structured delivery log. After provider acceptance, the visitor sees a submission confirmation with that reference, not a claim of confirmed inbox receipt.
 
 Name, email, role, and one sentence of intent are required before submission.
 Route timing, comfort, food, transport, and host-fit details remain optional so
@@ -101,17 +130,20 @@ response instructions, and is not persisted in browser storage or analytics.
 Run `pnpm run inquiry:recovery` against a local or deployed server to exercise
 these states with every submission intercepted before it reaches the backend.
 
-The legacy log-only provider acceptance rate is calculated as:
+The funnel report's provider acceptance rate is calculated as:
 
 ```text
-inquiry_delivery_success /
-(inquiry_delivery_success + inquiry_delivery_fallback)
+unique accepted references / unique valid references with a delivery outcome
 ```
 
-This is provider acceptance, not inbox delivery. The new review ledger also
-includes valid references whose delivery was unconfigured in its denominator.
-Its `confirmedDirectDeliveryRate` requires both provider acceptance and an
-operator-confirmed inbox receipt. Reconcile all rates with the provider activity
+Report version 2 calls this `providerAcceptanceRate`, replacing
+`directAcceptanceRate`. A reference is classified once: acceptance takes
+precedence over a prepared draft, which takes precedence over unconfigured
+delivery. `referencesWithMultipleOutcomes` flags overlap for reconciliation.
+Unconfigured references remain in the denominator. This is provider acceptance,
+not inbox delivery. The private ledger's `confirmedDirectDeliveryRate` requires
+both provider acceptance and a confirmed provider-channel inbox receipt.
+Reconcile all rates with the provider activity
 log and receiving inbox; serverless memory is only a warm-instance guard, not a
 durable database. Repeated references or prepared drafts must not inflate the
 successful delivery count.

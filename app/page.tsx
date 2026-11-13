@@ -3,378 +3,152 @@ import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { localhostResponseWindow } from "@/lib/contact";
-import { culturalVisualLayers } from "@/lib/content";
-import { resolveImageSource } from "@/lib/image";
+import { PhotographCredit } from "@/components/PhotographCredit";
+import { discoveryChapters } from "@/lib/discovery";
 import { buildLocalhostPageMetadata } from "@/lib/metadata";
-import { serviceLevels } from "@/lib/serviceScope";
 
 export const metadata: Metadata = buildLocalhostPageMetadata({
-  title: "Localhost Global — Private China Routes",
+  title: "Localhost Global — China, Chapter One",
   description:
-    "Private China routes shaped with local judgment, selected hosts, and practical support. Every inquiry is reviewed by a person before any route is confirmed.",
+    "Explore Shanxi, Shaolin, Huizhou, and Shanghai through architecture, landscapes, and local life. Private journeys through China, shaped with local hosts.",
   path: "/",
-  shareTitle: "Enter China With Local Judgment."
+  shareTitle: "Localhost Global — China, Chapter One"
 });
 
-const featuredRoutePreview = [
-  {
-    place: "Shanxi",
-    line: "Ancient architecture, Buddhist depth, road-based northern history.",
-    length: "4–6 days",
-    entry: "Taiyuan or Datong",
-    bestFor: "Ancient architecture, Buddhist depth, northern road history",
-    summary:
-      "Caves, timber halls, merchant courtyards, mountain roads, and the northern China that rewards patient context.",
-    image: "/images/shanxi-ancient-grotto.png",
-    alt: "Weathered Buddhist grotto stone and old timber temple architecture in Shanxi.",
-    href: "/china/shanxi",
-    status: "Flagship route"
-  },
-  {
-    place: "Shaolin",
-    line: "Chan atmosphere, martial discipline, mountain stillness.",
-    length: "3–5 days",
-    entry: "Zhengzhou or Luoyang",
-    bestFor: "Chan heritage, practice culture, mountain stillness",
-    summary:
-      "Temple atmosphere, Songshan paths, martial practice, and a quieter entry beyond kung fu spectacle.",
-    image: "/images/shaolin-temple-gate.png",
-    alt: "Shaolin Temple courtyard beneath Songshan mountain haze in restrained morning light.",
-    href: "/china/shaolin",
-    status: "Active route"
-  },
-  {
-    place: "Huizhou",
-    line: "Villages, tea, ancestral halls, Huangshan atmosphere.",
-    length: "4–6 days",
-    entry: "Huangshan, Hangzhou, or Shanghai extension",
-    bestFor: "Villages, tea, ancestral halls, ink landscape",
-    summary:
-      "Village lanes, tea tables, ancestral halls, and southern architecture, with time for the road to Huangshan.",
-    image: "/images/huizhou-rain-courtyard.png",
-    alt: "A rain-washed Huizhou lane with white walls, dark tiled roofs, and mountain mist.",
-    href: "/china/huizhou",
-    status: "Active route"
-  },
-  {
-    place: "Shanghai",
-    line: "Your first stop, and more.",
-    length: "2–4 days",
-    entry: "Pudong, Hongqiao, or rail arrival",
-    bestFor: "First arrival, the Bund, private dining, a considered evening",
-    summary:
-      "Arrive with practical support, walk the Bund, find a table that suits you, and explore beyond the skyline.",
-    image: "/images/shanghai-bund-walk.png",
-    alt: "A quiet early evening walk along the Bund in Shanghai with historic riverfront architecture.",
-    href: "/china/shanghai",
-    status: "Active route"
-  }
-] as const;
-
-const privateRouteIncludes = [
-  {
-    title: "Private route design",
-    copy:
-      "A route shaped around timing, interests, comfort level, cultural reading, and the China the traveler wants to understand."
-  },
-  {
-    title: "Trusted local host matching",
-    copy:
-      "A selected local host or local contact matched for judgment, cultural fluency, reliability, and route fit."
-  },
-  {
-    title: "Practical support",
-    copy:
-      "Transport rhythm, meals, payments, translation, communication, and small local decisions handled in the background."
-  },
-  {
-    title: "Cultural context",
-    copy:
-      "Before and during the route, Localhost helps the traveler understand what they are seeing, eating, entering, and missing."
-  }
-] as const;
-
-const trustPreview = [
-  {
-    title: "Selected hosts, not open listings",
-    copy:
-      "Hosts are reviewed for judgment, reliability, communication, and cultural fluency."
-  },
-  {
-    title: "Reviewed intent before matching",
-    copy:
-      "A route is shaped only after timing, comfort, curiosity, and host fit are understood."
-  },
-  {
-    title: "Clear boundaries on both sides",
-    copy:
-      "Hosts are not servants, entertainers, or 24/7 staff. Travelers are expected to respect local dignity."
-  }
-] as const;
-
-const howItWorks = [
-  "Tell us what kind of China you want to enter.",
-  "We shape a private route with local context.",
-  "A trusted local host helps you enter the place properly.",
-  "Logistics, translation, payments, timing, and cultural context are supported."
-] as const;
-
-const homeInquiryHref =
-  "/inquiry?type=traveler&sourcePage=%2F&sourceLabel=Homepage";
+const [shanxi, ...chapters] = discoveryChapters;
 
 export default function Home() {
   return (
     <>
-      <SiteHeader tone="transparent" />
-      <main id="main-content">
-        <section className="hero">
+      <SiteHeader tone="transparent" discovery />
+      <main id="main-content" className="discovery-home">
+        <section className="discovery-hero" aria-labelledby="arrival-title">
           <Image
             src="/images/temple-of-heaven-centered-hero.avif"
-            alt="The Temple of Heaven Hall of Prayer for Good Harvests centered in quiet morning light."
+            alt="The Temple of Heaven Hall of Prayer for Good Harvests, centered above its stone terraces."
             fill
             fetchPriority="high"
             priority
-            className="hero-image"
+            className="discovery-hero-image"
             unoptimized
             sizes="100vw"
           />
-          <div className="hero-shade" />
-          <div className="hero-content">
-            <p className="eyebrow">Localhost Global</p>
-            <h1>Enter China With Local Judgment.</h1>
-            <p className="hero-subhead">
-              Private routes shaped by trusted local hosts.
-            </p>
-            <p className="hero-body">
-              Localhost shapes the route, matches a selected local host where
-              useful, and keeps timing, movement, food, and cultural context
-              clear.
-            </p>
-            <div className="hero-actions" aria-label="Primary actions">
-              <Link
-                className="button button--light"
-                data-track-event="hero_cta"
-                data-track-source="homepage"
-                href={homeInquiryHref}
-              >
-                Request a Private Route
-              </Link>
-              <Link className="button button--ghost" href="/journeys">
-                Explore China Routes
-              </Link>
-            </div>
-            <p className="positioning-line">
-              A private local-host network, starting with China.
-            </p>
-            <p className="hero-review-note">
-              A named Localhost reviewer replies {localhostResponseWindow}. No
-              payment or booking at inquiry.
-            </p>
+          <div className="discovery-hero-shade" />
+          <div className="discovery-arrival">
+            <p className="eyebrow">Localhost Global / Chapter One</p>
+            <h1 id="arrival-title">China.</h1>
+            <a className="discovery-explore" href="#shanxi-chapter">
+              Explore the chapters <span aria-hidden="true">↓</span>
+            </a>
           </div>
+          <p className="discovery-place-caption">
+            Beijing<br />The Hall of Prayer for Good Harvests
+          </p>
         </section>
 
-        <section
-          className="section section-atmosphere atmosphere-routes"
-          id="featured-routes"
-        >
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Featured China Routes</p>
-            <h2>Choose the China you want to enter first.</h2>
-            <p>
-              Compare cultural focus, pace, length, and arrival city.
-            </p>
-          </div>
-          <div className="journey-grid">
-            {featuredRoutePreview.map((route) => (
-              <Link
-                className="visual-journey-card"
-                data-track-event="route_select"
-                data-track-route={route.place}
-                data-track-source="homepage_featured_routes"
-                href={route.href}
-                key={route.place}
-              >
-                <span className="visual-journey-media">
-                  <Image
-                    src={resolveImageSource(route.image)}
-                    alt={route.alt}
-                    fill
-                    fetchPriority="low"
-                    loading="lazy"
-                    sizes="(min-width: 900px) 25vw, 100vw"
-                  />
-                </span>
-                <span className="visual-journey-copy">
-                  <span>
-                    {route.place} · {route.status}
-                  </span>
-                  <strong>{route.line}</strong>
-                  <dl className="journey-best-for">
-                    <dt>Best for</dt>
-                    <dd>{route.bestFor}</dd>
-                    <dt>Length / entry</dt>
-                    <dd>
-                      {route.length} · {route.entry}
-                    </dd>
-                  </dl>
-                  <small>{route.summary}</small>
-                  <span className="arrangement-cue">View Route</span>
-                </span>
-              </Link>
-            ))}
-          </div>
-          <div className="route-review-band">
-            <div>
-              <p className="eyebrow">Your First Review</p>
-              <h3>Know the next step before making a commitment.</h3>
-            </div>
-            <dl>
-              <div>
-                <dt>Reply</dt>
-                <dd>A named human response {localhostResponseWindow}</dd>
-              </div>
-              <div>
-                <dt>What you receive</dt>
-                <dd>Route direction, host role, and the next decision</dd>
-              </div>
-              <div>
-                <dt>Commitment</dt>
-                <dd>No payment or booking at inquiry</dd>
-              </div>
-            </dl>
+        <section className="discovery-feature" id="shanxi-chapter" aria-labelledby="shanxi-title">
+          <header className="discovery-chapter-heading">
+            <p className="eyebrow">01 / The first chapter</p>
+            <h2 id="shanxi-title">Shanxi</h2>
+            <p>Stone, timber, and the roads between.</p>
+          </header>
+          <figure className="discovery-feature-figure">
             <Link
-              className="text-link"
-              data-track-event="request_route"
-              data-track-source="homepage_route_review"
-              href={homeInquiryHref}
+              className="discovery-scene-link"
+              data-track-event="route_select"
+              data-track-route="Shanxi"
+              data-track-source="homepage_featured_routes"
+              href="/china/shanxi"
+              aria-label="Explore Shanxi"
             >
-              Request a Private Route
+              <Image
+                src={shanxi.photograph.src}
+                alt={shanxi.imageAlt}
+                fill
+                sizes="100vw"
+              />
+              <span className="discovery-scene-label">Explore Shanxi <span aria-hidden="true">↗</span></span>
             </Link>
+            <figcaption>
+              <span>{shanxi.imageCaption}</span>
+              <PhotographCredit photograph={shanxi.photograph} />
+            </figcaption>
+          </figure>
+          <div className="discovery-feature-note">
+            <p className="discovery-setting">{shanxi.setting}</p>
+            <p>{shanxi.introduction}</p>
+            <Link className="text-link" href="/china/shanxi" data-track-event="route_select" data-track-route="Shanxi" data-track-source="homepage_featured_routes">Into Shanxi</Link>
           </div>
         </section>
 
-        <section className="section cultural-layer cultural-layer--paper">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Real Ancient China</p>
-            <h2>Older, quieter China still carries weight.</h2>
-            <p>
-              Ancient capitals, ritual landscapes, temples, grottoes, stone
-              roads, walled cities, and the living context behind them.
-            </p>
-          </div>
-          <div className="cultural-layer-grid cultural-layer-grid--4">
-            {culturalVisualLayers.home.items.map((item) => (
-              <article
-                className="cultural-layer-card"
-                key={item.src}
-              >
-                <div className="cultural-layer-media">
+        <section className="discovery-chapters" aria-labelledby="further-title">
+          <header className="discovery-section-heading">
+            <p className="eyebrow">Other chapters</p>
+            <h2 id="further-title">A different China,<br />with each turn.</h2>
+          </header>
+          {chapters.map((chapter) => (
+            <article className="discovery-chapter" data-discovery-scene={chapter.slug} key={chapter.slug}>
+              <figure>
+                <Link
+                  className="discovery-chapter-image"
+                  href={`/china/${chapter.slug}`}
+                  aria-label={`Explore ${chapter.place}`}
+                  data-track-event="route_select"
+                  data-track-route={chapter.place}
+                  data-track-source="homepage_featured_routes"
+                >
                   <Image
-                    src={resolveImageSource(item.src)}
-                    alt={item.alt}
+                    src={chapter.photograph.src}
+                    alt={chapter.imageAlt}
                     fill
-                    sizes="(min-width: 900px) 25vw, 100vw"
+                    sizes={chapter.imageSizes}
+                    style={{ objectPosition: chapter.imagePosition }}
                   />
+                </Link>
+                <figcaption>
+                  <span>{chapter.imageCaption}</span>
+                  <PhotographCredit photograph={chapter.photograph} />
+                </figcaption>
+              </figure>
+              <div className="discovery-chapter-copy">
+                <div>
+                  <p className="eyebrow">{chapter.number} / {chapter.setting}</p>
+                  <h3>{chapter.place}</h3>
                 </div>
-                <div className="cultural-layer-copy">
-                  <h3>{item.title}</h3>
-                  <p>{item.copy}</p>
-                </div>
-              </article>
-            ))}
+                <p>{chapter.introduction}</p>
+                <Link className="text-link" href={`/china/${chapter.slug}`} data-track-event="route_select" data-track-route={chapter.place} data-track-source="homepage_featured_routes">Explore {chapter.place}</Link>
+              </div>
+            </article>
+          ))}
+          <Link className="text-link discovery-index-link" href="/journeys">See the four routes together</Link>
+        </section>
+
+        <section className="discovery-orientation" aria-labelledby="orientation-title">
+          <p className="eyebrow">Traveling with Localhost</p>
+          <h2 id="orientation-title">A place comes first.<br />The journey takes shape from there.</h2>
+          <p>Localhost is a private local-host network, starting with China. We shape each journey around the places you want to understand, with local interpretation and practical arrangements agreed before you travel.</p>
+          <div className="discovery-context-links">
+            <Link className="text-link" href="/about">The people behind Localhost</Link>
+            <Link className="text-link" href="/travelers">How a journey is supported</Link>
+            <Link className="text-link" href="/trust">Trust & care</Link>
           </div>
         </section>
 
-        <section className="section section-atmosphere atmosphere-mist home-support-section">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">What Localhost Is</p>
-            <h2>A route, the right host, and practical support.</h2>
-            <p>
-              A private local-host network for travelers who want route design,
-              host fit, practical confidence, and cultural context.
-            </p>
-          </div>
-          <div className="support-card-grid">
-            {privateRouteIncludes.map((item) => (
-              <article className="support-detail-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section section-atmosphere atmosphere-dark trust-preview-section home-trust-section">
-          <div className="section-heading section-heading--center">
-            <p className="eyebrow">Trust Model</p>
-            <h2>Trust before scale.</h2>
-            <p>
-              A local-host network only works when both travelers and hosts are
-              protected.
-            </p>
-          </div>
-          <div className="support-card-grid support-card-grid--three">
-            {trustPreview.map((item) => (
-              <article className="support-detail-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </article>
-            ))}
-          </div>
-          <div className="section-action">
-            <Link className="text-link" href="/trust">
-              Read the trust model
-            </Link>
-          </div>
-        </section>
-
-        <section className="section section-atmosphere atmosphere-gold-soft split-layout">
-          <div className="section-heading">
-            <p className="eyebrow">How It Works</p>
-            <h2>A private route begins with a serious question.</h2>
-          </div>
-          <div>
-            <ol className="rhythm-list">
-              {howItWorks.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ol>
-            <div className="support-card-grid support-card-grid--three home-entry-ways">
-              {serviceLevels.map((item) => (
-                <article className="support-detail-card" key={item.title}>
-                  <h3>{item.title}</h3>
-                  <p>{item.summary}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section section-atmosphere atmosphere-dusk-soft section--inquiry inquiry-preview-section">
-          <div className="inquiry-preview">
-            <div className="section-heading">
-              <p className="eyebrow">Private Route Review</p>
-              <h2>Begin with the China you want to understand.</h2>
-            </div>
-            <div className="editorial-copy">
-              <p>
-                Every private route begins with a review of intent, timing,
-                comfort, curiosity, and host fit. This is not instant booking.
-              </p>
-              <Link
-                className="button button--dark"
-                data-track-event="request_route"
-                data-track-source="homepage_final"
-                href={homeInquiryHref}
-              >
-                Request a Private Route
-              </Link>
-            </div>
-          </div>
+        <section className="discovery-conversation" aria-labelledby="conversation-title">
+          <p className="eyebrow">A conversation</p>
+          <h2 id="conversation-title">What would you like<br />to look closer at?</h2>
+          <p>A place, a question, or a few dates is enough to begin.</p>
+          <Link
+            className="text-link"
+            href="/inquiry?type=traveler&sourcePage=%2F&sourceLabel=Homepage"
+            data-track-event="request_route"
+            data-track-source="homepage_final"
+          >
+            Begin a conversation
+          </Link>
         </section>
       </main>
-      <SiteFooter />
+      <SiteFooter discovery />
     </>
   );
 }

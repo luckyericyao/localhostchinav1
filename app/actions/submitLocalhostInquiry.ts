@@ -392,7 +392,7 @@ export async function submitLocalhostInquiry(
     return {
       delivery: "duplicate",
       inquiryId: previousReceipt.inquiryId,
-      message: "We already have this private route review. We will continue with the first submission.",
+      message: "This inquiry was already submitted for private review. Please keep the original reference.",
       ok: true,
       responseWindow: localhostResponseWindow,
       summary: {
@@ -500,7 +500,7 @@ export async function submitLocalhostInquiry(
     },
     message:
       emailDelivery.ok
-        ? `Thank you, ${name}. Your private route review has been received. Reference ${inquiryId}. A named Localhost reviewer will review fit, timing, and local feasibility before replying.`
+        ? `Thank you, ${name}. Your inquiry was submitted for private review.`
         : "We could not confirm direct receipt. Your email draft is ready; send it so we can review fit, route direction, and host availability.",
     ok: true,
     responseWindow: localhostResponseWindow,

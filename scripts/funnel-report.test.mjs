@@ -15,7 +15,7 @@ test("empty and unsupported exports show insufficient evidence, not zero-percent
   assert.equal(report.sample.status, "insufficient_sample");
   assert.equal(report.sample.size, 0);
   assert.equal(report.funnel.homepageToRoute.rate, null);
-  assert.equal(report.delivery.directAcceptanceRate.rate, null);
+  assert.equal(report.delivery.providerAcceptanceRate.rate, null);
   assert.equal(report.quality.ignoredLines, 2);
 });
 
@@ -36,7 +36,27 @@ test("ordered session funnels count acceptance, never prepared email or browser 
   assert.equal(report.funnel.inquiryStartToProviderAcceptance.denominator, 3);
   assert.equal(report.delivery.accepted, 1);
   assert.equal(report.delivery.recoveryPrepared, 1);
-  assert.equal(report.delivery.directAcceptanceRate.rate, 0.5);
+  assert.equal(report.delivery.providerAcceptanceRate.rate, 0.5);
+});
+
+test("delivery reporting counts each reference once and retains unconfigured outcomes in the denominator", () => {
+  const fallbackOnly = { ...receipt, inquiryId: "LH-2026-10-03-ABCDEF02" };
+  const unconfiguredOnly = { ...receipt, inquiryId: "LH-2026-10-03-ABCDEF03" };
+  const report = buildFunnelReport([
+    event(1, 0, "inquiry_delivery_unconfigured", "/inquiry", receipt),
+    event(1, 1, "inquiry_delivery_fallback", "/inquiry", receipt),
+    event(1, 2, "inquiry_delivery_success", "/inquiry", receipt),
+    event(1, 3, "inquiry_delivery_success", "/inquiry", receipt),
+    event(2, 1, "inquiry_delivery_fallback", "/inquiry", fallbackOnly),
+    event(3, 1, "inquiry_delivery_unconfigured", "/inquiry", unconfiguredOnly),
+    event(4, 1, "inquiry_delivery_success", "/inquiry", { origin: "server", inquiryId: "" })
+  ].reverse());
+  assert.equal(report.version, 2);
+  assert.deepEqual(report.delivery, {
+    validReferences: 3, accepted: 1, recoveryPrepared: 1, unconfigured: 1, referencesWithMultipleOutcomes: 1,
+    providerAcceptanceRate: { numerator: 1, denominator: 3, rate: 1 / 3, target: null }
+  });
+  assert.equal(report.quality.outcomesWithoutReference, 1);
 });
 
 test("Vercel JSON wrappers, repeated exports, missing IDs, and synthetic records stay distinct", () => {

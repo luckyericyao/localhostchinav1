@@ -7,11 +7,13 @@ import { buildNavigationInquiryHref } from "@/lib/inquiryLinks";
 type NavigationInquiryLinkProps = {
   className: string;
   source: "header" | "footer";
+  label?: string;
 };
 
 export function NavigationInquiryLink({
   className,
-  source
+  source,
+  label = "Request a Private Route"
 }: NavigationInquiryLinkProps) {
   const pathname = usePathname();
 
@@ -22,7 +24,7 @@ export function NavigationInquiryLink({
       data-track-source={source}
       href={buildNavigationInquiryHref(pathname, source)}
     >
-      Request a Private Route
+      {label}
     </Link>
   );
 }
