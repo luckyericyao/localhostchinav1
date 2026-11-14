@@ -32,6 +32,8 @@ type DetailField = {
   type?: "input" | "select" | "textarea";
 };
 
+type RoleDraft = { shortNote: string; details: Record<string, string> };
+
 const routeLabels: Record<LocalhostRouteContext, string> = {
   beijing: "Beijing — future route",
   "china-general": "China general",
@@ -306,12 +308,14 @@ export function LocalhostIntakeForm({
   const [honeypot, setHoneypot] = useState("");
   const [isPending, startTransition] = useTransition();
   const [name, setName] = useState("");
-  const [optionalDetails, setOptionalDetails] = useState<Record<string, string>>(() =>
-    initialDetails(routeContext)
-  );
+  const [drafts, setDrafts] = useState<Record<LocalhostIntentType, RoleDraft>>(() => ({
+    traveler: { shortNote: intentType === "traveler" ? defaultMessage : "", details: initialDetails(routeContext) },
+    host: { shortNote: intentType === "host" ? defaultMessage : "", details: {} },
+    partner: { shortNote: intentType === "partner" ? defaultMessage : "", details: {} }
+  }));
+  const [replyDetails, setReplyDetails] = useState<Record<string, string>>({});
   const [result, setResult] = useState<LocalhostInquiryResult | null>(null);
   const [representativeInquiry, setRepresentativeInquiry] = useState(false);
-  const [shortNote, setShortNote] = useState(defaultMessage);
   const [startedAt] = useState(() => Date.now());
   const [validationAttempt, setValidationAttempt] = useState(0);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -322,6 +326,8 @@ export function LocalhostIntakeForm({
   const shortNoteRef = useRef<HTMLTextAreaElement>(null);
   const representativePathTracked = useRef(false);
 
+  const { shortNote, details } = drafts[activeIntent];
+  const optionalDetails = { ...details, ...replyDetails };
   const fields = useMemo(() => detailsForIntent(activeIntent), [activeIntent]);
   const routeLabel = routeContext ? routeLabels[routeContext] : "";
   const noteCopy = roleCopy[activeIntent];
@@ -366,8 +372,16 @@ export function LocalhostIntakeForm({
   }
 
   function updateDetail(name: string, value: string) {
-    setOptionalDetails((current) => ({ ...current, [name]: value }));
+    if (replyPreferenceDetails.some((field) => field.name === name)) {
+      setReplyDetails((current) => ({ ...current, [name]: value }));
+    } else {
+      updateDraft(activeIntent, (draft) => ({ ...draft, details: { ...draft.details, [name]: value } }));
+    }
     clearSubmissionFeedback();
+  }
+
+  function updateDraft(role: LocalhostIntentType, update: (draft: RoleDraft) => RoleDraft) {
+    setDrafts((current) => ({ ...current, [role]: update(current[role]) }));
   }
 
   function updateRepresentativeInquiry(
@@ -375,15 +389,15 @@ export function LocalhostIntakeForm({
     form?: HTMLFormElement | null
   ) {
     setRepresentativeInquiry(enabled);
-    setOptionalDetails((current) => {
-      const next = { ...current };
+    updateDraft("traveler", (draft) => {
+      const next = { ...draft.details };
       if (enabled) {
         next.inquiryMadeBy = next.inquiryMadeBy || "Trusted representative";
       } else {
         delete next.inquiryMadeBy;
         delete next.travelerOrPrincipal;
       }
-      return next;
+      return { ...draft, details: next };
     });
     clearSubmissionFeedback();
 
@@ -607,7 +621,8 @@ export function LocalhostIntakeForm({
           id="inquiry-short-note"
           name="shortNote"
           onChange={(event) => {
-            setShortNote(event.target.value);
+            const value = event.target.value;
+            updateDraft(activeIntent, (draft) => ({ ...draft, shortNote: value }));
             clearSubmissionFeedback();
           }}
           placeholder={
@@ -646,10 +661,8 @@ export function LocalhostIntakeForm({
                   disabled={contextLocked || isPending}
                   key={role}
                   onClick={() => {
+                    if (role === activeIntent) return;
                     setActiveIntent(role);
-                    if (role !== "traveler") {
-                      updateRepresentativeInquiry(false);
-                    }
                     clearSubmissionFeedback();
                   }}
                   type="button"

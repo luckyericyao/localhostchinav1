@@ -101,8 +101,10 @@ are limited to 32 distinct labels, each up to 80 characters. Oversized or
 ambiguous content is rejected before delivery; the browser retains the original
 text, displays a field-level error, and focuses the relevant control. A folded
 optional section opens when its field needs attention. Only whitespace trimming
-and email casing are normalized. Role changes retain cached text in memory but
-submit only the selected role's fields and shared reply preferences.
+and email casing are normalized. Role changes retain separate in-memory notes
+and details for each role, including traveler representation. Only the
+selected role's draft, shared identity, and reply preferences are submitted.
+Draft content is not stored in the browser's persistent storage.
 
 While a submission is in flight, intake controls are disabled and the form is
 marked busy. A returned receipt uses the server's normalized submission summary,
