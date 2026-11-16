@@ -137,8 +137,8 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
                 </p>
               </div>
               <p className="fine-copy">
-                A named reviewer replies {localhostResponseWindow} to the
-                person who begins the conversation.
+                We aim to reply {localhostResponseWindow} after receiving your
+                inquiry, to the person who began the conversation.
               </p>
               {operator ? (
                 <p className="fine-copy">

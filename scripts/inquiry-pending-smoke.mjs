@@ -15,6 +15,14 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
   let release;
   const responseGate = new Promise((resolve) => { release = resolve; });
   const submissions = [];
+  const retryMessages = {
+    "network-error": /could not confirm receipt/,
+    rejection: /wait before sending/,
+    blocked: /could not submit/,
+    incomplete: /could not confirm receipt/,
+    "incomplete-draft": /could not confirm receipt/
+  };
+  const blockedMessage = "We could not submit your inquiry. Please try again or email us directly.";
   try {
     await context.addInitScript(() => { navigator.sendBeacon = () => true; });
     const page = await context.newPage();
@@ -31,6 +39,12 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
       let result;
       if (submissions.length === 1 && outcome === "rejection") {
         result = { ok: false, message: "Please wait before sending another inquiry." };
+      } else if (submissions.length === 1 && outcome === "blocked") {
+        result = { ok: false, message: blockedMessage };
+      } else if (submissions.length === 1 && outcome === "incomplete") {
+        result = { ok: true, message: "Synthetic response without a receipt" };
+      } else if (submissions.length === 1 && outcome === "incomplete-draft") {
+        result = { ok: true, delivery: "mailto", inquiryId: "LH-TEST-INCOMPLETE", message: "Synthetic response without an email draft" };
       } else {
         result = {
           ok: true, delivery: outcome === "mailto" ? "mailto" : "email",
@@ -101,12 +115,14 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     assert.equal(await page.locator(`[name="${detailName}"]`).isDisabled(), false);
     assert.equal(await page.locator('input[name="replyDetails"]').inputValue(), "PRIVATE REPLY CONTEXT");
 
-    if (outcome === "network-error" || outcome === "rejection") {
+    if (retryMessages[outcome]) {
       const error = page.locator("#inquiry-error");
       await error.waitFor();
-      assert.match(await error.innerText(), outcome === "network-error" ? /could not confirm receipt/ : /wait before sending/);
+      assert.match(await error.innerText(), retryMessages[outcome]);
       await page.waitForFunction(() => document.activeElement?.id === "inquiry-error");
       assert.equal(await page.getByRole("region", { name: "Inquiry result" }).count(), 0);
+      assert.equal(await form.locator('[aria-invalid="true"]').count(), 0, "A failed request must not blame a valid field");
+      assert.equal(await page.evaluate(() => (window.localhostDataLayer || []).some(({ event }) => ["inquiry_sent", "mailto_fallback", "validation_error"].includes(event))), false);
       assert.equal(await page.locator('button[type="submit"]').first().isDisabled(), false);
       assert.equal(await page.locator("#inquiry-short-note").inputValue(), "PRIVATE PENDING INTENT");
       await page.locator('button[type="submit"]').last().click();
@@ -143,7 +159,7 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     assert.equal(await page.locator('button[type="submit"]').first().isDisabled(), false,
       "Intentional new edits should remain possible after the previous response");
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth), false);
-    console.log(`PASS ${viewport.width}px ${intentType} ${outcome}${routeContext ? ` ${routeContext}` : ""}: frozen pending controls, intact draft, accurate receipt${outcome === "network-error" || outcome === "rejection" ? ", intact retry" : ""}, axe 0`);
+    console.log(`PASS ${viewport.width}px ${intentType} ${outcome}${routeContext ? ` ${routeContext}` : ""}: frozen pending controls, intact draft, accurate receipt${retryMessages[outcome] ? ", intact retry" : ""}, axe 0`);
   } finally {
     release();
     await context.close();
@@ -153,7 +169,7 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
 try {
   for (const viewport of [{ width: 390, height: 844 }, { width: 1280, height: 720 }]) {
     for (const intentType of ["traveler", "host", "partner"]) await pendingCase(viewport, intentType, "email");
-    for (const outcome of ["mailto", "network-error", "rejection"]) await pendingCase(viewport, "traveler", outcome);
+    for (const outcome of ["mailto", "network-error", "rejection", "blocked", "incomplete", "incomplete-draft"]) await pendingCase(viewport, "traveler", outcome);
   }
   await pendingCase({ width: 390, height: 844 }, "traveler", "email", "shanxi");
 } finally {

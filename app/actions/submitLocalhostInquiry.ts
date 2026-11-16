@@ -39,18 +39,12 @@ export type LocalhostInquiryPayload = {
   startedAt?: number;
 };
 
-export type LocalhostInquiryResult = {
-  contactEmail?: string;
-  delivery?: "duplicate" | "email" | "mailto";
-  errorCode?: "delivery_unconfigured";
-  fieldError?: InquiryFieldError;
-  inquiryId?: string;
-  mailtoHref?: string;
+type InquiryConfirmation = {
+  inquiryId: string;
   message: string;
-  ok: boolean;
-  preparedEmail?: { body: string; subject: string };
-  responseWindow?: string;
-  summary?: {
+  ok: true;
+  responseWindow: string;
+  summary: {
     email: string;
     intentType: LocalhostIntentType;
     name: string;
@@ -61,11 +55,22 @@ export type LocalhostInquiryResult = {
   };
 };
 
+export type LocalhostInquiryResult =
+  | { ok: false; message: string; fieldError?: InquiryFieldError; errorCode?: "delivery_unconfigured" }
+  | (InquiryConfirmation & { delivery: "duplicate" | "email" })
+  | (InquiryConfirmation & {
+    delivery: "mailto";
+    contactEmail: string;
+    mailtoHref: string;
+    preparedEmail: { body: string; subject: string };
+  });
+
 const minimumSubmitDelayMs = 900;
 const inquiryWindowMs = 60 * 60 * 1000;
 const duplicateWindowMs = 15 * 60 * 1000;
 const maxInquiriesPerWindow = 8;
 const maxRecentAttempts = 1024;
+const declinedMessage = "We could not submit your inquiry. Please try again or email us directly.";
 
 type InquiryWindow = {
   count: number;
@@ -295,6 +300,9 @@ function buildMailtoHref({ body, subject }: { body: string; subject: string }) {
 export async function submitLocalhostInquiry(
   payload: LocalhostInquiryPayload
 ): Promise<LocalhostInquiryResult> {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    return { ok: false, message: declinedMessage };
+  }
   const requestHeaders = await headers();
   const requestKey = getRequestKey(requestHeaders);
   const startedAt = Date.now();
@@ -309,10 +317,7 @@ export async function submitLocalhostInquiry(
         : undefined,
       sourcePage: cleanText(payload.sourcePage, 120)
     });
-    return {
-      message: "Received. Localhost will review your intent before suggesting next steps.",
-      ok: true
-    };
+    return { ok: false, message: declinedMessage };
   }
 
   if (
@@ -478,8 +483,6 @@ export async function submitLocalhostInquiry(
     };
   }
 
-  const mailtoHref = emailDelivery.ok ? undefined : buildMailtoHref(emailContent);
-
   // A coalesced request must not count as a second provider delivery.
   if (!pending) logInquiryEvent(emailDelivery.ok ? "delivery_success" : "delivery_fallback", {
     sessionId,
@@ -491,20 +494,9 @@ export async function submitLocalhostInquiry(
     sourcePage
   });
 
-  return {
-    contactEmail: emailDelivery.ok ? undefined : localhostContactEmail,
-    delivery: emailDelivery.ok ? "email" : "mailto",
+  const confirmation = {
     inquiryId,
-    mailtoHref,
-    preparedEmail: emailDelivery.ok ? undefined : {
-      body: emailContent.body,
-      subject: emailContent.subject
-    },
-    message:
-      emailDelivery.ok
-        ? `Thank you, ${name}. Your inquiry was submitted for private review.`
-        : "We could not confirm direct receipt. Your email draft is ready; send it so we can review fit, route direction, and host availability.",
-    ok: true,
+    ok: true as const,
     responseWindow: localhostResponseWindow,
     summary: {
       email,
@@ -515,5 +507,22 @@ export async function submitLocalhostInquiry(
       sourceLabel,
       sourcePage
     }
+  };
+
+  if (emailDelivery.ok) {
+    return {
+      ...confirmation,
+      delivery: "email",
+      message: `Thank you, ${name}. Your inquiry was submitted for private review.`
+    };
+  }
+
+  return {
+    ...confirmation,
+    delivery: "mailto",
+    contactEmail: localhostContactEmail,
+    mailtoHref: buildMailtoHref(emailContent),
+    preparedEmail: { body: emailContent.body, subject: emailContent.subject },
+    message: "We could not confirm direct receipt. Your email draft is ready; send it so we can review fit, route direction, and host availability."
   };
 }

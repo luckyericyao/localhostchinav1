@@ -262,6 +262,30 @@ test("validation prevents delivery and operational logs omit personal content", 
   }
 });
 
+test("a blocked submission never returns a receipt or starts delivery", async () => {
+  let calls = 0;
+  const h = harness(async () => { calls++; return accepted; });
+  const result = await h.submit({ ...payload, honeypot: "SYNTHETIC_AUTOFILL" });
+  assert.equal(result.ok, false);
+  assert.equal(result.inquiryId, undefined);
+  assert.equal(result.delivery, undefined);
+  assert.equal(result.mailtoHref, undefined);
+  assert.match(result.message, /could not submit/i);
+  assert.equal(calls, 0);
+  assert.deepEqual(h.events.map(({ event }) => event), ["honeypot_rejected"]);
+  assert.doesNotMatch(JSON.stringify(h.events), /SYNTHETIC_AUTOFILL|traveler@example\.test/);
+});
+
+test("a missing or non-object submission is declined without a server exception", async () => {
+  const h = harness(async () => assert.fail("Malformed input must not start delivery"));
+  for (const value of [undefined, null, "fixture", []]) {
+    const result = await h.submit(value);
+    assert.equal(result.ok, false);
+    assert.equal(result.inquiryId, undefined);
+  }
+  assert.equal(h.events.length, 0);
+});
+
 test("accepted delivery retains its anonymous funnel session", async () => {
   let delivered;
   const h = harness(async (inquiry) => { delivered = inquiry; return accepted; });

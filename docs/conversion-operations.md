@@ -110,6 +110,9 @@ While a submission is in flight, intake controls are disabled and the form is
 marked busy. A returned receipt uses the server's normalized submission summary,
 not the live draft values. Once the response arrives, editing resumes; rejection
 or network loss retains the complete draft for retry without claiming receipt.
+Rejected requests and incomplete confirmations do not show a receipt or mark
+valid fields as invalid. Only a recognized delivery result with a reference
+can show a confirmation, and an unsent email requires a complete draft.
 Editing clears the displayed result. Different validated content is a new
 inquiry; an unchanged retry can reuse its existing reference.
 Run `pnpm run inquiry:pending` to test these transitions with delayed, intercepted

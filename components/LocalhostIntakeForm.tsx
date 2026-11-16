@@ -314,7 +314,7 @@ export function LocalhostIntakeForm({
     partner: { shortNote: intentType === "partner" ? defaultMessage : "", details: {} }
   }));
   const [replyDetails, setReplyDetails] = useState<Record<string, string>>({});
-  const [result, setResult] = useState<LocalhostInquiryResult | null>(null);
+  const [result, setResult] = useState<Extract<LocalhostInquiryResult, { ok: true }> | null>(null);
   const [representativeInquiry, setRepresentativeInquiry] = useState(false);
   const [startedAt] = useState(() => Date.now());
   const [validationAttempt, setValidationAttempt] = useState(0);
@@ -428,13 +428,15 @@ export function LocalhostIntakeForm({
     trackLocalhostEvent("validation_error", form);
   }
 
-  function showSubmissionError(form: HTMLFormElement) {
-    setError(
-      "We could not confirm receipt. Your details are still here; please try again."
-    );
+  function showFormError(message: string) {
+    setError(message);
     setErrorField(null);
     setErrorDetail(null);
     setValidationAttempt((attempt) => attempt + 1);
+  }
+
+  function showSubmissionError(form: HTMLFormElement) {
+    showFormError("We could not confirm receipt. Your details are still here; please try again.");
     trackLocalhostEvent("inquiry_error", form);
   }
 
@@ -475,30 +477,22 @@ export function LocalhostIntakeForm({
             showValidationError(response.message, field === "details" ? null : field, form, detailKey);
             return;
           }
-          if (response.errorCode === "delivery_unconfigured") {
-            setError(response.message);
-            setErrorField(null);
-            setValidationAttempt((attempt) => attempt + 1);
-            return;
-          }
-          if (/wait before sending/i.test(response.message)) {
-            trackLocalhostEvent("inquiry_rate_limited", form);
-          }
-          const field = /name/i.test(response.message)
-            ? "name"
-            : /email/i.test(response.message)
-              ? "email"
-              : /sentence|looking/i.test(response.message)
-                ? "shortNote"
-                : null;
-          showValidationError(response.message, field, form);
+          showFormError(response.message);
+          return;
+        }
+
+        if (!response.inquiryId || !["email", "duplicate", "mailto"].includes(response.delivery) || (
+          response.delivery === "mailto" && (!response.mailtoHref?.startsWith("mailto:") ||
+            !response.preparedEmail?.body || !response.preparedEmail?.subject)
+        )) {
+          showSubmissionError(form);
           return;
         }
 
         setResult(response);
         if (response.delivery === "duplicate") {
           trackLocalhostEvent("inquiry_duplicate", form);
-        } else if (response.mailtoHref) {
+        } else if (response.delivery === "mailto") {
           trackLocalhostEvent("mailto_fallback", form);
         } else if (response.delivery === "email") {
           trackLocalhostEvent("inquiry_sent", form);
@@ -880,7 +874,7 @@ export function LocalhostIntakeForm({
           {result.responseWindow ? (
             <p className="response-expectation">
               {result.delivery === "mailto"
-                ? `Expected reply window after you send the email: ${result.responseWindow}.`
+                ? `Expected reply window once we receive your email: ${result.responseWindow}.`
                 : `Expected reply window once we receive your inquiry: ${result.responseWindow}.`}
             </p>
           ) : null}
@@ -889,14 +883,14 @@ export function LocalhostIntakeForm({
               Preferred reply: {optionalDetails.preferredReply}
             </p>
           ) : null}
-          {result.mailtoHref && result.preparedEmail ? (
-            <PreparedInquiryEmail
-              draft={result.preparedEmail}
-              mailtoHref={result.mailtoHref}
-            />
-          ) : null}
-          {result.contactEmail ? (
-            <p className="contact-copy">Direct contact: {result.contactEmail}</p>
+          {result.delivery === "mailto" ? (
+            <>
+              <PreparedInquiryEmail
+                draft={result.preparedEmail}
+                mailtoHref={result.mailtoHref}
+              />
+              {result.contactEmail ? <p className="contact-copy">Direct contact: {result.contactEmail}</p> : null}
+            </>
           ) : null}
         </div>
       ) : null}
