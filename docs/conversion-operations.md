@@ -110,7 +110,8 @@ While a submission is in flight, intake controls are disabled and the form is
 marked busy. A returned receipt uses the server's normalized submission summary,
 not the live draft values. Once the response arrives, editing resumes; rejection
 or network loss retains the complete draft for retry without claiming receipt.
-An intentional edit after a receipt clears that receipt and starts a new draft.
+Editing clears the displayed result. Different validated content is a new
+inquiry; an unchanged retry can reuse its existing reference.
 Run `pnpm run inquiry:pending` to test these transitions with delayed, intercepted
 responses. These fixtures do not prove real email delivery.
 
@@ -155,6 +156,17 @@ inquiry reference. Provider retries therefore reuse the same request identity
 for 24 hours instead of creating a second notification. The accepted provider
 message ID is written to the structured server log without recording traveler
 email or inquiry content.
+
+Within the same warm instance, an unchanged retry can reuse the reference and
+email envelope for 15 minutes after preparation, even if the first result was
+an unsent draft or unconfigured delivery. First-attempt time and allowlisted
+source metadata stay stable in the email; later outcome logs use the current
+attempt's source. Browser language and user agent are not used to build the
+email. The bounded cache keeps a fingerprint and attempt metadata, not a copy
+of the inquiry body. An in-flight delivery is shared across concurrent
+requests. After acceptance, the duplicate window starts at acceptance time.
+Expiry, an evicted record, a cold start, or another server instance can still
+create a different reference; this is not durable, cross-instance deduplication.
 
 ## Response SLA
 

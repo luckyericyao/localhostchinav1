@@ -6,7 +6,7 @@ import vm from "node:vm";
 import ts from "typescript";
 import { normalizeMetricSessionId } from "../lib/metricSession.ts";
 import { readInquiryFields } from "../lib/inquiryValidation.ts";
-import { normalizeMetricPath } from "../lib/metricDimensions.ts";
+import { normalizeMetricPath, normalizeMetricSource } from "../lib/metricDimensions.ts";
 import { replyDueAt, reviewOwner } from "../lib/inquiryOperations.ts";
 
 const source = readFileSync(new URL("../app/actions/submitLocalhostInquiry.ts", import.meta.url), "utf8");
@@ -30,7 +30,7 @@ function harness(send, contactEmail = "owner@example.test", publicEmail = contac
     "@/lib/metrics": { persistLocalhostMetric: async (metric) => { metrics.push(metric); } },
     "@/lib/inquiryEmail": { sendInquiryEmail: send },
     "@/lib/metricSession": { normalizeMetricSessionId },
-    "@/lib/metricDimensions": { normalizeMetricPath },
+    "@/lib/metricDimensions": { normalizeMetricPath, normalizeMetricSource },
     "@/lib/inquiryValidation": { readInquiryFields },
     "@/lib/inquiryOperations": { replyDueAt, reviewOwner }
   };
@@ -58,12 +58,16 @@ const payload = {
 const accepted = { ok: true, providerMessageId: "test-provider-id" };
 
 test("inquiry analytics retain only a known source path, not private URL parameters", async () => {
-  const h = harness(async () => accepted);
-  await h.submit({ ...payload, sourcePage: "/china/shanxi?principal=PRIVATE PRINCIPAL#PRIVATE NOTE" });
+  let body;
+  const h = harness(async (mail) => { body = mail.body; return accepted; });
+  await h.submit({ ...payload, sourcePage: "/china/shanxi?principal=PRIVATE PRINCIPAL#PRIVATE NOTE",
+    sourceLabel: "PRIVATE SOURCE", locale: "PRIVATE LOCALE", userAgent: "PRIVATE AGENT" });
   assert.equal(h.events[0].sourcePage, "/china/shanxi");
   assert.equal(h.metrics[0].path, "/china/shanxi");
   assert.equal(JSON.stringify([h.events, h.metrics]).includes("PRIVATE PRINCIPAL"), false);
   assert.equal(JSON.stringify([h.events, h.metrics]).includes("PRIVATE NOTE"), false);
+  assert.match(body, /Source page: \/china\/shanxi/);
+  assert.doesNotMatch(body, /PRIVATE PRINCIPAL|PRIVATE NOTE|PRIVATE SOURCE|PRIVATE LOCALE|PRIVATE AGENT/);
 });
 
 test("concurrent identical inquiries share one delivery and reference", async () => {
@@ -118,19 +122,69 @@ test("equivalent detail ordering deduplicates, expired receipts allow another re
   assert.equal(calls, 2);
 });
 
-test("failed delivery does not suppress a later retry or claim receipt", async () => {
-  let calls = 0;
-  const h = harness(async () => (++calls === 1 ? { ok: false } : accepted));
-  const fallback = await h.submit(payload);
+test("a retry after email preparation keeps the reference and provider envelope", async () => {
+  const attempts = [];
+  const h = harness(async (mail) => {
+    attempts.push(mail);
+    return attempts.length === 1 ? { ok: false } : accepted;
+  });
+  const fallback = await h.submit({ ...payload, sourcePage: "/china/shanxi", sourceLabel: "Footer",
+    optionalDetails: { timing: "Late autumn", avoidances: "Long stair climbs" } });
   assert.equal(fallback.delivery, "mailto");
   assert.match(fallback.mailtoHref, /^mailto:owner@example.test\?/);
   assert.match(fallback.message, /could not confirm direct receipt/);
   assert.equal(fallback.preparedEmail.body.includes(payload.shortNote), true);
   assert.equal(fallback.preparedEmail.subject.includes(fallback.inquiryId), true);
-  const delivered = await h.submit(payload);
+  h.advance(5000);
+  const delivered = await h.submit({ ...payload, sourcePage: "/inquiry", sourceLabel: "Header",
+    optionalDetails: { avoidances: "Long stair climbs", timing: "Late autumn" } });
   assert.equal(delivered.delivery, "email");
   assert.equal(delivered.preparedEmail, undefined);
+  assert.equal(delivered.inquiryId, fallback.inquiryId);
+  assert.equal(attempts.length, 2);
+  assert.deepEqual(attempts[1], attempts[0]);
+  assert.deepEqual(h.events.map(({ event, inquiryId }) => ({ event, inquiryId })), [
+    { event: "delivery_fallback", inquiryId: fallback.inquiryId },
+    { event: "delivery_success", inquiryId: fallback.inquiryId }
+  ]);
+  assert.equal(h.events[0].sourcePage, "/china/shanxi");
+  assert.equal(h.events[1].sourcePage, "/inquiry");
+});
+
+test("a failed attempt keeps its reference for a fixed window without suppressing retries", async () => {
+  const attempts = [];
+  const h = harness(async (mail) => { attempts.push(mail); return { ok: false }; });
+  const first = await h.submit(payload);
+  h.advance(14 * 60 * 1000);
+  const retry = await h.submit(payload);
+  assert.equal(retry.delivery, "mailto");
+  assert.equal(retry.inquiryId, first.inquiryId);
+  assert.deepEqual(retry.preparedEmail, first.preparedEmail);
+  h.advance(2 * 60 * 1000);
+  const later = await h.submit(payload);
+  assert.equal(later.delivery, "mailto");
+  assert.notEqual(later.inquiryId, first.inquiryId);
+  assert.equal(attempts.length, 3);
+});
+
+test("different valid content is not attached to a previous fallback reference", async () => {
+  const h = harness(async () => ({ ok: false }));
+  const first = await h.submit(payload);
+  const changed = await h.submit({ ...payload, shortNote: "Prefer one day near Datong." });
+  assert.notEqual(first.inquiryId, changed.inquiryId);
+  assert.ok(changed.preparedEmail.body.includes("Prefer one day near Datong."));
+});
+
+test("concurrent unconfigured results log once and keep one reference for later retries", async () => {
+  let calls = 0;
+  const h = harness(async () => { calls++; await new Promise(setImmediate); return { ok: false }; }, "");
+  const concurrent = await Promise.all([h.submit(payload), h.submit(payload)]);
+  assert.ok(concurrent.every(({ errorCode }) => errorCode === "delivery_unconfigured"));
+  assert.equal(calls, 1);
+  assert.equal(h.events.filter(({ event }) => event === "delivery_unconfigured").length, 1);
+  await h.submit(payload);
   assert.equal(calls, 2);
+  assert.equal(new Set(h.events.map(({ inquiryId }) => inquiryId)).size, 1);
 });
 
 test("public email recovery never reveals a private delivery inbox", async () => {

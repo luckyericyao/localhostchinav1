@@ -10,7 +10,7 @@ import {
 import { persistLocalhostMetric } from "@/lib/metrics";
 import { sendInquiryEmail } from "@/lib/inquiryEmail";
 import { normalizeMetricSessionId } from "@/lib/metricSession";
-import { normalizeMetricPath } from "@/lib/metricDimensions";
+import { normalizeMetricPath, normalizeMetricSource } from "@/lib/metricDimensions";
 import { replyDueAt, reviewOwner } from "@/lib/inquiryOperations";
 import { readInquiryFields, type InquiryFieldError } from "@/lib/inquiryValidation";
 
@@ -26,11 +26,9 @@ export type LocalhostRouteContext =
   | "china-general";
 
 export type LocalhostInquiryPayload = {
-  createdAt?: string;
   email: string;
   honeypot?: string;
   intentType: LocalhostIntentType;
-  locale?: string;
   name: string;
   optionalDetails?: Record<string, string>;
   routeContext?: LocalhostRouteContext;
@@ -39,7 +37,6 @@ export type LocalhostInquiryPayload = {
   sourceLabel?: string;
   sourcePage?: string;
   startedAt?: number;
-  userAgent?: string;
 };
 
 export type LocalhostInquiryResult = {
@@ -68,20 +65,27 @@ const minimumSubmitDelayMs = 900;
 const inquiryWindowMs = 60 * 60 * 1000;
 const duplicateWindowMs = 15 * 60 * 1000;
 const maxInquiriesPerWindow = 8;
+const maxRecentAttempts = 1024;
 
 type InquiryWindow = {
   count: number;
   startedAt: number;
 };
 
+type InquiryAttempt = {
+  accepted: boolean;
+  createdAt: string;
+  expiresAt: number;
+  inquiryId: string;
+  sourceLabel: string;
+  sourcePage: string;
+  delivery?: ReturnType<typeof sendInquiryEmail>;
+};
+
 // These maps are intentionally small, best-effort protection for warm server
 // instances. Delivery remains the source of truth; logs make the outcome auditable.
 const inquiryWindows = new Map<string, InquiryWindow>();
-const recentInquiryHashes = new Map<string, { createdAt: number; inquiryId: string }>();
-const pendingInquiryDeliveries = new Map<string, {
-  inquiryId: string;
-  delivery: ReturnType<typeof sendInquiryEmail>;
-}>();
+const recentAttempts = new Map<string, InquiryAttempt>();
 
 function cleanText(value: unknown, maxLength = 1200) {
   return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
@@ -113,8 +117,8 @@ function pruneInquiryGuards(now: number) {
     if (now - window.startedAt > inquiryWindowMs) inquiryWindows.delete(key);
   }
 
-  for (const [key, { createdAt }] of recentInquiryHashes) {
-    if (now - createdAt > duplicateWindowMs) recentInquiryHashes.delete(key);
+  for (const [key, attempt] of recentAttempts) {
+    if (!attempt.delivery && now >= attempt.expiresAt) recentAttempts.delete(key);
   }
 }
 
@@ -178,13 +182,10 @@ function inquiryFingerprint(payload: {
   email: string;
   intentType: LocalhostIntentType;
   name: string;
-  optionalDetails: Record<string, string>;
+  details: [string, string][];
   routeContext?: LocalhostRouteContext;
   shortNote: string;
 }) {
-  const details = Object.entries(payload.optionalDetails)
-    .sort(([left], [right]) => left.localeCompare(right));
-
   return createHash("sha256")
     .update(
       JSON.stringify([
@@ -193,7 +194,7 @@ function inquiryFingerprint(payload: {
         payload.name,
         payload.routeContext || "",
         payload.shortNote,
-        details
+        payload.details
       ])
     )
     .digest("hex");
@@ -227,21 +228,18 @@ function formatLabel(value: string) {
 
 function buildInquiryEmailContent(payload: {
   createdAt: string;
+  details: [string, string][];
   email: string;
   intentType: LocalhostIntentType;
   inquiryId: string;
-  locale: string;
   name: string;
-  optionalDetails: Record<string, string>;
   routeContext?: LocalhostRouteContext;
   responseWindow: string;
   shortNote: string;
   sourceLabel: string;
   sourcePage: string;
 }) {
-  const detailLines = Object.entries(payload.optionalDetails)
-    .filter(([, value]) => cleanText(value))
-    .map(([key, value]) => `${formatLabel(key)}: ${cleanText(value)}`);
+  const detailLines = payload.details.map(([key, value]) => `${formatLabel(key)}: ${value}`);
 
   const bodyLines = [
     "Localhost private route review",
@@ -255,7 +253,6 @@ function buildInquiryEmailContent(payload: {
     payload.shortNote ? `One-sentence intent: ${payload.shortNote}` : "",
     payload.sourcePage ? `Source page: ${payload.sourcePage}` : "",
     payload.sourceLabel ? `Source label: ${payload.sourceLabel}` : "",
-    payload.locale ? `Browser language: ${payload.locale}` : "",
     `Prepared at: ${payload.createdAt}`,
     "",
     detailLines.length ? "Optional details:" : "",
@@ -352,8 +349,10 @@ export async function submitLocalhostInquiry(
   const routeContext = isRouteContext(payload.routeContext)
     ? payload.routeContext
     : undefined;
-  const sourcePage = cleanText(payload.sourcePage, 120);
-  const sourceLabel = cleanText(payload.sourceLabel, 120);
+  const sourcePage = normalizeMetricPath(payload.sourcePage);
+  const sourceLabel = normalizeMetricSource(payload.sourceLabel);
+  // A fingerprint and a retried email must use the same field ordering.
+  const details = Object.entries(optionalDetails).sort(([left], [right]) => left < right ? -1 : left > right ? 1 : 0);
 
   const now = Date.now();
   pruneInquiryGuards(now);
@@ -372,26 +371,26 @@ export async function submitLocalhostInquiry(
   }
 
   const fingerprint = inquiryFingerprint({
+    details,
     email,
     intentType: payload.intentType,
     name,
-    optionalDetails,
     routeContext,
     shortNote
   });
 
-  const previousReceipt = recentInquiryHashes.get(fingerprint);
-  if (previousReceipt) {
+  let attempt = recentAttempts.get(fingerprint);
+  if (attempt?.accepted) {
     logInquiryEvent("duplicate", {
       sessionId,
-      inquiryId: previousReceipt.inquiryId,
+      inquiryId: attempt.inquiryId,
       intentType: payload.intentType,
       routeContext,
       sourcePage
     });
     return {
       delivery: "duplicate",
-      inquiryId: previousReceipt.inquiryId,
+      inquiryId: attempt.inquiryId,
       message: "This inquiry was already submitted for private review. Please keep the original reference.",
       ok: true,
       responseWindow: localhostResponseWindow,
@@ -407,37 +406,41 @@ export async function submitLocalhostInquiry(
     };
   }
 
-  const userAgent = cleanText(
-    payload.userAgent || requestHeaders.get("user-agent"),
-    240
-  );
-  const locale = cleanText(
-    payload.locale || requestHeaders.get("accept-language"),
-    120
-  );
-  // Use server time for the operational receipt and SLA reference.
-  const createdAt = new Date().toISOString();
-  const pending = pendingInquiryDeliveries.get(fingerprint);
-  const inquiryId = pending?.inquiryId || createInquiryId(createdAt);
+  if (!attempt) {
+    if (recentAttempts.size >= maxRecentAttempts) {
+      // Prefer shedding an old settled record to losing an in-flight reference.
+      const oldestSettled = [...recentAttempts].find(([, item]) => !item.delivery)?.[0];
+      if (!oldestSettled) return { ok: false, message: "Please wait before sending another inquiry." };
+      recentAttempts.delete(oldestSettled);
+    }
+    const createdAt = new Date(now).toISOString();
+    attempt = {
+      accepted: false,
+      createdAt,
+      expiresAt: now + duplicateWindowMs,
+      inquiryId: createInquiryId(createdAt),
+      sourceLabel,
+      sourcePage
+    };
+    recentAttempts.set(fingerprint, attempt);
+  }
 
-  const normalizedPayload = {
-    createdAt,
+  const { inquiryId } = attempt;
+  const emailContent = buildInquiryEmailContent({
+    createdAt: attempt.createdAt,
+    details,
     email,
     inquiryId,
     intentType: payload.intentType,
-    locale,
     name,
-    optionalDetails,
     routeContext,
     responseWindow: localhostResponseWindow,
     shortNote,
-    sourceLabel,
-    sourcePage,
-    userAgent
-  };
-
-  const emailContent = buildInquiryEmailContent(normalizedPayload);
-  const delivery = pending?.delivery || sendInquiryEmail({
+    sourceLabel: attempt.sourceLabel,
+    sourcePage: attempt.sourcePage
+  });
+  const pending = attempt.delivery;
+  const delivery = pending || sendInquiryEmail({
     body: emailContent.internalBody,
     email,
     inquiryId,
@@ -447,27 +450,26 @@ export async function submitLocalhostInquiry(
     from: process.env.RESEND_FROM_EMAIL,
     to: localhostDeliveryEmail
   });
-  if (!pending) pendingInquiryDeliveries.set(fingerprint, { inquiryId, delivery });
+  attempt.delivery = delivery;
   let emailDelivery: Awaited<ReturnType<typeof sendInquiryEmail>>;
   try {
     emailDelivery = await delivery;
-    if (emailDelivery.ok) {
-      recentInquiryHashes.set(fingerprint, { createdAt: Date.now(), inquiryId });
+    if (emailDelivery.ok && !attempt.accepted) {
+      attempt.accepted = true;
+      attempt.expiresAt = Date.now() + duplicateWindowMs;
     }
   } finally {
-    if (pendingInquiryDeliveries.get(fingerprint)?.delivery === delivery) {
-      pendingInquiryDeliveries.delete(fingerprint);
-    }
+    if (attempt.delivery === delivery) attempt.delivery = undefined;
   }
 
   if (!emailDelivery.ok && !localhostContactEmail) {
-    logInquiryEvent("delivery_unconfigured", {
+    if (!pending) logInquiryEvent("delivery_unconfigured", {
       sessionId,
       durationMs: Date.now() - startedAt,
       inquiryId,
       intentType: payload.intentType,
       routeContext,
-      sourcePage: normalizedPayload.sourcePage
+      sourcePage
     });
     return {
       errorCode: "delivery_unconfigured",
@@ -486,7 +488,7 @@ export async function submitLocalhostInquiry(
     intentType: payload.intentType,
     providerMessageId: emailDelivery.ok ? emailDelivery.providerMessageId : undefined,
     routeContext,
-    sourcePage: normalizedPayload.sourcePage
+    sourcePage
   });
 
   return {
@@ -510,8 +512,8 @@ export async function submitLocalhostInquiry(
       name,
       routeContext,
       shortNote,
-      sourceLabel: normalizedPayload.sourceLabel,
-      sourcePage: normalizedPayload.sourcePage
+      sourceLabel,
+      sourcePage
     }
   };
 }

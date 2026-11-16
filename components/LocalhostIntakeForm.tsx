@@ -456,11 +456,9 @@ export function LocalhostIntakeForm({
     startTransition(async () => {
       try {
         const response = await submitLocalhostInquiry({
-          createdAt: new Date().toISOString(),
           email: validatedFields.value.email,
           honeypot,
           intentType: activeIntent,
-          locale: navigator.language,
           name: validatedFields.value.name,
           optionalDetails: validatedFields.value.optionalDetails,
           routeContext,
@@ -468,8 +466,7 @@ export function LocalhostIntakeForm({
           shortNote: validatedFields.value.shortNote,
           sourceLabel,
           sourcePage,
-          startedAt,
-          userAgent: navigator.userAgent
+          startedAt
         });
 
         if (!response.ok) {
