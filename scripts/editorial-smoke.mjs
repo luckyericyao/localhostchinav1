@@ -63,10 +63,21 @@ async function inspect(page, path) {
     const cards = page.locator(".journey-comparison-card");
     assert.equal(await cards.count(), 4);
     assert.deepEqual(await cards.evaluateAll((items) => items.map((item) => item.getAttribute("href").split("/").at(-1))), routes);
+    assert.deepEqual(await cards.evaluateAll((items) => items.map((item) => item.getAttribute("aria-label"))),
+      ["View Shanxi", "View Shaolin", "View Huizhou", "View Shanghai"]);
     assert.equal(await cards.locator("dt").count(), 12, "Best for, length/entry, pace on each route");
     const layout = await cards.evaluateAll((items) => ({
       allInView: items.every((item) => item.getBoundingClientRect().bottom <= innerHeight),
       firstVisible: items[0].getBoundingClientRect().top < innerHeight,
+      usableFacts: items.every((item) => {
+        const box = item.getBoundingClientRect();
+        return box.height >= 44 && item.scrollWidth <= item.clientWidth &&
+          [...item.querySelectorAll(".journey-comparison-meta dd")].every((fact) => {
+            const bounds = fact.getBoundingClientRect();
+            return bounds.width > 0 && bounds.height > 0 && bounds.right <= box.right + 1 &&
+              bounds.bottom <= box.bottom + 1 && parseFloat(getComputedStyle(fact).fontSize) >= 13;
+          });
+      }),
       readable: items.every((item) => {
         for (let node = item; node; node = node.parentElement) {
           const style = getComputedStyle(node);
@@ -76,7 +87,11 @@ async function inspect(page, path) {
       })
     }));
     assert.equal(layout.readable, true, "Core comparison must never wait for a reveal effect");
-    if (page.viewportSize().width >= 1280) assert.equal(layout.allInView, true, "Four routes must fit the opening desktop viewport");
+    assert.equal(layout.usableFacts, true, "Every route must show complete, readable facts and a usable link");
+    const { width, height } = page.viewportSize();
+    if (width >= 1280 || (width >= 375 && width <= 430 && height >= 812)) {
+      assert.equal(layout.allInView, true, `Four routes must fit the opening ${width}x${height} viewport`);
+    }
     assert.equal(layout.firstVisible, true);
     assert.deepEqual(await page.locator(".journeys-future-list li").allTextContents(), ["Beijing", "Chengdu"]);
     assert.equal(await page.locator(".journeys-future-section a").count(), 0, "Future chapters must not compete as active routes");
@@ -84,6 +99,14 @@ async function inspect(page, path) {
 }
 
 try {
+  const narrow = await context({ viewport: { width: 320, height: 568 } });
+  const narrowPage = await narrow.newPage();
+  await visit(narrowPage, "/journeys");
+  await inspect(narrowPage, "/journeys");
+  await narrowPage.screenshot({ path: new URL("after-journeys-320.png", artifacts).pathname });
+  await narrow.close();
+  console.log("PASS /journeys 320px: readable route facts, no horizontal overflow");
+
   for (const viewport of [
     { width: 375, height: 812 }, { width: 390, height: 844 },
     { width: 768, height: 1024 }, { width: 1280, height: 720 },

@@ -67,6 +67,7 @@ export default function JourneysPage() {
                 key={journey.place}
               >
                 <Link
+                  aria-label={`View ${journey.place}`}
                   className="journey-comparison-card"
                   data-track-event="route_select"
                   data-track-route={journey.place}
@@ -78,10 +79,10 @@ export default function JourneysPage() {
                       src={resolveImageSource(journey.image)}
                       alt={journey.alt}
                       fill
-                      sizes="(min-width: 1100px) 25vw, (min-width: 720px) 50vw, 100vw"
+                      sizes="(max-width: 720px) 68px, (min-width: 1021px) 25vw, 50vw"
                     />
                   </span>
-                  <span className="journey-comparison-copy">
+                  <div className="journey-comparison-copy">
                     <span className="journey-comparison-kicker">
                       {journey.place === "Shanxi"
                         ? "Flagship route"
@@ -106,7 +107,7 @@ export default function JourneysPage() {
                       </div>
                     </dl>
                     <span className="arrangement-cue">{`View ${journey.place}`}</span>
-                  </span>
+                  </div>
                 </Link>
               </div>
             ))}

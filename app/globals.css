@@ -4817,8 +4817,8 @@ a:focus-visible,
   }
 
   .journeys-decision-section {
-    padding-bottom: 56px;
-    padding-top: 42px;
+    padding-bottom: 44px;
+    padding-top: 22px;
   }
 
   .journeys-future-section {
@@ -4831,23 +4831,130 @@ a:focus-visible,
   }
 
   .journeys-decision-header {
-    gap: 20px;
-    margin-bottom: 28px;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .journeys-decision-header .eyebrow {
+    margin-bottom: 8px;
   }
 
   .journeys-decision-header h1 {
-    font-size: 3rem;
+    font-size: 1.9rem;
+    line-height: 1.08;
+  }
+
+  .journeys-decision-copy p {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .journeys-decision-copy .text-link {
+    display: none;
+  }
+
+  .journey-comparison-grid {
+    border-bottom: 1px solid var(--border);
+    gap: 0;
+  }
+
+  .journey-comparison-card {
+    align-items: start;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    border-top: 1px solid var(--border);
+    gap: 14px;
+    grid-template-columns: 68px minmax(0, 1fr);
+    grid-template-rows: auto;
+    padding: 9px 0;
+  }
+
+  .journey-comparison-card:hover {
+    box-shadow: none;
+    transform: none;
+  }
+
+  .journey-comparison-media {
+    aspect-ratio: 4 / 5;
+    min-height: 0;
+  }
+
+  .journey-comparison-copy {
+    align-items: baseline;
+    display: grid;
+    gap: 4px 10px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 0;
+  }
+
+  .journey-comparison-kicker,
+  .journey-comparison-copy > strong {
+    display: none;
+  }
+
+  .journey-comparison-card[data-track-route="Shanxi"] .journey-comparison-kicker {
+    display: block;
+    grid-column: 1 / -1;
+    font-size: 0.72rem;
+    letter-spacing: 0;
+  }
+
+  .journey-comparison-copy h2 {
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  .journey-comparison-copy .arrangement-cue {
+    font-size: 0.75rem;
+    grid-column: 2;
+    grid-row: 2;
+    padding: 0;
+  }
+
+  .journey-comparison-card:not([data-track-route="Shanxi"]) .arrangement-cue {
+    grid-row: 1;
   }
 
   .journey-comparison-meta {
+    border: 0;
+    font-size: 0.8125rem;
+    gap: 3px;
+    grid-column: 1 / -1;
     grid-template-columns: 1fr;
+    line-height: 1.36;
+    margin: 0;
+    padding: 0;
   }
 
-  .journey-comparison-meta div + div {
-    border-left: 0;
-    border-top: 1px solid var(--border);
-    padding-left: 0;
-    padding-top: 8px;
+  .journey-comparison-meta div,
+  .journey-comparison-meta div + div,
+  .journey-comparison-meta .journey-comparison-meta-wide {
+    border: 0;
+    display: block;
+    padding: 0;
+  }
+
+  .journey-comparison-meta dt,
+  .journey-comparison-meta dd {
+    display: inline;
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+
+  .journey-comparison-meta dt {
+    color: var(--warm-gray);
+    font-weight: 600;
+    margin-right: 0.4em;
+    text-transform: none;
+  }
+
+  .journey-comparison-meta div:not(.journey-comparison-meta-wide) dt {
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
   }
 
   .localhost-intake-form .role-tabs > div {

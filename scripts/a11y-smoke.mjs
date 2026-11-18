@@ -274,28 +274,26 @@ for (const path of routes) {
   if (path === "/journeys") {
     const mobileRouteDecision = await page.evaluate(() => {
       const cards = [...document.querySelectorAll(".journey-comparison-card")];
-      const firstCard = cards[0]?.getBoundingClientRect();
+      const bounds = cards.map((card) => card.getBoundingClientRect());
 
       return {
         cardCount: cards.length,
-        firstCardTop: firstCard?.top ?? Infinity,
-        firstRouteVisible: Boolean(
-          firstCard && firstCard.top < window.innerHeight && firstCard.bottom > 0
-        )
+        cardBottoms: bounds.map((box) => Math.round(box.bottom)),
+        allRoutesVisible: bounds.every((box) => box.top >= 0 && box.bottom <= window.innerHeight && box.height >= 44)
       };
     });
 
     if (
       mobileRouteDecision.cardCount !== 4 ||
-      !mobileRouteDecision.firstRouteVisible
+      !mobileRouteDecision.allRoutesVisible
     ) {
       console.error(
-        `FAIL /journeys: mobile route decision starts too late ${JSON.stringify(mobileRouteDecision)}`
+        `FAIL /journeys: four active routes must fit the initial mobile viewport ${JSON.stringify(mobileRouteDecision)}`
       );
       failed = true;
     } else {
       console.log(
-        "PASS /journeys: the first active route enters the initial mobile viewport"
+        "PASS /journeys: all four active routes fit the initial mobile viewport"
       );
     }
   }
