@@ -28,7 +28,7 @@ export function SiteFooter({ discovery = false }: { discovery?: boolean }) {
         <Link href="/travelers">For Travelers</Link>
         <Link href="/hosts">For Hosts</Link>
         <Link href="/trust">Trust</Link>
-        <Link href="/inquiry">Inquiry</Link>
+        <NavigationInquiryLink source="footer" label="Inquiry" />
         <Link href="/about">About</Link>
         <Link href="/how-it-works">How It Works</Link>
         <Link href="/host-credits">Host Credits</Link>

@@ -1213,7 +1213,7 @@ export const chinaSupportPages = {
       primaryHref:
         "/inquiry?type=traveler&route=china-general&sourcePage=%2Fchina%2Fprivate-routes&sourceLabel=Private%20Routes%20support%20page",
       secondaryLabel: "Explore Signature China Routes",
-      secondaryHref: "/china#journeys"
+      secondaryHref: "/journeys"
     }
   },
   "seamless-logistics": {
@@ -1388,7 +1388,7 @@ export const chinaSupportPages = {
       primaryHref:
         "/inquiry?type=traveler&route=china-general&sourcePage=%2Fchina%2Freal-access&sourceLabel=Real%20Access%20support%20page",
       secondaryLabel: "Explore China Routes",
-      secondaryHref: "/china#journeys"
+      secondaryHref: "/journeys"
     }
   }
 } as const;

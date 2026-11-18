@@ -159,8 +159,9 @@ try {
       await page.keyboard.press("Enter");
       await page.waitForURL(new URL(nextPath, base).href);
       await page.waitForFunction((currentPath) => window.localhostDataLayer?.some((item) => item.event === "route_view" && item.path === currentPath), nextPath);
-      for (const source of ["header", "footer"]) {
-        const href = await page.locator(`${source} [data-track-source="${source}"]`).getAttribute("href");
+      const inquiryLinks = await page.locator('a[href^="/inquiry"]').evaluateAll((links) => links.map((link) => link.href));
+      assert.equal(inquiryLinks.length, 4, "Menu, chapter, footer navigation, and footer contact");
+      for (const href of inquiryLinks) {
         const query = new URL(href, base).searchParams;
         assert.equal(query.get("route"), next);
         assert.equal(query.get("sourcePage"), nextPath);
@@ -199,8 +200,25 @@ try {
     await page.locator('.chapter-continuation-link[href="/china/shaolin"]').click();
     await page.waitForURL(new URL("/china/shaolin", base).href);
     assert.equal(await page.locator("h1").innerText(), "Shaolin");
+    await page.getByRole("navigation", { name: "Footer navigation" }).getByRole("link", { name: "Inquiry", exact: true }).click();
+    await page.waitForURL("**/inquiry?**");
+    const inquiry = new URL(page.url());
+    assert.equal(inquiry.searchParams.get("route"), "shaolin");
+    assert.equal(inquiry.searchParams.get("sourcePage"), "/china/shaolin");
+    assert.equal(await page.locator(".context-card strong").innerText(), "Shaolin");
+    if (options.javaScriptEnabled === false) {
+      for (const path of ["/china/private-routes", "/china/real-access"]) {
+        await visit(page, path);
+        const comparison = page.locator("main .final-section").getByRole("link", { name: /^Explore.*China Routes$/ });
+        await comparison.focus();
+        await page.keyboard.press("Enter");
+        await page.waitForURL(new URL("/journeys", base).href);
+        assert.equal(await page.locator(".journey-comparison-card").count(), 4);
+        console.log(`PASS ${path} -> /journeys: reachable with keyboard and no JavaScript`);
+      }
+    }
     await ctx.close();
-    console.log(`PASS comparison and chapter continuation with ${options.javaScriptEnabled === false ? "JavaScript disabled" : "reduced motion"}: readable, navigable, no reveal dependency`);
+    console.log(`PASS comparison, chapter continuation, and footer inquiry with ${options.javaScriptEnabled === false ? "JavaScript disabled" : "reduced motion"}`);
   }
   assert.deepEqual(errors, []);
   writeFileSync(new URL("editorial-results.json", artifacts), JSON.stringify({ url: base.origin, testedAt: new Date().toISOString(), observations, continuations, browserErrors: errors }, null, 2));

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { chromium } from "playwright-core";
 
 const baseUrl = process.env.SITE_URL || "http://127.0.0.1:3118";
+const navigationInquiry = (page, source) => page.locator(`${source} [data-track-source="${source}"]`);
 const browser = await chromium.launch({
   executablePath: process.env.CHROME_PATH || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   headless: true
@@ -36,11 +37,11 @@ try {
     (event) => event.event === "route_view" && event.path === "/china/shanxi"
   ));
   for (const source of ["header", "footer"]) {
-    const href = await page.locator(`${source} [data-track-source="${source}"]`)
-      .getAttribute("href");
-    const params = new URL(href, baseUrl).searchParams;
-    assert.equal(params.get("sourcePage"), "/china/shanxi", "Client navigation left stale inquiry source");
-    assert.equal(params.get("route"), "shanxi", "Client navigation lost route context");
+    for (const link of await navigationInquiry(page, source).all()) {
+      const params = new URL(await link.getAttribute("href"), baseUrl).searchParams;
+      assert.equal(params.get("sourcePage"), "/china/shanxi", "Client navigation left stale inquiry source");
+      assert.equal(params.get("route"), "shanxi", "Client navigation lost route context");
+    }
   }
   assert.equal(await page.locator('.chapter-opening a[href^="/inquiry"]').count(), 0,
     "The chapter opening should invite exploration, not an inquiry");
@@ -89,6 +90,11 @@ try {
   const paths = ["/", "/china", "/journeys", "/travelers", "/hosts", "/trust",
     "/about", "/how-it-works", "/host-credits", "/inquiry",
     ...activeRoutes.map((route) => `/china/${route}`)];
+  const entrypoints = [
+    ["header", 'header [data-track-source="header"]'],
+    ["footer navigation", 'footer nav [data-track-source="footer"]'],
+    ["footer contact", '.footer-actions [data-track-source="footer"]']
+  ];
 
   for (const viewport of [{ width: 390, height: 844 }, { width: 1280, height: 720 }]) {
     await page.setViewportSize(viewport);
@@ -96,25 +102,28 @@ try {
       const response = await page.goto(`${baseUrl}${path}`, { waitUntil: "load" });
       assert.equal(response.status(), 200, path);
       for (const source of ["header", "footer"]) {
-        const link = page.locator(`${source} [data-track-source="${source}"]`);
-        const params = new URL(await link.getAttribute("href"), baseUrl).searchParams;
-        assert.equal(params.get("sourcePage"), path, `${source} source from ${path}`);
-        assert.equal(params.get("sourceLabel"), source === "header" ? "Header" : "Footer");
-        assert.equal(params.get("type"), "traveler");
-        const expectedRoute = activeRoutes.find((route) => path === `/china/${route}`);
-        assert.equal(params.get("route"), expectedRoute || null, `${source} route from ${path}`);
+        const links = await navigationInquiry(page, source).all();
+        assert.equal(links.length, source === "header" ? 1 : 2);
+        for (const link of links) {
+          const params = new URL(await link.getAttribute("href"), baseUrl).searchParams;
+          assert.equal(params.get("sourcePage"), path, `${source} source from ${path}`);
+          assert.equal(params.get("sourceLabel"), source === "header" ? "Header" : "Footer");
+          assert.equal(params.get("type"), "traveler");
+          const expectedRoute = activeRoutes.find((route) => path === `/china/${route}`);
+          assert.equal(params.get("route"), expectedRoute || null, `${source} route from ${path}`);
+        }
       }
     }
 
     for (const routeName of activeRoutes) {
-      for (const source of ["header", "footer"]) {
+      for (const [source, selector] of entrypoints) {
         await page.goto(`${baseUrl}/china/${routeName}`, { waitUntil: "load" });
         if (source === "header") {
           // A previous inquiry may restore a lower scroll position on return.
           await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
           await page.locator(".discovery-menu summary").click();
         }
-        await page.locator(`${source} [data-track-source="${source}"]`).click();
+        await page.locator(selector).click();
         await page.waitForURL("**/inquiry?**");
         const params = new URL(page.url()).searchParams;
         assert.equal(params.get("route"), routeName);

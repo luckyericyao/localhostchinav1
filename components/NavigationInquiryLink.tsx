@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { buildNavigationInquiryHref } from "@/lib/inquiryLinks";
 
 type NavigationInquiryLinkProps = {
-  className: string;
+  className?: string;
   source: "header" | "footer";
   label?: string;
 };
