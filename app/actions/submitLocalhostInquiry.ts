@@ -27,6 +27,7 @@ export type LocalhostRouteContext =
 
 export type LocalhostInquiryPayload = {
   email: string;
+  formElapsedMs?: number;
   honeypot?: string;
   intentType: LocalhostIntentType;
   name: string;
@@ -320,10 +321,11 @@ export async function submitLocalhostInquiry(
     return { ok: false, message: declinedMessage };
   }
 
-  if (
-    typeof payload.startedAt === "number" &&
-    Date.now() - payload.startedAt < minimumSubmitDelayMs
-  ) {
+  // Older clients used wall-clock time; a negative age is clock skew, not a fast submission.
+  const formElapsedMs = typeof payload.formElapsedMs === "number"
+    ? payload.formElapsedMs
+    : typeof payload.startedAt === "number" ? startedAt - payload.startedAt : undefined;
+  if (formElapsedMs !== undefined && formElapsedMs >= 0 && formElapsedMs < minimumSubmitDelayMs) {
     logInquiryEvent("timing_rejected", {
       sessionId,
       intentType: isIntentType(payload.intentType) ? payload.intentType : undefined,

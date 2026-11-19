@@ -320,7 +320,7 @@ export function LocalhostIntakeForm({
   const [replyDetails, setReplyDetails] = useState<Record<string, string>>({});
   const [result, setResult] = useState<Extract<LocalhostInquiryResult, { ok: true }> | null>(null);
   const [representativeInquiry, setRepresentativeInquiry] = useState(false);
-  const [startedAt] = useState(() => Date.now());
+  const [formOpenedAt] = useState(() => performance.now());
   const [validationAttempt, setValidationAttempt] = useState(0);
   const emailRef = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
@@ -463,6 +463,7 @@ export function LocalhostIntakeForm({
       try {
         const response = await submitLocalhostInquiry({
           email: validatedFields.value.email,
+          formElapsedMs: performance.now() - formOpenedAt,
           honeypot,
           intentType: activeIntent,
           name: validatedFields.value.name,
@@ -471,8 +472,7 @@ export function LocalhostIntakeForm({
           sessionId: getAnonymousSessionId(),
           shortNote: validatedFields.value.shortNote,
           sourceLabel,
-          sourcePage,
-          startedAt
+          sourcePage
         });
 
         if (!response.ok) {

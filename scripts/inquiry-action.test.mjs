@@ -47,6 +47,7 @@ function harness(send, contactEmail = "owner@example.test", publicEmail = contac
   });
   return {
     submit: exports.submitLocalhostInquiry, events, metrics,
+    now: () => clock,
     advance: (milliseconds) => { clock += milliseconds; }
   };
 }
@@ -274,6 +275,27 @@ test("a blocked submission never returns a receipt or starts delivery", async ()
   assert.equal(calls, 0);
   assert.deepEqual(h.events.map(({ event }) => event), ["honeypot_rejected"]);
   assert.doesNotMatch(JSON.stringify(h.events), /SYNTHETIC_AUTOFILL|traveler@example\.test/);
+});
+
+test("elapsed time blocks rapid submissions without depending on the visitor's clock", async () => {
+  let calls = 0;
+  const h = harness(async () => { calls++; return accepted; });
+  const clockAhead = h.now() + 5 * 60 * 1000;
+  const rapid = await h.submit({ ...payload, formElapsedMs: 899 });
+  assert.equal(rapid.ok, false);
+  assert.equal(rapid.inquiryId, undefined);
+  assert.equal(calls, 0);
+  assert.equal(h.events[0].event, "timing_rejected");
+  const paced = await h.submit({ ...payload, formElapsedMs: 900, startedAt: clockAhead });
+  assert.equal(paced.delivery, "email");
+  assert.equal(calls, 1);
+});
+
+test("older clients still reject a short positive age, but not a clock ahead of the server", async () => {
+  const h = harness(async () => accepted);
+  assert.equal((await h.submit({ ...payload, startedAt: h.now() - 500 })).ok, false);
+  assert.equal((await h.submit({ ...payload, startedAt: h.now() + 5 * 60 * 1000 })).delivery, "email");
+  assert.deepEqual(h.events.map(({ event }) => event), ["timing_rejected", "delivery_success"]);
 });
 
 test("a missing or non-object submission is declined without a server exception", async () => {

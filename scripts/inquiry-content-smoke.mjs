@@ -103,6 +103,8 @@ async function boundaryCase(viewport) {
     await page.locator('button[type="submit"]').last().click();
     await page.getByText("Synthetic inquiry received.", { exact: true }).waitFor();
     assert.equal(submissions.length, 1);
+    assert.ok(Number.isFinite(submissions[0].formElapsedMs) && submissions[0].formElapsedMs >= 0);
+    assert.equal(submissions[0].startedAt, undefined, "Do not send the browser's absolute clock");
     assert.equal(submissions[0].shortNote, exactNote);
     assert.equal(submissions[0].optionalDetails.foodPreferences, exactFood);
     const events = await page.evaluate(() => window.localhostDataLayer || []);
