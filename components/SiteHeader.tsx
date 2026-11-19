@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { NavigationInquiryLink } from "@/components/NavigationInquiryLink";
 import { DiscoveryMenu } from "@/components/DiscoveryMenu";
+import { NavigationDisclosure } from "@/components/NavigationDisclosure";
 
 type SiteHeaderProps = {
   tone?: "transparent" | "solid";
@@ -30,22 +31,18 @@ export function SiteHeader({ tone = "solid", discovery = false }: SiteHeaderProp
             </nav>
             <div className="header-actions">
               <NavigationInquiryLink className="nav-cta" source="header" />
-              <details className="mobile-menu">
-                <summary aria-controls="mobile-navigation" aria-label="Toggle navigation">
-                  Menu
-                </summary>
-                <nav
-                  className="mobile-menu-panel"
-                  id="mobile-navigation"
-                  aria-label="Mobile navigation"
-                >
-                  <Link href="/china">China</Link>
-                  <Link href="/journeys">Routes</Link>
-                  <Link href="/travelers">For Travelers</Link>
-                  <Link href="/hosts">For Hosts</Link>
-                  <Link href="/trust">Trust</Link>
-                </nav>
-              </details>
+              <NavigationDisclosure
+                className="mobile-menu"
+                panelClassName="mobile-menu-panel"
+                menuLabel="Toggle navigation"
+                navigationLabel="Mobile navigation"
+              >
+                <Link href="/china">China</Link>
+                <Link href="/journeys">Routes</Link>
+                <Link href="/travelers">For Travelers</Link>
+                <Link href="/hosts">For Hosts</Link>
+                <Link href="/trust">Trust</Link>
+              </NavigationDisclosure>
             </div>
           </>
         )}
