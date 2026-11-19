@@ -188,7 +188,9 @@ The short-review submit action precedes optional details in visual and keyboard
 order. Expanded details have an adjacent submit action at their end in the same
 form. Both share validation and pending state. `pnpm inquiry:check` verifies the
 1.5-screen short intake, keyboard sequence, future-route labels, and expanded
-form accessibility; `pnpm inquiry:content` tests the end-of-details submission
+form accessibility. It also checks that the form cannot submit before its
+handler is ready and that direct email is available without JavaScript.
+`pnpm inquiry:content` tests the end-of-details submission
 with a synthetic response, not a real email.
 
 Funnel records use a versioned JSON format with a server timestamp and explicit

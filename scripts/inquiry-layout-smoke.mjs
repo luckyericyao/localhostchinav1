@@ -9,7 +9,77 @@ const browser = await chromium.launch({
   headless: true
 });
 
+async function checkBeforeHydration(javaScriptEnabled) {
+  const url = new URL("/inquiry?route=shanxi&type=traveler", baseUrl);
+  const context = await browser.newContext({
+    javaScriptEnabled,
+    serviceWorkers: "block",
+    viewport: { width: 390, height: 844 }
+  });
+  let releaseScripts;
+  let opening = true;
+  const scriptsReady = new Promise((resolve) => { releaseScripts = resolve; });
+  const unexpectedRequests = [];
+  try {
+    await context.route("**/*", async (route) => {
+      const request = route.request();
+      const target = new URL(request.url());
+      if (target.origin !== url.origin) return route.abort();
+      if (target.pathname === "/api/analytics" || target.pathname.startsWith("/_vercel/")) {
+        return route.fulfill({ status: 200, body: "{}" });
+      }
+      if (request.isNavigationRequest() || request.method() !== "GET") {
+        if (opening && request.method() === "GET" && target.href === url.href) {
+          opening = false;
+        } else {
+          unexpectedRequests.push(request.method());
+          return route.abort();
+        }
+      }
+      if (request.resourceType() === "script") await scriptsReady;
+      return route.continue();
+    });
+
+    const page = await context.newPage();
+    assert.equal((await page.goto(url.href, { waitUntil: "commit" })).status(), 200);
+    const form = page.locator("main form");
+    const submit = form.locator('button[type="submit"]');
+    await form.waitFor();
+    assert.equal(await form.evaluate((element) => element.inert), true);
+    assert.equal(await form.getAttribute("method"), "post", "Never serialize a native form into a URL");
+    assert.equal(await submit.isDisabled(), true);
+    await submit.scrollIntoViewIfNeeded();
+    const button = await submit.boundingBox();
+    assert.ok(button);
+    await page.mouse.click(button.x + button.width / 2, button.y + button.height / 2);
+    await page.keyboard.press("Enter");
+    assert.deepEqual(unexpectedRequests, []);
+    assert.equal(page.url(), url.href);
+
+    const contact = page.getByRole("link", { name: "write to Localhost directly" });
+    if (javaScriptEnabled) {
+      assert.equal(await contact.isVisible(), false);
+      releaseScripts();
+      await page.waitForFunction(() => {
+        const intake = document.querySelector("main form");
+        return intake && !intake.inert && !intake.querySelector('button[type="submit"]').disabled;
+      });
+      assert.equal(await page.locator("#inquiry-email").isEditable(), true);
+      console.log("PASS delayed scripts: form starts inert, then enables without navigation");
+    } else {
+      assert.equal(await contact.isVisible(), true);
+      assert.match(await contact.getAttribute("href"), /^mailto:[^\s@]+@[^\s@]+\.[^\s@]+$/);
+      console.log("PASS no JavaScript: no native submission, direct email contact available");
+    }
+  } finally {
+    releaseScripts();
+    await context.close();
+  }
+}
+
 try {
+  await checkBeforeHydration(false);
+  await checkBeforeHydration(true);
   for (const viewport of [
     { width: 390, height: 844 },
     { width: 375, height: 812 },

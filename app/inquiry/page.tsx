@@ -9,7 +9,7 @@ import type {
   LocalhostRouteContext
 } from "@/app/actions/submitLocalhostInquiry";
 import { localhostResponseWindow } from "@/lib/contact";
-import { publicOperator } from "@/lib/operator";
+import { approvedOperator, publicOperator } from "@/lib/operator";
 import { culturalVisualLayers } from "@/lib/content";
 import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
@@ -113,6 +113,14 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
           <div className="page-hero-copy">
             <p>
               Write directly or through someone you trust.
+              <noscript>
+                <br />
+                This form needs JavaScript. You can{" "}
+                <a href={`mailto:${operator?.contact ?? approvedOperator.contact}`}>
+                  write to Localhost directly
+                </a>{" "}
+                to begin a private review.
+              </noscript>
             </p>
           </div>
         </section>

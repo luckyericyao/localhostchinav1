@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
+import { FormEvent, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, useTransition } from "react";
 import { getAnonymousSessionId, trackLocalhostEvent } from "@/components/LocalhostAnalytics";
 import { buildInquiryHref } from "@/lib/inquiryLinks";
 import { readInquiryFields } from "@/lib/inquiryValidation";
@@ -33,6 +33,8 @@ type DetailField = {
 };
 
 type RoleDraft = { shortNote: string; details: Record<string, string> };
+
+const subscribeToHydration = () => () => {};
 
 const routeLabels: Record<LocalhostRouteContext, string> = {
   beijing: "Beijing — future route",
@@ -297,6 +299,8 @@ export function LocalhostIntakeForm({
   sourceLabel,
   sourcePage
 }: LocalhostIntakeFormProps) {
+  // Keep the server-rendered controls inert until the submit handler is ready.
+  const hydrated = useSyncExternalStore(subscribeToHydration, () => true, () => false);
   const [activeIntent, setActiveIntent] = useState<LocalhostIntentType>(intentType);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -506,7 +510,7 @@ export function LocalhostIntakeForm({
   const submitButton = (
     <button
       className="button button--dark"
-      disabled={isPending || Boolean(result?.ok)}
+      disabled={!hydrated || isPending || Boolean(result?.ok)}
       type="submit"
     >
       {isPending
@@ -532,6 +536,8 @@ export function LocalhostIntakeForm({
       data-track-route={routeContext}
       data-track-source={sourceLabel || sourcePage || "private_inquiry"}
       aria-describedby={error ? "inquiry-error" : undefined}
+      inert={!hydrated}
+      method="post"
       noValidate
       onSubmit={handleSubmit}
       ref={formRef}
