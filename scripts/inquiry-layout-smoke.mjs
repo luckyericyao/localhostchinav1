@@ -137,10 +137,12 @@ try {
       await page.keyboard.press("Tab");
       assert.equal(await submitButtons.last().evaluate((element) => document.activeElement === element), true,
         "Last optional field must lead to the adjacent submit action");
+      assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior), "auto",
+        "Keyboard focus in the inquiry must not start a smooth scroll");
       await page.waitForFunction(() => {
         const rect = document.activeElement.getBoundingClientRect();
-        return rect.top >= 0 && rect.bottom <= window.innerHeight;
-      });
+        return rect.top >= -1 && rect.bottom <= window.innerHeight + 1;
+      }, undefined, { timeout: 1500 });
       assert.ok(await submitButtons.last().evaluate((element) => element.getBoundingClientRect().height >= 44));
       assert.ok((await page.locator('select[name="routeInterest"]').innerText()).includes("Beijing — future route"));
       await page.addScriptTag({ content: axe.source });

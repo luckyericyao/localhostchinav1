@@ -25,6 +25,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Keep keyboard focus and the viewport in sync across the long inquiry form. */
+html:has(.localhost-intake-form:focus-within) {
+  scroll-behavior: auto;
+}
+
 body {
   margin: 0;
   background: var(--ivory);
