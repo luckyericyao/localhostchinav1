@@ -12,7 +12,7 @@ const metricSources = new Set([
   "route_page", "route_hero", "route_fit", "route_final", "trust_hero", "trust_final",
   "travelers_hero", "travelers_executive", "travelers_final", "how_it_works_hero",
   "how_it_works_final", "inquiry_first_review", "private_inquiry", "server_action",
-  "web_vitals", "smoke", "Header", "Footer", "Homepage", "Inquiry page",
+  "web_vitals", "web_vitals_v2", "smoke", "Header", "Footer", "Homepage", "Inquiry page",
   "Localhost China page", "China Routes page", "Travelers page", "Hosts page",
   "Trust page", "How It Works page", "Host Credits page", "Shanxi route page",
   "Shaolin route page", "Huizhou route page", "Shanghai route page",
@@ -46,6 +46,25 @@ export function normalizeMetricSource(value: unknown): string {
 
 export function normalizeMetricName(value: unknown): string {
   return typeof value === "string" && ["LCP", "CLS", "INP"].includes(value) ? value : "";
+}
+
+export function normalizeWebVital(
+  { name, navigationURL, value }: { name?: unknown; navigationURL?: unknown; value?: unknown },
+  origin: string
+) {
+  const metricName = normalizeMetricName(name);
+  if (!metricName || typeof navigationURL !== "string" || typeof value !== "number" ||
+    !Number.isFinite(value) || value < 0) return null;
+  try {
+    const url = new URL(navigationURL);
+    if (url.origin !== origin) return null;
+    const path = normalizeMetricPath(url.pathname);
+    if (!path) return null;
+    const precision = metricName === "CLS" ? 10000 : 1;
+    return { metricName, path, value: Math.round(value * precision) / precision };
+  } catch {
+    return null;
+  }
 }
 
 export function normalizeMetricInquiryId(value: unknown): string {

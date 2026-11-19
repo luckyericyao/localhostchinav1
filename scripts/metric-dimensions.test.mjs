@@ -30,6 +30,24 @@ test("performance names and server references cannot accept private identifiers"
   assert.equal(dimensions.normalizeMetricInquiryId("PRIVATE_REFERENCE"), "");
 });
 
+test("web vitals use only the measured navigation's allowlisted pathname", () => {
+  const origin = "https://example.test";
+  assert.deepEqual(dimensions.normalizeWebVital({
+    name: "LCP", navigationURL: `${origin}/?audit=browser#entry`, value: 1221.5
+  }, origin), { metricName: "LCP", path: "/", value: 1222 });
+  assert.deepEqual(dimensions.normalizeWebVital({
+    name: "CLS", navigationURL: `${origin}/inquiry?type=traveler`, value: 0.03456
+  }, origin), { metricName: "CLS", path: "/inquiry", value: 0.0346 });
+  assert.equal(dimensions.normalizeMetricSource("web_vitals_v2"), "web_vitals_v2");
+  const valid = { name: "INP", navigationURL: `${origin}/china/shanxi`, value: 44 };
+  for (const attributes of [
+    { navigationURL: undefined }, { navigationURL: "/china/shanxi" },
+    { navigationURL: "https://other.example.test/china/shanxi" },
+    { navigationURL: `${origin}/unknown` }, { name: "FCP" },
+    { value: NaN }, { value: Infinity }, { value: -1 }, { value: "44" }
+  ]) assert.equal(dimensions.normalizeWebVital({ ...valid, ...attributes }, origin), null);
+});
+
 test("automatic analytics drops unknown paths and strips query, fragment, and credentials", () => {
   assert.equal(dimensions.normalizeAnalyticsUrl("https://example.test/inquiry?email=private@example.test#PRIVATE"), "https://example.test/inquiry");
   assert.equal(dimensions.normalizeAnalyticsUrl("https://user:password@example.test/china/shanxi"), "https://example.test/china/shanxi");

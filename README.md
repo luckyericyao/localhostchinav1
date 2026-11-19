@@ -77,7 +77,11 @@ reporting should still reconcile the logs against inbox receipts because
 serverless memory is not durable across all instances. Funnel events include
 route selection, inquiry start, submit attempt, client errors, direct delivery,
 mailto fallback, duplicate, rate-limit outcomes, and native LCP/CLS/INP measurements
-when supported by the browser.
+when supported by the browser. Web vitals use the path of the navigation that
+was measured, without its query or fragment. Filter on `source=web_vitals_v2`
+for the current collector; earlier `web_vitals` records can misattribute
+samples across client-side navigation. `pnpm vitals:check` checks attribution
+with browser-local events, not a field performance baseline.
 
 When Resend is not configured, the inquiry flow prepares a structured `mailto:`
 fallback. Private keys must remain server-only; do not use `NEXT_PUBLIC_` for

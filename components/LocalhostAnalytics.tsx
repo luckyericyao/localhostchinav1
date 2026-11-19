@@ -4,8 +4,9 @@ import { track as trackVercelEvent } from "@vercel/analytics";
 import { Analytics } from "@vercel/analytics/react";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useReportWebVitals } from "next/web-vitals";
 import { normalizeMetricSessionId } from "@/lib/metricSession";
-import { normalizeAnalyticsUrl, normalizeMetricName, normalizeMetricPath, normalizeMetricRoute, normalizeMetricSource } from "@/lib/metricDimensions";
+import { normalizeAnalyticsUrl, normalizeMetricName, normalizeMetricPath, normalizeMetricRoute, normalizeMetricSource, normalizeWebVital } from "@/lib/metricDimensions";
 
 type AnalyticsEvent =
   | "hero_cta"
@@ -28,6 +29,7 @@ type AnalyticsEvent =
 
 type MetricDetails = {
   metricName?: string;
+  path?: string;
   route?: string;
   source?: string;
   value?: number;
@@ -59,7 +61,7 @@ function sendLocalhostMetric(
   const payload = {
     event,
     metricName: event === "web_vital" ? normalizeMetricName(details.metricName) : "",
-    path: normalizeMetricPath(window.location.pathname),
+    path: normalizeMetricPath(details.path ?? window.location.pathname),
     route: normalizeMetricRoute(details.route),
     sessionId: getAnonymousSessionId(),
     source: normalizeMetricSource(details.source),
@@ -120,113 +122,10 @@ export function trackLocalhostEvent(event: AnalyticsEvent, element?: HTMLElement
   });
 }
 
-function observePerformanceType(
-  entryType: string,
-  callback: (entries: PerformanceObserverEntryList) => void
-) {
-  if (typeof PerformanceObserver === "undefined") return null;
-
-  if (
-    Array.isArray(PerformanceObserver.supportedEntryTypes) &&
-    !PerformanceObserver.supportedEntryTypes.includes(entryType)
-  ) {
-    return null;
-  }
-
-  const observer = new PerformanceObserver((list) => callback(list));
-
-  try {
-    observer.observe({ buffered: true, type: entryType });
-    return observer;
-  } catch {
-    observer.disconnect();
-    return null;
-  }
-}
-
-function startWebVitalCollection() {
-  let clsValue = 0;
-  let lcpValue = 0;
-  let reported = false;
-  const interactionDurations = new Map<number, number>();
-  const observers: PerformanceObserver[] = [];
-
-  const lcpObserver = observePerformanceType("largest-contentful-paint", (list) => {
-    for (const entry of list.getEntries()) {
-      lcpValue = Math.max(lcpValue, entry.startTime);
-    }
-  });
-  const clsObserver = observePerformanceType("layout-shift", (list) => {
-    for (const entry of list.getEntries() as Array<PerformanceEntry & {
-      hadRecentInput?: boolean;
-      value?: number;
-    }>) {
-      if (!entry.hadRecentInput) clsValue += entry.value || 0;
-    }
-  });
-  const inpObserver = observePerformanceType("event", (list) => {
-    for (const entry of list.getEntries() as Array<PerformanceEntry & {
-      interactionId?: number;
-    }>) {
-      if (entry.interactionId) {
-        interactionDurations.set(
-          entry.interactionId,
-          Math.max(interactionDurations.get(entry.interactionId) || 0, entry.duration)
-        );
-      }
-    }
-  });
-
-  for (const observer of [lcpObserver, clsObserver, inpObserver]) {
-    if (observer) observers.push(observer);
-  }
-
-  function report() {
-    if (reported) return;
-    reported = true;
-
-    if (lcpValue > 0) {
-      sendLocalhostMetric("web_vital", {
-        metricName: "LCP",
-        source: "web_vitals",
-        value: Math.round(lcpValue)
-      });
-    }
-
-    sendLocalhostMetric("web_vital", {
-      metricName: "CLS",
-      source: "web_vitals",
-      value: Math.round(clsValue * 10000) / 10000
-    });
-
-    const durations = [...interactionDurations.values()].sort((a, b) => a - b);
-    if (durations.length) {
-      const index = Math.min(
-        durations.length - 1,
-        Math.floor(durations.length * 0.98)
-      );
-      sendLocalhostMetric("web_vital", {
-        metricName: "INP",
-        source: "web_vitals",
-        value: Math.round(durations[index])
-      });
-    }
-  }
-
-  function handleVisibilityChange() {
-    if (document.visibilityState === "hidden") report();
-  }
-
-  document.addEventListener("visibilitychange", handleVisibilityChange);
-  window.addEventListener("pagehide", report);
-
-  return () => {
-    report();
-    document.removeEventListener("visibilitychange", handleVisibilityChange);
-    window.removeEventListener("pagehide", report);
-    observers.forEach((observer) => observer.disconnect());
-  };
-}
+const reportWebVital: Parameters<typeof useReportWebVitals>[0] = (report) => {
+  const metric = normalizeWebVital(report, window.location.origin);
+  if (metric) sendLocalhostMetric("web_vital", { ...metric, source: "web_vitals_v2" });
+};
 
 export function LocalhostAnalytics() {
   const pathname = usePathname();
@@ -269,7 +168,7 @@ export function LocalhostAnalytics() {
     if (routePage) trackLocalhostEvent("route_view", routePage);
   }, [pathname]);
 
-  useEffect(() => startWebVitalCollection(), [pathname]);
+  useReportWebVitals(reportWebVital);
 
   return <Analytics beforeSend={(event) => {
     const url = normalizeAnalyticsUrl(event.url);
