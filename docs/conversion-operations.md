@@ -280,3 +280,11 @@ outcomes for the delivery numerator, rather than client-reported `inquiry_sent`.
 ## Accessibility and performance review
 
 The app includes a skip link, a single `main-content` target on every page, 44px primary controls, and anonymous `LCP`, `CLS`, and `INP` events when the browser supports the native PerformanceObserver entries. Run the production smoke check and a keyboard/browser audit on each release. Do not mark WCAG 2.2 AA or the mobile performance targets as met until a real audit records zero critical axe issues, complete keyboard traversal, and measured LCP, CLS, and INP values.
+
+Use `pnpm vitals:report` on a private, bounded JSON Lines export. The report
+uses only `web_vitals_v2`, separates each page and metric, and reports sample
+and distinct-session counts without displaying identifiers. P75 appears only
+after the internal floor of 25 distinct sessions for a bin. It remains an
+observed distribution, not a validated mobile-only assessment. Missing
+session IDs, insufficient samples, and historic attribution are not
+reconstructed as performance evidence.

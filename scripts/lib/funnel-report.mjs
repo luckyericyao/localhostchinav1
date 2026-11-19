@@ -1,28 +1,22 @@
 import { normalizeMetricSessionId } from "../../lib/metricSession.ts";
 import { normalizeMetricInquiryId, normalizeMetricPath, normalizeMetricSource } from "../../lib/metricDimensions.ts";
+import { parseMetricRecord } from "./metric-log.mjs";
 
 const events = new Set(["page_view", "route_view", "inquiry_start", "inquiry_delivery_success", "inquiry_delivery_fallback", "inquiry_delivery_unconfigured"]);
 const activeRoutes = new Map(["shanxi", "shaolin", "huizhou", "shanghai"].map((route) => [`/china/${route}`, route]));
 const deliveryEvents = new Set(["inquiry_delivery_success", "inquiry_delivery_fallback", "inquiry_delivery_unconfigured"]);
 
 function readRecord(line) {
-  try {
-    let record = JSON.parse(line);
-    if (record?.kind !== "localhost_metric" && typeof record?.message === "string") record = JSON.parse(record.message);
-    if (record?.kind !== "localhost_metric" || record.version !== 1 || !events.has(record.event)) return null;
-    const time = Date.parse(record.recordedAt);
-    if (!Number.isFinite(time) || new Date(time).toISOString() !== record.recordedAt) return null;
-    if (!["client", "server"].includes(record.origin)) return null;
-    if (deliveryEvents.has(record.event) && record.origin !== "server") return null;
-    return {
-      event: record.event, time, origin: record.origin,
-      path: normalizeMetricPath(record.path), source: normalizeMetricSource(record.source),
-      sessionId: normalizeMetricSessionId(record.sessionId),
-      inquiryId: record.origin === "server" ? normalizeMetricInquiryId(record.inquiryId) : ""
-    };
-  } catch {
-    return null;
-  }
+  const parsed = parseMetricRecord(line);
+  if (!parsed) return null;
+  const { record, time } = parsed;
+  if (!events.has(record.event) || (deliveryEvents.has(record.event) && record.origin !== "server")) return null;
+  return {
+    event: record.event, time, origin: record.origin,
+    path: normalizeMetricPath(record.path), source: normalizeMetricSource(record.source),
+    sessionId: normalizeMetricSessionId(record.sessionId),
+    inquiryId: record.origin === "server" ? normalizeMetricInquiryId(record.inquiryId) : ""
+  };
 }
 
 function rate(numerator, denominator, target) {

@@ -216,3 +216,10 @@ and treats prepared email separately from provider acceptance. It does not
 establish human validity, inbox receipt, or a complete historical baseline.
 Review log retention and export coverage before using it to judge the first
 100 valid sessions. No new service, storage destination, or paid plan is enabled.
+
+`pnpm vitals:report < /private/path/production-logs.jsonl` reads the same
+bounded export and reports LCP, CLS, and INP by measured page. It accepts only
+current `web_vitals_v2` samples, removes repeated records, and reports a nearest-rank
+P75 only after 25 distinct anonymous sessions for that page and metric. That
+floor is internal; device mix and traffic validity still require review.
+Unmeasured or insufficient metrics are not reported as zero.

@@ -15,6 +15,7 @@
     "funnel:test": "node --experimental-strip-types --test scripts/analytics-route.test.mjs scripts/inquiry-links.test.mjs scripts/metric-dimensions.test.mjs scripts/metrics.test.mjs scripts/funnel-report.test.mjs",
     "funnel:report": "node --experimental-strip-types scripts/funnel-report.mjs",
     "vitals:check": "node scripts/web-vitals-smoke.mjs",
+    "vitals:report": "node --experimental-strip-types scripts/web-vitals-report.mjs",
     "inquiry:delivery": "node --experimental-strip-types --test scripts/inquiry-delivery.test.mjs scripts/inquiry-action.test.mjs scripts/inquiry-validation.test.mjs",
     "inquiry:reviews": "node --experimental-strip-types scripts/inquiry-reviews.mjs",
     "inquiry:operations": "node --experimental-strip-types --test scripts/inquiry-operations.test.mjs",
