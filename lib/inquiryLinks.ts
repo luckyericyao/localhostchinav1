@@ -39,6 +39,8 @@ export function buildNavigationInquiryHref(
   // Navigation attribution uses only the path, never URL queries or form data.
   const sourcePage = pathname?.split(/[?#]/)[0] || "/";
 
+  if (sourcePage === "/inquiry" || sourcePage === "/inquiry/") return "#private-route";
+
   return buildInquiryHref({
     intentType: "traveler",
     routeContext: activeRoutePaths[sourcePage],

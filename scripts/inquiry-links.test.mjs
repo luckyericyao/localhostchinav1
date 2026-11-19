@@ -17,12 +17,24 @@ test("shared navigation retains each active route and its source page", () => {
 });
 
 test("general pages retain their own source without inventing a route", () => {
-  for (const path of ["/", "/china", "/journeys", "/travelers", "/trust", "/china/private-routes", "/china/beijing", "/inquiry"]) {
+  for (const path of ["/", "/china", "/journeys", "/travelers", "/trust", "/china/private-routes", "/china/beijing"]) {
     const params = paramsFor(buildNavigationInquiryHref(path, "header"));
     assert.equal(params.get("sourcePage"), path);
     assert.equal(params.has("route"), false);
   }
   assert.equal(paramsFor(buildNavigationInquiryHref(null, "footer")).get("sourcePage"), "/");
+});
+
+test("links within the inquiry use a fragment and never replace the current query", () => {
+  for (const source of ["header", "footer"]) {
+    for (const path of ["/inquiry", "/inquiry/", "/inquiry?type=host#other"]) {
+      const current = new URL("/inquiry?type=traveler&route=shanxi&sourcePage=%2Fchina%2Fshanxi", "https://example.test");
+      const target = new URL(buildNavigationInquiryHref(path, source), current);
+      assert.equal(target.pathname, current.pathname);
+      assert.equal(target.search, current.search);
+      assert.equal(target.hash, "#private-route");
+    }
+  }
 });
 
 test("navigation links do not capture query or hash values", () => {

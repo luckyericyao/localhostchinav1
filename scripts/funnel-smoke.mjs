@@ -68,6 +68,26 @@ try {
   }
   console.log("PASS homepage → Shanxi → inquiry: one anonymous session, one inquiry start, no personal data or submission");
 
+  const inquiryUrl = new URL(page.url());
+  const inquiryJumps = page.locator('header a[href="#private-route"], footer a[href="#private-route"]');
+  assert.equal(await inquiryJumps.count(), 3);
+  for (const link of await inquiryJumps.all()) {
+    await link.focus();
+    await page.keyboard.press("Enter");
+    assert.equal(new URL(page.url()).search, inquiryUrl.search);
+    assert.equal(new URL(page.url()).hash, "#private-route");
+    assert.equal(await page.locator("#private-route").evaluate((node) => node === document.activeElement), true);
+    assert.equal(await page.locator("#inquiry-short-note").inputValue(), "PRIVATE TEST INTENT");
+    assert.equal(await page.locator("form").getAttribute("data-track-route"), "shanxi");
+    assert.equal(await page.locator("form").getAttribute("data-track-source"), "Shanxi route page");
+  }
+  const subsequentEvents = await page.evaluate(() => window.localhostDataLayer);
+  for (const event of ["page_view", "request_route", "inquiry_start"]) {
+    assert.equal(subsequentEvents.filter((item) => item.event === event).length,
+      events.filter((item) => item.event === event).length);
+  }
+  console.log("PASS inquiry jumps: keyboard focus, unchanged draft and attribution, no new funnel events");
+
   const privateLabel = "private-attribution@example.test";
   await page.goto(`${baseUrl}/inquiry?sourcePage=${encodeURIComponent("/china/shanxi?principal=PRIVATE PRINCIPAL")}&sourceLabel=${encodeURIComponent(privateLabel)}`, { waitUntil: "load" });
   await page.locator("#inquiry-name").focus();
@@ -88,7 +108,7 @@ try {
 
   const activeRoutes = ["shanxi", "shaolin", "huizhou", "shanghai"];
   const paths = ["/", "/china", "/journeys", "/travelers", "/hosts", "/trust",
-    "/about", "/how-it-works", "/host-credits", "/inquiry",
+    "/about", "/how-it-works", "/host-credits",
     ...activeRoutes.map((route) => `/china/${route}`)];
   const entrypoints = [
     ["header", 'header [data-track-source="header"]'],
@@ -132,7 +152,7 @@ try {
           routeName.charAt(0).toUpperCase() + routeName.slice(1));
       }
     }
-    console.log(`PASS ${viewport.width}px shared inquiry navigation: 14 pages, 4 active routes, header/footer handoff`);
+    console.log(`PASS ${viewport.width}px shared inquiry navigation: ${paths.length} pages, 4 active routes, header/footer handoff`);
   }
 } finally {
   await browser.close();

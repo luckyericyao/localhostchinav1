@@ -16,13 +16,18 @@ export function NavigationInquiryLink({
   label = "Request a Private Route"
 }: NavigationInquiryLinkProps) {
   const pathname = usePathname();
+  const href = buildNavigationInquiryHref(pathname, source);
+
+  if (href.startsWith("#")) {
+    return <a className={className} href={href}>{label}</a>;
+  }
 
   return (
     <Link
       className={className}
       data-track-event="request_route"
       data-track-source={source}
-      href={buildNavigationInquiryHref(pathname, source)}
+      href={href}
     >
       {label}
     </Link>

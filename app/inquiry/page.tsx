@@ -128,6 +128,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
         <section
           className="section section--inquiry inquiry-intake-section"
           id="private-route"
+          tabIndex={-1}
         >
           <div className="inquiry-shell inquiry-shell--wide">
             <div className="inquiry-copy">
