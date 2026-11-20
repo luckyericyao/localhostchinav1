@@ -17,6 +17,7 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
   const submissions = [];
   const retryMessages = {
     "network-error": /could not confirm receipt/,
+    unconfigured: /could not route your inquiry/,
     rejection: /wait before sending/,
     blocked: /could not submit/,
     incomplete: /could not confirm receipt/,
@@ -39,6 +40,8 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
       let result;
       if (submissions.length === 1 && outcome === "rejection") {
         result = { ok: false, message: "Please wait before sending another inquiry." };
+      } else if (submissions.length === 1 && outcome === "unconfigured") {
+        result = { ok: false, errorCode: "delivery_unconfigured", message: "We could not route your inquiry right now. Please try again shortly." };
       } else if (submissions.length === 1 && outcome === "blocked") {
         result = { ok: false, message: blockedMessage };
       } else if (submissions.length === 1 && outcome === "incomplete") {
@@ -120,6 +123,18 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
       await error.waitFor();
       assert.match(await error.innerText(), retryMessages[outcome]);
       await page.waitForFunction(() => document.activeElement?.id === "inquiry-error");
+      const emailContact = error.getByRole("link", { name: "Email Localhost" });
+      if (["network-error", "unconfigured", "incomplete", "incomplete-draft"].includes(outcome)) {
+        assert.equal(await emailContact.isVisible(), true);
+        const href = await emailContact.getAttribute("href");
+        assert.match(href, /^mailto:[^?&#]+@[^?&#]+$/, "The link must carry no fields or email body");
+        assert.equal(href, await page.locator('.inquiry-copy a[href^="mailto:"]').getAttribute("href"));
+        assert.ok((await emailContact.boundingBox()).height >= 44);
+        await page.keyboard.press("Tab");
+        assert.equal(await emailContact.evaluate((element) => document.activeElement === element), true);
+      } else {
+        assert.equal(await emailContact.count(), 0, "Rate or abuse rejections are not delivery failures");
+      }
       assert.equal(await page.getByRole("region", { name: "Inquiry result" }).count(), 0);
       assert.equal(await form.locator('[aria-invalid="true"]').count(), 0, "A failed request must not blame a valid field");
       assert.equal(await page.evaluate(() => (window.localhostDataLayer || []).some(({ event }) => ["inquiry_sent", "mailto_fallback", "validation_error"].includes(event))), false);
@@ -169,7 +184,7 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
 try {
   for (const viewport of [{ width: 390, height: 844 }, { width: 1280, height: 720 }]) {
     for (const intentType of ["traveler", "host", "partner"]) await pendingCase(viewport, intentType, "email");
-    for (const outcome of ["mailto", "network-error", "rejection", "blocked", "incomplete", "incomplete-draft"]) await pendingCase(viewport, "traveler", outcome);
+    for (const outcome of ["mailto", "network-error", "unconfigured", "rejection", "blocked", "incomplete", "incomplete-draft"]) await pendingCase(viewport, "traveler", outcome);
   }
   await pendingCase({ width: 390, height: 844 }, "traveler", "email", "shanxi");
 } finally {

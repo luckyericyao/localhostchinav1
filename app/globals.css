@@ -3381,6 +3381,12 @@ a.text-link {
   color: var(--wine);
 }
 
+.form-status .inquiry-error-contact {
+  align-items: center;
+  display: inline-flex;
+  min-height: 44px;
+}
+
 .localhost-intake-form .field-error {
   color: var(--wine);
 }

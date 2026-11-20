@@ -13,6 +13,7 @@ import {
 
 type LocalhostIntakeFormProps = {
   compact?: boolean;
+  contactHref?: string;
   contextLocked?: boolean;
   defaultMessage?: string;
   embedded?: boolean;
@@ -290,6 +291,7 @@ function submitLabel(intentType: LocalhostIntentType) {
 
 export function LocalhostIntakeForm({
   compact = false,
+  contactHref,
   contextLocked = false,
   defaultMessage = "",
   embedded = false,
@@ -305,6 +307,7 @@ export function LocalhostIntakeForm({
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [offerEmailContact, setOfferEmailContact] = useState(false);
   const [errorDetail, setErrorDetail] = useState<string | null>(null);
   const [errorField, setErrorField] = useState<
     "email" | "name" | "shortNote" | null
@@ -370,6 +373,7 @@ export function LocalhostIntakeForm({
 
   function clearSubmissionFeedback() {
     setError("");
+    setOfferEmailContact(false);
     setErrorField(null);
     setErrorDetail(null);
     setResult(null);
@@ -432,15 +436,16 @@ export function LocalhostIntakeForm({
     trackLocalhostEvent("validation_error", form);
   }
 
-  function showFormError(message: string) {
+  function showFormError(message: string, offerContact = false) {
     setError(message);
+    setOfferEmailContact(offerContact);
     setErrorField(null);
     setErrorDetail(null);
     setValidationAttempt((attempt) => attempt + 1);
   }
 
   function showSubmissionError(form: HTMLFormElement) {
-    showFormError("We could not confirm receipt. Your details are still here; please try again.");
+    showFormError("We could not confirm receipt. Your details are still here. You can retry or check with us by email.", true);
     trackLocalhostEvent("inquiry_error", form);
   }
 
@@ -481,7 +486,7 @@ export function LocalhostIntakeForm({
             showValidationError(response.message, field === "details" ? null : field, form, detailKey);
             return;
           }
-          showFormError(response.message);
+          showFormError(response.message, response.errorCode === "delivery_unconfigured");
           return;
         }
 
@@ -860,6 +865,12 @@ export function LocalhostIntakeForm({
           tabIndex={-1}
         >
           {error}
+          {offerEmailContact && contactHref ? (
+            <>
+              <br />
+              <a className="text-link inquiry-error-contact" href={contactHref}>Email Localhost</a>
+            </>
+          ) : null}
         </p>
       ) : null}
 

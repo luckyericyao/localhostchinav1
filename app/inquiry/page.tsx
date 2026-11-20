@@ -100,6 +100,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
   const sourcePage = firstValue(params.sourcePage) || "/inquiry";
   const sourceLabel = firstValue(params.sourceLabel) || "Inquiry page";
   const operator = publicOperator(process.env);
+  const publicContactHref = `mailto:${encodeURIComponent(operator?.contact ?? approvedOperator.contact).replace("%40", "@")}`;
 
   return (
     <>
@@ -116,7 +117,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
               <noscript>
                 <br />
                 This form needs JavaScript. You can{" "}
-                <a href={`mailto:${operator?.contact ?? approvedOperator.contact}`}>
+                <a href={publicContactHref}>
                   write to Localhost directly
                 </a>{" "}
                 to begin a private review.
@@ -152,7 +153,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
               {operator ? (
                 <p className="fine-copy">
                   Your point of contact: {operator.name}. You can also write to{" "}
-                  <a href={`mailto:${operator.contact}`}>{operator.contact}</a>.
+                  <a href={publicContactHref}>{operator.contact}</a>.
                 </p>
               ) : null}
               <p className="fine-copy">
@@ -181,6 +182,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
               </div>
             </div>
             <LocalhostIntakeForm
+              contactHref={publicContactHref}
               contextLocked={Boolean(routeContext)}
               intentType={intentType}
               routeContext={routeContext}
