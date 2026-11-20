@@ -67,7 +67,7 @@ export default function HowItWorksPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">How It Works</p>

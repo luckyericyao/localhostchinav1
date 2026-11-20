@@ -57,7 +57,7 @@ export function ChinaSupportDetailPage({ page }: ChinaSupportDetailPageProps) {
   return (
     <>
       <SiteHeader />
-      <main className="support-detail-page" id="main-content">
+      <main className="support-detail-page" id="main-content" tabIndex={-1}>
         <section className="page-hero support-hero">
           <div>
             <p className="eyebrow">{page.eyebrow}</p>

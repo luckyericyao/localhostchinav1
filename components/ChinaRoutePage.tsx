@@ -97,6 +97,7 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
       <SiteHeader tone="transparent" discovery />
       <main
         id="main-content"
+        tabIndex={-1}
         className="discovery-route"
         data-route-page={place}
         data-track-route={place}

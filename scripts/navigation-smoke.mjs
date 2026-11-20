@@ -111,6 +111,17 @@ try {
 
   const native = await context({ javaScriptEnabled: false });
   const nativePage = await native.newPage();
+  for (const path of ["/", "/china", "/journeys", "/china/shanxi", "/china/real-access", "/travelers", "/inquiry"]) {
+    await visit(nativePage, path);
+    await nativePage.keyboard.press("Tab");
+    assert.equal(await nativePage.locator(".skip-link").evaluate((link) => document.activeElement === link), true, path);
+    await nativePage.keyboard.press("Enter");
+    await nativePage.waitForURL(new URL(`${path}#main-content`, base).href);
+    assert.equal(await nativePage.locator("main#main-content").evaluate((main) => document.activeElement === main), true, path);
+    await nativePage.keyboard.press("Tab");
+    assert.equal(await nativePage.evaluate(() => Boolean(document.activeElement?.closest("main"))), true, path);
+    console.log(`PASS ${path}: skip link focuses the main landmark without JavaScript`);
+  }
   for (const { path, menu, onward, destination } of cases) {
     await visit(nativePage, path);
     await nativePage.locator(`${menu} summary`).press("Enter");

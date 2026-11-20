@@ -105,7 +105,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
   return (
     <>
       <SiteHeader />
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="page-hero support-hero page-hero--inquiry">
           <div>
             <p className="eyebrow">Private Inquiry</p>

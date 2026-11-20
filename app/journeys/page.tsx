@@ -41,7 +41,7 @@ export default function JourneysPage() {
   return (
     <>
       <SiteHeader discovery />
-      <main id="main-content" className="journeys-index">
+      <main id="main-content" tabIndex={-1} className="journeys-index">
         <section className="section journeys-decision-section">
           <header className="journeys-decision-header">
             <div>

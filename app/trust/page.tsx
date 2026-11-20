@@ -116,7 +116,7 @@ export default function TrustPage() {
   return (
     <>
       <SiteHeader />
-      <main id="main-content">
+      <main id="main-content" tabIndex={-1}>
         <section className="page-hero support-hero page-hero--trust">
           <div>
             <p className="eyebrow">Trust</p>

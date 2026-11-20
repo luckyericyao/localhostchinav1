@@ -25,7 +25,7 @@ export default function ChinaPage() {
   return (
     <>
       <SiteHeader tone="transparent" discovery />
-      <main id="main-content" className="china-atlas-page">
+      <main id="main-content" tabIndex={-1} className="china-atlas-page">
         <section className="chapter-opening" aria-labelledby="china-title">
           <Image
             src={resolveImageSource("/images/china-ancient-landscape.png")}

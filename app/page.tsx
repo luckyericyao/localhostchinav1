@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <>
       <SiteHeader tone="transparent" discovery />
-      <main id="main-content" className="discovery-home">
+      <main id="main-content" tabIndex={-1} className="discovery-home">
         <section className="discovery-hero" aria-labelledby="arrival-title">
           <Image
             src="/images/temple-of-heaven-centered-hero.avif"

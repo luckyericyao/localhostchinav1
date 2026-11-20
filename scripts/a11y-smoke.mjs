@@ -15,6 +15,10 @@ const routes = [
   "/china/shaolin",
   "/china/huizhou",
   "/china/shanghai",
+  "/china/local-hosts",
+  "/china/private-routes",
+  "/china/real-access",
+  "/china/seamless-logistics",
   "/travelers",
   "/hosts",
   "/how-it-works",
@@ -109,6 +113,7 @@ for (const path of routes) {
       duplicateIds: ids.filter((id, index) => ids.indexOf(id) !== index),
       mainCount: document.querySelectorAll("main").length,
       mainId: document.querySelector("main")?.id || "",
+      mainFocusTarget: document.querySelector("main")?.getAttribute("tabindex") === "-1",
       missingAlt: document.querySelectorAll("img:not([alt])").length,
       overflowX: document.documentElement.scrollWidth > window.innerWidth,
       smallControls: smallControls.map((node) =>
@@ -131,7 +136,7 @@ for (const path of routes) {
   const problems = [
     ...blockingViolations.map((violation) => `axe:${violation.id}`),
     ...(audit.duplicateIds.length ? ["duplicate ids"] : []),
-    ...(audit.mainCount !== 1 || audit.mainId !== "main-content"
+    ...(audit.mainCount !== 1 || audit.mainId !== "main-content" || !audit.mainFocusTarget
       ? ["main landmark"]
       : []),
     ...(audit.missingAlt ? ["missing image alt"] : []),
