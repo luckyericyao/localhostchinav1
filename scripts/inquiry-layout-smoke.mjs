@@ -81,6 +81,9 @@ try {
   await checkBeforeHydration(false);
   await checkBeforeHydration(true);
   for (const viewport of [
+    { width: 320, height: 568 },
+    { width: 360, height: 800 },
+    { width: 375, height: 667 },
     { width: 390, height: 844 },
     { width: 375, height: 812 },
     { width: 1280, height: 720 },
@@ -103,15 +106,27 @@ try {
       const layout = await page.evaluate(() => ({
         submitBottom: document.querySelector("button[type=submit]")
           .getBoundingClientRect().bottom + window.scrollY,
+        noteBottom: document.querySelector("#inquiry-short-note")
+          .getBoundingClientRect().bottom + window.scrollY,
         limit: window.innerHeight * 1.5,
         overflow: document.documentElement.scrollWidth > window.innerWidth,
+        identityStacked: document.querySelector("#inquiry-email").getBoundingClientRect().top >
+          document.querySelector("#inquiry-name").getBoundingClientRect().top,
+        minimumControl: Math.min(...[...document.querySelectorAll(
+          "#inquiry-name, #inquiry-email, #inquiry-short-note, .role-tab, button[type=submit]"
+        )].map((element) => element.getBoundingClientRect().height)),
         representativeTarget: document.querySelector(".representative-toggle")
           .getBoundingClientRect().height
       }));
       assert.equal(layout.overflow, false, `${path}: horizontal overflow`);
       assert.ok(layout.representativeTarget >= 44, "Representative target below 44px");
-      assert.ok(layout.submitBottom <= layout.limit,
-        `${path} at ${viewport.width}px: submit ${layout.submitBottom} > ${layout.limit}`);
+      assert.ok(layout.minimumControl >= 44, "A primary field or action is below 44px");
+      const firstBlockBottom = viewport.width === 320 ? layout.noteBottom : layout.submitBottom;
+      assert.ok(firstBlockBottom <= layout.limit,
+        `${path} at ${viewport.width}x${viewport.height}: first block ${firstBlockBottom} > ${layout.limit}`);
+      assert.equal(layout.identityStacked, viewport.width === 320);
+      assert.equal(await page.locator(".role-tabs").count(), path.includes("?route=") ? 0 : 1,
+        "A preselected route should not display an unusable role switcher");
       const privacy = page.locator(".privacy-boundary--standalone");
       assert.equal(await privacy.isVisible(), true, "Privacy reminder hidden");
       assert.equal(await page.locator(".privacy-boundary").count(), 1, "Duplicate privacy reminders");

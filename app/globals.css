@@ -5085,6 +5085,46 @@ a:focus-visible,
 }
 
 @media (max-width: 520px) {
+  .page-hero--inquiry {
+    gap: 8px;
+    padding-block: 16px 12px;
+  }
+
+  .page-hero--inquiry .eyebrow {
+    margin-bottom: 8px;
+  }
+
+  .page-hero--inquiry h1 {
+    font-size: 1.9rem;
+  }
+
+  .page-hero--inquiry .page-hero-copy p:last-child {
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .inquiry-intake-section {
+    padding-top: 16px;
+  }
+
+  .inquiry-intake-section .inquiry-shell--wide {
+    padding: 16px;
+  }
+
+  .inquiry-intake-section .intake-identity-grid {
+    gap: 12px;
+  }
+
+  .inquiry-intake-section .intake-identity-grid input,
+  .inquiry-intake-section #inquiry-short-note {
+    font-size: 1rem;
+  }
+
+  .inquiry-intake-section #inquiry-short-note {
+    height: 104px;
+    min-height: 104px;
+  }
+
   .site-header {
     gap: 14px;
     grid-template-columns: 1fr;
@@ -5183,5 +5223,11 @@ a:focus-visible,
 
   .route-hero .destination-copy h1 {
     font-size: 2.35rem;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 520px) {
+  .inquiry-intake-section .intake-identity-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

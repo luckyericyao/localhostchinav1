@@ -576,7 +576,7 @@ export function LocalhostIntakeForm({
               setName(event.target.value);
               clearSubmissionFeedback();
             }}
-            placeholder="How should we address you?"
+            placeholder="Your name"
             ref={nameRef}
             required
             type="text"
@@ -599,7 +599,7 @@ export function LocalhostIntakeForm({
               setEmail(event.target.value);
               clearSubmissionFeedback();
             }}
-            placeholder="you@example.com"
+            placeholder="you@site.com"
             ref={emailRef}
             required
             type="email"
@@ -648,27 +648,29 @@ export function LocalhostIntakeForm({
 
       {showRoleTabs ? (
         <>
-          <fieldset className="role-tabs">
-            <legend>I am a</legend>
-            <div>
-              {(["traveler", "host", "partner"] as const).map((role) => (
-                <button
-                  aria-pressed={activeIntent === role}
-                  className="role-tab"
-                  disabled={contextLocked || isPending}
-                  key={role}
-                  onClick={() => {
-                    if (role === activeIntent) return;
-                    setActiveIntent(role);
-                    clearSubmissionFeedback();
-                  }}
-                  type="button"
-                >
-                  {role.charAt(0).toUpperCase() + role.slice(1)}
-                </button>
-              ))}
-            </div>
-          </fieldset>
+          {!contextLocked ? (
+            <fieldset className="role-tabs">
+              <legend>I am a</legend>
+              <div>
+                {(["traveler", "host", "partner"] as const).map((role) => (
+                  <button
+                    aria-pressed={activeIntent === role}
+                    className="role-tab"
+                    disabled={isPending}
+                    key={role}
+                    onClick={() => {
+                      if (role === activeIntent) return;
+                      setActiveIntent(role);
+                      clearSubmissionFeedback();
+                    }}
+                    type="button"
+                  >
+                    {role.charAt(0).toUpperCase() + role.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+          ) : null}
           {activeIntent === "traveler" && !compact ? (
             <div className="representative-intake">
               <label className="representative-toggle">
