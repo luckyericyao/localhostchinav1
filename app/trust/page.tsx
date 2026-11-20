@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { OperatorDetails } from "@/components/OperatorDetails";
-import { localhostResponseWindow } from "@/lib/contact";
+import { localhostReplyTarget } from "@/lib/contact";
 import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = buildLocalhostPageMetadata({
@@ -79,8 +79,8 @@ const trustProcess = [
 
 const trustCommitments = [
   {
-    title: "Response window",
-    copy: `A named Localhost reviewer usually replies ${localhostResponseWindow}.`
+    title: "Reply target",
+    copy: localhostReplyTarget
   },
   {
     title: "Privacy",

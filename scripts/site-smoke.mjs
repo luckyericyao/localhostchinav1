@@ -46,6 +46,8 @@ const expectedContent = new Map([
     [
       "Assistants, family offices, family members, and trusted advisers",
       "Do not add Pingyao unless the route gains a sixth day.",
+      "We aim to reply",
+      "after receiving your inquiry.",
       "not a client testimonial"
     ]
   ],
@@ -53,6 +55,8 @@ const expectedContent = new Map([
     "/inquiry",
     [
       "directly or through someone you trust",
+      "We aim to reply",
+      "after receiving your inquiry.",
       "See an illustrative first review"
     ]
   ]
@@ -121,6 +125,11 @@ for (const path of routes) {
     console.error(`FAIL ${path}: HTTP ${response.status}`);
     failed = true;
     continue;
+  }
+
+  if ((path === "/trust" || path === "/inquiry") && body.includes("usually replies")) {
+    console.error(`FAIL ${path}: a reply target must not be described as observed performance`);
+    failed = true;
   }
 
   for (const marker of expected) {

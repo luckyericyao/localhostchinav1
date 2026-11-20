@@ -8,7 +8,7 @@ import type {
   LocalhostIntentType,
   LocalhostRouteContext
 } from "@/app/actions/submitLocalhostInquiry";
-import { localhostResponseWindow } from "@/lib/contact";
+import { localhostReplyTarget } from "@/lib/contact";
 import { approvedOperator, publicOperator } from "@/lib/operator";
 import { culturalVisualLayers } from "@/lib/content";
 import { buildLocalhostPageMetadata } from "@/lib/metadata";
@@ -147,8 +147,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
                 </p>
               </div>
               <p className="fine-copy">
-                We aim to reply {localhostResponseWindow} after receiving your
-                inquiry, to the person who began the conversation.
+                {localhostReplyTarget} We reply to the person who began the conversation.
               </p>
               {operator ? (
                 <p className="fine-copy">

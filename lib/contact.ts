@@ -9,3 +9,6 @@ export const localhostDeliveryEmail =
 
 export const localhostResponseWindow =
   process.env.LOCALHOST_RESPONSE_WINDOW || "within two working days";
+
+export const localhostReplyTarget =
+  `We aim to reply ${localhostResponseWindow} after receiving your inquiry.`;
