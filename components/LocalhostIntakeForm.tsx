@@ -454,8 +454,19 @@ export function LocalhostIntakeForm({
     if (isPending || result?.ok) return;
 
     const form = event.currentTarget;
+    // Autofill can change the visible inputs without updating React state.
+    const submitted = {
+      name: nameRef.current?.value ?? name,
+      email: emailRef.current?.value ?? email,
+      shortNote: shortNoteRef.current?.value ?? shortNote
+    };
+    if (submitted.name !== name) setName(submitted.name);
+    if (submitted.email !== email) setEmail(submitted.email);
+    if (submitted.shortNote !== shortNote) {
+      updateDraft(activeIntent, (draft) => ({ ...draft, shortNote: submitted.shortNote }));
+    }
     clearSubmissionFeedback();
-    const validatedFields = readInquiryFields({ name, email, shortNote, optionalDetails: filteredDetails() });
+    const validatedFields = readInquiryFields({ ...submitted, optionalDetails: filteredDetails() });
     if (!validatedFields.ok) {
       const { field, detailKey, message } = validatedFields.error;
       showValidationError(message, field === "details" ? null : field, form, detailKey);

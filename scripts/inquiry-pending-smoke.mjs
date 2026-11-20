@@ -73,9 +73,12 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     if (routeContext) query.set("route", routeContext);
     const response = await page.goto(`${baseUrl}/inquiry?${query}`, { waitUntil: "load" });
     assert.equal(response.status(), 200);
-    await page.locator("#inquiry-name").fill("  PRIVATE PENDING TEST  ");
-    await page.locator("#inquiry-email").fill("Private-Pending@Example.Test");
-    await page.locator("#inquiry-short-note").fill("PRIVATE PENDING INTENT");
+    const browserOnlyFill = outcome === "network-error";
+    if (!browserOnlyFill) {
+      await page.locator("#inquiry-name").fill("  PRIVATE PENDING TEST  ");
+      await page.locator("#inquiry-email").fill("Private-Pending@Example.Test");
+      await page.locator("#inquiry-short-note").fill("PRIVATE PENDING INTENT");
+    }
     if (intentType === "traveler") {
       await page.getByRole("checkbox", { name: "I am arranging this on behalf of a traveler" }).check();
       await page.locator('select[name="inquiryMadeBy"]').selectOption("Family office");
@@ -87,6 +90,14 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     await page.locator('select[name="preferredReply"]').selectOption("Signal");
     await page.locator('input[name="replyDetails"]').fill("PRIVATE REPLY CONTEXT");
 
+    if (browserOnlyFill) {
+      // Model browser-written values without dispatching input or change events.
+      await page.evaluate(() => {
+        document.getElementById("inquiry-name").value = "  PRIVATE PENDING TEST  ";
+        document.getElementById("inquiry-email").value = "Private-Pending@Example.Test";
+        document.getElementById("inquiry-short-note").value = "PRIVATE PENDING INTENT";
+      });
+    }
     await page.locator('button[type="submit"]').first().click();
     await page.waitForFunction(() => document.querySelector('button[type="submit"]')?.textContent === "Preparing...");
     const form = page.getByRole("form", { name: "Localhost private inquiry" });
@@ -174,7 +185,7 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     assert.equal(await page.locator('button[type="submit"]').first().isDisabled(), false,
       "Intentional new edits should remain possible after the previous response");
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth), false);
-    console.log(`PASS ${viewport.width}px ${intentType} ${outcome}${routeContext ? ` ${routeContext}` : ""}: frozen pending controls, intact draft, accurate receipt${retryMessages[outcome] ? ", intact retry" : ""}, axe 0`);
+    console.log(`PASS ${viewport.width}px ${intentType} ${outcome}${routeContext ? ` ${routeContext}` : ""}: frozen pending controls, intact draft, accurate receipt${retryMessages[outcome] ? ", intact retry" : ""}${browserOnlyFill ? ", browser-written values retained" : ""}, axe 0`);
   } finally {
     release();
     await context.close();
