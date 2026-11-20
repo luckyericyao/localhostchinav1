@@ -12,6 +12,7 @@ import { localhostReplyTarget } from "@/lib/contact";
 import { approvedOperator, publicOperator } from "@/lib/operator";
 import { culturalVisualLayers } from "@/lib/content";
 import { buildLocalhostPageMetadata } from "@/lib/metadata";
+import { normalizeMetricPath, normalizeMetricSource } from "@/lib/metricDimensions";
 
 export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "Private Route Preference Intake — Localhost Global",
@@ -97,8 +98,8 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
   const params = (await searchParams) || {};
   const intentType = parseIntent(firstValue(params.type)) || "traveler";
   const routeContext = parseRoute(firstValue(params.route));
-  const sourcePage = firstValue(params.sourcePage) || "/inquiry";
-  const sourceLabel = firstValue(params.sourceLabel) || "Inquiry page";
+  const sourcePage = normalizeMetricPath(firstValue(params.sourcePage)) || "/inquiry";
+  const sourceLabel = normalizeMetricSource(firstValue(params.sourceLabel)) || "Inquiry page";
   const operator = publicOperator(process.env);
   const publicContactHref = `mailto:${encodeURIComponent(operator?.contact ?? approvedOperator.contact).replace("%40", "@")}`;
 

@@ -70,7 +70,11 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     });
 
     const query = new URLSearchParams({ type: intentType });
-    if (routeContext) query.set("route", routeContext);
+    if (routeContext) {
+      query.set("route", routeContext);
+      query.set("sourcePage", `/china/${routeContext}?note=PRIVATE SOURCE PAGE`);
+      query.set("sourceLabel", "PRIVATE SOURCE LABEL");
+    }
     const response = await page.goto(`${baseUrl}/inquiry?${query}`, { waitUntil: "load" });
     assert.equal(response.status(), 200);
     const browserOnlyFill = outcome === "network-error";
@@ -122,6 +126,11 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     assert.equal(submissions[0].email, "private-pending@example.test");
     assert.equal(submissions[0].intentType, intentType);
     assert.equal(submissions[0].routeContext, routeContext ?? "$undefined");
+    if (routeContext) {
+      assert.equal(submissions[0].sourcePage, `/china/${routeContext}`);
+      assert.equal(submissions[0].sourceLabel, "Inquiry page");
+      assert.equal(await form.getAttribute("data-track-source"), "Inquiry page");
+    }
     assert.equal(submissions[0].optionalDetails[detailName], "PRIVATE OPTIONAL CONTEXT");
     assert.equal(submissions[0].optionalDetails.preferredReply, "Signal");
     assert.equal(await form.getAttribute("aria-busy"), "false");

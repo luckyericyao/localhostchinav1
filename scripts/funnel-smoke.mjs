@@ -90,6 +90,7 @@ try {
 
   const privateLabel = "private-attribution@example.test";
   await page.goto(`${baseUrl}/inquiry?sourcePage=${encodeURIComponent("/china/shanxi?principal=PRIVATE PRINCIPAL")}&sourceLabel=${encodeURIComponent(privateLabel)}`, { waitUntil: "load" });
+  assert.equal(await page.locator("form[data-inquiry-form]").getAttribute("data-track-source"), "Inquiry page");
   await page.locator("#inquiry-name").focus();
   await page.waitForFunction(() => window.localhostDataLayer?.some((item) => item.event === "inquiry_start"));
   const privateEntryEvents = await page.evaluate(() => window.localhostDataLayer);
@@ -104,7 +105,7 @@ try {
   const referrerRequest = page.waitForRequest((request) => request.url().endsWith("/api/analytics"));
   await page.evaluate(() => fetch("/api/analytics", { method: "POST", body: JSON.stringify({ event: "page_view", path: "/inquiry" }) }));
   assert.equal((await referrerRequest).headers().referer, `${new URL(baseUrl).origin}/`);
-  console.log("PASS private attribution: no free-form source in client telemetry, automatic URL excludes query/fragment, Referer contains origin only");
+  console.log("PASS private attribution: no free-form source in form markup or telemetry, automatic URL excludes query/fragment, Referer contains origin only");
 
   const activeRoutes = ["shanxi", "shaolin", "huizhou", "shanghai"];
   const paths = ["/", "/china", "/journeys", "/travelers", "/hosts", "/trust",
