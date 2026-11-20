@@ -4589,6 +4589,24 @@ a:focus-visible,
   }
 }
 
+@media (min-width: 721px) and (max-width: 920px) {
+  .site-footer:not(.site-footer--discovery) {
+    column-gap: 32px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    grid-template-rows: auto 1fr;
+    padding: 40px 28px;
+    row-gap: 20px;
+  }
+
+  .site-footer:not(.site-footer--discovery) .footer-brand {
+    grid-row: span 2;
+  }
+
+  .site-footer:not(.site-footer--discovery) .footer-actions {
+    grid-column: 2;
+  }
+}
+
 @media (max-width: 720px) {
   body {
     font-size: 15px;

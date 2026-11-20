@@ -86,6 +86,27 @@ try {
   assert.equal(await desktop.isVisible(), true);
   assert.equal(await desktop.getByRole("link").count(), 5);
   console.log("PASS desktop support links are unchanged");
+
+  for (const path of ["/travelers", "/inquiry", "/journeys"]) {
+    await visit(page, path);
+    for (const width of [390, 720, 721, 768, 820, 920, 921, 1280]) {
+      await page.setViewportSize({ width, height: 900 });
+      const geometry = await page.locator(".site-footer").evaluate((footer) => {
+        const visible = [...footer.querySelectorAll("a")].map((link) => link.getBoundingClientRect());
+        const nav = footer.querySelector("nav").getBoundingClientRect();
+        const action = footer.querySelector(".footer-actions").getBoundingClientRect();
+        return {
+          overflow: document.documentElement.scrollWidth > innerWidth,
+          linksFit: visible.length > 0 && visible.every(({ left, right, width }) =>
+            width > 0 && left >= 0 && right <= innerWidth + 1),
+          overlap: nav.left < action.right && action.left < nav.right &&
+            nav.top < action.bottom && action.top < nav.bottom
+        };
+      });
+      assert.deepEqual(geometry, { overflow: false, linksFit: true, overlap: false }, `${path} at ${width}px`);
+    }
+    console.log(`PASS ${path}: footer navigation and contact fit phone, tablet, and desktop widths`);
+  }
   await ctx.close();
 
   const native = await context({ javaScriptEnabled: false });
