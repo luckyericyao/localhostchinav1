@@ -35,6 +35,17 @@ async function visit(page, path) {
 try {
   const ctx = await context();
   const page = await ctx.newPage();
+  const missingPage = await page.goto(new URL("/page-not-found-check", base).href);
+  assert.equal(missingPage.status(), 404);
+  await page.waitForFunction(() => window.vaq?.some(([setting]) => setting === "beforeSend"));
+  assert.equal(await page.evaluate(() =>
+    (window.localhostDataLayer || []).some((event) => event.event === "page_view")), false);
+  await page.getByRole("main").getByRole("link", { name: "Explore China Routes" }).click();
+  await page.waitForURL(new URL("/journeys", base).href);
+  await page.waitForFunction(() => window.localhostDataLayer?.some((event) =>
+    event.event === "page_view" && event.path === "/journeys"));
+  console.log("PASS missing page is not counted as a visit; the recovered route index is counted");
+
   for (const { path, menu: selector, link, onward, destination } of cases) {
     await visit(page, path);
     await page.waitForFunction((pathname) => window.localhostDataLayer?.some((item) =>
@@ -111,6 +122,19 @@ try {
 
   const native = await context({ javaScriptEnabled: false });
   const nativePage = await native.newPage();
+  const notFound = await nativePage.goto(new URL("/china/beijing", base).href);
+  assert.equal(notFound.status(), 404);
+  const recovery = nativePage.getByRole("main");
+  assert.equal(await recovery.getByRole("heading", { level: 1 }).innerText(), "Page not found.");
+  assert.equal(await nativePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+  await nativePage.locator(".skip-link").press("Enter");
+  assert.equal(await recovery.evaluate((main) => document.activeElement === main), true);
+  await nativePage.keyboard.press("Tab");
+  const explore = recovery.getByRole("link", { name: "Explore China Routes" });
+  assert.equal(await explore.evaluate((link) => document.activeElement === link), true);
+  await nativePage.keyboard.press("Enter");
+  await nativePage.waitForURL(new URL("/journeys", base).href);
+  console.log("PASS missing route: keyboard recovery to the route index without JavaScript");
   for (const path of ["/", "/china", "/journeys", "/china/shanxi", "/china/real-access", "/travelers", "/inquiry"]) {
     await visit(nativePage, path);
     await nativePage.keyboard.press("Tab");

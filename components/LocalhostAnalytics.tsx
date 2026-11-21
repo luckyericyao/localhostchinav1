@@ -58,10 +58,13 @@ function sendLocalhostMetric(
   event: AnalyticsEvent,
   details: MetricDetails = {}
 ) {
+  const path = normalizeMetricPath(details.path ?? window.location.pathname);
+  if (!path) return;
+
   const payload = {
     event,
     metricName: event === "web_vital" ? normalizeMetricName(details.metricName) : "",
-    path: normalizeMetricPath(details.path ?? window.location.pathname),
+    path,
     route: normalizeMetricRoute(details.route),
     sessionId: getAnonymousSessionId(),
     source: normalizeMetricSource(details.source),

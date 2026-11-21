@@ -225,6 +225,19 @@ for (const path of routes) {
   console.log(`PASS ${path} (${body.length} bytes)`);
 }
 
+for (const path of ["/china/beijing", "/page-not-found-check"]) {
+  const response = await fetch(`${baseUrl}${path}`, { redirect: "manual" });
+  const html = await response.text();
+  if (response.status !== 404 || !html.includes("Page not found.") ||
+    !/<meta name="robots" content="noindex(?:,[^"]*)?"\s*\/?\s*>/.test(html) ||
+    !html.includes("Explore China Routes") || !html.includes("Return home")) {
+    console.error(`FAIL ${path}: expected a non-indexed 404 with recovery links`);
+    failed = true;
+  } else {
+    console.log(`PASS ${path}: HTTP 404, noindex, recovery links`);
+  }
+}
+
 const analyticsEvents = process.env.SMOKE_READ_ONLY === "1" ? [] : [
   {
     event: "route_view",
