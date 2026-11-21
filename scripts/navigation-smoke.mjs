@@ -135,6 +135,15 @@ try {
   await nativePage.keyboard.press("Enter");
   await nativePage.waitForURL(new URL("/journeys", base).href);
   console.log("PASS missing route: keyboard recovery to the route index without JavaScript");
+  await visit(nativePage, "/china#journeys");
+  const chapterIndex = nativePage.locator("#china-places");
+  assert.equal(await chapterIndex.locator("[data-china-place]").count(), 4);
+  assert.equal(await chapterIndex.locator("#journeys").evaluate((target) => document.activeElement === target), true);
+  await visit(nativePage, "/china");
+  await nativePage.getByRole("link", { name: "Explore the places" }).press("Enter");
+  await nativePage.waitForURL(new URL("/china#china-places", base).href);
+  assert.equal(await chapterIndex.evaluate((section) => document.activeElement === section), true);
+  console.log("PASS China bookmarks and current chapter link: native scroll and focus without JavaScript");
   for (const path of ["/", "/china", "/journeys", "/china/shanxi", "/china/real-access", "/travelers", "/inquiry"]) {
     await visit(nativePage, path);
     await nativePage.keyboard.press("Tab");

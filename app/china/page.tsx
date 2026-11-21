@@ -44,8 +44,8 @@ export default function ChinaPage() {
           </div>
         </section>
 
-        <section className="china-atlas" id="china-places" aria-labelledby="china-perspectives-title">
-          <header className="discovery-section-heading">
+        <section className="china-atlas" id="china-places" aria-labelledby="china-perspectives-title" tabIndex={-1}>
+          <header className="discovery-section-heading" id="journeys" tabIndex={-1}>
             <p className="eyebrow">Place before plans</p>
             <h2 id="china-perspectives-title">Four local perspectives.</h2>
           </header>
