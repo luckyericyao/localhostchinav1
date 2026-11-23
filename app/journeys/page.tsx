@@ -33,10 +33,22 @@ const journeysInquiryHref =
   "/inquiry?type=traveler&sourcePage=%2Fjourneys&sourceLabel=China%20Routes%20page";
 
 export default function JourneysPage() {
-  const activeJourneys = discoveryChapters.map(({ slug, place }) => ({
-    journey: chinaJourneys.find((item) => item.place === place)!,
-    route: chinaRoutePages[slug]
-  }));
+  const activeJourneys = discoveryChapters.map(({ slug, place }) => {
+    const journey = chinaJourneys.find((item) => item.place === place)!;
+    const route = chinaRoutePages[slug];
+    return {
+      journey,
+      facts: [
+        { id: `${slug}-best-for`, label: "Best for", value: journey.bestFor },
+        {
+          id: `${slug}-length-entry`,
+          label: "Length / entry",
+          value: `${snapshotValue(route, "Ideal Length")} · ${snapshotValue(route, "Entry")}`
+        },
+        { id: `${slug}-pace`, label: "Pace", value: snapshotValue(route, "Pace"), wide: true }
+      ]
+    };
+  });
 
   return (
     <>
@@ -61,12 +73,13 @@ export default function JourneysPage() {
             </div>
           </header>
           <div className="journey-comparison-grid">
-            {activeJourneys.map(({ journey, route }) => (
+            {activeJourneys.map(({ journey, facts }) => (
               <div
                 className="journey-comparison-reveal"
                 key={journey.place}
               >
                 <Link
+                  aria-describedby={facts.map(({ id }) => `${id}-term ${id}-value`).join(" ")}
                   aria-label={`View ${journey.place}`}
                   className="journey-comparison-card"
                   data-track-event="route_select"
@@ -91,20 +104,12 @@ export default function JourneysPage() {
                     <h2>{journey.place}</h2>
                     <strong>{journey.line}</strong>
                     <dl className="journey-comparison-meta">
-                      <div>
-                        <dt>Best for</dt>
-                        <dd>{journey.bestFor}</dd>
-                      </div>
-                      <div>
-                        <dt>Length / entry</dt>
-                        <dd>
-                          {snapshotValue(route, "Ideal Length")} · {snapshotValue(route, "Entry")}
-                        </dd>
-                      </div>
-                      <div className="journey-comparison-meta-wide">
-                        <dt>Pace</dt>
-                        <dd>{snapshotValue(route, "Pace")}</dd>
-                      </div>
+                      {facts.map(({ id, label, value, wide }) => (
+                        <div className={wide ? "journey-comparison-meta-wide" : undefined} key={id}>
+                          <dt id={`${id}-term`}>{label}</dt>
+                          <dd id={`${id}-value`}>{value}</dd>
+                        </div>
+                      ))}
                     </dl>
                     <span className="arrangement-cue">{`View ${journey.place}`}</span>
                   </div>

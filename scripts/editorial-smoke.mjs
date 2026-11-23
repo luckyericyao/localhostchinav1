@@ -207,6 +207,23 @@ try {
     assert.equal(inquiry.searchParams.get("sourcePage"), "/china/shaolin");
     assert.equal(await page.locator(".context-card strong").innerText(), "Shaolin");
     if (options.javaScriptEnabled === false) {
+      const accessibility = await ctx.newCDPSession(page);
+      await visit(page, "/journeys");
+      const { nodes } = await accessibility.send("Accessibility.getFullAXTree");
+      const facts = await page.locator(".journey-comparison-card").evaluateAll((cards) =>
+        cards.map((card) => ({
+          name: card.getAttribute("aria-label"),
+          description: [...card.querySelectorAll("dt, dd")]
+            .map((element) => element.textContent.trim().replace(/\s+/g, " "))
+            .join(" ")
+        }))
+      );
+      for (const { name, description } of facts) {
+        const link = nodes.find((node) => node.role?.value === "link" && node.name?.value === name);
+        assert.equal(link?.description?.value, description, `${name} must expose its decision facts on focus`);
+      }
+      await accessibility.detach();
+      console.log("PASS /journeys: four accessible link descriptions without JavaScript");
       for (const path of ["/china/private-routes", "/china/real-access"]) {
         await visit(page, path);
         const comparison = page.locator("main .final-section").getByRole("link", { name: /^Explore.*China Routes$/ });
