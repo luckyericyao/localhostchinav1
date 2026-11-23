@@ -32,6 +32,24 @@ async function visit(page, path) {
   assert.equal(response.status(), 200, path);
 }
 
+async function checkFirstReview(page, withDraft = false) {
+  await visit(page, "/inquiry?route=shaolin");
+  const draft = page.locator("#inquiry-short-note");
+  if (withDraft) await draft.fill("Local draft for the sample review check");
+  const link = page.getByRole("link", { name: /^See an illustrative first review/ });
+  const [sample] = await Promise.all([page.waitForEvent("popup"), link.press("Enter")]);
+  try {
+    await sample.waitForLoadState("load");
+    assert.equal(sample.url(), new URL("/trust#sample-review", base).href);
+    const section = sample.getByRole("region", { name: "What a useful first reply can make clear." });
+    assert.equal(await section.evaluate((node) => document.activeElement === node), true);
+    assert.equal(new URL(page.url()).searchParams.get("route"), "shaolin");
+    if (withDraft) assert.equal(await draft.inputValue(), "Local draft for the sample review check");
+  } finally {
+    await sample.close();
+  }
+}
+
 try {
   const ctx = await context();
   const page = await ctx.newPage();
@@ -118,6 +136,8 @@ try {
     }
     console.log(`PASS ${path}: footer navigation and contact fit phone, tablet, and desktop widths`);
   }
+  await checkFirstReview(page, true);
+  console.log("PASS inquiry sample: named section focused in a new tab, original inquiry draft intact");
   await ctx.close();
 
   const native = await context({ javaScriptEnabled: false });
@@ -144,6 +164,8 @@ try {
   await nativePage.waitForURL(new URL("/china#china-places", base).href);
   assert.equal(await chapterIndex.evaluate((section) => document.activeElement === section), true);
   console.log("PASS China bookmarks and current chapter link: native scroll and focus without JavaScript");
+  await checkFirstReview(nativePage);
+  console.log("PASS inquiry sample: named section focused in a new tab without JavaScript");
   for (const path of ["/", "/china/shanxi", "/china/shaolin", "/china/huizhou", "/china/shanghai"]) {
     await visit(nativePage, path);
     const fragment = path === "/" ? "shanxi-chapter" : "chapter-places";

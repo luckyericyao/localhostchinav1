@@ -190,12 +190,14 @@ export default function TrustPage() {
         </section>
 
         <section
+          aria-labelledby="sample-review-title"
           className="section trust-evidence-section"
           id="sample-review"
+          tabIndex={-1}
         >
           <div className="section-heading section-heading--center">
             <p className="eyebrow">Illustrative First Review</p>
-            <h2>What a useful first reply can make clear.</h2>
+            <h2 id="sample-review-title">What a useful first reply can make clear.</h2>
             <p>
               The example below shows the shape of the work. It is not a client
               testimonial, confirmed itinerary, price, or promise of
