@@ -37,9 +37,8 @@ type RoleDraft = { shortNote: string; details: Record<string, string> };
 
 const subscribeToHydration = () => () => {};
 
-const routeLabels: Record<LocalhostRouteContext, string> = {
+const routeLabels: Record<Exclude<LocalhostRouteContext, "china-general">, string> = {
   beijing: "Beijing — future route",
-  "china-general": "China general",
   chengdu: "Chengdu — future route",
   huizhou: "Huizhou",
   shanghai: "Shanghai",
@@ -276,11 +275,13 @@ function detailsForIntent(intentType: LocalhostIntentType) {
   return travelerDetails;
 }
 
+function routeInterestLabel(routeContext?: LocalhostRouteContext) {
+  return routeContext && routeContext !== "china-general" ? routeLabels[routeContext] : "";
+}
+
 function initialDetails(routeContext?: LocalhostRouteContext): Record<string, string> {
-  if (!routeContext) return {};
-  return {
-    routeInterest: routeLabels[routeContext]
-  };
+  const label = routeInterestLabel(routeContext);
+  return label ? { routeInterest: label } : {};
 }
 
 function submitLabel(intentType: LocalhostIntentType) {
@@ -336,7 +337,7 @@ export function LocalhostIntakeForm({
   const { shortNote, details } = drafts[activeIntent];
   const optionalDetails = { ...details, ...replyDetails };
   const fields = useMemo(() => detailsForIntent(activeIntent), [activeIntent]);
-  const routeLabel = routeContext ? routeLabels[routeContext] : "";
+  const routeLabel = routeInterestLabel(routeContext);
   const noteCopy = roleCopy[activeIntent];
   const activeDetailNames = new Set([
     ...fields.map((field) => field.name),
@@ -351,7 +352,7 @@ export function LocalhostIntakeForm({
   const receiptEmail = result?.summary?.email ?? email;
   const receiptIntent = result?.summary?.intentType ?? activeIntent;
   const receiptRoute = result?.summary?.routeContext;
-  const receiptRouteLabel = receiptRoute ? routeLabels[receiptRoute] : routeLabel;
+  const receiptRouteLabel = routeInterestLabel(receiptRoute ?? routeContext);
 
   useEffect(() => {
     if (result?.ok) resultRef.current?.focus();
@@ -559,7 +560,7 @@ export function LocalhostIntakeForm({
       ref={formRef}
     >
       <h2 className="visually-hidden">Private inquiry details</h2>
-      {routeContext ? (
+      {routeLabel ? (
         <div className="context-card context-card--compact" aria-label="Route interest">
           <span>Route interest</span>
           <strong>{routeLabel}</strong>
@@ -649,7 +650,7 @@ export function LocalhostIntakeForm({
           value={shortNote}
         />
         <small id="short-note-hint">
-          {routeContext
+          {contextLocked && routeLabel
             ? "Your route is selected. Tell us your interests or practical needs."
             : noteCopy.helper}
         </small>

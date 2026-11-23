@@ -183,7 +183,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
             </div>
             <LocalhostIntakeForm
               contactHref={publicContactHref}
-              contextLocked={Boolean(routeContext)}
+              contextLocked={Boolean(routeContext && routeContext !== "china-general")}
               intentType={intentType}
               routeContext={routeContext}
               sourceLabel={sourceLabel}

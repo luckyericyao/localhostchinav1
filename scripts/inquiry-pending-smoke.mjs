@@ -11,6 +11,9 @@ const browser = await chromium.launch({
 });
 
 async function pendingCase(viewport, intentType, outcome, routeContext) {
+  const general = routeContext === "china-general";
+  const entryPath = general ? "/china" : `/china/${routeContext}`;
+  const entryLabel = general ? "Localhost China page" : "Inquiry page";
   const context = await browser.newContext({ viewport });
   let release;
   const responseGate = new Promise((resolve) => { release = resolve; });
@@ -72,8 +75,8 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     const query = new URLSearchParams({ type: intentType });
     if (routeContext) {
       query.set("route", routeContext);
-      query.set("sourcePage", `/china/${routeContext}?note=PRIVATE SOURCE PAGE`);
-      query.set("sourceLabel", "PRIVATE SOURCE LABEL");
+      query.set("sourcePage", `${entryPath}?note=PRIVATE SOURCE PAGE`);
+      query.set("sourceLabel", general ? entryLabel : "PRIVATE SOURCE LABEL");
     }
     const response = await page.goto(`${baseUrl}/inquiry?${query}`, { waitUntil: "load" });
     assert.equal(response.status(), 200);
@@ -89,6 +92,22 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
       await page.locator('input[name="travelerOrPrincipal"]').fill("PRIVATE PRINCIPAL REFERENCE");
     }
     await page.getByRole("button", { name: "Add route details — optional" }).click();
+    if (routeContext) {
+      const routeInterest = page.locator('select[name="routeInterest"]');
+      const roles = page.locator(".role-tabs");
+      assert.equal(await routeInterest.isDisabled(), !general);
+      assert.equal(await routeInterest.inputValue(), general ? "" : "Shanxi");
+      assert.equal(await page.locator(".context-card").count(), general ? 0 : 1);
+      assert.equal((await page.locator("#short-note-hint").innerText()).includes("Your route is selected"), !general);
+      assert.equal(await roles.count(), general ? 1 : 0);
+      if (general) {
+        await routeInterest.selectOption("Huizhou");
+        await roles.getByRole("button", { name: "Host", exact: true }).click();
+        assert.equal(await roles.getByRole("button", { name: "Host", exact: true }).getAttribute("aria-pressed"), "true");
+        await roles.getByRole("button", { name: "Traveler", exact: true }).click();
+        assert.equal(await routeInterest.inputValue(), "Huizhou");
+      }
+    }
     const detailName = intentType === "traveler" ? "foodPreferences" : intentType === "host" ? "knowledgeAreas" : "organization";
     await page.locator(`[name="${detailName}"]`).fill("PRIVATE OPTIONAL CONTEXT");
     await page.locator('select[name="preferredReply"]').selectOption("Signal");
@@ -127,9 +146,11 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     assert.equal(submissions[0].intentType, intentType);
     assert.equal(submissions[0].routeContext, routeContext ?? "$undefined");
     if (routeContext) {
-      assert.equal(submissions[0].sourcePage, `/china/${routeContext}`);
-      assert.equal(submissions[0].sourceLabel, "Inquiry page");
-      assert.equal(await form.getAttribute("data-track-source"), "Inquiry page");
+      assert.equal(submissions[0].sourcePage, entryPath);
+      assert.equal(submissions[0].sourceLabel, entryLabel);
+      assert.equal(await form.getAttribute("data-track-source"), entryLabel);
+      assert.equal(await form.getAttribute("data-track-route"), routeContext);
+      assert.equal(submissions[0].optionalDetails.routeInterest, general ? "Huizhou" : "Shanxi");
     }
     assert.equal(submissions[0].optionalDetails[detailName], "PRIVATE OPTIONAL CONTEXT");
     assert.equal(submissions[0].optionalDetails.preferredReply, "Signal");
@@ -173,7 +194,11 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
     await page.waitForFunction(() => document.activeElement?.getAttribute("aria-label") === "Inquiry result");
     assert.ok((await receipt.innerText()).includes(`PRIVATE PENDING TEST / ${intentType.charAt(0).toUpperCase() + intentType.slice(1)} / private-pending@example.test`),
       "Receipt identity must use the normalized submitted summary, not current editable fields");
-    if (routeContext) assert.ok((await receipt.innerText()).includes(" / Shanxi"));
+    if (routeContext) {
+      const receiptCopy = await receipt.innerText();
+      if (general) assert.doesNotMatch(receiptCopy, /China general/);
+      else assert.match(receiptCopy, / \/ Shanxi/);
+    }
     if (process.env.SCREENSHOT_DIR && intentType === "traveler" && outcome === "email" && !routeContext) {
       const directory = resolve(process.env.SCREENSHOT_DIR);
       await mkdir(directory, { recursive: true });
@@ -207,6 +232,7 @@ try {
     for (const outcome of ["mailto", "network-error", "unconfigured", "rejection", "blocked", "incomplete", "incomplete-draft"]) await pendingCase(viewport, "traveler", outcome);
   }
   await pendingCase({ width: 390, height: 844 }, "traveler", "email", "shanxi");
+  await pendingCase({ width: 390, height: 844 }, "traveler", "email", "china-general");
 } finally {
   await browser.close();
 }
