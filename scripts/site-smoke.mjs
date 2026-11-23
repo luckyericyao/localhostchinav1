@@ -1,4 +1,9 @@
 const baseUrl = (process.env.SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+const expectedRevision = process.env.SITE_REVISION;
+if (expectedRevision !== undefined &&
+  (expectedRevision.length !== 40 || /[^a-f0-9]/.test(expectedRevision))) {
+  throw new Error("SITE_REVISION must be a full lowercase Git commit SHA.");
+}
 
 const routes = [
   "/",
@@ -127,6 +132,15 @@ for (const path of routes) {
     continue;
   }
 
+  if (expectedRevision !== undefined) {
+    const actualRevision = response.headers.get("x-localhost-revision");
+    if (actualRevision !== expectedRevision) {
+      console.error(`FAIL ${path}: expected revision ${expectedRevision}, got ${actualRevision ?? "no revision header"}`);
+      failed = true;
+      continue;
+    }
+  }
+
   if ((path === "/trust" || path === "/inquiry") && body.includes("usually replies")) {
     console.error(`FAIL ${path}: a reply target must not be described as observed performance`);
     failed = true;
@@ -222,7 +236,7 @@ for (const path of routes) {
     }
   }
 
-  console.log(`PASS ${path} (${body.length} bytes)`);
+  console.log(`PASS ${path} (${body.length} bytes)${expectedRevision ? ` revision ${expectedRevision}` : ""}`);
 }
 
 for (const path of ["/china/beijing", "/page-not-found-check"]) {
