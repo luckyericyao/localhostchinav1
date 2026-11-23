@@ -118,18 +118,20 @@ export function ChinaRoutePage({ route }: ChinaRoutePageProps) {
             <p className="eyebrow">{route.eyebrow}</p>
             <h1 id="chapter-title">{place}</h1>
             <p>{chapter?.introduction || route.body}</p>
-            <a className="discovery-explore" href="#chapter-places">
-              Begin with the places <span aria-hidden="true">↓</span>
-            </a>
+            {route.gallery ? (
+              <a className="discovery-explore" href="#chapter-places">
+                Begin with the places <span aria-hidden="true">↓</span>
+              </a>
+            ) : null}
           </div>
           <p className="chapter-opening-setting">{chapter?.setting}</p>
         </section>
 
         {route.gallery ? (
-          <section className="section route-gallery-section" id="chapter-places">
+          <section className="section route-gallery-section" id="chapter-places" aria-labelledby="chapter-places-title" tabIndex={-1}>
             <div className="section-heading">
               <p className="eyebrow">{route.gallery.eyebrow}</p>
-              <h2>{route.gallery.title}</h2>
+              <h2 id="chapter-places-title">{route.gallery.title}</h2>
               <p>{route.gallery.body}</p>
             </div>
             <div className={`route-gallery-grid${route.gallery.images.length === 3 ? " route-gallery-grid--three" : ""}`}>

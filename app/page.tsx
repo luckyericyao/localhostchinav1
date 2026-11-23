@@ -46,7 +46,7 @@ export default function Home() {
           </p>
         </section>
 
-        <section className="discovery-feature" id="shanxi-chapter" aria-labelledby="shanxi-title">
+        <section className="discovery-feature" id="shanxi-chapter" aria-labelledby="shanxi-title" tabIndex={-1}>
           <header className="discovery-chapter-heading">
             <p className="eyebrow">01 / The first chapter</p>
             <h2 id="shanxi-title">Shanxi</h2>

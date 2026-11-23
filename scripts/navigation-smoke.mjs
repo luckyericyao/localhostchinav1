@@ -144,6 +144,17 @@ try {
   await nativePage.waitForURL(new URL("/china#china-places", base).href);
   assert.equal(await chapterIndex.evaluate((section) => document.activeElement === section), true);
   console.log("PASS China bookmarks and current chapter link: native scroll and focus without JavaScript");
+  for (const path of ["/", "/china/shanxi", "/china/shaolin", "/china/huizhou", "/china/shanghai"]) {
+    await visit(nativePage, path);
+    const fragment = path === "/" ? "shanxi-chapter" : "chapter-places";
+    await nativePage.locator(`a[href="#${fragment}"]`).press("Enter");
+    await nativePage.waitForURL(new URL(`${path}#${fragment}`, base).href);
+    const target = nativePage.locator(`#${fragment}`);
+    assert.equal(await target.evaluate((node) => document.activeElement === node), true, path);
+    assert.equal(await target.getByRole("heading", { level: 2 }).getAttribute("id"),
+      await target.getAttribute("aria-labelledby"), path);
+    console.log(`PASS ${path}: discovery link focuses its named section without JavaScript`);
+  }
   for (const path of ["/", "/china", "/journeys", "/china/shanxi", "/china/real-access", "/travelers", "/inquiry"]) {
     await visit(nativePage, path);
     await nativePage.keyboard.press("Tab");
