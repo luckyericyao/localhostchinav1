@@ -125,6 +125,11 @@ async function roleCase(viewport, role) {
     await page.locator('textarea[name="foodPreferences"]').fill(food);
     await page.locator('textarea[name="sensitiveNotes"]').fill("PRIVATE TRAVELER CONSTRAINT");
     await page.getByRole("button", { name: role === "host" ? "Host" : "Partner", exact: true }).click();
+    const scope = role === "host" ? "host" : "partnership";
+    const toggle = page.getByRole("button", { name: `Hide ${scope} details` });
+    assert.equal(await toggle.getAttribute("aria-expanded"), "true");
+    await toggle.click();
+    await page.getByRole("button", { name: `Add ${scope} details — optional` }).click();
     const note = page.locator("#inquiry-short-note");
     assert.equal(await note.inputValue(), "", "A new role must not inherit a traveler note");
     const roleNote = `PRIVATE ${role.toUpperCase()} APPLICATION`;
@@ -144,6 +149,7 @@ async function roleCase(viewport, role) {
     assert.equal(submissions[0].optionalDetails[role === "host" ? "knowledgeAreas" : "organization"],
       role === "host" ? "Timber architecture" : "Synthetic partner");
     await page.getByRole("button", { name: "Traveler", exact: true }).click();
+    assert.equal(await page.getByRole("button", { name: "Hide route details" }).getAttribute("aria-expanded"), "true");
     assert.equal(await note.inputValue(), "PRIVATE CONTENT INTENT");
     assert.equal(await page.locator('textarea[name="foodPreferences"]').inputValue(), food,
       "Switching roles must not erase cached text");

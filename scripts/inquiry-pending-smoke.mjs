@@ -91,7 +91,9 @@ async function pendingCase(viewport, intentType, outcome, routeContext) {
       await page.locator('select[name="inquiryMadeBy"]').selectOption("Family office");
       await page.locator('input[name="travelerOrPrincipal"]').fill("PRIVATE PRINCIPAL REFERENCE");
     }
-    await page.getByRole("button", { name: "Add route details — optional" }).click();
+    const detailsLabel = { traveler: "route", host: "host", partner: "partnership" }[intentType];
+    await page.getByRole("button", { name: `Add ${detailsLabel} details — optional` }).click();
+    assert.equal(await page.getByRole("button", { name: `Hide ${detailsLabel} details` }).getAttribute("aria-expanded"), "true");
     if (routeContext) {
       const routeInterest = page.locator('select[name="routeInterest"]');
       const roles = page.locator(".role-tabs");

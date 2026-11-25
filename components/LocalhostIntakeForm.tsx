@@ -46,16 +46,19 @@ const routeLabels: Record<Exclude<LocalhostRouteContext, "china-general">, strin
   shaolin: "Shaolin"
 };
 
-const roleCopy: Record<LocalhostIntentType, { helper: string; label: string }> = {
+const roleCopy: Record<LocalhostIntentType, { detailScope: string; helper: string; label: string }> = {
   host: {
+    detailScope: "host",
     helper: "Share the place, field, or local world you can represent with care.",
     label: "What place, city, field, or local world could you help someone enter?"
   },
   partner: {
+    detailScope: "partnership",
     helper: "Share the route, relationship, or collaboration you want to explore.",
     label: "What kind of route, relationship, or collaboration are you considering?"
   },
   traveler: {
+    detailScope: "route",
     helper: "A place, interest, rough date, or practical need is enough to begin.",
     label: "What kind of China do you want to understand?"
   }
@@ -339,6 +342,7 @@ export function LocalhostIntakeForm({
   const fields = useMemo(() => detailsForIntent(activeIntent), [activeIntent]);
   const routeLabel = routeInterestLabel(routeContext);
   const noteCopy = roleCopy[activeIntent];
+  const optionalScope = noteCopy.detailScope;
   const activeDetailNames = new Set([
     ...fields.map((field) => field.name),
     ...replyPreferenceDetails.map((field) => field.name),
@@ -763,7 +767,7 @@ export function LocalhostIntakeForm({
         onClick={() => setDetailsOpen((open) => !open)}
         type="button"
       >
-        {detailsOpen ? "Hide route details" : "Add route details — optional"}
+        {detailsOpen ? `Hide ${optionalScope} details` : `Add ${optionalScope} details — optional`}
       </button>
 
       {detailsOpen ? (
@@ -821,7 +825,7 @@ export function LocalhostIntakeForm({
               </>
             ) : (
               <section>
-                <h3>{activeIntent === "host" ? "Host details — optional" : "Partner details — optional"}</h3>
+                <h3>{activeIntent === "host" ? "Host details — optional" : "Partnership details — optional"}</h3>
                 <div className="optional-field-grid">
                   {fields.map((field) => (
                     <DetailFieldInput
