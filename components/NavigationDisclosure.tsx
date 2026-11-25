@@ -60,7 +60,7 @@ export function NavigationDisclosure({
       }}
     >
       <summary ref={summary} aria-controls={panelId} aria-label={menuLabel}>Menu</summary>
-      <nav className={panelClassName} id={panelId} aria-label={navigationLabel} onClick={closeAfterNavigation}>
+      <nav className={panelClassName} id={panelId} aria-label={navigationLabel} data-focus-destination onClick={closeAfterNavigation}>
         {children}
       </nav>
     </details>

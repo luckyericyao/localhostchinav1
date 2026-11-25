@@ -105,8 +105,25 @@ try {
     await openWithKeyboard();
     await nav.getByRole("link", { name: onward, exact: true }).press("Enter");
     await page.waitForURL(new URL(destination, base).href);
+    await page.waitForFunction(() => document.activeElement?.id === "main-content");
     assert.equal(await page.locator("header details[open]").count(), 0);
-    console.log(`PASS ${path}: Escape and focus, outside pointer, same-page selection, onward navigation`);
+    await page.keyboard.press("Tab");
+    assert.equal(await page.evaluate(() => Boolean(document.activeElement?.closest("main"))), true);
+
+    await page.goBack();
+    await page.waitForURL(new URL(path, base).href);
+    assert.equal(await isFocused(page.locator("main#main-content")), false);
+
+    const seenDestination = await page.evaluate((pathname) => (window.localhostDataLayer || [])
+      .filter((item) => item.event === "page_view" && item.path === pathname).length, destination);
+    await toggle.click();
+    await nav.getByRole("link", { name: onward, exact: true }).click();
+    await page.waitForURL(new URL(destination, base).href);
+    await page.waitForFunction(({ pathname, count }) => (window.localhostDataLayer || [])
+      .filter((item) => item.event === "page_view" && item.path === pathname).length > count,
+    { pathname: destination, count: seenDestination });
+    assert.equal(await isFocused(page.locator("main#main-content")), false);
+    console.log(`PASS ${path}: dismissal, same-page selection, keyboard destination focus, history and pointer unchanged`);
   }
   await page.setViewportSize({ width: 1280, height: 800 });
   await visit(page, "/travelers");
