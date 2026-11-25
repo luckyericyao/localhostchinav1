@@ -1,8 +1,19 @@
 const baseUrl = (process.env.SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+const hostname = new URL(baseUrl).hostname;
+const readOnly = process.env.SMOKE_READ_ONLY === "1" ||
+  !["localhost", "127.0.0.1", "[::1]"].includes(hostname);
 const expectedRevision = process.env.SITE_REVISION;
 if (expectedRevision !== undefined &&
   (expectedRevision.length !== 40 || /[^a-f0-9]/.test(expectedRevision))) {
   throw new Error("SITE_REVISION must be a full lowercase Git commit SHA.");
+}
+
+function request(path, options) {
+  return fetch(`${baseUrl}${path}`, {
+    ...options,
+    redirect: "manual",
+    signal: AbortSignal.timeout(15000)
+  });
 }
 
 const routes = [
@@ -122,11 +133,11 @@ const retiredRouteHeadings = [
 let failed = false;
 
 for (const path of routes) {
-  const response = await fetch(`${baseUrl}${path}`);
+  const response = await request(path);
   const body = await response.text();
   const expected = expectedContent.get(path) || [];
 
-  if (!response.ok) {
+  if (response.status !== 200) {
     console.error(`FAIL ${path}: HTTP ${response.status}`);
     failed = true;
     continue;
@@ -240,7 +251,7 @@ for (const path of routes) {
 }
 
 for (const path of ["/china/beijing", "/page-not-found-check"]) {
-  const response = await fetch(`${baseUrl}${path}`, { redirect: "manual" });
+  const response = await request(path);
   const html = await response.text();
   if (response.status !== 404 || !html.includes("Page not found.") ||
     !/<meta name="robots" content="noindex(?:,[^"]*)?"\s*\/?\s*>/.test(html) ||
@@ -252,7 +263,7 @@ for (const path of ["/china/beijing", "/page-not-found-check"]) {
   }
 }
 
-const analyticsEvents = process.env.SMOKE_READ_ONLY === "1" ? [] : [
+const analyticsEvents = readOnly ? [] : [
   {
     event: "route_view",
     path: "/china/shanxi",
@@ -290,7 +301,7 @@ const analyticsEvents = process.env.SMOKE_READ_ONLY === "1" ? [] : [
 ];
 
 for (const metric of analyticsEvents) {
-  const analyticsResponse = await fetch(`${baseUrl}/api/analytics`, {
+  const analyticsResponse = await request("/api/analytics", {
     body: JSON.stringify({
       ...metric,
       sessionId: "smoke-test-session"
@@ -309,10 +320,8 @@ for (const metric of analyticsEvents) {
   }
 }
 
-if (baseUrl.endsWith(".vercel.app")) {
-  const analyticsScriptResponse = await fetch(
-    `${baseUrl}/_vercel/insights/script.js`
-  );
+if (hostname.endsWith(".vercel.app")) {
+  const analyticsScriptResponse = await request("/_vercel/insights/script.js");
 
   if (!analyticsScriptResponse.ok) {
     console.error(

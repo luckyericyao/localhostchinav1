@@ -148,17 +148,19 @@ pnpm funnel:check
 
 Run `pnpm smoke` against the local server, or set `SITE_URL` to check a
 deployed URL. It verifies the core routes, key conversion copy, route page
-markers, retired editorial-direction copy, and the privacy-safe analytics
-endpoint. After the Git-linked Vercel deployment succeeds, independently verify
+markers, and retired editorial-direction copy. Analytics POST checks run only
+on loopback addresses; use `SMOKE_READ_ONLY=1` to skip them locally too. After
+the Git-linked Vercel deployment succeeds, independently verify
 the production alias against the pushed commit:
 
 ```bash
 SITE_URL=https://localhostglobal.vercel.app \
-  SITE_REVISION="$(git rev-parse origin/main)" SMOKE_READ_ONLY=1 pnpm smoke
+  SITE_REVISION="$(git rev-parse origin/main)" pnpm smoke
 ```
 
-This checks rendered pages without posting synthetic analytics events and fails
-if any core page serves a missing or different `X-Localhost-Revision`. The
+This checks the requested alias without following redirects or posting
+synthetic analytics events. It fails if any core page serves a missing or
+different `X-Localhost-Revision`. The
 header comes from Vercel's build-time Git SHA; builds without it omit the
 header rather than guessing. This verifies the served revision, not inbox
 delivery or the human reply.
