@@ -2,6 +2,15 @@ import Link from "next/link";
 import { NavigationInquiryLink } from "@/components/NavigationInquiryLink";
 import { DiscoveryMenu } from "@/components/DiscoveryMenu";
 import { NavigationDisclosure } from "@/components/NavigationDisclosure";
+import { NavigationPageLink } from "@/components/NavigationPageLink";
+
+const primaryLinks = [
+  ["/china", "China"],
+  ["/journeys", "Routes"],
+  ["/travelers", "For Travelers"],
+  ["/hosts", "For Hosts"],
+  ["/trust", "Trust"]
+] as const;
 
 type SiteHeaderProps = {
   tone?: "transparent" | "solid";
@@ -9,6 +18,10 @@ type SiteHeaderProps = {
 };
 
 export function SiteHeader({ tone = "solid", discovery = false }: SiteHeaderProps) {
+  const links = primaryLinks.map(([href, label]) => (
+    <NavigationPageLink href={href} key={href}>{label}</NavigationPageLink>
+  ));
+
   return (
     <>
       <a className="skip-link" href="#main-content">
@@ -23,11 +36,7 @@ export function SiteHeader({ tone = "solid", discovery = false }: SiteHeaderProp
         ) : (
           <>
             <nav className="main-nav main-nav--desktop" aria-label="Primary navigation">
-              <Link href="/china">China</Link>
-              <Link href="/journeys">Routes</Link>
-              <Link href="/travelers">For Travelers</Link>
-              <Link href="/hosts">For Hosts</Link>
-              <Link href="/trust">Trust</Link>
+              {links}
             </nav>
             <div className="header-actions">
               <NavigationInquiryLink className="nav-cta" source="header" />
@@ -37,11 +46,7 @@ export function SiteHeader({ tone = "solid", discovery = false }: SiteHeaderProp
                 menuLabel="Toggle navigation"
                 navigationLabel="Mobile navigation"
               >
-                <Link href="/china">China</Link>
-                <Link href="/journeys">Routes</Link>
-                <Link href="/travelers">For Travelers</Link>
-                <Link href="/hosts">For Hosts</Link>
-                <Link href="/trust">Trust</Link>
+                {links}
               </NavigationDisclosure>
             </div>
           </>

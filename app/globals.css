@@ -135,7 +135,8 @@ img {
 }
 
 .main-nav a:hover::after,
-.main-nav a:focus-visible::after {
+.main-nav a:focus-visible::after,
+.main-nav a[aria-current="page"]::after {
   opacity: 0.72;
   transform: scaleX(1);
 }
@@ -3712,6 +3713,13 @@ a:focus-visible,
 
 .discovery-menu-panel a:hover {
   color: var(--wine);
+}
+
+.mobile-menu-panel a[aria-current="page"],
+.discovery-menu-panel a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
 }
 
 .discovery-menu-chapters > a {

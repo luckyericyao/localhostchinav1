@@ -80,6 +80,7 @@ try {
     };
     assert.equal(await toggle.getAttribute("aria-controls"), await nav.getAttribute("id"));
     await openWithKeyboard();
+    assert.deepEqual(await nav.locator('[aria-current="page"]').allTextContents(), [link]);
     await current.focus();
     await page.keyboard.press("Escape");
     assert.equal(await opened(), false);
@@ -131,7 +132,8 @@ try {
   const desktop = page.getByRole("navigation", { name: "Primary navigation" });
   assert.equal(await desktop.isVisible(), true);
   assert.equal(await desktop.getByRole("link").count(), 5);
-  console.log("PASS desktop support links are unchanged");
+  assert.deepEqual(await desktop.locator('[aria-current="page"]').allTextContents(), ["For Travelers"]);
+  console.log("PASS desktop support links are unchanged and show the current page");
 
   for (const path of ["/travelers", "/inquiry", "/journeys"]) {
     await visit(page, path);
@@ -159,6 +161,23 @@ try {
 
   const native = await context({ javaScriptEnabled: false });
   const nativePage = await native.newPage();
+  for (const [path, menu, expected] of [
+    ["/china/shaolin", ".discovery-menu", ["Shaolin"]],
+    ["/journeys", ".discovery-menu", ["Compare routes"]],
+    ["/travelers", ".mobile-menu", ["For Travelers"]],
+    ["/inquiry?route=shaolin", ".mobile-menu", []],
+    ["/", ".discovery-menu", []]
+  ]) {
+    await visit(nativePage, path);
+    const disclosure = nativePage.locator(menu);
+    await disclosure.locator("summary").press("Enter");
+    const current = disclosure.locator('[aria-current="page"]');
+    assert.deepEqual(await current.allTextContents(), expected, path);
+    if (expected.length) {
+      assert.equal(await current.evaluate((link) => getComputedStyle(link).textDecorationLine), "underline", path);
+    }
+  }
+  console.log("PASS expanded menus identify only the exact current page without JavaScript");
   const notFound = await nativePage.goto(new URL("/china/beijing", base).href);
   assert.equal(notFound.status(), 404);
   const recovery = nativePage.getByRole("main");
