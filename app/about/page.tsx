@@ -3,12 +3,14 @@ import Link from "next/link";
 import { OperatorDetails } from "@/components/OperatorDetails";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "About — Localhost Global",
   description:
-    "Why Localhost exists: private routes, local judgment, trust, and cultural context for China-first travel."
-};
+    "Why Localhost exists: private routes, local judgment, trust, and cultural context for China-first travel.",
+  path: "/about"
+});
 
 const principles = [
   {

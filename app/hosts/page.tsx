@@ -4,12 +4,14 @@ import { CulturalImageLayer } from "@/components/CulturalImageLayer";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { culturalVisualLayers } from "@/lib/content";
+import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "Hosts — Localhost Global",
   description:
-    "A selective host path for people who can represent a place with judgment, cultural fluency, discretion, and care."
-};
+    "A selective host path for people who can represent a place with judgment, cultural fluency, discretion, and care.",
+  path: "/hosts"
+});
 
 const hostQualities = [
   "Local judgment and taste",

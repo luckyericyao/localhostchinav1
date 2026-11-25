@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "How It Works — Localhost Global",
   description:
-    "The Localhost operating flow: inquiry, intent review, route direction, host fit, feasibility, proposal, local support, feedback, and future relationship."
-};
+    "The Localhost operating flow: inquiry, intent review, route direction, host fit, feasibility, proposal, local support, feedback, and future relationship.",
+  path: "/how-it-works"
+});
 
 const operatingFlow = [
   "Private inquiry",

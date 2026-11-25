@@ -3,12 +3,14 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { serviceLevels } from "@/lib/serviceScope";
+import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "Travelers — Localhost Global",
   description:
-    "Private China routes for travelers who want cultural fluency, host fit, and practical support."
-};
+    "Private China routes for travelers who want cultural fluency, host fit, and practical support.",
+  path: "/travelers"
+});
 
 const received = [
   {

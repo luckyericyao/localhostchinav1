@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { buildLocalhostPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildLocalhostPageMetadata({
   title: "Host Credits — Localhost Global",
   description:
-    "A proposed contribution-recognition model, separate from agreed host compensation and without guaranteed redemption."
-};
+    "A proposed contribution-recognition model, separate from agreed host compensation and without guaranteed redemption.",
+  path: "/host-credits"
+});
 
 const whatTheyAre = [
   "Recognition of contribution, separate from agreed host compensation",

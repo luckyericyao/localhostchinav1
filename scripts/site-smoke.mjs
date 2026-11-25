@@ -131,6 +131,9 @@ const retiredRouteHeadings = [
 ];
 
 let failed = false;
+const titles = new Set();
+const shareTitles = new Set();
+const canonicalUrl = (path) => path === "/" ? productionUrl : `${productionUrl}${path}`;
 
 for (const path of routes) {
   const response = await request(path);
@@ -178,20 +181,29 @@ for (const path of routes) {
     }
   }
 
+  const canonicalHref = canonicalUrl(path);
+  if (!body.includes(`rel="canonical" href="${canonicalHref}"`) ||
+    !body.includes(`property="og:url" content="${canonicalHref}"`)) {
+    console.error(`FAIL ${path}: canonical and Open Graph URLs must match ${canonicalHref}`);
+    failed = true;
+  }
+  const title = body.match(/<title>([^<]+)<\/title>/)?.[1];
+  const shareTitle = body.match(/property="og:title" content="([^"]+)"/)?.[1];
+  if (!title || titles.has(title) || !shareTitle || shareTitles.has(shareTitle)) {
+    console.error(`FAIL ${path}: expected distinct browser and Open Graph titles`);
+    failed = true;
+  }
+  titles.add(title);
+  shareTitles.add(shareTitle);
+
   const shareImage = expectedShareImages.get(path);
   if (shareImage) {
-    const canonicalHref =
-      path === "/" ? productionUrl : `${productionUrl}${path}`;
     if (
       !body.includes(
         `property="og:image" content="${productionUrl}${shareImage}"`
       )
     ) {
       console.error(`FAIL ${path}: missing page-specific Open Graph image`);
-      failed = true;
-    }
-    if (!body.includes(`rel="canonical" href="${canonicalHref}"`)) {
-      console.error(`FAIL ${path}: missing canonical URL`);
       failed = true;
     }
     if (!body.includes('name="twitter:card" content="summary_large_image"')) {
@@ -248,6 +260,18 @@ for (const path of routes) {
   }
 
   console.log(`PASS ${path} (${body.length} bytes)${expectedRevision ? ` revision ${expectedRevision}` : ""}`);
+}
+
+const sitemap = await request("/sitemap.xml");
+const sitemapUrls = [...(await sitemap.text()).matchAll(/<loc>([^<]+)<\/loc>/g)].map(([, url]) => url);
+const expectedSitemap = new Set(routes.map(canonicalUrl));
+if (sitemap.status !== 200 || sitemapUrls.length !== expectedSitemap.size ||
+  new Set(sitemapUrls).size !== sitemapUrls.length ||
+  !sitemapUrls.every((url) => expectedSitemap.has(url))) {
+  console.error("FAIL /sitemap.xml: expected every core canonical URL exactly once");
+  failed = true;
+} else {
+  console.log(`PASS /sitemap.xml: ${sitemapUrls.length} canonical URLs`);
 }
 
 for (const path of ["/china/beijing", "/page-not-found-check"]) {
