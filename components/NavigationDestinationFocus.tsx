@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
-export function DisclosureDestinationFocus() {
+export function NavigationDestinationFocus() {
   const pathname = usePathname();
   const pending = useRef<string | null>(null);
 
@@ -15,13 +15,15 @@ export function DisclosureDestinationFocus() {
       if (event.detail !== 0 || event.button !== 0 || event.defaultPrevented ||
         event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const link = event.target instanceof Element
-        ? event.target.closest<HTMLAnchorElement>("[data-focus-destination] a[href]")
+        ? event.target.closest("a[href]")
         : null;
-      if (!link || link.hasAttribute("download") ||
+      if (!(link instanceof HTMLAnchorElement) || link.hasAttribute("download") ||
         (link.target && link.target !== "_self")) return;
       const destination = new URL(link.href);
       if (destination.origin !== window.location.origin || destination.hash ||
         destination.pathname === window.location.pathname) return;
+      if (destination.pathname !== "/inquiry" &&
+        !link.closest("[data-focus-destination]")) return;
       pending.current = destination.pathname;
     }
 

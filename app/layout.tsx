@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DisclosureDestinationFocus } from "@/components/DisclosureDestinationFocus";
+import { NavigationDestinationFocus } from "@/components/NavigationDestinationFocus";
 import { LocalhostAnalytics } from "@/components/LocalhostAnalytics";
 import { localhostBaseMetadata } from "@/lib/metadata";
 import "./globals.css";
@@ -15,7 +15,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         {children}
-        <DisclosureDestinationFocus />
+        <NavigationDestinationFocus />
         <LocalhostAnalytics />
       </body>
     </html>

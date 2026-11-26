@@ -155,8 +155,21 @@ try {
         assert.equal(await page.locator(".context-card strong").innerText(),
           routeName.charAt(0).toUpperCase() + routeName.slice(1));
       }
+
+      await page.goto(`${baseUrl}/china/${routeName}`, { waitUntil: "load" });
+      await page.waitForFunction((path) => window.localhostDataLayer?.some(
+        (event) => event.event === "page_view" && event.path === path
+      ), `/china/${routeName}`);
+      await page.locator('[data-track-source="route_final"]').press("Enter");
+      await page.waitForURL("**/inquiry?**");
+      await page.locator("form[data-inquiry-form]:not([inert])").waitFor();
+      await page.waitForFunction(() => document.activeElement?.id === "main-content");
+      assert.equal(new URL(page.url()).searchParams.get("route"), routeName);
+      assert.equal(await page.locator("form").getAttribute("data-track-route"), routeName);
+      await page.keyboard.press("Tab");
+      assert.equal(await page.locator("#inquiry-name").evaluate((node) => node === document.activeElement), true);
     }
-    console.log(`PASS ${viewport.width}px shared inquiry navigation: ${paths.length} pages, 4 active routes, header/footer handoff`);
+    console.log(`PASS ${viewport.width}px shared inquiry navigation: ${paths.length} pages, 4 active routes, header/footer and keyboard inquiry handoff`);
   }
 } finally {
   await browser.close();
