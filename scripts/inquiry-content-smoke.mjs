@@ -85,11 +85,27 @@ async function boundaryCase(viewport) {
     await email.fill("private-content@example.test");
 
     await page.getByRole("button", { name: "Add route details — optional" }).click();
+    await page.locator('input[name="timing"]').waitFor();
+    assert.equal(await page.getByRole("textbox", { name: /^when are you considering china\?$/i }).count(), 1);
+    assert.equal(await page.getByRole("textbox", { name: /^important arrangements$/i }).count(), 1);
+    const accessibility = await context.newCDPSession(page);
+    const { nodes } = await accessibility.send("Accessibility.getFullAXTree");
+    const timing = nodes.find((node) => node.role?.value === "textbox" &&
+      /^when are you considering china\?$/i.test(node.name?.value));
+    const arrangements = nodes.find((node) => node.role?.value === "textbox" &&
+      /^important arrangements$/i.test(node.name?.value));
+    assert.match(timing?.description?.value ?? "", /A month, season, or rough window is fine\./);
+    assert.match(arrangements?.description?.value ?? "", /Do not share diagnoses, identity documents, or payment details\./);
+    await accessibility.detach();
+    assert.doesNotMatch(await page.locator('input[name="timing"]').getAttribute("placeholder"), /\b20\d{2}\b/);
     const food = page.locator('textarea[name="foodPreferences"]');
     const longFood = "D".repeat(801);
     await food.fill(longFood);
     await page.getByRole("button", { name: "Hide route details" }).click();
     await expectFieldError(page, food, longFood, "800 characters");
+    assert.match(await food.evaluate((element) => element.getAttribute("aria-describedby").split(" ")
+      .map((id) => document.getElementById(id)?.textContent).join(" ")),
+    /Tell us what you love, avoid, or cannot eat\..+800 characters/);
     assert.equal(submissions.length, 0);
     assert.equal(await page.getByRole("button", { name: "Hide route details" }).getAttribute("aria-expanded"), "true");
     await page.getByRole("button", { name: "Hide route details" }).click();

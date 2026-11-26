@@ -76,7 +76,7 @@ const travelerDetails: DetailField[] = [
     helper: "A month, season, or rough window is fine.",
     label: "When are you considering China?",
     name: "timing",
-    placeholder: "October 2026, spring, or not sure yet"
+    placeholder: "Next spring, late autumn, or not sure yet"
   },
   {
     helper: "Include children or private group size if relevant.",
@@ -1006,18 +1006,22 @@ function DetailFieldInput({
   onChange: (name: string, value: string) => void;
   value: string;
 }) {
+  const id = useId();
+  const labelId = `${id}-label`;
+  const helperId = `${id}-hint`;
   const controlDisabled = disabled || (contextLocked && field.name === "routeInterest");
-  const errorAttributes = {
+  const accessibilityAttributes = {
+    "aria-labelledby": labelId,
     "aria-invalid": Boolean(error),
-    "aria-describedby": error ? "inquiry-error" : undefined
+    "aria-describedby": [field.helper && helperId, error && "inquiry-error"].filter(Boolean).join(" ") || undefined
   };
 
   return (
     <label>
-      <span>{field.label}</span>
+      <span id={labelId}>{field.label}</span>
       {field.type === "select" ? (
         <select
-          {...errorAttributes}
+          {...accessibilityAttributes}
           disabled={controlDisabled}
           name={field.name}
           onChange={(event) => onChange(field.name, event.target.value)}
@@ -1032,7 +1036,7 @@ function DetailFieldInput({
         </select>
       ) : field.type === "textarea" ? (
         <textarea
-          {...errorAttributes}
+          {...accessibilityAttributes}
           disabled={controlDisabled}
           name={field.name}
           onChange={(event) => onChange(field.name, event.target.value)}
@@ -1042,7 +1046,7 @@ function DetailFieldInput({
         />
       ) : (
         <input
-          {...errorAttributes}
+          {...accessibilityAttributes}
           disabled={controlDisabled}
           name={field.name}
           onChange={(event) => onChange(field.name, event.target.value)}
@@ -1051,7 +1055,7 @@ function DetailFieldInput({
           value={value}
         />
       )}
-      {field.helper ? <small>{field.helper}</small> : null}
+      {field.helper ? <small id={helperId}>{field.helper}</small> : null}
       {error ? <InquiryFieldErrorText message={error} /> : null}
     </label>
   );

@@ -56,9 +56,9 @@ const canStayOpen = [
       "Private car, walking tolerance, hotel style, food comfort, privacy, and day rhythm can be described in ordinary language."
   },
   {
-    title: "Constraints matter more than polish",
+    title: "Describe practical needs, not private records",
     copy:
-      "Dietary needs, mobility, children, business privacy, sensitive context, and things to avoid help us review fit."
+      "Tell us about step-free access, dietary needs, children traveling with you, or discretion for work calls without sending private records."
   }
 ];
 
