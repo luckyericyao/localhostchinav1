@@ -15,14 +15,14 @@ import { buildLocalhostPageMetadata } from "@/lib/metadata";
 import { normalizeMetricPath, normalizeMetricSource } from "@/lib/metricDimensions";
 
 export const metadata: Metadata = buildLocalhostPageMetadata({
-  title: "Private Route Preference Intake — Localhost Global",
+  title: "Private Inquiry — Localhost Global",
   description:
-    "Begin a private China route review with your intent, timing, comfort, curiosity, and preferred level of local support.",
+    "Write to Localhost about a private China route, hosting, or a potential collaboration.",
   image: "/images/inquiry-courtyard-threshold.png",
   imageAlt:
     "A quiet Chinese courtyard threshold in natural light with warm stone texture.",
   path: "/inquiry",
-  shareTitle: "Begin a Private China Route Review"
+  shareTitle: "Begin a Private Conversation"
 });
 
 const afterSubmit = [
@@ -98,6 +98,8 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
   const params = (await searchParams) || {};
   const intentType = parseIntent(firstValue(params.type)) || "traveler";
   const routeContext = parseRoute(firstValue(params.route));
+  const routeLocked = Boolean(routeContext && routeContext !== "china-general");
+  const routeInquiry = intentType === "traveler" && routeLocked;
   const sourcePage = normalizeMetricPath(firstValue(params.sourcePage)) || "/inquiry";
   const sourceLabel = normalizeMetricSource(firstValue(params.sourceLabel)) || "Inquiry page";
   const operator = publicOperator(process.env);
@@ -110,11 +112,13 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
         <section className="page-hero support-hero page-hero--inquiry">
           <div>
             <p className="eyebrow">Private Inquiry</p>
-            <h1>Your private China route.</h1>
+            <h1>{routeInquiry ? "Your private China route." : "Begin a private conversation."}</h1>
           </div>
           <div className="page-hero-copy">
             <p>
-              Write directly or through someone you trust.
+              {routeInquiry
+                ? "Write directly or through someone you trust."
+                : "For travelers, local hosts, and prospective partners."}
               <noscript>
                 <br />
                 This form needs JavaScript. You can{" "}
@@ -135,7 +139,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
           <div className="inquiry-shell inquiry-shell--wide">
             <LocalhostIntakeForm
               contactHref={publicContactHref}
-              contextLocked={Boolean(routeContext && routeContext !== "china-general")}
+              contextLocked={routeLocked}
               intentType={intentType}
               routeContext={routeContext}
               sourceLabel={sourceLabel}
@@ -146,9 +150,9 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
                 <p className="eyebrow">Step 1: Start</p>
                 <h2>Begin with your name, email, and one sentence.</h2>
                 <p>
-                  Submit the short version first. A named Localhost reviewer
-                  reads it before any host is approached, then checks fit,
-                  timing, route direction, and local feasibility.
+                  {routeInquiry
+                    ? "Submit the short version first. A named Localhost reviewer reads it before any host is approached, then checks fit, timing, route direction, and local feasibility."
+                    : "Start with a short note. A named Localhost reviewer reads it and considers the fit before suggesting a next step."}
                 </p>
                 <p className="fine-copy">
                   You may write for yourself or on behalf of a traveler as an
@@ -165,12 +169,13 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
                 </p>
               ) : null}
               <p className="fine-copy">
+                {!routeInquiry ? "For travelers: " : null}
                 Pricing depends on route depth, host involvement, logistics,
                 city coverage, and support level. Localhost does not quote
                 before the route scope is understood.
               </p>
               <div className="review-deliverable-block">
-                <p className="eyebrow">What the first review gives you</p>
+                <p className="eyebrow">{routeInquiry ? "What the first review gives you" : "First review for travelers"}</p>
                 <ul className="clean-list">
                   {firstReviewDeliverables.map((item) => (
                     <li key={item}>{item}</li>
@@ -216,7 +221,7 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
         <section className="section section--dark">
           <div className="section-heading">
             <p className="eyebrow">After You Submit</p>
-            <h2>What happens after you submit?</h2>
+            <h2>{routeInquiry ? "What happens after you submit?" : "What follows a route inquiry?"}</h2>
           </div>
           <ol className="rhythm-list rhythm-list--dark">
             {afterSubmit.map((item) => (

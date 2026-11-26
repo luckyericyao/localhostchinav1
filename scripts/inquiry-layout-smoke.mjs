@@ -103,6 +103,8 @@ try {
     for (const path of ["/inquiry", "/inquiry?route=shanxi&type=traveler"]) {
       const response = await page.goto(`${baseUrl}${path}`, { waitUntil: "load" });
       assert.equal(response.status(), 200, path);
+      assert.equal(await page.locator("h1").innerText(),
+        path.includes("?route=") ? "Your private China route." : "Begin a private conversation.");
       await page.locator("#inquiry-name").waitFor();
       await page.evaluate(() => document.fonts.ready);
       const layout = await page.evaluate(() => ({

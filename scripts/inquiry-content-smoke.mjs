@@ -148,6 +148,7 @@ async function roleCase(viewport, role) {
     await page.locator('textarea[name="foodPreferences"]').fill(food);
     await page.locator('textarea[name="sensitiveNotes"]').fill("PRIVATE TRAVELER CONSTRAINT");
     await page.getByRole("button", { name: role === "host" ? "Host" : "Partner", exact: true }).click();
+    assert.equal(await page.locator("h1").innerText(), "Begin a private conversation.");
     const scope = role === "host" ? "host" : "partnership";
     const toggle = page.getByRole("button", { name: `Hide ${scope} details` });
     assert.equal(await toggle.getAttribute("aria-expanded"), "true");

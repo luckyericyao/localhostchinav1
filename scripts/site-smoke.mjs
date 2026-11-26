@@ -70,7 +70,8 @@ const expectedContent = new Map([
   [
     "/inquiry",
     [
-      "directly or through someone you trust",
+      "Begin a private conversation.",
+      "For travelers, local hosts, and prospective partners.",
       "We aim to reply",
       "after receiving your inquiry.",
       "See an illustrative first review"
