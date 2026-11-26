@@ -2566,8 +2566,17 @@ a.text-link {
 
 .inquiry-shell--wide {
   align-items: start;
+  grid-template-areas: "context form";
   grid-template-columns: minmax(240px, 0.62fr) minmax(420px, 1.38fr);
   max-width: 1320px;
+}
+
+.inquiry-shell--wide > .localhost-intake-form {
+  grid-area: form;
+}
+
+.inquiry-shell--wide > .inquiry-copy {
+  grid-area: context;
 }
 
 .inquiry-copy h2 {
@@ -4515,6 +4524,10 @@ a:focus-visible,
     grid-template-columns: 1fr;
   }
 
+  .inquiry-shell--wide {
+    grid-template-areas: "form" "context";
+  }
+
   .review-sample {
     gap: 34px;
     grid-template-columns: 1fr;
@@ -5043,10 +5056,6 @@ a:focus-visible,
 
   .localhost-intake-form:not(.localhost-intake-form--compact) > .form-status {
     order: 8;
-  }
-
-  .inquiry-shell--wide .localhost-intake-form {
-    order: -1;
   }
 
   .inquiry-shell--wide .inquiry-copy-intro {

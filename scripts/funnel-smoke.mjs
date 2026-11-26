@@ -77,6 +77,9 @@ try {
     assert.equal(new URL(page.url()).search, inquiryUrl.search);
     assert.equal(new URL(page.url()).hash, "#private-route");
     assert.equal(await page.locator("#private-route").evaluate((node) => node === document.activeElement), true);
+    await page.keyboard.press("Tab");
+    assert.equal(await page.locator("#inquiry-name").evaluate((node) => node === document.activeElement), true,
+      "The inquiry jump must lead to the first input before supporting links");
     assert.equal(await page.locator("#inquiry-short-note").inputValue(), "PRIVATE TEST INTENT");
     assert.equal(await page.locator("form").getAttribute("data-track-route"), "shanxi");
     assert.equal(await page.locator("form").getAttribute("data-track-source"), "Shanxi route page");

@@ -133,6 +133,14 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
           tabIndex={-1}
         >
           <div className="inquiry-shell inquiry-shell--wide">
+            <LocalhostIntakeForm
+              contactHref={publicContactHref}
+              contextLocked={Boolean(routeContext && routeContext !== "china-general")}
+              intentType={intentType}
+              routeContext={routeContext}
+              sourceLabel={sourceLabel}
+              sourcePage={sourcePage}
+            />
             <div className="inquiry-copy">
               <div className="inquiry-copy-intro">
                 <p className="eyebrow">Step 1: Start</p>
@@ -181,14 +189,6 @@ export default async function InquiryPage({ searchParams }: InquiryPageProps) {
                 </Link>
               </div>
             </div>
-            <LocalhostIntakeForm
-              contactHref={publicContactHref}
-              contextLocked={Boolean(routeContext && routeContext !== "china-general")}
-              intentType={intentType}
-              routeContext={routeContext}
-              sourceLabel={sourceLabel}
-              sourcePage={sourcePage}
-            />
           </div>
         </section>
 

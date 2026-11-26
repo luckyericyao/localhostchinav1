@@ -86,6 +86,8 @@ try {
     { width: 375, height: 667 },
     { width: 390, height: 844 },
     { width: 375, height: 812 },
+    { width: 768, height: 1024 },
+    { width: 1024, height: 768 },
     { width: 1280, height: 720 },
     { width: 1440, height: 900 }
   ]) {
@@ -116,7 +118,9 @@ try {
           "#inquiry-name, #inquiry-email, #inquiry-short-note, .role-tab, button[type=submit]"
         )].map((element) => element.getBoundingClientRect().height)),
         representativeTarget: document.querySelector(".representative-toggle")
-          .getBoundingClientRect().height
+          .getBoundingClientRect().height,
+        formBox: document.querySelector(".localhost-intake-form").getBoundingClientRect().toJSON(),
+        copyBox: document.querySelector(".inquiry-copy").getBoundingClientRect().toJSON()
       }));
       assert.equal(layout.overflow, false, `${path}: horizontal overflow`);
       assert.ok(layout.representativeTarget >= 44, "Representative target below 44px");
@@ -125,6 +129,12 @@ try {
       assert.ok(firstBlockBottom <= layout.limit,
         `${path} at ${viewport.width}x${viewport.height}: first block ${firstBlockBottom} > ${layout.limit}`);
       assert.equal(layout.identityStacked, viewport.width === 320);
+      if (viewport.width <= 1080) {
+        assert.ok(layout.formBox.bottom <= layout.copyBox.top, "Single-column guidance must follow the form");
+      } else {
+        assert.ok(layout.copyBox.right <= layout.formBox.left && Math.abs(layout.copyBox.top - layout.formBox.top) < 1,
+          "Desktop guidance and form must remain side by side");
+      }
       assert.equal(await page.locator(".role-tabs").count(), path.includes("?route=") ? 0 : 1,
         "A preselected route should not display an unusable role switcher");
       const privacy = page.locator(".privacy-boundary--standalone");
