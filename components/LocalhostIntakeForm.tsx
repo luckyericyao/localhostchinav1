@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, useTransition } from "react";
 import { getAnonymousSessionId, trackLocalhostEvent } from "@/components/LocalhostAnalytics";
 import { buildInquiryHref } from "@/lib/inquiryLinks";
-import { readInquiryFields } from "@/lib/inquiryValidation";
+import { inquiryTextLimits, readInquiryFields } from "@/lib/inquiryValidation";
 import {
   submitLocalhostInquiry,
   type LocalhostIntentType,
@@ -36,6 +36,7 @@ type DetailField = {
 type RoleDraft = { shortNote: string; details: Record<string, string> };
 
 const subscribeToHydration = () => () => {};
+const shortNoteLimitLabel = inquiryTextLimits.shortNote.toLocaleString("en-US");
 
 const routeLabels: Record<Exclude<LocalhostRouteContext, "china-general">, string> = {
   beijing: "Beijing — future route",
@@ -338,6 +339,7 @@ export function LocalhostIntakeForm({
   const representativePathTracked = useRef(false);
 
   const { shortNote, details } = drafts[activeIntent];
+  const noteOverLimit = shortNote.trim().length > inquiryTextLimits.shortNote;
   const optionalDetails = { ...details, ...replyDetails };
   const fields = useMemo(() => detailsForIntent(activeIntent), [activeIntent]);
   const routeLabel = routeInterestLabel(routeContext);
@@ -631,10 +633,11 @@ export function LocalhostIntakeForm({
       </div>
 
       <label>
-        <span>{noteCopy.label} *</span>
+        <span id="short-note-label">{noteCopy.label} *</span>
         <textarea
           aria-describedby={errorField === "shortNote" ? "short-note-hint inquiry-error" : "short-note-hint"}
           aria-invalid={errorField === "shortNote"}
+          aria-labelledby="short-note-label"
           disabled={isPending}
           id="inquiry-short-note"
           name="shortNote"
@@ -656,7 +659,12 @@ export function LocalhostIntakeForm({
         <small id="short-note-hint">
           {contextLocked && routeLabel
             ? "Your route is selected. Tell us your interests or practical needs."
-            : noteCopy.helper}
+            : noteCopy.helper}{" "}
+          <span aria-live="polite">
+            {noteOverLimit
+              ? `Over the ${shortNoteLimitLabel}-character limit.`
+              : `${shortNoteLimitLabel} characters max.`}
+          </span>
         </small>
         {errorField === "shortNote" ? <InquiryFieldErrorText message={error} /> : null}
       </label>

@@ -50,9 +50,15 @@ async function boundaryCase(viewport) {
   const { context, page, submissions } = await isolatedPage(viewport);
   try {
     const note = page.locator("#inquiry-short-note");
+    const limitHint = page.locator('#short-note-hint [aria-live="polite"]');
+    assert.equal(await limitHint.innerText(), "1,200 characters max.");
+    assert.equal(await note.getAttribute("aria-labelledby"), "short-note-label");
     const longNote = "I would like timber temples, regional food, and time to ask questions. ".repeat(18);
     assert.ok(longNote.trim().length > 1200);
     await note.fill(longNote);
+    assert.equal(await note.inputValue(), longNote);
+    assert.equal(await limitHint.innerText(), "Over the 1,200-character limit.");
+    assert.equal(await note.getAttribute("aria-invalid"), "false", "Guidance must not mark a draft as a failed submission");
     await expectFieldError(page, note, longNote, "1,200 characters");
     assert.equal(submissions.length, 0);
     if (process.env.SCREENSHOT_DIR) {
@@ -62,7 +68,8 @@ async function boundaryCase(viewport) {
       await page.screenshot({ path: resolve(directory, `inquiry-validation-${viewport.width}.png`) });
     }
     const exactNote = "N".repeat(1199) + "Z";
-    await note.fill(exactNote);
+    await note.fill(`  ${exactNote}  `);
+    assert.equal(await limitHint.innerText(), "1,200 characters max.");
     const name = page.locator("#inquiry-name");
     const longName = "N".repeat(121);
     await name.fill(longName);

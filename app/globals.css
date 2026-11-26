@@ -2700,7 +2700,7 @@ a.text-link {
   gap: 8px;
 }
 
-.localhost-intake-form label span,
+.localhost-intake-form label > span,
 .role-tabs legend {
   color: var(--deep-brown);
   font-size: 0.82rem;
@@ -2750,7 +2750,7 @@ a.text-link {
   line-height: 1.45;
 }
 
-.hero-intake-panel .localhost-intake-form label span,
+.hero-intake-panel .localhost-intake-form label > span,
 .hero-intake-panel .role-tabs legend {
   color: rgba(251, 248, 241, 0.8);
 }
